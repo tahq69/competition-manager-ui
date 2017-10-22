@@ -1,16 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '../components/HelloWorld.vue'
-import Login from '../components/Login.vue'
+
 Vue.use(Router)
 
-/*function load(component) {
-  return () => import(`@/components/${component}.vue`)
-}*/
+import { posts, home } from '@/Modules/Posts/Routes'
+import auth from '@/Modules/Auth/Routes'
 
 export default new Router({
+  mode: 'history',
   routes: [
-    { path: '/', name: 'hello', component: HelloWorld },
-    { path: '/login', name: 'login', component: Login },
+    /*posts, home,*/ auth,
+    { path: '/auth', redirect: '/auth/login' },
+    { path: '/password/reset/:token', redirect: '/auth/password/reset/:token' },
+    { path: '*', redirect: '/home' },
   ]
 })

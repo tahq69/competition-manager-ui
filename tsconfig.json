@@ -1,8 +1,14 @@
 {
   "include": [
-    "./**/*.ts"
+    "src/**/*.ts"
   ],
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     "lib": [
       "dom",
       "es5",

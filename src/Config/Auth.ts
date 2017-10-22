@@ -1,4 +1,4 @@
-export const STATUS = 'local';
+export const STATUS = 'local'
 
 let secrets = {
   API_LOCAL: 'gxoANI7zlpPL3RMnWS2vi4inlp6WkVmFajKXGYTs',
@@ -7,7 +7,7 @@ let secrets = {
 
 export const BASE_URL = {
   'local': 'http://competition-manager.dev',
-  'production': 'http://auth-cm.crip.lv',
+  'production': 'http://cm.crip.lv',
 }
 
 export const API_URL = `${BASE_URL[STATUS]}/api/`
@@ -28,5 +28,4 @@ export default {
     scope: ''
   },
   oauth_type: 'Bearer',
-  default_storage: 'LocalStorage',
 }
