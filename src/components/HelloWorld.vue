@@ -27,6 +27,12 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+
+  async mounted() {
+    if (this.$oauth.isAuthenticated()) {
+      console.log(await this.$oauth.getUser())
+    }
   }
 }
 </script>
