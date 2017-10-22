@@ -4,6 +4,7 @@ import AuthService from './AuthService'
 import ConfigAuth from '../config/auth'
 
 export default class OAuth {
+  storages: { LocalStorage: any; };
   constructor() {
     this.storages = { LocalStorage }
     this.Session = this.storages[ConfigAuth.default_storage]

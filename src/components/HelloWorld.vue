@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'HelloWorld',
   data () {
@@ -29,11 +29,11 @@ export default {
     }
   },
 
-  async mounted() {
+  /*async mounted() {
     if (this.$oauth.isAuthenticated()) {
       console.log(await this.$oauth.getUser())
     }
-  }
+  }*/
 }
 </script>
 

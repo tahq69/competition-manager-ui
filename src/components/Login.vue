@@ -6,30 +6,30 @@
   </form>
 </template>
 
-<script>
-  export default {
-    name: 'Login',
+<script lang="ts">
+export default {
+  name: 'Login',
 
-    data() {
-      return {
-        form: {
-          username: '',
-          password: '',
-        },
-      }
-    },
-
-    mounted() {
-      console.log("Login view mounted!")
-    },
-
-    methods: {
-      async login() {
-        const username = this.form.username
-        const password = this.form.password
-        const authentication = await this.$oauth.login(username, password)
-        this.$router.replace('/') 
-      }
+  data() {
+    return {
+      form: {
+        username: '',
+        password: '',
+      },
     }
-  }
+  },
+
+  mounted() {
+    console.log("Login view mounted!")
+  },
+
+  /*methods: {
+    async login() {
+      const username = this.form.username
+      const password = this.form.password
+      const authentication = await this.$oauth.login(username, password)
+      this.$router.replace('/') 
+    }
+  }*/
+}
 </script>
