@@ -1,7 +1,10 @@
 import http from 'axios'
 
+import { Api } from './Api'
+
 export interface User {
-  roles: string[]
+  roles: string[],
+  name: string,
 }
 
 export default class AuthService {
@@ -14,14 +17,20 @@ export default class AuthService {
   public async currentUser(): Promise<User> {
     if (this.user) return this.user
 
-    const user = await http.get('/api/users/user')
-    this.user = user.data;
-    return this.user
+    const url = Api.url({ path: 'users/user' })
+    try {
+      const { data } = await http.get(url)
+      this.user = data
+      return this.user
+    } catch (error) {
+      Api.handle(error)
+    }
   }
 
   public async login(credentials) {
-    let response = await http.post('/oauth/token', credentials)
-    return response.data
+    const url = Api.url({ path: 'oauth/token', root: true })
+    let { data } = await http.post(url, credentials)
+    return data
   }
 
   public addAuthorizationHeader(header): void {

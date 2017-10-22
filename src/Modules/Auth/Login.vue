@@ -1,0 +1,112 @@
+<template>
+  <form-panel
+      id="login"
+      @submit="authorize"
+      :form="form"
+      :title="$t('auth.login.title')"
+      :body-col-md="10"
+      :col-sm="10"
+      :col-md="8"
+      :col-lg="6"
+  >
+
+    <!-- #email -->
+    <form-group
+        for="email"
+        :form="form"
+        :label="$t('auth.login.email.label')"
+        :col-sm="8"
+    >
+      <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          :placeholder="$t('auth.login.email.placeholder')"
+          v-model="form.data.email"
+          v-focus="true"
+          required
+      >
+    </form-group>
+
+    <!-- #password -->
+    <form-group
+        for="password"
+        :label="$t('auth.login.password.label')"
+        :col-sm="8"
+    >
+      <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          :placeholder="$t('auth.login.password.placeholder')"
+          v-model="form.data.password"
+          required
+      >
+    </form-group>
+
+    <!-- #submit -->
+    <form-group for="submit" :col-sm="8">
+      <button id="submit" type="submit" class="btn btn-primary">
+        {{ $t('auth.login.submit.button') }}
+      </button>
+
+      <router-link :to="forgotPassword" class="btn btn-link">
+        {{ $t('auth.login.submit.forgot') }}
+      </router-link>
+    </form-group>
+  </form-panel>
+</template>
+
+<script lang="ts">
+import Form from '@/Components/Forms/Form'
+import FormPanel from '@/Components/Forms/FormPanel.vue'
+import FormGroup from '@/Components/Forms/FormGroup.vue'
+import Focus from '@/Components/Focus'
+import {forgotPassword, home, Route} from '@/Router/Routes'
+import Auth from '@/Helpers/Auth'
+
+export default {
+  name: 'Login',
+
+  components: {FormPanel, FormGroup},
+
+  directives: {Focus},
+
+  data() {
+    return {
+      form: new Form({
+        email: '',
+        password: '',
+      })
+    }
+  },
+
+  computed: {
+    forgotPassword(): Route {
+      return forgotPassword
+    },
+  },
+
+  mounted() {
+    this.$logger.component(this)
+
+    if (Auth.isAuthenticated()) {
+      this.$router.push(home)
+    }
+  },
+
+  methods: {
+    async authorize() {
+      this.$logger.info('authorize', this.form)
+      this.form.clearErrors()
+      try {
+        await Auth.login(this.form.data.email, this.form.data.password)
+      } catch (error) {
+        this.form.addErrors({email: [error]})
+      }
+    }
+  }
+}
+</script>

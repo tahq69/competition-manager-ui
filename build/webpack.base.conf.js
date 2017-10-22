@@ -1,5 +1,6 @@
 'use strict'
 const path = require('path')
+var webpack = require('webpack')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
@@ -10,7 +11,12 @@ function resolve(dir) {
 
 module.exports = {
   entry: {
-    app: './src/main.ts'
+    app: './src/main.ts',
+    vendor: [
+      'vue', 'vue-router', 'vuex', 'vue-i18n', 'vuex-router-sync', 'axios',
+      'crip-vue-bootstrap-modal', 'crip-vue-loading', 'jquery',
+      'bootstrap-sass', 'bootstrap-datepicker', 'select2', 'moment'
+    ],
   },
   output: {
     path: config.build.assetsRoot,
@@ -66,5 +72,12 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'vendor.js'
+    }),
+    new webpack.ProvidePlugin({jQuery: 'jquery', $: 'jquery', jquery: 'jquery'})
+  ]
 }

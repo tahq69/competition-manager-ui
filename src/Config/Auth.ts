@@ -27,5 +27,5 @@ export default {
     client_secret: CLIENT_SECRET,
     scope: ''
   },
-  oauth_type: 'Bearer',
+  token_type: 'Bearer',
 }

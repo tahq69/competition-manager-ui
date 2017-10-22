@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
+export default {
+  name: 'wrapper',
 
-  export default Vue.extend({
-    mounted () {
-      this.$logger.component(this)
-    }
-  })
+  mounted () {
+    this.$logger.component(this)
+  }
+}
 </script>

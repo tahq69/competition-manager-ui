@@ -1,9 +1,18 @@
+import Vue from 'vue'
 import http from 'axios'
 
+import { i18n } from '@/Lang'
 import LocalStorage from '@/Helpers/LocalStorage'
 import Utils from '@/Helpers/Utils'
 import ConfigAuth from '@/Config/Auth'
 import AuthService from './AuthService'
+
+interface TokenResponse {
+  token_type: string
+  expires_in: number
+  access_token: string
+  refresh_token: string
+}
 
 export class Auth {
   private service: AuthService
@@ -14,6 +23,12 @@ export class Auth {
     this.service = new AuthService()
   }
 
+  public async check(): Promise<void> {
+    if (this.session.has('access_token')) {
+      await this.service.currentUser()
+    }
+  }
+
   public logout() {
     this.service.destroySession()
     this.session.remove('access_token')
@@ -21,21 +36,27 @@ export class Auth {
   }
 
   public async login(username, password) {
-    const data = {
+    const request = {
       username,
       password,
     }
 
     // We merge grant type and client secret stored in configuration
-    Object.assign(data, ConfigAuth.oauth)
+    Object.assign(request, ConfigAuth.oauth)
 
-    const response = await this.service.login(data)
-    this.storeSession(response)
-    this.addAuthHeaders()
+    try {
+      Vue.logger.info(request)
+      const response = await this.service.login(request)
+      const data = response.data as TokenResponse
+      this.storeSession(data)
+      this.addAuthHeaders()
 
-    // TODO: Request for user roles
+      // TODO: Request for user roles
 
-    return response
+      return data
+    } catch (error) {
+      throw i18n.t('auth.login.error')
+    }
   }
 
   public guest() {
@@ -94,7 +115,7 @@ export class Auth {
   private getAuthHeader(): string | null {
     if (this.session.has('access_token')) {
       const access_token = this.session.get('access_token')
-      return `${ConfigAuth.oauth_type} ${access_token}`
+      return `${ConfigAuth.token_type} ${access_token}`
     }
 
     return null
@@ -105,10 +126,23 @@ export class Auth {
     this.service.addAuthorizationHeader(header)
   }
 
-  private storeSession(data): void {
+  private storeSession(data: TokenResponse): void {
+    ConfigAuth.token_type = data.token_type
     this.session.set('access_token', data.access_token)
     this.session.set('refresh_token', data.refresh_token)
   }
+}
+
+export const roles = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+
+  CREATE_POST: 'CREATE_POST',
+  MANAGE_POSTS: 'MANAGE_POSTS',
+
+  CREATE_TEAMS: 'CREATE_TEAMS',
+
+  EDIT_COMPETITIONS: 'EDIT_COMPETITIONS',
+  CREATE_COMPETITIONS: 'CREATE_COMPETITIONS',
 }
 
 export default new Auth()

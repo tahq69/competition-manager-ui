@@ -10,12 +10,23 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
     "axios": "^0.16.2",
+    "bootstrap-datepicker": "^1.7.1",
+    "bootstrap-sass": "^3.3.7",
     "crip-vue-bootstrap-modal": "^1.0.5",
     "crip-vue-loading": "^1.0.5",
+    "css-loader": "^0.28.7",
+    "font-awesome": "^4.7.0",
+    "moment": "^2.19.1",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "select2": "^4.0.4",
+    "select2-bootstrap-theme": "0.1.0-beta.10",
     "vue": "^2.5.2",
     "vue-i18n": "^7.3.2",
     "vue-router": "^3.0.1",
+    "vue-style-loader": "^3.0.3",
     "vue-toasted": "^1.1.21",
     "vuex": "^3.0.0",
     "vuex-router-sync": "^5.0.0"

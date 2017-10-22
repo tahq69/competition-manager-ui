@@ -15,7 +15,7 @@ export const logger: LoggerOptions = {
 
 export const web = {
   domain: 'http://crip-competitions.dev',
-  apiRoot: `api/`,
+  apiRoot: `api`,
   serverDateFormat: 'YYYY-MM-DD HH:mm:ss',
 }
 
