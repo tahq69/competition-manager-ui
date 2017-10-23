@@ -103,6 +103,7 @@ export default {
       this.form.clearErrors()
       try {
         await Auth.login(this.form.data.email, this.form.data.password)
+        this.$router.push(home)
       } catch (error) {
         this.form.addErrors({email: [error]})
       }

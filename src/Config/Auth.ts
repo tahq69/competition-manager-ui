@@ -1,8 +1,8 @@
 export const STATUS = 'local'
 
 let secrets = {
-  API_LOCAL: 'gxoANI7zlpPL3RMnWS2vi4inlp6WkVmFajKXGYTs',
-  API_PRODUCTION: 'gxoANI7zlpPL3RMnWS2vi4inlp6WkVmFajKXGYTs',
+  API_LOCAL: 'bnHIar11g4qinn2LrbjCiBqHrRJ1rlOAqB1MgpUU',
+  API_PRODUCTION: 'bnHIar11g4qinn2LrbjCiBqHrRJ1rlOAqB1MgpUU',
 }
 
 export const BASE_URL = {
@@ -23,7 +23,7 @@ const CLIENT_SECRET = secrets[secret]
 export default {
   oauth: {
     grant_type: 'password',
-    client_id: 4,
+    client_id: 1,
     client_secret: CLIENT_SECRET,
     scope: ''
   },

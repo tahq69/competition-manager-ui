@@ -21,6 +21,8 @@ export default class AuthService {
     try {
       const { data } = await http.get(url)
       this.user = data
+      this.user.roles = data.roles.map(role => role.key);
+
       return this.user
     } catch (error) {
       Api.handle(error)

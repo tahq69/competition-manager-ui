@@ -26,6 +26,7 @@ export class Auth {
 
   public async check(): Promise<void> {
     if (this.session.has('access_token')) {
+      this.addAuthHeaders()
       await this.service.currentUser()
     }
   }
@@ -34,6 +35,7 @@ export class Auth {
     this.service.destroySession()
     this.session.remove('access_token')
     this.session.remove('refresh_token')
+    this.session.remove('access_keys')
   }
 
   public async login(username, password) {
@@ -46,44 +48,45 @@ export class Auth {
     Object.assign(request, ConfigAuth.oauth)
 
     try {
-      Vue.logger.info(request)
       const response = await this.service.login(request)
-      const data = response.data as TokenResponse
+      const data = response as TokenResponse
       this.storeSession(data)
       this.addAuthHeaders()
 
-      // TODO: Request for user roles
+      const user = await this.service.currentUser()
 
-      return data
+      this.storeUserRoles(user.roles)
+
+      return user
     } catch (error) {
+      Vue.logger.error(error)
       throw i18n.t('auth.login.error')
     }
   }
 
   public guest() {
+    this.addAuthHeaders()
     return !this.isAuthenticated()
   }
 
   public isAuthenticated() {
+    this.addAuthHeaders()
     return this.session.has('access_token')
   }
 
   public async getUser() {
     if (this.session.has('access_token')) {
+      this.addAuthHeaders()
       return await this.service.currentUser()
     }
 
     throw new Error('Unauthorized')
   }
 
-  public async hasRole(role: string): Promise<boolean> {
+  public hasRole(role: string): boolean {
     if (this.guest()) return false
 
-    const user = await this.getUser()
-
-    if (Utils.isEmpty(user)) return false
-
-    const check = (role) => !!~user.roles.indexOf(role)
+    const check = (role) => !!~this.storedRoles().indexOf(role)
 
     // if user has an super_admin role, allow him to do anything
     if (check('SUPER_ADMIN')) return true
@@ -91,22 +94,22 @@ export class Auth {
     return check(role)
   }
 
-  public async hasAnyRole(roles: string[]): Promise<boolean> {
+  public hasAnyRole(roles: string[]): boolean {
     if (this.guest()) return false
 
     for (const role in roles) {
-      if (await this.hasRole(role))
+      if (this.hasRole(role))
         return true
     }
 
     return false
   }
 
-  public async hasAllRoles(roles: string[]): Promise<boolean> {
+  public hasAllRoles(roles: string[]): boolean {
     if (this.guest()) return false
 
     for (const role in roles) {
-      if (!(await this.hasRole(role)))
+      if (!this.hasRole(role))
         return false
     }
 
@@ -131,6 +134,17 @@ export class Auth {
     ConfigAuth.token_type = data.token_type
     this.session.set('access_token', data.access_token)
     this.session.set('refresh_token', data.refresh_token)
+  }
+
+  private storeUserRoles(roles: string[]): void {
+    this.session.set('access_keys', roles.join(':::'))
+  }
+
+  private storedRoles(): string[] {
+    if (!this.session.has('access_keys')) return []
+
+    const roles = this.session.get('access_keys')
+    return roles.split(':::')
   }
 }
 

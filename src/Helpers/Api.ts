@@ -40,6 +40,7 @@ export class Api {
   public static handle(error) {
     if (error && error.response) {
       Api.handleHttpError(error.response)
+      return
     }
 
     Vue.logger.error('Api.handle -> unknown', error)
