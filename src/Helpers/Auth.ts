@@ -6,6 +6,7 @@ import LocalStorage from '@/Helpers/LocalStorage'
 import Utils from '@/Helpers/Utils'
 import ConfigAuth from '@/Config/Auth'
 import AuthService from './AuthService'
+import * as Roles from './Auth.Roles'
 
 interface TokenResponse {
   token_type: string
@@ -133,16 +134,6 @@ export class Auth {
   }
 }
 
-export const roles = {
-  SUPER_ADMIN: 'SUPER_ADMIN',
-
-  CREATE_POST: 'CREATE_POST',
-  MANAGE_POSTS: 'MANAGE_POSTS',
-
-  CREATE_TEAMS: 'CREATE_TEAMS',
-
-  EDIT_COMPETITIONS: 'EDIT_COMPETITIONS',
-  CREATE_COMPETITIONS: 'CREATE_COMPETITIONS',
-}
+export const roles = Roles
 
 export default new Auth()

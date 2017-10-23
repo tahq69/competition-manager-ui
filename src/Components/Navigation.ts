@@ -14,7 +14,7 @@ Vue.component('NavbarItems', NavbarItems)
 Vue.component('NavbarGroup', NavbarGroup)
 Vue.component('NavbarItem', NavbarItem)
 
-const canManage = () => Auth.hasAnyRole(Object.keys(roles))
+const canManage = () => Auth.hasAnyRole(roles.all)
 
 export const left = (): NavGroup[] => {
   if (!Auth.isAuthenticated() || !canManage()) {
@@ -23,14 +23,8 @@ export const left = (): NavGroup[] => {
   }
 
   const nav = new NavGroup('Manage')
-  const canManagePosts = Auth.hasAnyRole([
-    roles.CREATE_POST,
-    roles.MANAGE_POSTS,
-  ])
-  const canManageCM = Auth.hasAnyRole([
-    roles.CREATE_COMPETITIONS,
-    roles.EDIT_COMPETITIONS
-  ])
+  const canManagePosts = Auth.hasAnyRole(roles.posts)
+  const canManageCM = Auth.hasAnyRole(roles.competitions)
   const divider = new NavItem({ divider: true })
 
   if (canManagePosts) {
