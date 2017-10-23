@@ -1,7 +1,7 @@
 import Lang from './Contract'
-/*import nav from '@/Components/Nav/Lang/lv'
+import nav from '@/Components/Nav/Lang/lv'
 import posts from '../Modules/Posts/Lang/lv'
-import auth from '../Modules/Auth/Lang/lv'*/
+import auth from '../Modules/Auth/Lang/lv'
 
 export default {
   locale: 'LV',
@@ -11,5 +11,5 @@ export default {
     unknownHttpError: 'Nezināma komunikācijas kļūda',
     unexpectedError: 'Nezināma iekšējā kļūda'
   },
-  /*posts, nav, auth,*/
+  posts, nav, auth,
 } as Lang

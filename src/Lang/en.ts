@@ -1,7 +1,7 @@
 import Lang from './Contract'
-/*import nav from '@/Components/Nav/Lang/en'
+import nav from '@/Components/Nav/Lang/en'
 import posts from '@/Modules/Posts/Lang/en'
-import auth from '@/Modules/Auth/Lang/en'*/
+import auth from '@/Modules/Auth/Lang/en'
 
 export default {
   locale: 'EN',
@@ -11,5 +11,5 @@ export default {
     unknownHttpError: 'Unknown communication error occurred',
     unexpectedError: 'Unexpected error occurred',
   },
-  /*posts, nav, auth,*/
+  posts, nav, auth,
 } as Lang
