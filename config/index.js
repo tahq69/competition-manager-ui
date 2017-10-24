@@ -28,7 +28,7 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     port: process.env.PORT || 8085,
-    autoOpenBrowser: true,
+    autoOpenBrowser: false,
     assetsSubDirectory: 'static',
     assetsPublicPath: 'http://localhost:8085/',
     proxyTable: {},

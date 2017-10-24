@@ -21,9 +21,10 @@
 </template>
 
 <script lang="ts">
-import {left as leftNav, right as rightNav} from './Components/Navigation'
 import {home, Route} from '@/Router/Routes'
-import Auth from '@/Helpers/Auth'
+import Auth from '@/Components/Auth'
+
+import {left as leftNav, right as rightNav} from './Components/Navigation'
 
 export default {
   name: 'app',

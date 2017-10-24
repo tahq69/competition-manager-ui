@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router, { Route, RawLocation } from 'vue-router'
 
-import auth from '@/Helpers/Auth'
+import { middleware as auth } from '@/Components/Auth'
 import { login, home } from './Routes'
 
 export default function (router: Router) {
@@ -17,7 +17,7 @@ async function navigationGuard(to: Route, from: Route, next: Next) {
   }
 
   // Check if user is logged in. If not, redirect to login page.
-  if (auth.guest()) {
+  if (auth.isAuthenticated()) {
     return next({ ...login, query: { redirect: to.fullPath } })
   }
 

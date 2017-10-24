@@ -21,11 +21,7 @@ let secret = getSecret(STATUS);
 const CLIENT_SECRET = secrets[secret]
 
 export default {
-  oauth: {
-    grant_type: 'password',
-    client_id: 1,
-    client_secret: CLIENT_SECRET,
-    scope: ''
-  },
+  client_id: 1,
+  client_secret: CLIENT_SECRET,
   token_type: 'Bearer',
 }

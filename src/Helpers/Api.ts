@@ -6,7 +6,7 @@ import router from '@/Router'
 import { login } from '@/Router/Routes'
 import Utils from '@/Helpers/Utils'
 import { i18n } from '@/Lang'
-import Auth from './Auth'
+import Auth from '@/Components/Auth'
 
 type Dictionary<T> = { [key: string]: T }
 

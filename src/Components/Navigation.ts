@@ -1,8 +1,11 @@
 import Vue from 'vue'
-import Auth, { roles } from '@/Helpers/Auth'
-import * as routes from '@/Router/Routes'
+
 import { locales as AppLocales, SetLocale, Locale, i18n } from '@/Lang'
+import store from '@/Store'
+import * as routes from '@/Router/Routes'
+
 import { NavGroup, NavItem, NavItemType } from './Nav'
+import Auth, { roles, middleware as auth } from './Auth'
 
 import Navbar from './Nav/TheNavbar.vue'
 import NavbarItems from './Nav/NavbarItems.vue'
@@ -14,21 +17,21 @@ Vue.component('NavbarItems', NavbarItems)
 Vue.component('NavbarGroup', NavbarGroup)
 Vue.component('NavbarItem', NavbarItem)
 
-const canManage = () => Auth.hasAnyRole(roles.all)
+const canManage = () => auth.hasAnyRole(roles.all)
 
 export const left = (): NavGroup[] => {
-  if (!Auth.isAuthenticated() || !canManage()) {
+  if (!auth.isAuthenticated() || !canManage()) {
     // Left menu is available only for users with access to manage
     return []
   }
 
   const nav = new NavGroup('Manage')
-  const canManagePosts = Auth.hasAnyRole(roles.posts)
-  const canManageCM = Auth.hasAnyRole(roles.competitions)
+  const canManagePosts = auth.hasAnyRole(roles.posts)
+  const canManageCM = auth.hasAnyRole(roles.competitions)
   const divider = new NavItem({ divider: true })
 
   if (canManagePosts) {
-    if (Auth.hasRole(roles.CREATE_POST)) {
+    if (auth.hasRole(roles.CREATE_POST)) {
       nav.create({ text: 'Create post', route: routes.createPost })
     }
 
@@ -36,14 +39,14 @@ export const left = (): NavGroup[] => {
     nav.add(divider)
   }
 
-  if (Auth.hasRole(roles.CREATE_TEAMS)) {
+  if (auth.hasRole(roles.CREATE_TEAMS)) {
     nav.create({ text: 'Create team', route: routes.createTeam })
     nav.create({ text: 'Teams', route: routes.listTeams })
     nav.add(divider)
   }
 
   if (canManageCM) {
-    if (Auth.hasRole(roles.CREATE_COMPETITIONS)) {
+    if (auth.hasRole(roles.CREATE_COMPETITIONS)) {
       nav.create({ text: 'Create competition', route: routes.createCompetition })
     }
 
@@ -60,17 +63,14 @@ export const left = (): NavGroup[] => {
 export const right = () => {
   const nav: NavItemType[] = [localesNav()]
 
-  if (!Auth.isAuthenticated()) {
+  if (!auth.isAuthenticated()) {
     nav.push(new NavItem({ text: t('nav.login'), route: routes.login }))
     nav.push(new NavItem({ text: t('nav.signup'), route: routes.signUp }))
     return nav
   }
 
-  let username = ''
-  Auth.getUser().then(user => username = user.name)
-
   nav.push(new NavGroup(
-    username,
+    store.state.auth.user.name,
     [
       // TODO: add profile menu item
       // TODO: add messages menu item

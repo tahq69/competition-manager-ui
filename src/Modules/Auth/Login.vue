@@ -65,7 +65,7 @@ import FormPanel from '@/Components/Forms/FormPanel.vue'
 import FormGroup from '@/Components/Forms/FormGroup.vue'
 import Focus from '@/Components/Focus'
 import {forgotPassword, home, Route} from '@/Router/Routes'
-import Auth from '@/Helpers/Auth'
+import Auth, { middleware as auth } from '@/Components/Auth'
 
 export default {
   name: 'Login',
@@ -92,7 +92,7 @@ export default {
   mounted() {
     this.$logger.component(this)
 
-    if (Auth.isAuthenticated()) {
+    if (auth.isAuthenticated()) {
       this.$router.push(home)
     }
   },
@@ -102,7 +102,11 @@ export default {
       this.$logger.info('authorize', this.form)
       this.form.clearErrors()
       try {
-        await Auth.login(this.form.data.email, this.form.data.password)
+        const credentials = {
+          username: this.form.data.email,
+          password: this.form.data.password,
+        }
+        await Auth.login(credentials)
         this.$router.push(home)
       } catch (error) {
         this.form.addErrors({email: [error]})
