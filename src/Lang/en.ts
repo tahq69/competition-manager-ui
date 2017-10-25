@@ -1,15 +1,9 @@
-import Lang from './Contract'
-import nav from '@/Components/Nav/Lang/en'
-import posts from '@/Modules/Posts/Lang/en'
-import auth from '@/Modules/Auth/Lang/en'
+import nav from '@/Components/Nav/Lang/en.json'
+import posts from '@/Modules/Posts/Lang/en.json'
+import auth from '@/Modules/Auth/Lang/en.json'
+
+import app from './en.json'
 
 export default {
-  locale: 'EN',
-  appTitle: 'Competition Manager',
-  api: {
-    actionNotAllowed: 'Action is not allowed',
-    unknownHttpError: 'Unknown communication error occurred',
-    unexpectedError: 'Unexpected error occurred',
-  },
-  posts, nav, auth,
-} as Lang
+  app, posts, nav, auth,
+}

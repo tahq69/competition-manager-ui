@@ -1,0 +1,20 @@
+{
+  "login_title": "Autorizācija",
+  "login_error": "Autorizācijas kļūda. Lūdzu ievadiek korektus datus.",
+  "login_email_label": "E-pasta adrese:",
+  "login_email_placeholder": "Ievadiet epasta adresi",
+  "login_password_label": "Parole:",
+  "login_password_placeholder": "Ievadiet paroli",
+  "login_submit_button": "Ienākt",
+  "login_submit_forgot": "Aizmirsi paroli?",
+  "signUp_title": "Reģistrācija",
+  "signUp_name_label": "Vārds:",
+  "signUp_name_placeholder": "Vārds un uzvārds",
+  "signUp_email_label": "E-pasta adrese:",
+  "signUp_email_placeholder": "E-pasta adrese",
+  "signUp_password_label": "Parole:",
+  "signUp_password_placeholder": "Parole",
+  "signUp_password_confirmation_label": "Paroles apstiprinājums:",
+  "signUp_password_confirmation_placeholder": "Parole",
+  "signUp_submit_button": "Reģistrēties"
+}

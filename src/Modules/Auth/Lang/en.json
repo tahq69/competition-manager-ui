@@ -1,0 +1,20 @@
+{
+  "login_title": "Login",
+  "login_error": "Authorization error. Please enter valid e-mail and password.",
+  "login_email_label": "E-Mail Address:",
+  "login_email_placeholder": "Enter Your E-Mail Address",
+  "login_password_label": "Password:",
+  "login_password_placeholder": "Enter Your Password",
+  "login_submit_button": "Login",
+  "login_submit_forgot": "Forgot Your Password?",
+  "signUp_title": "Sign Up",
+  "signUp_name_label": "Name:",
+  "signUp_name_placeholder": "Full Name",
+  "signUp_email_label": "E-Mail Address:",
+  "signUp_email_placeholder": "E-Mail Address",
+  "signUp_password_label": "Password:",
+  "signUp_password_placeholder": "Password",
+  "signUp_password_confirmation_label": "Password confirmation:",
+  "signUp_password_confirmation_placeholder": "Password",
+  "signUp_submit_button": "Sign Up"
+}

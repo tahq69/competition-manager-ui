@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 import { LocaleType } from '@/Lang/Contract'
 import { loadLocale, saveLocale } from '@/Config/Locale'
+
 import en from './en'
 import lv from './lv'
 
@@ -16,8 +17,8 @@ export interface Locale {
 }
 
 export const locales: {[TKey in LocaleType]: Locale} = {
-  lv: { key: 'lv', text: lv.locale },
-  en: { key: 'en', text: en.locale },
+  lv: { key: 'lv', text: (lv as any).locale },
+  en: { key: 'en', text: (en as any).locale },
 }
 
 export const i18n = new VueI18n({

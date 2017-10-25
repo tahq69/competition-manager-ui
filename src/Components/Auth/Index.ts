@@ -15,7 +15,7 @@ export const roles = Roles
 export default class Auth {
 
   /**
-   * Check user authentification toke. if it is presented and user is not loaded
+   * Check user authentication toke. if it is presented and user is not loaded
    * from server, do it.
    * 
    * @static
@@ -55,7 +55,7 @@ export default class Auth {
       // refreshed.
       Auth.storeSession(secrets)
 
-      // Check will recuest server for user details and will update store data.
+      // Check will request server for user details and will update store data.
       await Auth.check()
     } catch (error) {
       throw i18n.t('auth.login.error')
