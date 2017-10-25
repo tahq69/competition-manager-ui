@@ -1,0 +1,29 @@
+{
+  "env": "local",
+  "local": {
+    "auth_secret": "bnHIar11g4qinn2LrbjCiBqHrRJ1rlOAqB1MgpUU",
+    "auth_token_type": "Bearer",
+    "auth_id": 1,
+    "url": "",
+    "api_url": "/api",
+    "server_date_format": "YYYY-MM-DD HH:mm:ss",
+    "default_locale": "lv",
+    "logs": {
+      "target": "console",
+      "sections": ["global","api","component","error","info","select2"]
+    }
+  },
+  "production": {
+    "auth_secret": "bnHIar11g4qinn2LrbjCiBqHrRJ1rlOAqB1MgpUU",
+    "auth_token_type": "Bearer",
+    "auth_id": 1,
+    "url": "http://cm.crip.lv",
+    "api_url": "http://cm.crip.lv/api",
+    "server_date_format": "YYYY-MM-DD HH:mm:ss",
+    "default_locale": "lv",
+    "logs": {
+      "target": "db",
+      "sections": ["error"]
+    }
+  }
+}

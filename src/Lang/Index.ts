@@ -17,8 +17,8 @@ export interface Locale {
 }
 
 export const locales: {[TKey in LocaleType]: Locale} = {
-  lv: { key: 'lv', text: (lv as any).locale },
-  en: { key: 'en', text: (en as any).locale },
+  lv: { key: 'lv', text: (lv as any).app.locale },
+  en: { key: 'en', text: (en as any).app.locale },
 }
 
 export const i18n = new VueI18n({

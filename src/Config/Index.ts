@@ -1,25 +1,17 @@
 import LoggerOptions from './LoggerOptions'
+import settings from './settings.json'
 
-export const logger: LoggerOptions = {
-  logs: 'console',
-  logSections: [
-    'global',
-    'api',
-    'component',
-    'error',
-    'info',
-    // Uncomment line below to see all changes in select2 helper.
-    // 'select2',
-  ],
+interface Config {
+  auth_secret: string
+  auth_token_type: string
+  auth_id: number
+  url: string
+  api_url: string
+  server_date_format: string
+  default_locale: string
+  logs: LoggerOptions
 }
 
-export const web = {
-  domain: '',
-  apiRoot: 'api',
-  serverDateFormat: 'YYYY-MM-DD HH:mm:ss',
-}
+const config = settings[settings['env']] as Config
 
-export default {
-  logger, web,
-  defaultLocale: 'lv',
-}
+export default config

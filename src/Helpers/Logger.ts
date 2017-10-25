@@ -51,12 +51,12 @@ export interface Logger {
 }
 
 class WebLogger implements Logger {
-  private logType: string | boolean
+  private target: string | boolean
   private sections: string[]
 
-  public constructor({logs, logSections}: LoggerOptions) {
-    this.logType = logs
-    this.sections = logSections
+  public constructor({target, sections}: LoggerOptions) {
+    this.target = target
+    this.sections = sections
   }
 
   public log(...args: any[]) {
@@ -88,7 +88,7 @@ class WebLogger implements Logger {
   private writelog(type: LogType, args: any, section = 'global') {
     if (!this.isInAvailableSections(section)) return
 
-    if (this.logType === 'console') {
+    if (this.target === 'console') {
       return WebLogger.consoleLog(type, args)
     }
   }

@@ -1,9 +1,9 @@
 import http from 'axios'
 
-import Storage from '@/Helpers/LocalStorage'
-import ConfigAuth from '@/Config/Auth'
-import store from '@/Store'
 import { i18n } from '@/Lang'
+import config from '@/Config'
+import store from '@/Store'
+import Storage from '@/Helpers/LocalStorage'
 
 import { TokenResponse, LogoutPayload, FetchAuthUser, Login } from './Store/Contracts'
 import Middleware from './Middleware'
@@ -38,8 +38,8 @@ export default class Auth {
 
     const payload = {
       type: 'login',
-      client_id: ConfigAuth.client_id,
-      client_secret: ConfigAuth.client_secret,
+      client_id: config.auth_id,
+      client_secret: config.auth_secret,
       grant_type: 'password',
       scope: '*',
       username: credentials.username,
@@ -72,14 +72,14 @@ export default class Auth {
   private static storeSession(secrets: TokenResponse) {
     Storage.set('access_token', secrets.access_token)
     Storage.set('refresh_token', secrets.refresh_token)
-    ConfigAuth.token_type = secrets.token_type
+    config.auth_token_type = secrets.token_type
   }
 
   private static getAuthHeader(): string | null {
     if (!Storage.has('access_token')) return null;
 
     const access_token = Storage.get('access_token')
-    return `${ConfigAuth.token_type} ${access_token}`
+    return `${config.auth_token_type} ${access_token}`
   }
 
   private static setAuthHeader() {

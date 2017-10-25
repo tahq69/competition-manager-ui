@@ -11,7 +11,7 @@ export function loadLocale(): LocaleType {
     return locale as LocaleType
   }
 
-  return config.defaultLocale as LocaleType
+  return config.default_locale as LocaleType
 }
 
 export function saveLocale(locale: LocaleType): void {

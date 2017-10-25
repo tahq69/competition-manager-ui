@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { AxiosResponse } from 'axios'
-import { web } from '@/Config'
+import config from '@/Config'
 import store from '@/Store'
 import router from '@/Router'
 import { login } from '@/Router/Routes'
@@ -20,7 +20,7 @@ interface UrlParams {
 export class Api {
   public static url({ path, params = {}, urlReplace = {}, root = false }: UrlParams) {
     let url = path.replace(new RegExp('^[\\/]+'), '')
-    url = root ? `${web.domain}/${url}` : `${web.domain}/${web.apiRoot}/${url}`
+    url = root ? `${config.url}/${url}` : `${config.api_url}/${url}`
     url = Utils.supplant(url, urlReplace)
 
     Object.keys(params).forEach(index => {

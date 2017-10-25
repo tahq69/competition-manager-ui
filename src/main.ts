@@ -20,12 +20,12 @@ import Router from './Router'
 import Guard from './Router/Guard'
 import Store from './Store'
 import Logger from './Helpers/Logger'
-import { logger } from './Config'
+import config from './Config'
 import Lang, { i18n } from './Lang'
 
 Vue.use(CripLoading, { axios })
 Vue.use(CripModal)
-Vue.use(Logger, logger)
+Vue.use(Logger, config.logs)
 
 sync(Store, Router)
 Guard(Router)
