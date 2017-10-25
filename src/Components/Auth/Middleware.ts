@@ -1,29 +1,30 @@
-import store from '@/Store'
-import * as roles from './Roles'
+import store from "@/Store"
+import * as roles from "./Roles"
 
 export class Middleware {
-
   /**
    * Determines user authenticated sate.
-   * 
-   * @returns {boolean} 
+   *
+   * @returns {boolean}
    * @memberof Middleware
    */
-  isAuthenticated(): boolean {
+  public isAuthenticated(): boolean {
     return store.state.auth.user.authenticated
   }
 
   /**
    * Determine has a auth user presented role.
-   * 
-   * @param {string} role 
-   * @returns {boolean} 
+   *
+   * @param {string} role
+   * @returns {boolean}
    * @memberof Middleware
    */
-  hasRole(role: string): boolean {
+  public hasRole(role: string): boolean {
     if (!this.isAuthenticated()) return false
 
-    let check = (role) => !!~store.state.auth.roles.indexOf(role)
+    // tslint:disable:no-shadowed-variable
+    // tslint:disable-next-line:no-bitwise
+    const check = role => !!~store.state.auth.roles.indexOf(role)
 
     // if user has an super_admin role, allow him to do anything
     if (check(roles.SUPER_ADMIN)) return true
@@ -33,34 +34,30 @@ export class Middleware {
 
   /**
    * Determine has a auth user any of role presented in list of roles.
-   * 
-   * @param {string[]} roles 
-   * @returns {boolean} 
+   *
+   * @param {string[]} roles
+   * @returns {boolean}
    * @memberof Middleware
    */
-  hasAnyRole(roles: string[]): boolean {
+  public hasAnyRole(roles: string[]): boolean {
     if (!this.isAuthenticated()) return false
 
-    const hasAny = roles.find(
-      role => this.hasRole(role)
-    )
+    const hasAny = roles.find(role => this.hasRole(role))
 
     return !!hasAny
   }
 
   /**
    * Determine has a auth user all roles presented in list.
-   * 
-   * @param {string[]} roles 
-   * @returns {boolean} 
+   *
+   * @param {string[]} roles
+   * @returns {boolean}
    * @memberof Middleware
    */
-  hasAllRoles(roles: string[]): boolean {
+  public hasAllRoles(roles: string[]): boolean {
     if (!this.isAuthenticated()) return false
 
-    const hasNoAny = roles.find(
-      role => !this.hasRole(role)
-    )
+    const hasNoAny = roles.find(role => !this.hasRole(role))
 
     return !hasNoAny
   }

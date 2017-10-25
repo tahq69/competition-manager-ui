@@ -1,6 +1,6 @@
 <template>
   <ul v-if="hasErrors" class="help-block crip-form-errors">
-    <li v-for="error in errors" class="text-danger">
+    <li v-for="error in errors" :key="error" class="text-danger">
       {{ error }}
     </li>
   </ul>
@@ -8,10 +8,10 @@
 
 <script lang="ts">
 export default {
-  name: 'formErrors',
+  name: "formErrors",
 
   props: {
-    errors: {'type': Array, 'default': () => []}
+    errors: { type: Array, default: () => [] },
   },
 
   computed: {

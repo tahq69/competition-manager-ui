@@ -16,24 +16,24 @@
 </template>
 
 <script lang="ts">
-import Utils from '@/Helpers/Utils'
-import FormErrors from './FormErrors.vue'
-import Form from './Form'
+import Utils from "@/Helpers/Utils"
+import FormErrors from "./FormErrors.vue"
+import Form from "./Form"
 
 export default {
-  name: 'formGroup',
+  name: "formGroup",
 
-  components: {FormErrors},
+  components: { FormErrors },
 
   props: {
-    for: {'type': String, 'required': true},
-    label: {'type': String, 'default': () => ''},
-    form: {'type': Form, 'default': () => new Form({__: false})},
-    errors: {'type': Array, 'default': () => []},
-    colLg: {'type': Number, 'default': () => 0},
-    colMd: {'type': Number, 'default': () => 0},
-    colSm: {'type': Number, 'default': () => 0},
-    colXs: {'type': Number, 'default': () => 12},
+    for: { type: String, required: true },
+    label: { type: String, default: () => "" },
+    form: { type: Form, default: () => new Form({ __: false }) },
+    errors: { type: Array, default: () => [] },
+    colLg: { type: Number, default: () => 0 },
+    colMd: { type: Number, default: () => 0 },
+    colSm: { type: Number, default: () => 0 },
+    colXs: { type: Number, default: () => 12 },
   },
 
   computed: {
@@ -42,26 +42,23 @@ export default {
     },
 
     labelClass() {
-      return this.getColClass('label', ['control-label'])
+      return this.getColClass("label", ["control-label"])
     },
 
     controlClass() {
-      if (this.label == '')
-        return this.getColClass('empty')
+      if (this.label == "") return this.getColClass("empty")
 
-      return this.getColClass('control')
+      return this.getColClass("control")
     },
 
     groupClass() {
       return {
-        'has-error': this.hasErrors
+        "has-error": this.hasErrors,
       }
     },
 
     formErrors() {
-      if (Utils.isDefined(this.form.data.__) &&
-        this.form.data.__ === false
-      ) {
+      if (Utils.isDefined(this.form.data.__) && this.form.data.__ === false) {
         return this.errors
       }
 
@@ -74,9 +71,11 @@ export default {
   },
 
   methods: {
-    getColClass(method: 'control' | 'label' | 'empty',
-                initial: string[] = []): string[] {
-      ['Lg', 'Md', 'Sm', 'Xs'].forEach(size => {
+    getColClass(
+      method: "control" | "label" | "empty",
+      initial: string[] = [],
+    ): string[] {
+      ;["Lg", "Md", "Sm", "Xs"].forEach(size => {
         const value = this[`col${size}`]
         if (value > 0) {
           initial.push(this[`${method}Calc`](value, size.toLowerCase()))
@@ -95,11 +94,9 @@ export default {
     },
 
     colClass(size: number, media: string, offset = false) {
-      let template = offset ?
-        'col-{media}-offset-{size}' :
-        'col-{media}-{size}'
+      let template = offset ? "col-{media}-offset-{size}" : "col-{media}-{size}"
 
-      return Utils.supplant(template, {media, size})
+      return Utils.supplant(template, { media, size })
     },
 
     emptyCalc(size: number, media: string): string {

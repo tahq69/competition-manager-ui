@@ -1,56 +1,56 @@
-export interface TokenResponse {
+export interface ITokenResponse {
   token_type: string
   expires_in: number
   access_token: string
   refresh_token: string
 }
 
-export interface Role {
+export interface IRole {
   key: string
 }
 
-export interface User {
+export interface IUser {
   authenticated: boolean
   name: string
   email: string
   id: number
 }
 
-export interface State {
-  user: User
+export interface IState {
+  user: IUser
   roles: string[]
 }
 
-export interface Payload {
+export interface IPayload {
   type: string
 }
 
 /* MUTATIONS */
 
-export interface LogoutPayload extends Payload {
-  type: 'logout'
+export interface ILogoutPayload extends IPayload {
+  type: "logout"
 }
 
-export interface UpdateUserDetailsPayload extends Payload {
-  type: 'updateAuthUserDetails'
+export interface IUpdateUserDetailsPayload extends IPayload {
+  type: "updateAuthUserDetails"
   name: string
   email: string
   id: number
-  roles: Role[]
+  roles: IRole[]
 }
 
 /* ACTIONS */
 
-export interface FetchAuthUser extends Payload {
-  type: 'fetchAuthUser'
+export interface IFetchAuthUser extends IPayload {
+  type: "fetchAuthUser"
 }
 
-export interface Login extends Payload {
-  type: 'login'
+export interface ILogin extends IPayload {
+  type: "login"
   username: string
   password: string
   client_id: number
   client_secret: string
-  grant_type: 'password'
-  scope: '*'
+  grant_type: "password"
+  scope: "*"
 }

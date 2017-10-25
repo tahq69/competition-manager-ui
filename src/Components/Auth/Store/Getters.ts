@@ -1,15 +1,15 @@
-import { State, User } from './Contracts'
+import { IState, IUser } from "./Contracts"
 
 export default {
-  user(state: State): User {
+  user(state: IState): IUser {
     return state.user
   },
 
-  isAuthenticated(state: State): boolean {
+  isAuthenticated(state: IState): boolean {
     return state.user.authenticated
   },
 
-  roles(state: State): string[] {
+  roles(state: IState): string[] {
     return state.roles
   },
 }

@@ -60,26 +60,26 @@
 </template>
 
 <script lang="ts">
-import Form from '@/Components/Forms/Form'
-import FormPanel from '@/Components/Forms/FormPanel.vue'
-import FormGroup from '@/Components/Forms/FormGroup.vue'
-import Focus from '@/Components/Focus'
-import {forgotPassword, home, Route} from '@/Router/Routes'
-import Auth, { middleware as auth } from '@/Components/Auth'
+import Form from "@/Components/Forms/Form"
+import FormPanel from "@/Components/Forms/FormPanel.vue"
+import FormGroup from "@/Components/Forms/FormGroup.vue"
+import Focus from "@/Components/Focus"
+import { forgotPassword, home, Route } from "@/Router/Routes"
+import Auth, { middleware as auth } from "@/Components/Auth"
 
 export default {
-  name: 'Login',
+  name: "Login",
 
-  components: {FormPanel, FormGroup},
+  components: { FormPanel, FormGroup },
 
-  directives: {Focus},
+  directives: { Focus },
 
   data() {
     return {
       form: new Form({
-        email: '',
-        password: '',
-      })
+        email: "",
+        password: "",
+      }),
     }
   },
 
@@ -99,7 +99,7 @@ export default {
 
   methods: {
     async authorize() {
-      this.$logger.info('authorize', this.form)
+      this.$logger.info("authorize", this.form)
       this.form.clearErrors()
       try {
         const credentials = {
@@ -109,9 +109,9 @@ export default {
         await Auth.login(credentials)
         this.$router.push(home)
       } catch (error) {
-        this.form.addErrors({email: [error]})
+        this.form.addErrors({ email: [error] })
       }
-    }
-  }
+    },
+  },
 }
 </script>

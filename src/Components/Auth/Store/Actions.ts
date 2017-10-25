@@ -1,41 +1,42 @@
-import http from 'axios'
-import { Store, ActionContext } from 'vuex'
+import http from "axios"
+import { ActionContext, Store } from "vuex"
 
-import { Api } from '@/Helpers/Api'
-import { State as RootState } from '@/Store/Contracts'
+import { Api } from "@/Helpers/Api"
+import { State as RootState } from "@/Store/Contracts"
 
 import {
-  State, UpdateUserDetailsPayload, FetchAuthUser, Login
-} from './Contracts'
+  IFetchAuthUser,
+  ILogin,
+  IState,
+  IUpdateUserDetailsPayload,
+} from "./Contracts"
 
-type Action = ActionContext<State, RootState>
+type Action = ActionContext<IState, RootState>
 
 export default {
-  async fetchAuthUser({ commit, state }: Action, payload: FetchAuthUser) {
+  async fetchAuthUser({ commit, state }: Action, payload: IFetchAuthUser) {
     if (state.user.authenticated) return
 
-    const url = Api.url({ path: 'users/user' })
+    const url = Api.url({ path: "users/user" })
     try {
       const { data } = await http.get(url)
-      const payload = {
-        type: 'updateAuthUserDetails',
+      commit<IUpdateUserDetailsPayload>({
+        type: "updateAuthUserDetails",
         email: data.email,
         id: data.id,
         name: data.name,
-        roles: data.roles.map(role => ({ key: role.key }))
-      } as UpdateUserDetailsPayload
-
-      commit<UpdateUserDetailsPayload>(payload)
+        roles: data.roles.map(role => ({ key: role.key })),
+      })
     } catch (error) {
       Api.handle(error)
     }
   },
 
-  async login({ commit, state }: Action, payload: Login) {
+  async login({ commit, state }: Action, payload: ILogin) {
     if (state.user.authenticated) return
 
-    const url = Api.url({ path: 'oauth/token', root: true })
-    let { data } = await http.post(url, payload)
+    const url = Api.url({ path: "oauth/token", root: true })
+    const { data } = await http.post(url, payload)
     return data
   },
 }

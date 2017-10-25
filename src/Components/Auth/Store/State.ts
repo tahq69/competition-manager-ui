@@ -1,11 +1,11 @@
-import { State } from './Contracts'
+import { IState } from "./Contracts"
 
 export default {
   user: {
     authenticated: false,
     id: 0,
-    name: '',
-    email: '',
+    name: "",
+    email: "",
   },
   roles: [],
-} as State
+} as IState

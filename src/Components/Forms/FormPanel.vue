@@ -35,51 +35,51 @@
 </template>
 
 <script lang="ts">
-import Alert from '@/Components/Alert.vue'
-import Utils from '@/Helpers/Utils'
-import Form from './Form'
+import Alert from "@/Components/Alert.vue"
+import Utils from "@/Helpers/Utils"
+import Form from "./Form"
 
 export default {
-  name: 'formPanel',
+  name: "formPanel",
 
-  components: {Alert},
+  components: { Alert },
 
   props: {
-    title: {'type': String, 'required': true},
-    form: {'type': Form, 'default': () => new Form({__: false})},
-    bodyColLg: {'type': Number, 'default': () => 0},
-    bodyColMd: {'type': Number, 'default': () => 0},
-    bodyColSm: {'type': Number, 'default': () => 0},
-    bodyColXs: {'type': Number, 'default': () => 12},
-    colLg: {'type': Number, 'default': () => 0},
-    colMd: {'type': Number, 'default': () => 0},
-    colSm: {'type': Number, 'default': () => 0},
-    colXs: {'type': Number, 'default': () => 12},
+    title: { type: String, required: true },
+    form: { type: Form, default: () => new Form({ __: false }) },
+    bodyColLg: { type: Number, default: () => 0 },
+    bodyColMd: { type: Number, default: () => 0 },
+    bodyColSm: { type: Number, default: () => 0 },
+    bodyColXs: { type: Number, default: () => 12 },
+    colLg: { type: Number, default: () => 0 },
+    colMd: { type: Number, default: () => 0 },
+    colSm: { type: Number, default: () => 0 },
+    colXs: { type: Number, default: () => 12 },
   },
 
   data() {
     return {
-      showError: false
+      showError: false,
     }
   },
 
   computed: {
     contentClass(): string[] {
-      return this.calculateColClass('bodyCol{size}')
+      return this.calculateColClass("bodyCol{size}")
     },
 
     elementClass() {
       let classes = []
 
       if (this.hasErrors) {
-        classes.push('has-data-errors')
+        classes.push("has-data-errors")
       }
 
       if (this.hasError) {
-        classes.push('has-global-error')
+        classes.push("has-global-error")
       }
 
-      return this.calculateColClass('col{size}', classes)
+      return this.calculateColClass("col{size}", classes)
     },
 
     hasErrors() {
@@ -97,12 +97,12 @@ export default {
 
   methods: {
     submit() {
-      this.$emit('submit')
+      this.$emit("submit")
     },
 
     calculateColClass(selectorTemplate: string, initial: string[] = []) {
-      ['Lg', 'Md', 'Sm', 'Xs'].forEach(size => {
-        const valueKey = Utils.supplant(selectorTemplate, {size})
+      ;["Lg", "Md", "Sm", "Xs"].forEach(size => {
+        const valueKey = Utils.supplant(selectorTemplate, { size })
         const value = this[valueKey]
 
         // Skip zero values to avoid un-required classes
@@ -112,7 +112,6 @@ export default {
         const sizeKey = size.toLowerCase()
         initial.push(`col-${sizeKey}-offset-${offset}`)
         initial.push(`col-${sizeKey}-${value}`)
-
       })
 
       return initial
@@ -128,7 +127,7 @@ export default {
       if (oldValue && !value) {
         this.showError = false
       }
-    }
-  }
+    },
+  },
 }
 </script>

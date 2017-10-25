@@ -1,0 +1,13 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+      "max-line-length": {
+          "options": [80]
+      },
+      "semicolon": false,
+      "quotemark": true,
+      "curly": false,
+      "arrow-parens": false,
+      "no-string-literal": false
+  }
+}

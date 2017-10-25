@@ -1,8 +1,10 @@
-type Errors = { [key: string]: string[] }
+interface IErrors {
+  [key: string]: string[]
+}
 
 export default class Form<T> {
-  public unknownError: string = ''
-  public errors: Errors
+  public unknownError: string = ""
+  public errors: IErrors
   public data: T
 
   public constructor(initialData: T) {
@@ -15,16 +17,16 @@ export default class Form<T> {
   }
 
   public get hasUnknownError() {
-    return this.unknownError != ''
+    return this.unknownError !== ""
   }
 
   public clearErrors() {
-    this.unknownError = ''
+    this.unknownError = ""
     this.errors = {}
   }
 
-  public addErrors(errors: Errors | string) {
-    if (typeof errors === 'string') {
+  public addErrors(errors: IErrors | string) {
+    if (typeof errors === "string") {
       this.unknownError = errors
       return
     }
