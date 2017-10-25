@@ -45,7 +45,7 @@ export class Api {
 
     Vue.logger.error('Api.handle -> unknown', error)
 
-    throw i18n.t('api.unexpectedError')
+    throw i18n.t('app.api_unexpectedError')
   }
 
   /**
@@ -56,14 +56,14 @@ export class Api {
    * @returns {string}
    */
   private static addParameter(url: string, param: string, value: string) {
-    // Using a positive lookahead (?=\=) to find the
+    // Using a positive look ahead (?=\=) to find the
     // given parameter, preceded by a ? or &, and followed
     // by a = with a value after than (using a non-greedy selector)
     // and then followed by a & or the end of the string
     const val = new RegExp(`(\\?|\\&)${param}=.*?(?=(&|$))`)
     const parts = url.toString().split('#')
     const hash = parts[1]
-    const qstring = /\?.+$/
+    const queryString = /\?.+$/
     let newURL = url = parts[0]
 
     // Check if the parameter exists
@@ -71,7 +71,7 @@ export class Api {
       // if it does, replace it, using the captured group
       // to determine & or ? at the beginning
       newURL = url.replace(val, `$1${param}=${value}`)
-    } else if (qstring.test(url)) {
+    } else if (queryString.test(url)) {
       // otherwise, if there is a query string at all
       // add the param to the end of it
       newURL = `${url}&${param}=${value}`
@@ -128,12 +128,12 @@ export class Api {
         // TODO: send this as email to admin to be able detect users who is
         // trying hack app or some places has not enough protection and simple
         // user can open it and create not allowed requests.
-        throw i18n.t('api.actionNotAllowed')
+        throw i18n.t('app.api_actionNotAllowed')
       default:
         Vue.logger.log('Api.http -> unknown', response)
         // TODO: send this as email to admin to be able detect unexpected http
         // errors.
-        throw i18n.t('api.unknownHttpError')
+        throw i18n.t('app.api_unknownHttpError')
     }
   }
 }

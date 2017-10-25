@@ -1,6 +1,6 @@
 {
   "locale": "EN",
-  "appTitle": "Competition Manager",
+  "title": "Competition Manager",
   "api_actionNotAllowed": "Action is not allowed",
   "api_unknownHttpError": "Unknown communication error occurred",
   "api_unexpectedError": "Unexpected error occurred"

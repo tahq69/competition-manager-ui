@@ -2,7 +2,7 @@
   <div id="app-view">
     <navbar :left-menu="leftNav" :right-menu="rightNav">
       <router-link :to="home" class="navbar-brand">
-        {{ $t('appTitle') }}
+        {{ $t('app.title') }}
       </router-link>
     </navbar>
 

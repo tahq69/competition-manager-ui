@@ -3,7 +3,7 @@
       id="login"
       @submit="authorize"
       :form="form"
-      :title="$t('auth.login.title')"
+      :title="$t('auth.login_title')"
       :body-col-md="10"
       :col-sm="10"
       :col-md="8"
@@ -14,7 +14,7 @@
     <form-group
         for="email"
         :form="form"
-        :label="$t('auth.login.email.label')"
+        :label="$t('auth.login_email_label')"
         :col-sm="8"
     >
       <input
@@ -22,7 +22,7 @@
           id="email"
           name="email"
           class="form-control"
-          :placeholder="$t('auth.login.email.placeholder')"
+          :placeholder="$t('auth.login_email_placeholder')"
           v-model="form.data.email"
           v-focus="true"
           required
@@ -32,7 +32,7 @@
     <!-- #password -->
     <form-group
         for="password"
-        :label="$t('auth.login.password.label')"
+        :label="$t('auth.login_password_label')"
         :col-sm="8"
     >
       <input
@@ -40,7 +40,7 @@
           id="password"
           name="password"
           class="form-control"
-          :placeholder="$t('auth.login.password.placeholder')"
+          :placeholder="$t('auth.login_password_placeholder')"
           v-model="form.data.password"
           required
       >
@@ -49,11 +49,11 @@
     <!-- #submit -->
     <form-group for="submit" :col-sm="8">
       <button id="submit" type="submit" class="btn btn-primary">
-        {{ $t('auth.login.submit.button') }}
+        {{ $t('auth.login_submit_button') }}
       </button>
 
       <router-link :to="forgotPassword" class="btn btn-link">
-        {{ $t('auth.login.submit.forgot') }}
+        {{ $t('auth.login_submit_forgot') }}
       </router-link>
     </form-group>
   </form-panel>

@@ -58,7 +58,7 @@ export default class Auth {
       // Check will request server for user details and will update store data.
       await Auth.check()
     } catch (error) {
-      throw i18n.t('auth.login.error')
+      throw i18n.t('auth_login_error')
     }
   }
 
