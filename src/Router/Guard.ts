@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Router, { Route, RawLocation } from 'vue-router'
+import Vue from "vue"
+import Router, { RawLocation, Route } from "vue-router"
 
-import { middleware as auth } from '@/Components/Auth'
-import { login, home } from './Routes'
+import { middleware as auth } from "@/Components/Auth"
+import { home, login } from "./Routes"
 
-export default function (router: Router) {
+export default function(router: Router) {
   router.beforeEach(navigationGuard)
 }
 
@@ -28,12 +28,12 @@ async function navigationGuard(to: Route, from: Route, next: Next) {
 
   if (checkAll) {
     if (await auth.hasAllRoles(to.meta.requiresRoles)) return next()
-    return next({ ...home, params: { message: 'permission_denied' } })
+    return next({ ...home, params: { message: "permission_denied" } })
   }
 
   if (checkAny) {
     if (await auth.hasAnyRole(to.meta.requiresRoles)) return next()
-    return next({ ...home, params: { message: 'permission_denied' } })
+    return next({ ...home, params: { message: "permission_denied" } })
   }
 
   // No roles check required, simply user should be authorized to access next

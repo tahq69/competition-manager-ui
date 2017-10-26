@@ -1,38 +1,38 @@
-import VueI18n from 'vue-i18n'
-import Vue from 'vue'
+import Vue from "vue"
+import VueI18n from "vue-i18n"
 
-import { LocaleType } from '@/Lang/Contract'
-import { loadLocale, saveLocale } from '@/Config/Locale'
+import { loadLocale, saveLocale } from "@/Config/Locale"
+import { LocaleType } from "@/Lang/Contract"
 
-import en from './en'
-import lv from './lv'
+import en from "./en"
+import lv from "./lv"
 
 Vue.use(VueI18n)
 
 const translations = { en, lv }
 
-export interface Locale {
+export interface ILocale {
   key: LocaleType
   text: string
 }
 
-export const locales: {[TKey in LocaleType]: Locale} = {
-  lv: { key: 'lv', text: (lv as any).app.locale },
-  en: { key: 'en', text: (en as any).app.locale },
+export const locales: { [TKey in LocaleType]: ILocale } = {
+  lv: { key: "lv", text: (lv as any).app.locale },
+  en: { key: "en", text: (en as any).app.locale },
 }
 
 export const i18n = new VueI18n({
-  locale: 'lv',
-  fallbackLocale: 'en',
+  locale: "lv",
+  fallbackLocale: "en",
   messages: translations,
 })
 
-export function SetLocale(locale: LocaleType = 'lv') {
+export function SetLocale(locale: LocaleType = "lv") {
   saveLocale(locale)
   i18n.locale = locale
 }
 
-export default function () {
+export default function() {
   const locale = loadLocale()
   SetLocale(locale)
 }

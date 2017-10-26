@@ -12,23 +12,23 @@
 </template>
 
 <script lang="ts">
-  import {NavGroup} from './index'
-  import NavbarItems from './NavbarItems.vue'
+import { NavGroup } from "./index"
+import NavbarItems from "./NavbarItems.vue"
 
-  export default {
-    name: 'navbarGroup',
+export default {
+  name: "navbarGroup",
 
-    components: {NavbarItems},
+  components: { NavbarItems },
 
-    props: {
-      item: {'type': Object, 'required': true},
-      items: {'type': Array, 'default': () => []},
+  props: {
+    item: { type: Object, required: true },
+    items: { type: Array, default: () => [] },
+  },
+
+  computed: {
+    hasItems() {
+      return this.items.length > 0
     },
-
-    computed: {
-      hasItems() {
-        return this.items.length > 0
-      },
-    },
-  }
+  },
+}
 </script>

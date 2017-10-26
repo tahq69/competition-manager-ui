@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'postsList',
+  name: "postsList",
 }
 </script>

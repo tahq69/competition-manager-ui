@@ -28,25 +28,27 @@
 </template>
 
 <script lang="ts">
-import {NavItem} from './index'
+import { NavItem } from "./index"
 
 export default {
-  name: 'navbarItem',
+  name: "navbarItem",
 
   props: {
-    item: {'type': NavItem, 'required': true},
+    item: { type: NavItem, required: true },
   },
 
   computed: {
     classes() {
       const hasAction =
-        this.item.route || this.item.href ||
-        this.item.click || this.item.divider
+        this.item.route ||
+        this.item.href ||
+        this.item.click ||
+        this.item.divider
 
       return {
-        'active': this.item.isActive,
-        'divider': this.item.divider === true,
-        'dropdown-header': !hasAction
+        active: this.item.isActive,
+        divider: this.item.divider === true,
+        "dropdown-header": !hasAction,
       }
     },
   },

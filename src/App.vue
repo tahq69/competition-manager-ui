@@ -21,13 +21,13 @@
 </template>
 
 <script lang="ts">
-import {home, Route} from '@/Router/Routes'
-import Auth from '@/Components/Auth'
+import { home, IRoute } from "@/Router/Routes"
+import Auth from "@/Components/Auth"
 
-import {left as leftNav, right as rightNav} from './Components/Navigation'
+import { left as leftNav, right as rightNav } from "./Components/Navigation"
 
 export default {
-  name: 'app',
+  name: "app",
 
   async mounted() {
     this.$logger.component(this)
@@ -35,7 +35,7 @@ export default {
   },
 
   computed: {
-    home(): Route {
+    home(): IRoute {
       return home
     },
 
@@ -46,7 +46,7 @@ export default {
     rightNav() {
       return rightNav()
     },
-  }
+  },
 }
 </script>
 

@@ -1,6 +1,6 @@
 import { Module } from "vuex"
 
-import { State as RootState } from "@/Store/Contracts"
+import { IState as RootState } from "@/Store/Contracts"
 
 import actions from "./Actions"
 import { IState } from "./Contracts"

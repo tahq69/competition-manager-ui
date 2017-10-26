@@ -19,12 +19,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 
-const typeValues = ['success', 'info', 'warning', 'danger']
+const typeValues = ["success", "info", "warning", "danger"]
 
 export default {
-  name: 'alert',
+  name: "alert",
 
   mounted() {
     this.$logger.component(this)
@@ -32,22 +32,22 @@ export default {
 
   props: {
     type: {
-      'type': String,
-      'default': () => 'danger',
-      'validator': (value) => typeValues.indexOf(value) > -1
+      type: String,
+      default: () => "danger",
+      validator: value => typeValues.indexOf(value) > -1,
     },
 
     isVisible: {
-      'type': Boolean,
-      'default': () => true
-    }
+      type: Boolean,
+      default: () => true,
+    },
   },
 
   methods: {
     hide() {
-      this.$emit('update:isVisible', false)
-      this.$emit('hide')
-    }
-  }
+      this.$emit("update:isVisible", false)
+      this.$emit("hide")
+    },
+  },
 }
 </script>

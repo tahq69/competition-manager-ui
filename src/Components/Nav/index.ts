@@ -1,4 +1,4 @@
-import { Route } from "@/Router/Routes"
+import { IRoute } from "@/Router/Routes"
 
 import TNavGroup, { NavItemType as TNavItemType } from "./NavGroup"
 import TNavItem from "./NavItem"

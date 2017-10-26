@@ -38,16 +38,15 @@
 </template>
 
 <script lang="ts">
-import {NavGroup} from './index'
+import { NavGroup } from "./index"
 
 export default {
-  name: 'theNavbar',
+  name: "theNavbar",
 
   props: {
-    leftMenu: {'type': Array, 'default': () => []},
-    rightMenu: {'type': Array, 'default': () => []},
+    leftMenu: { type: Array, default: () => [] },
+    rightMenu: { type: Array, default: () => [] },
   },
-
 
   computed: {
     hasLeftMenu() {

@@ -1,7 +1,7 @@
-import { Route } from "@/Router/Routes"
+import { IRoute } from "@/Router/Routes"
 
 export interface INavOptions {
-  route?: Route
+  route?: IRoute
   href?: string
   click?: () => void
   divider?: boolean

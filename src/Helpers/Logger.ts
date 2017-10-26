@@ -1,77 +1,77 @@
-import Vue from 'vue'
+import Vue from "vue"
 
-import LoggerOptions from './../Config/LoggerOptions'
-import Utils from './Utils'
+import ILoggerOptions from "./../Config/LoggerOptions"
+import Utils from "./Utils"
 
-export type LogType = 'log' | 'info' | 'warn' | 'debug' | 'error'
+export type LogType = "log" | "info" | "warn" | "debug" | "error"
 
-export interface Logger {
+export interface ILogger {
   /**
    * Write log message.
-   * 
-   * @param {...any[]} args 
-   * @memberof Logger
+   *
+   * @param {...any[]} args
+   * @memberof ILogger
    */
   log(...args: any[]): void
 
   /**
    * Write informational message.
-   * 
-   * @param {...any[]} args 
-   * @memberof Logger
+   *
+   * @param {...any[]} args
+   * @memberof ILogger
    */
   info(...args: any[]): void
 
   /**
    * Write error message.
-   * 
-   * @param {...any[]} args 
-   * @memberof Logger
+   *
+   * @param {...any[]} args
+   * @memberof ILogger
    */
   error(...args: any[]): void
 
   /**
    * Group logs to section and get logger method.
-   * 
-   * @param {string} section 
-   * @param {LogType} [type] 
-   * @returns {(...args: any[]) => void} 
-   * @memberof Logger
+   *
+   * @param {string} section
+   * @param {LogType} [type]
+   * @returns {(...args: any[]) => void}
+   * @memberof ILogger
    */
   group(section: string, type?: LogType): (...args: any[]) => void
 
   /**
    * Log Vue component details.
-   * 
-   * @param {Vue} vm 
-   * @param {...any[]} args 
-   * @memberof Logger
+   *
+   * @param {Vue} vm
+   * @param {...any[]} args
+   * @memberof ILogger
    */
   component(vm: Vue, ...args: any[]): void
 }
 
-class WebLogger implements Logger {
+class WebLogger implements ILogger {
   private target: string | boolean
   private sections: string[]
 
-  public constructor({target, sections}: LoggerOptions) {
+  public constructor({ target, sections }: ILoggerOptions) {
     this.target = target
     this.sections = sections
   }
 
   public log(...args: any[]) {
-    this.writelog('log', args)
+    this.writelog("log", args)
   }
 
   public info(...args: any[]) {
-    this.writelog('info', args, 'info')
+    this.writelog("info", args, "info")
   }
 
   public error(...args: any[]) {
-    this.writelog('error', args, 'error')
+    this.writelog("error", args, "error")
   }
 
-  public group(section: string, type: LogType = 'log') {
+  public group(section: string, type: LogType = "log") {
     return (...args: any[]) => {
       args.unshift(section)
       this.writelog(type, args, section)
@@ -79,21 +79,21 @@ class WebLogger implements Logger {
   }
 
   public component(vm: Vue, ...args: any[]) {
-    let route = {...vm.$route.params, path: vm.$route.fullPath}
-    let debugArgs = [`component ${vm.$options.name}`, {route}, ...args]
+    const route = { ...vm.$route.params, path: vm.$route.fullPath }
+    const debugArgs = [`component ${vm.$options.name}`, { route }, ...args]
 
-    this.writelog('debug', debugArgs, 'component')
+    this.writelog("debug", debugArgs, "component")
   }
 
-  private writelog(type: LogType, args: any, section = 'global') {
+  private writelog(type: LogType, args: any, section = "global") {
     if (!this.isInAvailableSections(section)) return
 
-    if (this.target === 'console') {
-      return WebLogger.consoleLog(type, args)
+    if (this.target === "console") {
+      return this.consoleLog(type, args)
     }
   }
 
-  private static consoleLog(type: LogType, args: any) {
+  private consoleLog(type: LogType, args: any) {
     if (window.console && console[type]) {
       console[type].apply(console, args)
     }
@@ -105,12 +105,12 @@ class WebLogger implements Logger {
 }
 
 export default {
-  install(VueInstance: typeof Vue, options: LoggerOptions) {
+  install(VueInstance: typeof Vue, options: ILoggerOptions) {
     const logger = new WebLogger(options)
     VueInstance.logger = logger
 
     Object.defineProperties(VueInstance.prototype, {
-      '$logger': {get: () => logger}
+      $logger: { get: () => logger },
     })
-  }
+  },
 }

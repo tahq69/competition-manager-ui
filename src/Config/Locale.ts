@@ -1,13 +1,13 @@
-import config from '@/Config'
-import { LocaleType } from '@/Lang/Contract'
-import LocalStorage from '@/Helpers/LocalStorage'
+import config from "@/Config"
+import LocalStorage from "@/Helpers/LocalStorage"
+import { LocaleType } from "@/Lang/Contract"
 
-const storageKey = 'crip-cm-locale'
+const storageKey = "crip-cm-locale"
 
 export function loadLocale(): LocaleType {
   // TODO: move localStorage to external class as a helper
-  let locale = LocalStorage.get(storageKey)
-  if (locale === 'lv' || locale === 'en') {
+  const locale = LocalStorage.get(storageKey)
+  if (locale === "lv" || locale === "en") {
     return locale as LocaleType
   }
 

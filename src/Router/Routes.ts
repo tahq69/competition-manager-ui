@@ -1,22 +1,22 @@
-export interface Route {
+export interface IRoute {
   name: string
 
   [key: string]: any
 }
 
-export const home: Route = {name: 'home'}
+export const home: IRoute = { name: "home" }
 
-export const login: Route = {name: 'login'}
-export const signUp: Route = {name: 'signUp'}
-export const profile: Route = {name: 'profile'}
-export const forgotPassword: Route = {name: 'forgotPassword'}
-export const passwordReset: Route = {name: 'passwordReset'}
+export const login: IRoute = { name: "login" }
+export const signUp: IRoute = { name: "signUp" }
+export const profile: IRoute = { name: "profile" }
+export const forgotPassword: IRoute = { name: "forgotPassword" }
+export const passwordReset: IRoute = { name: "passwordReset" }
 
-export const createPost: Route = {name: 'createPost'}
-export const listPosts: Route = {name: 'listPosts'}
+export const createPost: IRoute = { name: "createPost" }
+export const listPosts: IRoute = { name: "listPosts" }
 
-export const createTeam: Route = {name: 'createTeam'}
-export const listTeams: Route = {name: 'listTeams'}
+export const createTeam: IRoute = { name: "createTeam" }
+export const listTeams: IRoute = { name: "listTeams" }
 
-export const createCompetition: Route = {name: 'createCompetition'}
-export const listCompetitions: Route = {name: 'listCompetitions'}
+export const createCompetition: IRoute = { name: "createCompetition" }
+export const listCompetitions: IRoute = { name: "listCompetitions" }

@@ -1,6 +1,6 @@
 import Vue from "vue"
 
-import { i18n, Locale, locales as AppLocales, SetLocale } from "@/Lang"
+import { i18n, ILocale, locales as AppLocales, SetLocale } from "@/Lang"
 import * as routes from "@/Router/Routes"
 import store from "@/Store"
 
@@ -32,45 +32,16 @@ export const left = () => {
 
   if (canManagePosts) {
     if (auth.hasRole(roles.CREATE_POST)) {
-      nav.create({
-        text: "Create post",
-        route: routes.createPost,
-        divider: false,
-        isActive: false,
-        href: null,
-        click: null,
-      })
+      nav.create({ text: "Create post", route: routes.createPost })
     }
 
-    nav.create({
-      text: "Posts",
-      route: routes.listPosts,
-      divider: false,
-      isActive: false,
-      href: null,
-      click: null,
-    })
+    nav.create({ text: "Posts", route: routes.listPosts })
     nav.add(divider)
   }
 
   if (auth.hasRole(roles.CREATE_TEAMS)) {
-    nav.create({
-      text: "Create team",
-      route: routes.createTeam,
-      divider: false,
-      isActive: false,
-      href: null,
-      click: null,
-    })
-
-    nav.create({
-      text: "Teams",
-      route: routes.listTeams,
-      divider: false,
-      isActive: false,
-      href: null,
-      click: null,
-    })
+    nav.create({ text: "Create team", route: routes.createTeam })
+    nav.create({ text: "Teams", route: routes.listTeams })
     nav.add(divider)
   }
 
@@ -79,21 +50,10 @@ export const left = () => {
       nav.create({
         text: "Create competition",
         route: routes.createCompetition,
-        divider: false,
-        isActive: false,
-        href: null,
-        click: null,
       })
     }
 
-    nav.create({
-      text: "Competition",
-      route: routes.listCompetitions,
-      divider: false,
-      isActive: false,
-      href: null,
-      click: null,
-    })
+    nav.create({ text: "Competition", route: routes.listCompetitions })
     nav.add(divider)
   }
 
@@ -127,14 +87,11 @@ export const right = () => {
 function localesNav() {
   const locales = new NavGroup(t("nav.locale"))
   Object.keys(AppLocales).forEach(key => {
-    const locale: Locale = AppLocales[key]
+    const locale: ILocale = AppLocales[key]
     locales.create({
       text: locale.text,
       click: () => SetLocale(locale.key),
       isActive: t("nav.locale") === locale.text,
-      divider: false,
-      href: null,
-      route: null,
     })
   })
 

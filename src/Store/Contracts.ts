@@ -1,5 +1,5 @@
-import { IState as AuthState } from '@/Components/Auth/Store/Contracts'
+import { IState as AuthState } from "@/Components/Auth/Store/Contracts"
 
-export interface State {
+export interface IState {
   auth: AuthState
 }

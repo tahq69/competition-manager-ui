@@ -1,30 +1,33 @@
-import Vue from 'vue'
-import { AxiosResponse } from 'axios'
-import config from '@/Config'
-import store from '@/Store'
-import router from '@/Router'
-import { login } from '@/Router/Routes'
-import Utils from '@/Helpers/Utils'
-import { i18n } from '@/Lang'
-import Auth from '@/Components/Auth'
+import { AxiosResponse } from "axios"
+import Vue from "vue"
 
-type Dictionary<T> = { [key: string]: T }
+import Auth from "@/Components/Auth"
+import config from "@/Config"
+import Utils from "@/Helpers/Utils"
+import { i18n } from "@/Lang"
+import router from "@/Router"
+import { login } from "@/Router/Routes"
+import store from "@/Store"
 
-interface UrlParams {
-  path: string
-  params?: Dictionary<string>
-  urlReplace?: Dictionary<string>
+interface IDictionary<T> {
+  [key: string]: T
+}
+
+interface IUrlParams {
+  params?: IDictionary<string>
+  urlReplace?: IDictionary<string>
   root?: boolean
 }
 
 export class Api {
-  public static url({ path, params = {}, urlReplace = {}, root = false }: UrlParams) {
-    let url = path.replace(new RegExp('^[\\/]+'), '')
-    url = root ? `${config.url}/${url}` : `${config.api_url}/${url}`
-    url = Utils.supplant(url, urlReplace)
+  public static url(path: string, props?: IUrlParams) {
+    if (!props) props = {}
+    let url = path.replace(new RegExp("^[\\/]+"), "")
+    url = props.root ? `${config.url}/${url}` : `${config.api_url}/${url}`
+    url = Utils.supplant(url, props.urlReplace || {})
 
-    Object.keys(params).forEach(index => {
-      let val = params[index]
+    Object.keys(props.params || {}).forEach(index => {
+      const val = props.params[index]
       if (Utils.hasValue(val)) {
         url = Api.addParameter(url, index, val)
       }
@@ -43,9 +46,9 @@ export class Api {
       return
     }
 
-    Vue.logger.error('Api.handle -> unknown', error)
+    Vue.logger.error("Api.handle -> unknown", error)
 
-    throw i18n.t('app.api_unexpectedError')
+    throw i18n.t("app.api_unexpectedError")
   }
 
   /**
@@ -61,10 +64,10 @@ export class Api {
     // by a = with a value after than (using a non-greedy selector)
     // and then followed by a & or the end of the string
     const val = new RegExp(`(\\?|\\&)${param}=.*?(?=(&|$))`)
-    const parts = url.toString().split('#')
+    const parts = url.toString().split("#")
     const hash = parts[1]
     const queryString = /\?.+$/
-    let newURL = url = parts[0]
+    let newURL = (url = parts[0])
 
     // Check if the parameter exists
     if (val.test(url)) {
@@ -98,7 +101,7 @@ export class Api {
       return
     }
 
-    Vue.logger.log('Api.error -> validation', response.data)
+    Vue.logger.log("Api.error -> validation", response.data)
 
     // Simply throw validation response data.
     throw response.data
@@ -111,7 +114,7 @@ export class Api {
   private static handleUnexpectedHttpError(response: AxiosResponse) {
     switch (response.status) {
       case 401:
-        Vue.logger.error('Api.http -> unauthorized', response.data)
+        Vue.logger.error("Api.http -> unauthorized", response.data)
         Auth.logout()
 
         // Redirect user to login page, but with query to current path. This
@@ -119,21 +122,21 @@ export class Api {
         // be completed.
         router.push({
           ...login,
-          query: { redirect: router.currentRoute.fullPath }
+          query: { redirect: router.currentRoute.fullPath },
         })
         break
       case 403:
       case 405:
-        Vue.logger.log('Api.http -> not allowed', response)
+        Vue.logger.log("Api.http -> not allowed", response)
         // TODO: send this as email to admin to be able detect users who is
         // trying hack app or some places has not enough protection and simple
         // user can open it and create not allowed requests.
-        throw i18n.t('app.api_actionNotAllowed')
+        throw i18n.t("app.api_actionNotAllowed")
       default:
-        Vue.logger.log('Api.http -> unknown', response)
+        Vue.logger.log("Api.http -> unknown", response)
         // TODO: send this as email to admin to be able detect unexpected http
         // errors.
-        throw i18n.t('app.api_unknownHttpError')
+        throw i18n.t("app.api_unknownHttpError")
     }
   }
 }

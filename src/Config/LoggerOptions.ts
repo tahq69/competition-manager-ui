@@ -1,4 +1,4 @@
-export default interface LoggerOptions {
+export default interface ILoggerOptions {
   /**
    * Logging placement area.
    * 'console' - logs all sections to the browser console

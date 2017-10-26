@@ -1,4 +1,4 @@
-import Utils from './Utils'
+import Utils from "./Utils"
 
 export default class LocalStorage {
   public static remove(key: string): void {

@@ -64,7 +64,7 @@ import Form from "@/Components/Forms/Form"
 import FormPanel from "@/Components/Forms/FormPanel.vue"
 import FormGroup from "@/Components/Forms/FormGroup.vue"
 import Focus from "@/Components/Focus"
-import { forgotPassword, home, Route } from "@/Router/Routes"
+import { forgotPassword, home, IRoute } from "@/Router/Routes"
 import Auth, { middleware as auth } from "@/Components/Auth"
 
 export default {
@@ -84,7 +84,7 @@ export default {
   },
 
   computed: {
-    forgotPassword(): Route {
+    forgotPassword(): IRoute {
       return forgotPassword
     },
   },

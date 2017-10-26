@@ -1,15 +1,19 @@
-import { Route } from "@/Router/Routes"
+import { IRoute } from "@/Router/Routes"
 
 import { INavOptions } from "./Contracts"
 import NavItem from "./NavItem"
 
+let key = 0
+
 export type NavItemType = NavGroup | NavItem
 
 export default class NavGroup {
+  public key: number
   public items: NavItemType[]
   public parent: { text: string }
 
   constructor(text: string, items: NavItemType[] = []) {
+    this.key = ++key
     this.parent = { text }
     this.items = items
   }

@@ -1,7 +1,7 @@
-import LoggerOptions from './LoggerOptions'
-import settings from './settings.json'
+import ILoggerOptions from "./LoggerOptions"
+import settings from "./settings.json"
 
-interface Config {
+interface IConfig {
   auth_secret: string
   auth_token_type: string
   auth_id: number
@@ -9,9 +9,9 @@ interface Config {
   api_url: string
   server_date_format: string
   default_locale: string
-  logs: LoggerOptions
+  logs: ILoggerOptions
 }
 
-const config = settings[settings['env']] as Config
+const config = settings[settings["env"]] as IConfig
 
 export default config

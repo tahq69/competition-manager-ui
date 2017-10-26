@@ -2,7 +2,7 @@ import http from "axios"
 import { ActionContext, Store } from "vuex"
 
 import { Api } from "@/Helpers/Api"
-import { State as RootState } from "@/Store/Contracts"
+import { IState as RootState } from "@/Store/Contracts"
 
 import {
   IFetchAuthUser,
@@ -17,7 +17,7 @@ export default {
   async fetchAuthUser({ commit, state }: Action, payload: IFetchAuthUser) {
     if (state.user.authenticated) return
 
-    const url = Api.url({ path: "users/user" })
+    const url = Api.url("users/user")
     try {
       const { data } = await http.get(url)
       commit<IUpdateUserDetailsPayload>({
@@ -35,7 +35,7 @@ export default {
   async login({ commit, state }: Action, payload: ILogin) {
     if (state.user.authenticated) return
 
-    const url = Api.url({ path: "oauth/token", root: true })
+    const url = Api.url("oauth/token", { root: true })
     const { data } = await http.post(url, payload)
     return data
   },

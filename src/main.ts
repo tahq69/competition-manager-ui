@@ -1,27 +1,27 @@
 // https://github.com/vuejs/vue
-import Vue from 'vue'
+import Vue from "vue"
 
 // https://github.com/shakee93/vue-toasted
-import Toasted from 'vue-toasted'
+import Toasted from "vue-toasted"
 
 // https://www.npmjs.com/package/crip-vue-bootstrap-modal
-import CripModal from 'crip-vue-bootstrap-modal'
+import CripModal from "crip-vue-bootstrap-modal"
 
 // https://www.npmjs.com/package/crip-vue-loading
-import CripLoading from 'crip-vue-loading'
+import CripLoading from "crip-vue-loading"
 
 // https://github.com/axios/axios
-import axios from 'axios'
+import axios from "axios"
 
-import { sync } from 'vuex-router-sync'
+import { sync } from "vuex-router-sync"
 
-import App from './App.vue'
-import Router from './Router'
-import Guard from './Router/Guard'
-import Store from './Store'
-import Logger from './Helpers/Logger'
-import config from './Config'
-import Lang, { i18n } from './Lang'
+import App from "./App.vue"
+import config from "./Config"
+import Logger from "./Helpers/Logger"
+import Lang, { i18n } from "./Lang"
+import Router from "./Router"
+import Guard from "./Router/Guard"
+import Store from "./Store"
 
 Vue.use(CripLoading, { axios })
 Vue.use(CripModal)
@@ -32,8 +32,8 @@ Guard(Router)
 
 Vue.config.productionTip = false
 
-let app = new Vue({
-  render: (h) => h(App),
+const app = new Vue({
+  render: h => h(App),
   router: Router,
   store: Store,
   i18n,
@@ -42,4 +42,4 @@ let app = new Vue({
 // Initialize user locale after app mount is completed.
 Lang()
 
-app.$mount(document.getElementById('app'))
+app.$mount(document.getElementById("app"))

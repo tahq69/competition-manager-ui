@@ -1,17 +1,18 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue"
+import Router from "vue-router"
 
 Vue.use(Router)
 
-import { posts, home } from '@/Modules/Posts/Routes'
-import auth from '@/Modules/Auth/Routes'
+import auth from "@/Modules/Auth/Routes"
+import { home, posts } from "@/Modules/Posts/Routes"
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   routes: [
-    /*posts,*/ home, auth,
-    { path: '/auth', redirect: '/auth/login' },
-    { path: '/password/reset/:token', redirect: '/auth/password/reset/:token' },
-    { path: '*', redirect: '/home' },
-  ]
+    /*posts,*/ home,
+    auth,
+    { path: "/auth", redirect: "/auth/login" },
+    { path: "/password/reset/:token", redirect: "/auth/password/reset/:token" },
+    { path: "*", redirect: "/home" },
+  ],
 })
