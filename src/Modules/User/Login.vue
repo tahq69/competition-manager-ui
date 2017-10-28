@@ -3,7 +3,7 @@
       id="login"
       @submit="authorize"
       :form="form"
-      :title="$t('auth.login_title')"
+      :title="$t('user.login_title')"
       :body-col-md="10"
       :col-sm="10"
       :col-md="8"
@@ -14,7 +14,7 @@
     <form-group
         for="email"
         :form="form"
-        :label="$t('auth.login_email_label')"
+        :label="$t('user.login_email_label')"
         :col-sm="8"
     >
       <input
@@ -22,7 +22,7 @@
           id="email"
           name="email"
           class="form-control"
-          :placeholder="$t('auth.login_email_placeholder')"
+          :placeholder="$t('user.login_email_placeholder')"
           v-model="form.data.email"
           v-focus="true"
           required
@@ -32,7 +32,7 @@
     <!-- #password -->
     <form-group
         for="password"
-        :label="$t('auth.login_password_label')"
+        :label="$t('user.login_password_label')"
         :col-sm="8"
     >
       <input
@@ -40,7 +40,7 @@
           id="password"
           name="password"
           class="form-control"
-          :placeholder="$t('auth.login_password_placeholder')"
+          :placeholder="$t('user.login_password_placeholder')"
           v-model="form.data.password"
           required
       >
@@ -49,11 +49,11 @@
     <!-- #submit -->
     <form-group for="submit" :col-sm="8">
       <button id="submit" type="submit" class="btn btn-primary">
-        {{ $t('auth.login_submit_button') }}
+        {{ $t('user.login_submit_button') }}
       </button>
 
       <router-link :to="forgotPassword" class="btn btn-link">
-        {{ $t('auth.login_submit_forgot') }}
+        {{ $t('user.login_submit_forgot') }}
       </router-link>
     </form-group>
   </form-panel>
@@ -74,6 +74,14 @@ export default {
 
   directives: { Focus },
 
+  mounted() {
+    this.$logger.component(this)
+
+    if (auth.isAuthenticated()) {
+      this.$router.push(home)
+    }
+  },
+
   data() {
     return {
       form: new Form({
@@ -87,14 +95,6 @@ export default {
     forgotPassword(): IRoute {
       return forgotPassword
     },
-  },
-
-  mounted() {
-    this.$logger.component(this)
-
-    if (auth.isAuthenticated()) {
-      this.$router.push(home)
-    }
   },
 
   methods: {

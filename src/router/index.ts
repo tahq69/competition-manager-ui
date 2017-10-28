@@ -3,8 +3,8 @@ import Router from "vue-router"
 
 Vue.use(Router)
 
-import auth from "@/Modules/Auth/Routes"
 import { home, posts } from "@/Modules/Posts/Routes"
+import auth from "@/Modules/User/Routes"
 
 export default new Router({
   mode: "history",
