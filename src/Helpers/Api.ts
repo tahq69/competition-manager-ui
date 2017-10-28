@@ -103,8 +103,8 @@ export class Api {
 
     Vue.logger.log("Api.error -> validation", response.data)
 
-    // Simply throw validation response data.
-    throw response.data
+    // Simply throw validation response errors.
+    throw response.data.errors
   }
 
   /**
