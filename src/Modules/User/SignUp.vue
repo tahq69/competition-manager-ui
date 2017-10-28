@@ -133,7 +133,7 @@ export default {
       this.form.clearErrors()
       try {
         await store.dispatch<IRegister>({
-          type: "Register",
+          type: "register",
           ...this.form.data,
         })
 

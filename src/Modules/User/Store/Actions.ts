@@ -4,15 +4,28 @@ import { ActionContext, Store } from "vuex"
 import { Api } from "@/Helpers/Api"
 import { IState as RootState } from "@/Store/Contracts"
 
-import { IRegister, IState } from "./Contracts"
+import { IFetchProfile, IProfile, IRegister, IState } from "./Contracts"
 
 type Action = ActionContext<IState, RootState>
 
 export default {
-  async Register(action: Action, payload: IRegister): Promise<void> {
+  async register(action: Action, payload: IRegister): Promise<void> {
     const url = Api.url("users")
     try {
       await http.post(url, payload)
+    } catch (error) {
+      Api.handle(error)
+    }
+  },
+
+  async fetchProfile(
+    action: Action,
+    payload: IFetchProfile,
+  ): Promise<IProfile> {
+    const url = Api.url(`users/${payload.userId}`)
+    try {
+      const { data } = await http.get(url)
+      return data
     } catch (error) {
       Api.handle(error)
     }
