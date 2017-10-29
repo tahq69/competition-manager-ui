@@ -12,11 +12,26 @@ export const profile: IRoute = { name: "profile" }
 export const forgotPassword: IRoute = { name: "forgotPassword" }
 export const resetPassword: IRoute = { name: "resetPassword" }
 
+export const messages: IRoute = { name: "messages" }
+export const message: IRoute = { name: "message" }
+export const newMessage: IRoute = { name: "newMessage" }
+
+export const readPost: IRoute = { name: "readPost" }
 export const createPost: IRoute = { name: "createPost" }
 export const listPosts: IRoute = { name: "listPosts" }
+export const editPost: IRoute = { name: "editPost" }
 
-export const createTeam: IRoute = { name: "createTeam" }
 export const listTeams: IRoute = { name: "listTeams" }
+export const listTeamMembers: IRoute = { name: "listTeamMembers" }
+export const createTeam: IRoute = { name: "createTeam" }
+export const createTeamMember: IRoute = { name: "createTeamMember" }
+export const editTeam: IRoute = { name: "editTeam" }
+export const editTeamMember: IRoute = { name: "editTeamMember" }
+export const publicTeamDetails: IRoute = {
+  name: "publicTeamDetails",
+  params: { tab: "members" },
+}
 
 export const createCompetition: IRoute = { name: "createCompetition" }
 export const listCompetitions: IRoute = { name: "listCompetitions" }
+export const editCompetition: IRoute = { name: "editCompetition" }
