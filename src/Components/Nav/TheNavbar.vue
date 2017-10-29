@@ -41,7 +41,7 @@
 import { NavGroup } from "./index"
 
 export default {
-  name: "theNavbar",
+  name: "TheNavbar",
 
   props: {
     leftMenu: { type: Array, default: () => [] },

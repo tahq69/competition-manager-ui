@@ -10,7 +10,7 @@ export const login: IRoute = { name: "login" }
 export const signUp: IRoute = { name: "signUp" }
 export const profile: IRoute = { name: "profile" }
 export const forgotPassword: IRoute = { name: "forgotPassword" }
-export const passwordReset: IRoute = { name: "passwordReset" }
+export const resetPassword: IRoute = { name: "resetPassword" }
 
 export const createPost: IRoute = { name: "createPost" }
 export const listPosts: IRoute = { name: "listPosts" }

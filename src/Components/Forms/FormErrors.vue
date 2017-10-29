@@ -8,7 +8,7 @@
 
 <script lang="ts">
 export default {
-  name: "formErrors",
+  name: "FormErrors",
 
   props: {
     errors: { type: Array, default: () => [] },

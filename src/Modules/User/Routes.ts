@@ -2,16 +2,16 @@ import Wrapper from "@/Components/Wrapper.vue"
 import {
   forgotPassword,
   login,
-  passwordReset,
   profile,
+  resetPassword,
   signUp,
 } from "@/Router/Routes"
 
+import ForgotPassword from "./ForgotPassword.vue"
 import Login from "./Login.vue"
 import Profile from "./Profile.vue"
+import ResetPassword from "./ResetPassword.vue"
 import SignUp from "./SignUp.vue"
-/*import PasswordForgot from './PasswordForgot.vue'
-import PasswordReset from './PasswordReset.vue'*/
 
 export default {
   path: "/auth",
@@ -20,7 +20,11 @@ export default {
     { path: "login", ...login, component: Login },
     { path: "profile/:id?", ...profile, component: Profile },
     { path: "sign-up", ...signUp, component: SignUp },
-    /*{path: 'forgot-password', ...forgotPassword, component: PasswordForgot},
-    {path: 'forgot-password', ...passwordReset, component: PasswordReset},*/
+    { path: "password/email", ...forgotPassword, component: ForgotPassword },
+    {
+      path: "password/reset/:token",
+      ...resetPassword,
+      component: ResetPassword,
+    },
   ],
 }

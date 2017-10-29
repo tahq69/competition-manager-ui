@@ -31,7 +31,7 @@
 import { NavItem } from "./index"
 
 export default {
-  name: "navbarItem",
+  name: "NavbarItem",
 
   props: {
     item: { type: NavItem, required: true },

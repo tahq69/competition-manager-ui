@@ -1,10 +1,10 @@
 <template>
-  <div>PostList.vue</div>
+  <div>ResetPassword.vue</div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: "PostList",
+  name: "ResetPassword",
 
   mounted() {
     this.$logger.component(this)

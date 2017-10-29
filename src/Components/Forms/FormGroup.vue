@@ -21,7 +21,7 @@ import FormErrors from "./FormErrors.vue"
 import Form from "./Form"
 
 export default {
-  name: "formGroup",
+  name: "FormGroup",
 
   components: { FormErrors },
 

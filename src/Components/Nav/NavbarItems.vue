@@ -14,7 +14,7 @@
 
 <script lang="ts">
 export default {
-  name: "navbarItems",
+  name: "NavbarItems",
 
   props: {
     items: { type: Array, default: () => [] },

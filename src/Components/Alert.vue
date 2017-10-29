@@ -24,7 +24,7 @@ import Vue from "vue"
 const typeValues = ["success", "info", "warning", "danger"]
 
 export default {
-  name: "alert",
+  name: "Alert",
 
   mounted() {
     this.$logger.component(this)

@@ -40,7 +40,7 @@ import Utils from "@/Helpers/Utils"
 import Form from "./Form"
 
 export default {
-  name: "formPanel",
+  name: "FormPanel",
 
   components: { Alert },
 

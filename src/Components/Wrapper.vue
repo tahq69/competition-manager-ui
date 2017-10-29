@@ -11,7 +11,7 @@
 
 <script lang="ts">
 export default {
-  name: "wrapper",
+  name: "Wrapper",
 
   mounted() {
     this.$logger.component(this)

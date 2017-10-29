@@ -31,6 +31,14 @@ export default class Form<T> {
       return
     }
 
+    if (!errors) return
+
+    for (const key in errors) {
+      if (errors.hasOwnProperty(key) && typeof errors[key] === "string") {
+        errors[key] = [errors[key].toString()]
+      }
+    }
+
     this.errors = errors
   }
 }

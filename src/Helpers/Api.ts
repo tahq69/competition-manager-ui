@@ -104,7 +104,11 @@ export class Api {
     Vue.logger.log("Api.error -> validation", response.data)
 
     // Simply throw validation response errors.
-    throw response.data.errors
+    if (response.data.hasOwnProperty("errors")) {
+      throw response.data.errors
+    }
+
+    throw response.data
   }
 
   /**

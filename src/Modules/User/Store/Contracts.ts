@@ -32,3 +32,8 @@ export interface IFetchProfile extends IPayload {
   type: "fetchProfile"
   userId: number
 }
+
+export interface IEmailPasswordReset extends IPayload {
+  type: "emailPasswordReset"
+  email: string
+}

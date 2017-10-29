@@ -16,5 +16,9 @@
   "signUp_password_placeholder": "Parole",
   "signUp_password_confirmation_label": "Paroles apstiprinājums:",
   "signUp_password_confirmation_placeholder": "Parole",
-  "signUp_submit_button": "Reģistrēties"
+  "signUp_submit_button": "Reģistrēties",
+  "forgotPassword_title": "Atjaunot paroli",
+  "forgotPassword_email_label": "E-pasta adrese:",
+  "forgotPassword_email_placeholder": "E-pasta adrese",
+  "forgotPassword_submit_button": "Nosūtīt e-pastu"
 }

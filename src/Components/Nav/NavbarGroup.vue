@@ -16,7 +16,7 @@ import { NavGroup } from "./index"
 import NavbarItems from "./NavbarItems.vue"
 
 export default {
-  name: "navbarGroup",
+  name: "NavbarGroup",
 
   components: { NavbarItems },
 
