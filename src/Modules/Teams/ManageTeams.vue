@@ -9,5 +9,7 @@ export default {
   mounted() {
     this.$logger.component(this)
   },
+
+  
 }
 </script>
