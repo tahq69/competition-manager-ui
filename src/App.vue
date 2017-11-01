@@ -47,6 +47,30 @@ export default {
       return rightNav()
     },
   },
+
+  methods: {
+    redirectAuthenticated() {
+      // If user has redirected here by guard, redirect him back
+      // to guarded route instead of home page.
+      if (this.$route.query && this.$route.query["redirect"]) {
+        this.$router.push(this.$route.query["redirect"])
+        return
+      }
+
+      this.$router.push(home)
+    },
+  },
+
+  watch: {
+    ["$store.state.auth.user.authenticated"](value: boolean) {
+      // Watching user details, because they arrives later than route
+      // guard redirects to login and in case we receive them, we can
+      // redirect him to requested route.
+      if (value) {
+        this.redirectAuthenticated()
+      }
+    },
+  },
 }
 </script>
 
