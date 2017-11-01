@@ -5,9 +5,9 @@ import {
   createTeamMember,
   editTeam,
   editTeamMember,
-  listTeamMembers,
-  listTeams,
-  publicTeamDetails,
+  manageTeamMembers,
+  manageTeams,
+  teamDetails,
 } from "@/Router/Routes"
 
 import ManageMember from "./ManageMember.vue"
@@ -24,10 +24,10 @@ export default {
     { path: "new", component: ManageTeam, meta, ...createTeam },
     { path: "edit/:id(\\d+)", component: ManageTeam, meta, ...editTeam },
     {
-      path: "manage/:page(\\d+)?/:sort?/:order?",
+      path: "manage/:page(\\d+)?/:sort?/:direction?/:perpage?",
       component: ManageTeams,
       meta,
-      ...listTeams,
+      ...manageTeams,
     },
     {
       path: ":team(\\d+)/members/new",
@@ -42,10 +42,10 @@ export default {
       ...editTeamMember,
     },
     {
-      path: ":team(\\d+)/members/:page(\\d+)?/:sort?/:order?",
+      path: ":team(\\d+)/members/:page(\\d+)?/:sort?/:direction?/:perpage?",
       component: ManageMembers,
       meta,
-      ...listTeamMembers,
+      ...manageTeamMembers,
     },
   ],
 }

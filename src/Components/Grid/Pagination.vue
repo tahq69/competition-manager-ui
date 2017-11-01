@@ -2,12 +2,12 @@
   <ul class="pagination" v-if="hasMoreThanOnePage">
     <li
         v-for="page in pages"
-        :class="getPageClass(page)"
+        :class="getClass(page)"
         :key="page.nr"
     >
       <router-link
-          :to="getRoute(page.nr)"
-          :title="pageTitle(page)"
+          :to="getRoute(page)"
+          :title="page.title"
           onclick="this.blur();"
       >
         {{ page.text }}
@@ -26,7 +26,15 @@ export default {
   },
 
   computed: {
-    pages() {
+    curr(): number {
+      return this.paging.$page | 0
+    },
+
+    hasMoreThanOnePage(): boolean {
+      return this.pages.length > 3
+    },
+
+    pages(): Page[] {
       let prev = Page.prev(this.curr)
       let next = Page.next(this.curr, this.paging.lastPage)
 
@@ -41,7 +49,7 @@ export default {
         if (startFrom < 1) startFrom = 1
         if (startFrom > 1) {
           // Add page 1 at the beginning
-          pages.push(new Page(1, 1))
+          pages.push(new Page("1", 1))
           // If first page is not 2, push ...
           if (startFrom - 1 !== 1) {
             pages.push(new Page("...", startFrom - 1))
@@ -77,48 +85,47 @@ export default {
 
       return pages
     },
-    curr() {
-      return this.paging.$page | 0
-    },
-    hasMoreThanOnePage() {
-      return this.pages.length > 3
-    },
   },
 
   methods: {
     getRoute(page) {
-      let route = JSON.parse(JSON.stringify(this.paging.route))
+      const route = JSON.parse(JSON.stringify(this.paging.route))
+      this.$logger.log("getRoute", route)
       if (!page) {
         page = this.curr
       }
 
       if (!route.params) {
-        route.params = { page }
+        route.params = { page: page.nr }
       } else {
-        route.params.page = page
+        route.params.page = page.nr
       }
 
       return route
     },
 
-    getPageClass(page) {
-      if (page.isDisabled(this.curr)) {
-        return this.paging.disabledClass
-      }
+    getClass(page) {
+      if (this.isDisabled(page)) {
+          return this.paging.disabledClass
+        }
 
-      if (page.isActive(this.curr)) {
-        return this.paging.activeClass
-      }
+        if (this.isActive(page)) {
+          return this.paging.activeClass
+        }
 
-      return ""
+        return ''
     },
 
-    pageTitle(page) {
-      if (page.isDisabled(this.curr)) {
-        return ""
-      }
+    isCurr(page) {
+      return (page.nr | 0) === (this.curr | 0)
+    },
 
-      return `Go to a page ${page.nr}`
+    isDisabled(page) {
+      return this.isCurr(page) && (page.text | 0) === 0
+    },
+
+    isActive(page) {
+      return this.isCurr(this.curr) && !this.isDisabled(page)
     },
   },
 }

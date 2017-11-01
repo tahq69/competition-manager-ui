@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="scss">
-.sort-th {
+table .sort-th {
   cursor: pointer;
 
   &:hover {

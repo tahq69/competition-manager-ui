@@ -1,5 +1,6 @@
 <template>
-  <panel class="col-md-12" v-loading="paging.loading" :hide-header="hideHeader">
+  <!--v-loading="paging.loading"-->
+  <panel class="col-md-12" :hide-header="hideHeader">
     <span slot="title"><slot name="title"></slot></span>
     <span slot="actions"><slot name="actions"></slot></span>
 

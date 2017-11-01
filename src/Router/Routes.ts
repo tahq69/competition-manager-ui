@@ -21,14 +21,14 @@ export const createPost: IRoute = { name: "createPost" }
 export const listPosts: IRoute = { name: "listPosts" }
 export const editPost: IRoute = { name: "editPost" }
 
-export const listTeams: IRoute = { name: "listTeams" }
-export const listTeamMembers: IRoute = { name: "listTeamMembers" }
+export const manageTeams: IRoute = { name: "manageTeams" }
+export const manageTeamMembers: IRoute = { name: "manageTeamMembers" }
 export const createTeam: IRoute = { name: "createTeam" }
 export const createTeamMember: IRoute = { name: "createTeamMember" }
 export const editTeam: IRoute = { name: "editTeam" }
 export const editTeamMember: IRoute = { name: "editTeamMember" }
-export const publicTeamDetails: IRoute = {
-  name: "publicTeamDetails",
+export const teamDetails: IRoute = {
+  name: "teamDetails",
   params: { tab: "members" },
 }
 

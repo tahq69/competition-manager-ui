@@ -1,0 +1,42 @@
+import { AxiosResponse } from "axios"
+
+type Resolver<T> = (x) => T
+
+export default class Pagination<T1> {
+  public static create<T2>(response: AxiosResponse, resolver: Resolver<T2>) {
+    const pagination = new Pagination<T2>(response)
+
+    response.data.data.forEach(row => {
+      const entity = resolver(row)
+      pagination.items.push(entity)
+    })
+
+    return pagination
+  }
+
+  public prevPageUrl: string
+  public nextPageUrl: string
+  public perPage: number
+  public lastPage: number
+  public total: number
+  public to: number
+  public from: number
+  public currentPage: number
+  public items: T1[]
+
+  constructor(response: AxiosResponse) {
+    const data = response.data
+    // tslint:disable:no-bitwise
+    this.currentPage = data.current_page | 0
+    this.from = data.from | 0
+    this.to = data.to | 0
+    this.total = data.total | 0
+    this.lastPage = data.last_page | 0
+    this.perPage = data.per_page | 0
+
+    this.nextPageUrl = data.next_page_url
+    this.prevPageUrl = data.prev_page_url
+
+    this.items = []
+  }
+}

@@ -17,17 +17,8 @@ export default class Page {
     this.nr = nr
   }
 
-  public isCurr(curr) {
-    // tslint:disable-next-line:no-bitwise
-    return (this.nr | 0) === (curr | 0)
-  }
-
-  public isDisabled(curr) {
-    // tslint:disable-next-line:no-bitwise
-    return this.isCurr(curr) && (this.text | 0) === 0
-  }
-
-  public isActive(curr) {
-    return !this.isDisabled(curr) && this.isCurr(curr)
+  public get title() {
+    // TODO: move to translations and supplant
+    return `Go to a page ${this.nr}`
   }
 }

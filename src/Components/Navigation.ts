@@ -41,7 +41,7 @@ export const left = () => {
 
   if (auth.hasRole(roles.CREATE_TEAMS)) {
     nav.create({ text: "Create team", route: routes.createTeam })
-    nav.create({ text: "Teams", route: routes.listTeams })
+    nav.create({ text: "Teams", route: routes.manageTeams })
     nav.add(divider)
   }
 

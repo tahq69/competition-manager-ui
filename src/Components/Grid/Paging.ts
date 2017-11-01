@@ -1,19 +1,29 @@
-export default class Paging {
-  public $vm: any
+import Vue from "vue"
+
+import Entity from "@/Components/Entity"
+import { IRoute } from "@/Router/Routes"
+
+interface IDictionary<T> {
+  [key: string]: T
+}
+
+export default class Paging<T extends Entity> {
+  public $vm: Vue
   public $page: number
   public $perPage: number
-  public $direction: any
-  public $sort: any
-  public selected: {}
+  public $direction: string
+  public $sort: string
+  public selected: T
   public show: number
   public disabledClass: string
   public activeClass: string
-  public route: any
+  public route: IRoute
   public loading: boolean
-  public items: any[]
+  public items: T[]
   public lastPage: number
+
   constructor(
-    vm: any,
+    vm: Vue,
     {
       route,
       activeClass = "active",
@@ -30,23 +40,43 @@ export default class Paging {
     this.activeClass = activeClass
     this.disabledClass = disabledClass
     this.show = show
-    this.selected = {}
+    this.selected = null
 
     this.$sort = vm.$route.params.sort || sortBy
     this.$direction = vm.$route.params.direction || sortDirection
-    this.$perPage = parseInt(vm.$route.params.perpage) || 15
-    this.$page = parseInt(vm.$route.params.page) || 1
+    this.$perPage = parseInt(vm.$route.params.perpage, 10) || 15
+    this.$page = parseInt(vm.$route.params.page, 10) || 1
 
     this.$vm = vm
   }
 
-  public toUrlParams() {
+  public get urlParams(): IDictionary<string> {
     return {
       sort_by: this.$sort,
       sort_direction: this.$direction,
-      per_page: this.$perPage,
-      page: this.$page,
+      per_page: this.$perPage.toString(),
+      page: this.$page.toString(),
     }
+  }
+
+  public async init(callback) {
+    await callback()
+    this.$vm.$watch("$route.params", async (newValues, oldValues) => {
+      if (!this.isPagingParamsChanged(newValues, oldValues)) return
+
+      // update current paging values
+      this.$page = parseInt(newValues.page, 10)
+      this.$perPage = parseInt(newValues.perpage, 10) || 15
+      this.$direction = newValues.direction || "asc"
+      this.$sort = newValues.sort || "id"
+
+      // call callback after data in paging object was updated
+      await callback()
+    })
+  }
+
+  public startLoading() {
+    this.loading = true
   }
 
   public setSort(value) {
@@ -62,7 +92,7 @@ export default class Paging {
   public rowClasses(item, extra = {}) {
     return {
       "with-hidden-actions": true,
-      [this.activeClass]: this.selected.id === item.id,
+      [this.activeClass]: this.selected && this.selected.id === item.id,
       ...extra,
     }
   }
@@ -90,23 +120,12 @@ export default class Paging {
       : (this.route.params = { page: this.$page })
   }
 
-  public init(callback) {
-    callback()
-    this.$vm.$watch("$route.params", (newValues, oldValues) => {
-      if (
-        newValues.page !== oldValues.page ||
-        newValues.sort !== oldValues.sort ||
-        newValues.direction !== oldValues.direction ||
-        newValues.perpage !== oldValues.perpage
-      ) {
-        // update current paging values
-        this.$page = parseInt(newValues.page)
-        this.$perPage = parseInt(newValues.perpage) || 15
-        this.$direction = newValues.direction
-        this.$sort = newValues.sort
-        // call callback after data in paging object was updated
-        callback()
-      }
-    })
+  private isPagingParamsChanged(a, b) {
+    return (
+      a.page !== b.page ||
+      a.sort !== b.sort ||
+      a.direction !== b.direction ||
+      a.perpage !== b.perpage
+    )
   }
 }
