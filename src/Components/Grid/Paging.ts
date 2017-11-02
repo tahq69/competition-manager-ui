@@ -17,10 +17,11 @@ export default class Paging<T extends Entity> {
   public show: number
   public disabledClass: string
   public activeClass: string
-  public route: IRoute
   public loading: boolean
   public items: T[]
   public lastPage: number
+
+  private _route: IRoute
 
   constructor(
     vm: Vue,
@@ -33,10 +34,10 @@ export default class Paging<T extends Entity> {
       sortDirection = "asc",
     },
   ) {
+    this._route = route
     this.lastPage = 0
     this.items = []
     this.loading = true
-    this.route = route
     this.activeClass = activeClass
     this.disabledClass = disabledClass
     this.show = show
@@ -48,6 +49,19 @@ export default class Paging<T extends Entity> {
     this.$page = parseInt(vm.$route.params.page, 10) || 1
 
     this.$vm = vm
+  }
+
+  public get route() {
+    return {
+      ...this._route,
+      params: {
+        ...this._route.params,
+        page: this.$page,
+        perpage: this.$perPage,
+        direction: this.$direction,
+        sort: this.$sort,
+      },
+    }
   }
 
   public get urlParams(): IDictionary<string> {
@@ -77,16 +91,6 @@ export default class Paging<T extends Entity> {
 
   public startLoading() {
     this.loading = true
-  }
-
-  public setSort(value) {
-    // TODO: mutate route
-    this.$sort = value
-  }
-
-  public setDirection(value) {
-    // TODO: mutate route
-    this.$direction = value
   }
 
   public rowClasses(item, extra = {}) {

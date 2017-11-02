@@ -6,7 +6,7 @@
           [paging.disabledClass]: page.disabled,
           [paging.activeClass]: page.active
         }"
-        :key="page.nr"
+        :key="page.key"
     >
       <router-link
           :to="page.route"
@@ -29,8 +29,8 @@ export default {
   },
 
   computed: {
-    curr(): number {
-      return parseInt(this.paging.$page, 10)
+    curr() {
+      return this.paging.$page
     },
 
     route() {
@@ -53,19 +53,18 @@ export default {
       if (last > this.paging.show) {
         let delta = ~~(this.paging.show / 2)
         let startFrom = this.curr - delta
-        let endOn = this.curr + delta
-
         if (startFrom < 1) startFrom = 1
+        let endOn = this.curr + delta
+        if (endOn > last) endOn = last
+
         if (startFrom > 1) {
           // Add page 1 at the beginning
           pages.push(new Page(this.curr, "1", 1, this.route))
           // If first page is not 2, push ...
-          if (startFrom - 1 !== 1) {
+          if (startFrom !== 2) {
             pages.push(new Page(this.curr, "...", startFrom - 1, this.route))
           }
         }
-
-        if (endOn > last) endOn = last
 
         // add all visible pages
         for (let i = startFrom; i <= endOn; i++) {

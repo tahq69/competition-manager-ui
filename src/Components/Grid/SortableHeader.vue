@@ -1,10 +1,12 @@
 <template>
-  <th class="sort-th clearfix" @click="sort">
-    <slot></slot>
-    <div class="pull-right" v-if="isEnabled">
-      <span v-if="asc" class="fa fa-sort-asc"></span>
-      <span v-else class="fa fa-sort-desc"></span>
-    </div>
+  <th class="sort-th clearfix">
+    <router-link :to="route" class="sort-th-anchor">
+      <slot></slot>
+      <div class="pull-right" v-if="isEnabled">
+        <span v-if="asc" class="fa fa-sort-asc"></span>
+        <span v-else class="fa fa-sort-desc"></span>
+      </div>
+    </router-link>
   </th>
 </template>
 
@@ -29,39 +31,50 @@ export default {
     sortDirection() {
       return this.asc ? "asc" : "desc"
     },
+
     isEnabled() {
       return this.column === this.paging.$sort
     },
-  },
 
-  methods: {
-    toggleDirection() {
-      if (this.isEnabled) {
-        this.asc = !this.asc
-        this.paging.setDirection(this.sortDirection)
-        return true
+    route() {
+      const route = JSON.parse(JSON.stringify(this.paging.route))
+      const direction = this.isEnabled
+        ? this.paging.$direction === "asc" ? "desc" : "asc"
+        : "asc"
+
+      if (!route.params) {
+        route.params = {
+          page: this.paging.$page,
+          sort: this.column,
+          direction: direction,
+          perpage: this.paging.$perPage,
+        }
+      } else {
+        route.params.page = this.paging.$page
+        route.params.sort = this.column
+        route.params.direction = direction
+        route.params.perpage = this.paging.$perPage
       }
 
-      return false
-    },
-
-    sort() {
-      if (this.isEnabled) {
-        return this.toggleDirection()
-      }
-
-      this.paging.setSort(this.column)
+      return route
     },
   },
 }
 </script>
 
 <style lang="scss">
-table .sort-th {
-  cursor: pointer;
+table thead th.sort-th {
+  padding: 0;
 
-  &:hover {
-    background-color: rgba(200, 200, 200, 0.3);
+  .sort-th-anchor {
+    padding: 8px;
+    display: block;
+    height: 100%;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(200, 200, 200, 0.3);
+    }
   }
 }
 </style>

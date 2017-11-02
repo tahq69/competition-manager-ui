@@ -8,20 +8,30 @@
     <table class="table table-hover">
       <thead>
       <tr>
-        <th>Name</th>
-        <th>Short</th>
+        <sortable-header :paging="paging" column="name">Name</sortable-header>
+        <sortable-header :paging="paging" column="short">Short</sortable-header>
       </tr>
       </thead>
       <tbody>
       <template v-for="team in paging.items">
-        <tr @click="paging.select(team)" :class="paging.rowClasses(team)" :key="team.id">
-          <td>{{ team.name }}&nbsp;
-            <router-link :to="team.routes.edit" class="label label-info actions">
+        <tr
+            @click="paging.select(team)"
+            :class="paging.rowClasses(team)"
+            :key="team.id"
+        >
+          <td>{{ team.name }}
+            &nbsp;
+            <router-link
+                :to="team.routes.edit"
+                class="label label-info actions"
+            >
               Edit
             </router-link>
             &nbsp;
             <router-link
-                :to="team.routes.manageMembers" class="label label-info actions">
+                :to="team.routes.manageMembers"
+                class="label label-info actions"
+            >
               Members
             </router-link>
           </td>
@@ -36,6 +46,7 @@
 <script lang="ts">
 import Grid from "@/Components/Grid/Grid.vue"
 import PanelAction from "@/Components/Panel/PanelAction.vue"
+import SortableHeader from "@/Components/Grid/SortableHeader.vue"
 
 import store from "@/Store"
 import Paging from "@/Components/Grid/Paging"
@@ -47,7 +58,7 @@ import Team from "./Team"
 export default {
   name: "ManageTeams",
 
-  components: { Grid, PanelAction },
+  components: { Grid, PanelAction, SortableHeader },
 
   data() {
     return {

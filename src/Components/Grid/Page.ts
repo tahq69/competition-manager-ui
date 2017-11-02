@@ -1,6 +1,7 @@
 import Utils from "@/Helpers/Utils"
 
 export default class Page {
+  public key: string
   public nr: number
   public text: string
   public active: boolean
@@ -11,6 +12,7 @@ export default class Page {
 
   public constructor(curr: number, text: string, nr: number, route: any) {
     this.curr = curr
+    this.key = `${nr}-${text}`
 
     this.text = text
     this.nr = nr
