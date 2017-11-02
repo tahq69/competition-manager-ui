@@ -2,11 +2,14 @@
   <ul class="pagination" v-if="hasMoreThanOnePage">
     <li
         v-for="page in pages"
-        :class="getClass(page)"
+        :class="{
+          [paging.disabledClass]: page.disabled,
+          [paging.activeClass]: page.active
+        }"
         :key="page.nr"
     >
       <router-link
-          :to="getRoute(page)"
+          :to="page.route"
           :title="page.title"
           onclick="this.blur();"
       >
@@ -27,7 +30,11 @@ export default {
 
   computed: {
     curr(): number {
-      return this.paging.$page | 0
+      return parseInt(this.paging.$page, 10)
+    },
+
+    route() {
+      return this.paging.route
     },
 
     hasMoreThanOnePage(): boolean {
@@ -35,13 +42,15 @@ export default {
     },
 
     pages(): Page[] {
-      let prev = Page.prev(this.curr)
-      let next = Page.next(this.curr, this.paging.lastPage)
-
-      let pages = [prev]
+      const last = this.paging.lastPage
+      const prew = this.curr > 1 ? this.curr - 1 : 1
+      const next = this.curr >= last ? last : this.curr + 1
+      const prewPage = new Page(this.curr, "«", prew, this.route)
+      const nextPage = new Page(this.curr, "»", next, this.route)
+      const pages = [prewPage]
 
       // if page count greater than visible, calculate where place '...'
-      if (this.paging.lastPage > this.paging.show) {
+      if (last > this.paging.show) {
         let delta = ~~(this.paging.show / 2)
         let startFrom = this.curr - delta
         let endOn = this.curr + delta
@@ -49,83 +58,41 @@ export default {
         if (startFrom < 1) startFrom = 1
         if (startFrom > 1) {
           // Add page 1 at the beginning
-          pages.push(new Page("1", 1))
+          pages.push(new Page(this.curr, "1", 1, this.route))
           // If first page is not 2, push ...
           if (startFrom - 1 !== 1) {
-            pages.push(new Page("...", startFrom - 1))
+            pages.push(new Page(this.curr, "...", startFrom - 1, this.route))
           }
         }
 
-        if (endOn > this.paging.lastPage) endOn = this.paging.lastPage
+        if (endOn > last) endOn = last
 
         // add all visible pages
         for (let i = startFrom; i <= endOn; i++) {
-          pages.push(new Page(i.toString(), i))
+          pages.push(new Page(this.curr, i.toString(), i, this.route))
         }
 
-        if (endOn < this.paging.lastPage) {
+        if (endOn < last) {
           // if there is pages between last and last visible, show ... between them
-          if (this.paging.lastPage - 1 !== endOn) {
-            pages.push(new Page("...", endOn + 1))
+          if (last - 1 !== endOn) {
+            pages.push(new Page(this.curr, "...", endOn + 1, this.route))
           }
           // Add last page to the end of paging
-          pages.push(new Page(this.paging.lastPage, this.paging.lastPage))
+          pages.push(new Page(this.curr, last.toString(), last, this.route))
         }
 
-        pages.push(next)
+        pages.push(nextPage)
 
         return pages
       }
 
       for (let i = 1; i <= this.paging.lastPage; i++) {
-        pages.push(new Page(i.toString(), i))
+        pages.push(new Page(this.curr, i.toString(), i, this.route))
       }
 
-      pages.push(next)
+      pages.push(nextPage)
 
       return pages
-    },
-  },
-
-  methods: {
-    getRoute(page) {
-      const route = JSON.parse(JSON.stringify(this.paging.route))
-      this.$logger.log("getRoute", route)
-      if (!page) {
-        page = this.curr
-      }
-
-      if (!route.params) {
-        route.params = { page: page.nr }
-      } else {
-        route.params.page = page.nr
-      }
-
-      return route
-    },
-
-    getClass(page) {
-      if (this.isDisabled(page)) {
-          return this.paging.disabledClass
-        }
-
-        if (this.isActive(page)) {
-          return this.paging.activeClass
-        }
-
-        return ''
-    },
-
-    isCurr(page) {
-      return (page.nr | 0) === (this.curr | 0)
-    },
-
-    isDisabled(page) {
-      return this.isCurr(page) && (page.text | 0) === 0
-    },
-
-    isActive(page) {
-      return this.isCurr(this.curr) && !this.isDisabled(page)
     },
   },
 }

@@ -49,16 +49,16 @@ export default {
 
   components: { Grid, PanelAction },
 
-  mounted() {
-    this.$logger.component(this)
-    this.paging.init(() => this.fetchPage())
-  },
-
   data() {
     return {
       paging: new Paging<Team>(this, { route: manageTeams }),
       createRoute: createTeam,
     }
+  },
+
+  created() {
+    this.$logger.component(this)
+    this.paging.init(() => this.fetchPage())
   },
 
   methods: {

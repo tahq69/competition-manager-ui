@@ -14,14 +14,18 @@ export default class Pagination<T1> {
     return pagination
   }
 
-  public prevPageUrl: string
-  public nextPageUrl: string
-  public perPage: number
-  public lastPage: number
-  public total: number
-  public to: number
-  public from: number
   public currentPage: number
+
+  public from: number
+  public to: number
+
+  public total: number
+  public lastPage: number
+  public perPage: number
+
+  public nextPageUrl: string
+  public prevPageUrl: string
+
   public items: T1[]
 
   constructor(response: AxiosResponse) {
