@@ -3,7 +3,7 @@
     <router-link :to="route" class="sort-th-anchor">
       <slot></slot>
       <div class="pull-right" v-if="isEnabled">
-        <span v-if="asc" class="fa fa-sort-asc"></span>
+        <span v-if="direction == 'asc'" class="fa fa-sort-asc"></span>
         <span v-else class="fa fa-sort-desc"></span>
       </div>
     </router-link>
@@ -21,15 +21,9 @@ export default {
     column: { type: String, required: true },
   },
 
-  data() {
-    return {
-      asc: true,
-    }
-  },
-
   computed: {
-    sortDirection() {
-      return this.asc ? "asc" : "desc"
+    direction() {
+      return this.paging.$direction === "desc" ? "desc" : "asc"
     },
 
     isEnabled() {
@@ -38,9 +32,12 @@ export default {
 
     route() {
       const route = JSON.parse(JSON.stringify(this.paging.route))
-      const direction = this.isEnabled
-        ? this.paging.$direction === "asc" ? "desc" : "asc"
-        : "asc"
+      let direction = "asc"
+
+      if (this.isEnabled) {
+        // Setup oposite route direction if this header is already enabled.
+        direction = this.direction === "asc" ? "desc" : "asc"
+      }
 
       if (!route.params) {
         route.params = {

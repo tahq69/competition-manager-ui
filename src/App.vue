@@ -75,10 +75,10 @@ export default {
 </script>
 
 <style lang="scss">
-/*@import "../../node_modules/animate.css/animate.css";
-@import "../../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
-@import "../../node_modules/select2/dist/css/select2.css";
-@import "../../node_modules/font-awesome/css/font-awesome.css";*/
+@import "./../node_modules/animate.css/animate.css";
+@import "./../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
+@import "./../node_modules/select2/dist/css/select2.css";
+@import "./../node_modules/font-awesome/css/font-awesome.css";
 @import "./sass/app";
 
 .router-link-active {
