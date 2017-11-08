@@ -23,7 +23,7 @@ export default {
 
   computed: {
     direction() {
-      return this.paging.$direction === "desc" ? "desc" : "asc"
+      return this.paging.$direction === "asc" ? "asc" : "desc"
     },
 
     isEnabled() {
@@ -32,11 +32,11 @@ export default {
 
     route() {
       const route = JSON.parse(JSON.stringify(this.paging.route))
-      let direction = "asc"
+      let direction = "desc"
 
       if (this.isEnabled) {
         // Setup oposite route direction if this header is already enabled.
-        direction = this.direction === "asc" ? "desc" : "asc"
+        direction = this.direction === "desc" ? "asc" : "desc"
       }
 
       if (!route.params) {

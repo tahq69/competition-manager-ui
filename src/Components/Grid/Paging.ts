@@ -31,7 +31,7 @@ export default class Paging<T extends Entity> {
       disabledClass = "disabled",
       show = 5,
       sortBy = "id",
-      sortDirection = "asc",
+      sortDirection = "desc",
     },
   ) {
     this._route = route
