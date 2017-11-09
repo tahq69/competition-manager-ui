@@ -25,35 +25,38 @@ export const left = () => {
     return []
   }
 
-  const nav = new NavGroup("Manage")
+  const nav = new NavGroup(t("nav.manage"))
   const canManagePosts = auth.hasAnyRole(roles.posts)
   const canManageCM = auth.hasAnyRole(roles.competitions)
   const divider = new NavItem({ divider: true })
 
   if (canManagePosts) {
     if (auth.hasRole(roles.CREATE_POST)) {
-      nav.create({ text: "Create post", route: routes.createPost })
+      nav.create({ text: t("nav.create_post"), route: routes.createPost })
     }
 
-    nav.create({ text: "Posts", route: routes.listPosts })
+    nav.create({ text: t("nav.manage_posts"), route: routes.listPosts })
     nav.add(divider)
   }
 
   if (auth.hasRole(roles.CREATE_TEAMS)) {
-    nav.create({ text: "Create team", route: routes.createTeam })
-    nav.create({ text: "Teams", route: routes.manageTeams })
+    nav.create({ text: t("nav.create_team"), route: routes.createTeam })
+    nav.create({ text: t("nav.manage_teams"), route: routes.manageTeams })
     nav.add(divider)
   }
 
   if (canManageCM) {
     if (auth.hasRole(roles.CREATE_COMPETITIONS)) {
       nav.create({
-        text: "Create competition",
+        text: t("nav.create_competition"),
         route: routes.createCompetition,
       })
     }
 
-    nav.create({ text: "Competition", route: routes.listCompetitions })
+    nav.create({
+      text: t("nav.manage_competitions"),
+      route: routes.listCompetitions,
+    })
     nav.add(divider)
   }
 

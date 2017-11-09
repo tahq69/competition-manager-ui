@@ -3,5 +3,12 @@
   "locale": "Latviešu",
   "profile": "Profils",
   "signup": "Reģistrēties",
-  "logout": "Iziet"
+  "logout": "Iziet",
+  "manage": "Vadība",
+  "create_post": "Izveidot rakstu",
+  "manage_posts": "Raksti",
+  "create_team": "Izveidot komandu",
+  "manage_teams": "Komandas",
+  "create_competition": "Izveidot sacensības",
+  "manage_competitions": "Sacensības"
 }

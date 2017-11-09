@@ -3,5 +3,12 @@
   "locale": "English",
   "profile": "Profile",
   "signup": "Sign-up",
-  "logout": "Logout"
+  "logout": "Logout",
+  "manage": "Manage",
+  "create_post": "Create post",
+  "manage_posts": "Posts",
+  "create_team": "Create team",
+  "manage_teams": "Teams",
+  "create_competition": "Create competition",
+  "manage_competitions": "Competitions"
 }
