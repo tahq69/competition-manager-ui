@@ -3,5 +3,9 @@
   "title": "Competition Manager",
   "api_actionNotAllowed": "Action is not allowed",
   "api_unknownHttpError": "Unknown communication error occurred",
-  "api_unexpectedError": "Unexpected error occurred"
+  "api_unexpectedError": "Unexpected error occurred",
+  "paging_next": "»",
+  "paging_prew": "«",
+  "paging_more": "...",
+  "paging_go_to": "Go to page {nr}"
 }

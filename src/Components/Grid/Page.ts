@@ -1,4 +1,5 @@
 import Utils from "@/Helpers/Utils"
+import { i18n } from "@/Lang"
 
 export default class Page {
   public key: string
@@ -23,8 +24,7 @@ export default class Page {
   }
 
   public get title() {
-    // TODO: move to translations and supplant
-    return `Go to a page ${this.nr}`
+    return i18n.t("app.paging_go_to", this)
   }
 
   private get isCurr() {
