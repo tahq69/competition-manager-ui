@@ -1,3 +1,13 @@
 {
+  "manage_teams_panel_title": "Komandu saraksts",
+  "manage_teams_panel_head_create_new": "Izveidot jaunu",
+  "manage_teams_panel_grid_head_name_title": "Kārtot pēc nosaukuma",
+  "manage_teams_panel_grid_head_name_text": "Nosaukums",
+  "manage_teams_panel_grid_head_short_title": "Kārtot pēc saīsinājuma",
+  "manage_teams_panel_grid_head_short_text": "Saīsinājums",
+  "manage_teams_panel_grid_btn_edit_text": "Labot",
+  "manage_teams_panel_grid_btn_edit_title": "Labot komandas detaļas",
+  "manage_teams_panel_grid_btn_members_text": "Dalībnieki",
+  "manage_teams_panel_grid_btn_members_title": "Skatīt komandas dalībnieku sarakstu",
   "title": "Komandas"
 }

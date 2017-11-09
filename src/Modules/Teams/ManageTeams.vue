@@ -1,15 +1,27 @@
 <template>
   <grid id="manage-teams" :paging="paging">
-    <span slot="title">Manage teams</span>
+    <span slot="title">{{ $t('teams.manage_teams_panel_title') }}</span>
     <panel-action slot="actions" :to="createRoute">
-      Create New Team
+      {{ $t('teams.manage_teams_panel_head_create_new') }}
     </panel-action>
 
     <table class="table table-hover">
       <thead>
       <tr>
-        <sortable-header :paging="paging" column="name">Name</sortable-header>
-        <sortable-header :paging="paging" column="short">Short</sortable-header>
+        <sortable-header
+            :paging="paging"
+            column="name"
+            :title="$t('teams.manage_teams_panel_grid_head_name_title')"
+        >
+          {{ $t('teams.manage_teams_panel_grid_head_name_text') }}
+        </sortable-header>
+        <sortable-header
+            :paging="paging"
+            column="short"
+            :title="$t('teams.manage_teams_panel_grid_head_short_title')"
+        >
+          {{ $t('teams.manage_teams_panel_grid_head_short_text') }}
+        </sortable-header>
       </tr>
       </thead>
       <tbody>
@@ -24,15 +36,18 @@
             <router-link
                 :to="team.routes.edit"
                 class="label label-info actions"
+                :title="$t('teams.manage_teams_panel_grid_btn_edit_title')"
             >
-              Edit
+              <i class="fa fa-pencil-square-o"></i>
+              {{ $t('teams.manage_teams_panel_grid_btn_edit_text') }}
             </router-link>
             &nbsp;
             <router-link
                 :to="team.routes.manageMembers"
                 class="label label-info actions"
+                :title="$t('teams.manage_teams_panel_grid_btn_members_title')"
             >
-              Members
+              {{ $t('teams.manage_teams_panel_grid_btn_members_text') }}
             </router-link>
           </td>
           <td>{{ team.short }}</td>

@@ -1,3 +1,13 @@
 {
+  "manage_teams_panel_title": "Manage teams",
+  "manage_teams_panel_head_create_new": "Create new team",
+  "manage_teams_panel_grid_head_name_title": "Sort by name",
+  "manage_teams_panel_grid_head_name_text": "Name",
+  "manage_teams_panel_grid_head_short_title": "Sort by short name",
+  "manage_teams_panel_grid_head_short_text": "Short",
+  "manage_teams_panel_grid_btn_edit_text": "Edit",
+  "manage_teams_panel_grid_btn_edit_title": "Edit team details",
+  "manage_teams_panel_grid_btn_members_text": "Members",
+  "manage_teams_panel_grid_btn_members_title": "Mange team members",
   "title": "Teams"
 }
