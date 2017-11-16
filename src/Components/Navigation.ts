@@ -35,7 +35,7 @@ export const left = () => {
       nav.create({ text: t("nav.create_post"), route: routes.createPost })
     }
 
-    nav.create({ text: t("nav.manage_posts"), route: routes.listPosts })
+    nav.create({ text: t("nav.manage_posts"), route: routes.managePosts })
     nav.add(divider)
   }
 
@@ -55,7 +55,7 @@ export const left = () => {
 
     nav.create({
       text: t("nav.manage_competitions"),
-      route: routes.listCompetitions,
+      route: routes.manageCompetitions,
     })
     nav.add(divider)
   }

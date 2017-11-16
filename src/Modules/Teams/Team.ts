@@ -1,7 +1,7 @@
 import Entity from "@/Components/Entity"
 import {
   createTeamMember,
-  editTeam,
+  manageTeam,
   manageTeamMembers,
   teamDetails,
 } from "@/Router/Routes"
@@ -22,7 +22,7 @@ export default class Team extends Entity {
   public get routes() {
     return {
       details: { ...teamDetails, params: { tab: "members", team: this.id } },
-      edit: { ...editTeam, params: { id: this.id } },
+      edit: { ...manageTeam, params: { id: this.id } },
       manageMembers: { ...manageTeamMembers, params: { team: this.id } },
       createMember: { ...createTeamMember, params: { team: this.id } },
     }

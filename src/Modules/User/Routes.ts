@@ -7,11 +7,11 @@ import {
   signUp,
 } from "@/Router/Routes"
 
-import ForgotPassword from "./ForgotPassword.vue"
-import Login from "./Login.vue"
-import Profile from "./Profile.vue"
-import ResetPassword from "./ResetPassword.vue"
-import SignUp from "./SignUp.vue"
+const Login = () => import("./Login.vue")
+const SignUp = () => import("./SignUp.vue")
+const Profile = () => import("./Profile.vue")
+const ResetPassword = () => import("./ResetPassword.vue")
+const ForgotPassword = () => import("./ForgotPassword.vue")
 
 export default {
   path: "/auth",

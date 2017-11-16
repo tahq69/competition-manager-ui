@@ -2,12 +2,12 @@ import * as roles from "@/Components/Auth/Roles"
 import Wrapper from "@/Components/Wrapper.vue"
 import {
   createCompetition,
-  editCompetition,
-  listCompetitions,
+  manageCompetition,
+  manageCompetitions,
 } from "@/Router/Routes"
 
-import ManageCompetition from "./ManageCompetition.vue"
-import ManageCompetitions from "./ManageCompetitions.vue"
+const ManageCompetition = () => import("./ManageCompetition.vue")
+const ManageCompetitions = () => import("./ManageCompetitions.vue")
 
 const requiresAuth = { requiresAuth: true }
 const createRole = [roles.CREATE_COMPETITIONS]
@@ -27,13 +27,13 @@ export default {
       path: "manage/:page(\\d+)?/:sort?/:order?",
       component: ManageCompetitions,
       meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-      ...listCompetitions,
+      ...manageCompetitions,
     },
     {
       path: "edit/:id(\\d+)",
       component: ManageCompetition,
       meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-      ...editCompetition,
+      ...manageCompetition,
     },
   ],
 }

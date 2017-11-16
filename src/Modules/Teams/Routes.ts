@@ -3,17 +3,17 @@ import Wrapper from "@/Components/Wrapper.vue"
 import {
   createTeam,
   createTeamMember,
-  editTeam,
-  editTeamMember,
+  manageTeam,
+  manageTeamMember,
   manageTeamMembers,
   manageTeams,
   teamDetails,
 } from "@/Router/Routes"
 
-import ManageMember from "./ManageMember.vue"
-import ManageMembers from "./ManageMembers.vue"
-import ManageTeam from "./ManageTeam.vue"
-import ManageTeams from "./ManageTeams.vue"
+const ManageMember = () => import("./ManageMember.vue")
+const ManageMembers = () => import("./ManageMembers.vue")
+const ManageTeam = () => import("./ManageTeam.vue")
+const ManageTeams = () => import("./ManageTeams.vue")
 
 const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] }
 
@@ -22,7 +22,7 @@ export default {
   component: Wrapper,
   children: [
     { path: "new", component: ManageTeam, meta, ...createTeam },
-    { path: "edit/:id(\\d+)", component: ManageTeam, meta, ...editTeam },
+    { path: "edit/:id(\\d+)", component: ManageTeam, meta, ...manageTeam },
     {
       path: "manage/:page(\\d+)?/:sort?/:direction?/:perpage?",
       component: ManageTeams,
@@ -39,7 +39,7 @@ export default {
       path: ":team(\\d+)/members/edit/:id(\\d+)",
       component: ManageMember,
       meta,
-      ...editTeamMember,
+      ...manageTeamMember,
     },
     {
       path: ":team(\\d+)/members/:page(\\d+)?/:sort?/:direction?/:perpage?",
