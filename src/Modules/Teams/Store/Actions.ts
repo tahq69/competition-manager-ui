@@ -6,19 +6,52 @@ import Pagination from "@/Helpers/Pagination"
 import { IState as RootState } from "@/Store/Contracts"
 
 import Team from "../Team"
-import { IFetchTeams, IState } from "./Contracts"
+import TeamMember from "../TeamMember"
+import {
+  IFetchTeamMembers as IFetchMembers,
+  IFetchTeams,
+  IState,
+} from "./Contracts"
 
-type Action = ActionContext<IState, RootState>
+type Teams = Pagination<Team>
+type Members = Pagination<TeamMember>
+type A = ActionContext<IState, RootState>
 
 export default {
-  async fetchTeams(
-    action: Action,
-    payload: IFetchTeams,
-  ): Promise<Pagination<Team>> {
+  /**
+   * Fetch teams list from server api endpoint as pagination object.
+   * @param {ActionContext<IState, RootState>} action
+   * @param {IFetchTeams} payload
+   */
+  async fetchTeams(action: A, payload: IFetchTeams): Promise<Teams> {
     const url = Api.url("teams", { params: payload.paging.urlParams })
+
     try {
       const response = await http.get(url)
       const pagination = Pagination.create<Team>(response, r => new Team(r))
+      return pagination
+    } catch (error) {
+      Api.handle(error)
+    }
+  },
+
+  /**
+   * Fetch team members list from server api endpoint as pagination object.
+   * @param {ActionContext<IState, RootState>} action
+   * @param {IFetchTeamMembers} payload
+   */
+  async fetchTeamMembers(action: A, payload: IFetchMembers): Promise<Members> {
+    const url = Api.url("teams/{team}/members", {
+      params: payload.paging.urlParams,
+      urlReplace: { team: payload.teamId },
+    })
+
+    try {
+      const response = await http.get(url)
+      const pagination = Pagination.create<TeamMember>(
+        response,
+        r => new TeamMember(r),
+      )
       return pagination
     } catch (error) {
       Api.handle(error)
