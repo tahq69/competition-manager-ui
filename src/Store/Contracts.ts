@@ -5,3 +5,11 @@ export interface IState {
   auth: AuthState
   teams: TeamsState
 }
+
+export interface ICommonState {}
+
+export interface ISearchUser {
+  type: "searchUser"
+  id?: number
+  name?: string
+}

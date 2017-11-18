@@ -1,5 +1,5 @@
 import Entity from "@/Components/Entity"
-import { manageTeamMember } from "@/Router/Routes"
+import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 
 import Team from "./Team"
 
@@ -45,11 +45,11 @@ export default class TeamMember extends Entity {
   }
 
   public get routes() {
-    const edit = {
-      ...manageTeamMember,
-      params: { team: this.teamId, id: this.id },
-    }
+    const params = { team: this.teamId, id: this.id }
 
-    return { edit }
+    return {
+      edit: { ...manageTeamMember, params },
+      members: { ...manageTeamMembers, params: { team: this.teamId } },
+    }
   }
 }

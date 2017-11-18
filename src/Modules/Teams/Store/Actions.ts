@@ -8,6 +8,7 @@ import { IState as RootState } from "@/Store/Contracts"
 import Team from "../Team"
 import TeamMember from "../TeamMember"
 import {
+  IFetchTeam,
   IFetchTeamMembers as IFetchMembers,
   IFetchTeams,
   IState,
@@ -18,6 +19,19 @@ type Members = Pagination<TeamMember>
 type A = ActionContext<IState, RootState>
 
 export default {
+  async fetchTeam(action: A, payload: IFetchTeam): Promise<Team> {
+    const url = Api.url("teams/{id}", {
+      urlReplace: { id: payload.id.toString() },
+    })
+
+    try {
+      const response = await http.get(url)
+      return new Team(response.data)
+    } catch (error) {
+      Api.handle(error)
+    }
+  },
+
   /**
    * Fetch teams list from server api endpoint as pagination object.
    * @param {ActionContext<IState, RootState>} action
