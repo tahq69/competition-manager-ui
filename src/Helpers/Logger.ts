@@ -83,6 +83,8 @@ class WebLogger implements ILogger {
     const debugArgs = [`component ${vm.$options.name}`, { route }, ...args]
 
     this.writelog("debug", debugArgs, "component")
+
+    return this.group(vm.$options.name)
   }
 
   private writelog(type: LogType, args: any, section = "global") {
@@ -100,6 +102,7 @@ class WebLogger implements ILogger {
   }
 
   private isInAvailableSections(section: string): boolean {
+    if (!this.sections || this.sections.length < 1) return true
     return Utils.isInArray(section, this.sections)
   }
 }

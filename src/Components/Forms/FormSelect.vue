@@ -39,10 +39,11 @@ export default {
 
   props: {
     text: { type: Function, required: true },
-    options: { type: Array, required: false, default: () => [] },
-    async: { type: Boolean, required: false, default: () => false },
-    searchOptions: { type: Function, required: false, default: () => null },
-    openOnFocus: { type: Boolean, required: false, default: () => true },
+    options: { type: Array, default: () => [] },
+    async: { type: Boolean, default: () => false },
+    searchOptions: { type: Function, default: () => null },
+    openOnFocus: { type: Boolean, default: () => true },
+    init: { type: Function, default: () => async () => null },
   },
 
   data() {
@@ -56,7 +57,19 @@ export default {
   },
 
   created() {
-    this.$logger.component(this)
+    this.log = this.$logger.component(this)
+  },
+
+  async mounted() {
+    const initialValue = await this.init()
+    this.log("mounted", { initialValue })
+    if (this.async) {
+      this.options.push(initialValue)
+      this.current = 0
+      this.search = this.text(this.matches[this.current])
+    } else {
+      this.current = this.options.indexOf(initialValue)
+    }
   },
 
   computed: {

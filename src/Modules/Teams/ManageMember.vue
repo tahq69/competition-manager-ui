@@ -24,13 +24,14 @@
           :async="true"
           :search-options="userSearch"
           :text="(o) => o.name"
+          :init="preloadMember"
           @input="associatedMember"
           @create="newMember"
       />
     </form-group>
 
     <!-- #invitation -->
-    <form-group :col-sm="8" v-if="form.data.userId">
+    <form-group :col-sm="8" v-if="form.data.userId && !isEdit">
       <button
           type="button"
           @click="dismissInvitation"
@@ -66,6 +67,7 @@ import PanelAction from "@/Components/Panel/PanelAction"
 import { manageTeamMembers, manageTeamMember } from "@/Router/Routes"
 
 import teamService from "./Store/Service"
+import TeamMember from "./TeamMember"
 
 export default {
   name: "ManageMember",
@@ -75,12 +77,13 @@ export default {
   data() {
     return {
       team: {},
+      userOptions: [],
       form: new Form({ userId: 0, name: "", id: 0 }),
     }
   },
 
   created() {
-    this.$logger.component(this)
+    this.log = this.$logger.component(this)
     this.fetchTeam()
   },
 
@@ -115,7 +118,7 @@ export default {
       return team
     },
 
-    async fetchTeamMember() {
+    async fetchTeamMember(): Promise<TeamMember> {
       const member = await teamService.fetchTeamMember({
         team_id: this.teamId,
         id: this.id,
@@ -137,10 +140,12 @@ export default {
       return users
     },
 
-    async preloadMember(select: (text, value) => void) {
+    async preloadMember() {
+      this.log("preloadMember", { isEdit: this.isEdit })
       if (!this.isEdit) return
-      const member = await this.fetchTeamMember()
-      select(member.name, member.user_id)
+
+      const member = (await this.fetchTeamMember()) as TeamMember
+      return { id: member.userId, name: member.name }
     },
 
     async saveMember() {
@@ -151,11 +156,11 @@ export default {
         id: this.form.data.id,
       })
 
-      this.$logger.log({ action: "saveMember", member })
+      this.log({ action: "saveMember", member })
     },
 
     async associatedMember(user: { id: number; name: string }) {
-      this.$logger.log("associatedMember", user)
+      this.log("associatedMember", user)
       if (!user) return
 
       this.form.data.userId = user.id
@@ -163,7 +168,7 @@ export default {
     },
 
     newMember(name: string) {
-      this.$logger.log("newMember")
+      this.log("newMember")
       this.form.data.userId = 0
       this.form.data.name = name
     },

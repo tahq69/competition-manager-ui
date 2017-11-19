@@ -90,7 +90,7 @@ class Service extends BaseService {
       })
 
       const response = await http.get(url)
-      return new TeamMember(response.data.data)
+      return new TeamMember(response.data)
     })
   }
 
