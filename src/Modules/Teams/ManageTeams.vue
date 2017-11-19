@@ -73,11 +73,10 @@ import Grid from "@/Components/Grid/Grid.vue"
 import PanelAction from "@/Components/Panel/PanelAction.vue"
 import SortableHeader from "@/Components/Grid/SortableHeader.vue"
 
-import store from "@/Store"
 import Paging from "@/Components/Grid/Paging"
 import { createTeam, manageTeams } from "@/Router/Routes"
 
-import { IFetchTeams } from "./Store/Contracts"
+import teamService from "./Store/Service"
 import Team from "./Team"
 
 export default {
@@ -100,8 +99,8 @@ export default {
   methods: {
     async fetchPage() {
       this.paging.startLoading()
-      const pagination = await store.dispatch<IFetchTeams>({
-        type: "fetchTeams",
+
+      const pagination = await teamService.fetchTeams({
         paging: this.paging,
       })
 

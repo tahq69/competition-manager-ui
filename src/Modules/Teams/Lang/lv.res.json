@@ -20,5 +20,12 @@
   "manage_members_grid_head_name_text": "Vārds",
   "manage_members_grid_btn_edit_title": "Labot dalībnieka detaļas",
   "manage_members_grid_btn_edit_text": "Labot",
+  "manage_member_edit_title": "Labot dalībnieku",
+  "manage_member_create_title": "Izveidot dalībnieku",
+  "manage_member_action_back": "Atpakaļ uz {team} dalībniekiem",
+  "manage_member_name_label": "Dalībnieka vārds",
+  "manage_member_invitation_text": "{name} saņems uzaicinājumu pievienotes {team} komandai.",
+  "manage_member_invitation_dismiss": "Atcelt uzaicinājumu",
+  "manage_member_submit_btn": "Saglabāt",
   "title1": "Komandas"
 }

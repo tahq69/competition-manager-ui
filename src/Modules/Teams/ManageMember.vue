@@ -10,7 +10,7 @@
         v-if="team.id"
         :to="team.routes.manageMembers"
     >
-      Back to {{ team.short }} members
+      {{ $t('teams.manage_member_action_back', { team: team.short }) }}
     </panel-action>
 
     <!-- #name -->
@@ -29,21 +29,29 @@
       />
     </form-group>
 
+    <!-- #invitation -->
+    <form-group :col-sm="8" v-if="form.data.userId">
+      <button
+          type="button"
+          @click="dismissInvitation"
+          class="close text-danger"
+          :title="$t('teams.manage_member_invitation_dismiss')"
+      >
+        &times;
+      </button>
+      <span>
+        {{ $t('teams.manage_member_invitation_text', {
+          name: form.data.name,
+          team: team.short,
+        }) }}
+      </span>
+    </form-group>
+
     <!-- #submit -->
     <form-group for="submit" :col-sm="8">
-      <span v-if="form.userId && form.userId != userId">
-        <button
-            type="button"
-            @click="dismissInvitation"
-            class="close text-danger"
-        >&times;</button>
-        {{form.name}} will receive invitation to join {{ team.short }} team
-      </span>
-
       <button id="submit" type="submit" class="btn btn-primary">
         {{ $t('teams.manage_member_submit_btn') }}
       </button>
-
     </form-group>
   </form-panel>
 </template>
@@ -55,15 +63,9 @@ import FormGroup from "@/Components/Forms/FormGroup.vue"
 import FormSelect from "@/Components/Forms/FormSelect.vue"
 import PanelAction from "@/Components/Panel/PanelAction"
 
-import store from "@/Store"
 import { manageTeamMembers, manageTeamMember } from "@/Router/Routes"
-import { ISearchUser } from "@/Store/Contracts"
 
-import {
-  IFetchTeam,
-  ISaveTeamMember,
-  IFetchTeamMember,
-} from "./Store/Contracts"
+import teamService from "./Store/Service"
 
 export default {
   name: "ManageMember",
@@ -104,8 +106,7 @@ export default {
 
   methods: {
     async fetchTeam() {
-      const team = await store.dispatch<IFetchTeam>({
-        type: "fetchTeam",
+      const team = await teamService.fetchTeam({
         id: this.teamId,
       })
 
@@ -115,8 +116,8 @@ export default {
     },
 
     async fetchTeamMember() {
-      const member = await store.dispatch<IFetchTeamMember>({
-        type: "fetchTeamMember",
+      const member = await teamService.fetchTeamMember({
+        team_id: this.teamId,
         id: this.id,
       })
 
@@ -129,16 +130,11 @@ export default {
 
     async userSearch(name: string) {
       // Search users on server by entered text in input.
-      const users = await store.dispatch<ISearchUser>({
-        type: "searchUser",
+      const users = await teamService.searchUser({
         name: name,
       })
 
-      // Convert server response to select2 compatible list of elements for
-      // select.
-      return users.map(({ id, name }) => {
-        return { id, name }
-      })
+      return users
     },
 
     async preloadMember(select: (text, value) => void) {
@@ -148,8 +144,8 @@ export default {
     },
 
     async saveMember() {
-      const member = await store.dispatch<ISaveTeamMember>({
-        type: "saveTeamMember",
+      const member = await teamService.saveTeamMember({
+        team_id: this.teamId,
         name: this.form.data.name,
         user_id: this.form.data.userId,
         id: this.form.data.id,
@@ -178,3 +174,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+button.close.text-danger {
+  float: none;
+  font-weight: bolder;
+}
+</style>
+

@@ -26,7 +26,7 @@ export default {
   components: { FormErrors },
 
   props: {
-    for: { type: String, required: true },
+    for: { type: String },
     label: { type: String, default: () => "" },
     form: { type: Form, default: () => new Form({ __: false }) },
     errors: { type: Array, default: () => [] },

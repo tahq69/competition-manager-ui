@@ -63,7 +63,6 @@ import Grid from "@/Components/Grid/Grid.vue"
 import PanelAction from "@/Components/Panel/PanelAction.vue"
 import SortableHeader from "@/Components/Grid/SortableHeader.vue"
 
-import store from "@/Store"
 import Paging from "@/Components/Grid/Paging"
 import {
   createTeamMember,
@@ -71,7 +70,7 @@ import {
   manageTeamMembers,
 } from "@/Router/Routes"
 
-import { IFetchTeamMembers } from "./Store/Contracts"
+import teamService from "./Store/Service"
 import Team from "./Team"
 import TeamMember from "./TeamMember"
 
@@ -108,9 +107,9 @@ export default {
   methods: {
     async fetchPage() {
       this.paging.startLoading()
-      const pagination = await store.dispatch<IFetchTeamMembers>({
-        type: "fetchTeamMembers",
-        teamId: this.teamId,
+
+      const pagination = await teamService.fetchTeamMembers({
+        team_id: this.teamId,
         paging: this.paging,
       })
 

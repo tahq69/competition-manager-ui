@@ -92,7 +92,13 @@ export default {
     },
 
     // When enter pressed on the input
-    enter() {
+    enter(e: Event) {
+      if (this.current > -1 && this.open) {
+        // Avoid form submit if dropdown is open and selection in list is on
+        // some of the elements.
+        e.preventDefault()
+      }
+
       this.selectOption()
     },
 

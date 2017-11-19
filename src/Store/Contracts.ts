@@ -7,9 +7,3 @@ export interface IState {
 }
 
 export interface ICommonState {}
-
-export interface ISearchUser {
-  type: "searchUser"
-  id?: number
-  name?: string
-}

@@ -20,5 +20,12 @@
   "manage_members_grid_head_name_text": "Name",
   "manage_members_grid_btn_edit_title": "Edit member details",
   "manage_members_grid_btn_edit_text": "Edit",
+  "manage_member_edit_title": "Edit team member",
+  "manage_member_create_title": "Create team member",
+  "manage_member_action_back": "Back to {team} members",
+  "manage_member_name_label": "Member name",
+  "manage_member_invitation_text": "{name} will receive invitation to join {team} team.",
+  "manage_member_invitation_dismiss": "Dismiss invitation",
+  "manage_member_submit_btn": "Save",
   "title": "Teams"
 }
