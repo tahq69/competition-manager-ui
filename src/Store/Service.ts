@@ -35,7 +35,7 @@ export default class Service {
    */
   protected async safeContext<T>(action: (http: Axios, api: typeof Api) => T) {
     try {
-      return action(this.http, this.api)
+      return await action(this.http, this.api)
     } catch (error) {
       Api.handle(error)
     }

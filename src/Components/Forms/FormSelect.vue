@@ -6,6 +6,7 @@
         v-model="search"
         @focus="focus"
         @blur="blur"
+        @keydown.esc="escape"
         @keydown.enter="enter"
         @keydown.down="down"
         @keydown.up="up"
@@ -13,11 +14,11 @@
     />
     <ul class="dropdown-menu" style="width:100%">
       <li
-          v-for="(option, index) in matches"
+          v-for="(option, index) in availableOptions"
           :class="{'active': isActive(index)}"
           :key="index"
       ><a @click.prevent="optionClick(index)" href="#">
-        {{ text(option) }}
+        {{ option.__text || text(option) }}
       </a></li>
 
       <li
@@ -53,6 +54,7 @@ export default {
       current: -1,
       search: "",
       fetchedOptions: [],
+      checkpoint: null,
     }
   },
 
@@ -63,30 +65,33 @@ export default {
   async mounted() {
     const initialValue = await this.init()
     this.log("mounted", { initialValue })
-    if (this.async) {
+    if (this.async && initialValue) {
       this.options.push(initialValue)
       this.current = 0
-      this.search = this.text(this.matches[this.current])
+      this.search = this.text(this.availableOptions[this.current])
+      this.createCheckpoint()
     } else {
       this.current = this.options.indexOf(initialValue)
     }
   },
 
   computed: {
-    // Filtering the options based on the input
-    matches() {
-      return this.availableOptions.filter(option => {
-        const searchIn = this.text(option).toLowerCase()
-        return searchIn.indexOf(this.search.toLowerCase()) >= 0
-      })
-    },
-
     availableOptions() {
-      if (this.fetchedOptions.length > 0) {
-        return this.fetchedOptions
+      let options = this.options
+
+      if (!this.hasMatchingOptions && this.search && this.search.length > 0) {
+        options = [{ __text: this.search }, ...this.options]
       }
 
-      return this.options
+      return [...options, ...this.fetchedOptions]
+    },
+
+    hasMatchingOptions() {
+      const filter = o => this.text(o).toLowerCase() == this.search
+      return (
+        this.options.filter(filter).length > 0 ||
+        this.fetchedOptions.filter(filter).length > 0
+      )
     },
   },
 
@@ -104,9 +109,22 @@ export default {
       }, 100)
     },
 
+    // When esc pressed on the input
+    escape(e: Event) {
+      // setup last checkpoint as current one
+      if (this.availableOptions.indexOf(this.checkpoint.option) == -1) {
+        this.options.push(this.checkpoint.option)
+      }
+
+      this.search = this.checkpoint.search
+      this.current = this.availableOptions.indexOf(this.checkpoint.option)
+      this.open = false
+    },
+
     // When enter pressed on the input
     enter(e: Event) {
-      if (this.current > -1 && this.open) {
+      this.log("enter", { e, current: this.current, open: this.open })
+      if (this.open) {
         // Avoid form submit if dropdown is open and selection in list is on
         // some of the elements.
         e.preventDefault()
@@ -122,7 +140,7 @@ export default {
 
     // When up pressed while options are open
     down() {
-      if (this.current < this.matches.length - 1) this.current++
+      if (this.current < this.availableOptions.length - 1) this.current++
     },
 
     // For highlighting element
@@ -134,14 +152,14 @@ export default {
     change() {
       if (this.open == false) {
         this.open = true
-        this.current = -1
+        this.current = 0
       }
 
       this.fetchOptions()
     },
 
     async fetchOptions() {
-      if (!this.async || this.loading) return
+      if (!this.async || !this.search || this.loading) return
 
       this.loading = true
       try {
@@ -152,6 +170,14 @@ export default {
       }
     },
 
+    createCheckpoint() {
+      this.checkpoint = {
+        search: this.search,
+        index: this.current,
+        option: this.availableOptions[this.current],
+      }
+    },
+
     // When one of the option is clicked
     optionClick(index) {
       this.current = index
@@ -159,16 +185,20 @@ export default {
     },
 
     selectOption() {
-      if (this.current > -1) {
+      const option = this.availableOptions[this.current]
+      this.open = false
+
+      if (typeof option.__text == "undefined") {
         // if user is focused some option in a predefined list, set it as input
         // value
-        this.search = this.text(this.matches[this.current])
-        this.open = false
-        this.$emit("input", this.matches[this.current])
+        this.search = this.text(option)
+        this.$emit("input", option)
       } else {
         // otherwise fire create event
-        this.$emit("create", this.search)
+        this.$emit("create", option.__text)
       }
+
+      this.createCheckpoint()
     },
   },
 }

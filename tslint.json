@@ -9,6 +9,7 @@
     "curly": false,
     "arrow-parens": false,
     "no-string-literal": false,
-    "trailing-comma": { "severity": "warning" }
+    "trailing-comma": { "severity": "warning" },
+    "variable-name": { "options": "allow-snake-case" }
   }
 }

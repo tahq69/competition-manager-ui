@@ -5,14 +5,19 @@ export default class User extends Entity {
   public name: string
 
   constructor(data) {
-    super(data)
-
-    this.name = data.name
+    super()
+    this.updateProps(data)
   }
 
   public get routes() {
     return {
       profile: { ...profile, params: { id: this.id } },
     }
+  }
+
+  protected updateProps(data) {
+    super.updateProps(data)
+
+    this.name = data.name
   }
 }

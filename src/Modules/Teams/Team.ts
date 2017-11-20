@@ -12,11 +12,8 @@ export default class Team extends Entity {
   public name: string
 
   constructor(data) {
-    super(data)
-
-    this.name = data.name
-    this.short = data.short
-    this.logo = data.logo
+    super()
+    this.updateProps(data)
   }
 
   public get routes() {
@@ -26,5 +23,13 @@ export default class Team extends Entity {
       manageMembers: { ...manageTeamMembers, params: { team: this.id } },
       createMember: { ...createTeamMember, params: { team: this.id } },
     }
+  }
+
+  protected updateProps(data) {
+    super.updateProps(data)
+
+    this.name = data.name
+    this.short = data.short
+    this.logo = data.logo
   }
 }

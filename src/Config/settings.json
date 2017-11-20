@@ -10,7 +10,16 @@
     "default_locale": "lv",
     "logs": {
       "target": "console",
-      "sections": ["global","api","component","error","info","select2"]
+      "sections": [
+        "global",
+        "api",
+        "component",
+        "error",
+        "info",
+        "select2",
+        "ManageMember",
+        "FormSelect"
+      ]
     }
   },
   "production": {

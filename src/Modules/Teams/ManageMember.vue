@@ -31,7 +31,7 @@
     </form-group>
 
     <!-- #invitation -->
-    <form-group :col-sm="8" v-if="form.data.userId && !isEdit">
+    <form-group :col-sm="8" v-if="form.data.user_id && !isEdit">
       <button
           type="button"
           @click="dismissInvitation"
@@ -78,7 +78,7 @@ export default {
     return {
       team: {},
       userOptions: [],
-      form: new Form({ userId: 0, name: "", id: 0 }),
+      form: new Form({ user_id: 0, name: "", id: 0 }),
     }
   },
 
@@ -125,7 +125,7 @@ export default {
       })
 
       this.form.data.name = member.name
-      this.form.data.userId = member.user_id
+      this.form.data.user_id = member.user_id
       this.form.data.id = member.id
 
       return member
@@ -133,11 +133,9 @@ export default {
 
     async userSearch(name: string) {
       // Search users on server by entered text in input.
-      const users = await teamService.searchUser({
+      return await teamService.searchUser({
         name: name,
       })
-
-      return users
     },
 
     async preloadMember() {
@@ -145,36 +143,54 @@ export default {
       if (!this.isEdit) return
 
       const member = (await this.fetchTeamMember()) as TeamMember
-      return { id: member.userId, name: member.name }
+      return { id: member.user_id, name: member.name }
     },
 
     async saveMember() {
-      const member = await teamService.saveTeamMember({
-        team_id: this.teamId,
-        name: this.form.data.name,
-        user_id: this.form.data.userId,
-        id: this.form.data.id,
-      })
+      this.log("saveMember", { data: this.form.data })
+      this.form.clearErrors()
+      try {
+        const member = await teamService.saveTeamMember({
+          team_id: this.teamId,
+          name: this.form.data.name,
+          user_id: this.form.data.user_id,
+          id: this.form.data.id,
+        })
 
-      this.log({ action: "saveMember", member })
+        // TODO: push notification about user update
+        this.$router.push(member.routes.edit)
+      } catch (error) {
+        const errors = this.concatErrors(error)
+        this.form.addErrors(errors)
+      }
+    },
+
+    concatErrors(errors) {
+      if (errors.user_id) {
+        errors.name = errors.name
+          ? [...errors.name, ...errors.user_id]
+          : errors.user_id
+      }
+
+      return errors
     },
 
     async associatedMember(user: { id: number; name: string }) {
-      this.log("associatedMember", user)
+      this.log("associatedMember", { user })
       if (!user) return
 
-      this.form.data.userId = user.id
+      this.form.data.user_id = user.id
       this.form.data.name = user.name
     },
 
     newMember(name: string) {
-      this.log("newMember")
-      this.form.data.userId = 0
+      this.log("newMember", { name })
+      this.form.data.user_id = 0
       this.form.data.name = name
     },
 
     dismissInvitation() {
-      this.form.data.userId = 0
+      this.form.data.user_id = 0
     },
   },
 }

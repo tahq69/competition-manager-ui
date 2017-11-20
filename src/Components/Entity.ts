@@ -17,7 +17,23 @@ export default class Entity {
   public created: ICreatedAudit
   public updated: IModifiedAudit
 
-  constructor(data) {
+  /**
+   * Store or update current entity instance.
+   * @returns {Promise<this>} Saver record instance.
+   */
+  public async save(): Promise<this> {
+    if (this.id > 0) {
+      return await this.update()
+    }
+
+    return await this.create()
+  }
+
+  /**
+   * Update current instance base properties.
+   * @param data
+   */
+  protected updateProps(data) {
     this.id = data.id
 
     this.created = {
@@ -33,5 +49,13 @@ export default class Entity {
       name: data.updated_by_name,
       modifier: data.modifier,
     }
+  }
+
+  protected async create(): Promise<this> {
+    throw new Error("Method not implemented.")
+  }
+
+  protected async update(): Promise<this> {
+    throw new Error("Method not implemented.")
   }
 }

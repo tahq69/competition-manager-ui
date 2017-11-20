@@ -67,16 +67,12 @@ class Service extends BaseService {
   /**
    * Save team member instance in server api.
    * @param {IFetchTeam} payload
-   * @returns {TeamMember}
+   * @returns {Promise<TeamMember>}
    */
-  public async saveTeamMember(payload: ISaveTeamMember) {
+  public async saveTeamMember(payload: ISaveTeamMember): Promise<TeamMember> {
     return await this.safeContext(async (http, api) => {
-      const url = api.url("teams/{team}/members", {
-        urlReplace: { team: payload.team_id.toString() },
-      })
-
-      const response = await http.post(url, payload)
-      return new TeamMember(response.data.data)
+      const entity = new TeamMember(payload)
+      return await entity.save()
     })
   }
 

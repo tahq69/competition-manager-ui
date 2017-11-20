@@ -15,7 +15,7 @@ interface IDictionary<T> {
 
 interface IUrlParams {
   params?: IDictionary<string>
-  urlReplace?: IDictionary<string>
+  urlReplace?: object
   root?: boolean
 }
 
