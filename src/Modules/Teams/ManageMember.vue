@@ -63,6 +63,7 @@ import FormPanel from "@/Components/Forms/FormPanel.vue"
 import FormGroup from "@/Components/Forms/FormGroup.vue"
 import FormSelect from "@/Components/Forms/FormSelect.vue"
 import PanelAction from "@/Components/Panel/PanelAction"
+import Notice from "@/Components/Notice"
 
 import { manageTeamMembers, manageTeamMember } from "@/Router/Routes"
 
@@ -125,7 +126,7 @@ export default {
       })
 
       this.form.data.name = member.name
-      this.form.data.user_id = member.user_id
+      this.form.data.user_id = member.user_id || 0
       this.form.data.id = member.id
 
       return member
@@ -157,7 +158,11 @@ export default {
           id: this.form.data.id,
         })
 
-        // TODO: push notification about user update
+        Notice.success({
+          title: "saved",
+          description: "Record sucessfully saved",
+        })
+
         this.$router.push(member.routes.edit)
       } catch (error) {
         const errors = this.concatErrors(error)

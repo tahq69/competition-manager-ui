@@ -79,10 +79,14 @@ class WebLogger implements ILogger {
   }
 
   public component(vm: Vue, ...args: any[]) {
-    const route = { ...vm.$route.params, path: vm.$route.fullPath }
-    const debugArgs = [`component ${vm.$options.name}`, { route }, ...args]
+    const component = `component ${vm.$options.name}`
 
-    this.writelog("debug", debugArgs, "component")
+    if (vm.$route) {
+      const route = { ...vm.$route.params, path: vm.$route.fullPath }
+      this.writelog("debug", [component, { route }, ...args], "component")
+    } else {
+      this.writelog("debug", [component, ...args], "component")
+    }
 
     return this.group(vm.$options.name)
   }
@@ -108,11 +112,11 @@ class WebLogger implements ILogger {
 }
 
 export default {
-  install(VueInstance: typeof Vue, options: ILoggerOptions) {
+  install(vueInstance: typeof Vue, options: ILoggerOptions) {
     const logger = new WebLogger(options)
-    VueInstance.logger = logger
+    vueInstance.logger = logger
 
-    Object.defineProperties(VueInstance.prototype, {
+    Object.defineProperties(vueInstance.prototype, {
       $logger: { get: () => logger },
     })
   },

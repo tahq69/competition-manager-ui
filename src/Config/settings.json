@@ -17,6 +17,7 @@
         "error",
         "info",
         "select2",
+        "Notification",
         "ManageMember",
         "FormSelect"
       ]

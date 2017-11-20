@@ -9,15 +9,15 @@ $panel-default-border: $laravel-border-color;
 $panel-inner-border: $laravel-border-color;
 
 // Brands
-$brand-primary: #3097D1;
+$brand-primary: #3097d1;
 $brand-info: #8eb4cb;
 $brand-success: #2ab27b;
 $brand-warning: #cbb956;
 $brand-danger: #bf5329;
 
-$brand-not-important: #EECC99;
-$brand-semi-not-important: #CCAA77;
-$brand-middle-important: #AA8855;
+$brand-not-important: #eecc99;
+$brand-semi-not-important: #ccaa77;
+$brand-middle-important: #aa8855;
 $brand-semi-important: #996633;
 $brand-important: #663300;
 
@@ -26,6 +26,11 @@ $font-family-sans-serif: "Raleway", sans-serif;
 $font-size-base: 14px;
 $line-height-base: 1.6;
 $text-color: #636b6f;
+$title-color: #1c2438;
+$success-color: darken($brand-success, 5%);
+$primary-color: darken($brand-primary, 5%);
+$warning-color: darken($brand-warning, 5%);
+$danger-color: darken($brand-danger, 5%);
 
 // Navbar
 $navbar-default-bg: #fff;
@@ -41,4 +46,15 @@ $input-color-placeholder: lighten($text-color, 30%);
 // Panels
 $panel-default-heading-bg: #fff;
 
-$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+// Animation
+$animation-time: 0.3s;
+$transition-time: 0.2s;
+
+// Custom elements
+$shadow-color: rgba(0, 0, 0, 0.2);
+$shadow-down: 0 1px 6px $shadow-color;
+$shadow-base: $shadow-down;
+
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
