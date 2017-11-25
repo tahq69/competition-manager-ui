@@ -54,7 +54,7 @@ export default {
 
       // if page count greater than visible, calculate where place '...'
       if (last > this.paging.show) {
-        let delta = ~~(this.paging.show / 2)
+        const delta = ~~(this.paging.show / 2)
         let startFrom = this.curr - delta
         if (startFrom < 1) startFrom = 1
         let endOn = this.curr + delta

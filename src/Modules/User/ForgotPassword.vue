@@ -38,13 +38,13 @@
 </template>
 
 <script lang="ts">
-import Form from "@/Components/Forms/Form"
-import FormPanel from "@/Components/Forms/FormPanel.vue"
-import FormGroup from "@/Components/Forms/FormGroup.vue"
 import Focus from "@/Components/Focus"
+import Form from "@/Components/Forms/Form"
+import FormGroup from "@/Components/Forms/FormGroup.vue"
+import FormPanel from "@/Components/Forms/FormPanel.vue"
 
-import store from "@/Store"
 import { login } from "@/Router/Routes"
+import store from "@/Store"
 
 import { IEmailPasswordReset } from "./Store/Contracts"
 

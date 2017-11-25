@@ -46,8 +46,8 @@ export default {
         this.item.divider
 
       return {
-        active: this.item.isActive,
-        divider: this.item.divider === true,
+        "active": this.item.isActive,
+        "divider": this.item.divider === true,
         "dropdown-header": !hasAction,
       }
     },

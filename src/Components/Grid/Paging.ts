@@ -21,6 +21,7 @@ export default class Paging<T extends Entity> {
   public items: T[]
   public lastPage: number
 
+  // tslint:disable-next-line:variable-name
   private _route: IRoute
 
   constructor(

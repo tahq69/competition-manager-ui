@@ -17,19 +17,25 @@
           v-for="(option, index) in availableOptions"
           :class="{'active': isActive(index)}"
           :key="index"
-      ><a @click.prevent="optionClick(index)" href="#">
-        {{ option.__text || text(option) }}
-      </a></li>
+      >
+        <a @click.prevent="optionClick(index)" href="#">
+          {{ option.__text || text(option) }}
+        </a>
+      </li>
 
       <li
           v-if="loading"
           class="disabled"
-      ><a href="#">Searching...</a></li>
+      >
+        <a href="#">Searching...</a>
+      </li>
 
       <li
           v-if="availableOptions.length === 0"
           class="disabled"
-      ><a href="#">No data</a></li>
+      >
+        <a href="#">No data</a>
+      </li>
     </ul>
 </div>
 </template>
@@ -87,7 +93,7 @@ export default {
     },
 
     hasMatchingOptions() {
-      const filter = o => this.text(o).toLowerCase() == this.search
+      const filter = o => this.text(o).toLowerCase() === this.search
       return (
         this.options.filter(filter).length > 0 ||
         this.fetchedOptions.filter(filter).length > 0
@@ -112,7 +118,7 @@ export default {
     // When esc pressed on the input
     escape(e: Event) {
       // setup last checkpoint as current one
-      if (this.availableOptions.indexOf(this.checkpoint.option) == -1) {
+      if (this.availableOptions.indexOf(this.checkpoint.option) === -1) {
         this.options.push(this.checkpoint.option)
       }
 
@@ -150,7 +156,7 @@ export default {
 
     // When the user changes input
     change() {
-      if (this.open == false) {
+      if (this.open === false) {
         this.open = true
         this.current = 0
       }
@@ -188,7 +194,7 @@ export default {
       const option = this.availableOptions[this.current]
       this.open = false
 
-      if (typeof option.__text == "undefined") {
+      if (typeof option.__text === "undefined") {
         // if user is focused some option in a predefined list, set it as input
         // value
         this.search = this.text(option)

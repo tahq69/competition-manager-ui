@@ -41,9 +41,9 @@ export default {
 
       if (!route.params) {
         route.params = {
+          direction,
           page: this.paging.$page,
           sort: this.column,
-          direction: direction,
           perpage: this.paging.$perPage,
         }
       } else {

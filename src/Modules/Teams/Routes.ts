@@ -10,10 +10,10 @@ import {
   teamDetails,
 } from "@/Router/Routes"
 
-const ManageMember = () => import("./ManageMember.vue")
-const ManageMembers = () => import("./ManageMembers.vue")
-const ManageTeam = () => import("./ManageTeam.vue")
-const ManageTeams = () => import("./ManageTeams.vue")
+const manageMemberVue = () => import("./ManageMember.vue")
+const manageMembersVue = () => import("./ManageMembers.vue")
+const manageTeamVue = () => import("./ManageTeam.vue")
+const manageTeamsVue = () => import("./ManageTeams.vue")
 
 const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] }
 
@@ -21,29 +21,29 @@ export default {
   path: "/teams",
   component: Wrapper,
   children: [
-    { path: "new", component: ManageTeam, meta, ...createTeam },
-    { path: "edit/:id(\\d+)", component: ManageTeam, meta, ...manageTeam },
+    { path: "new", component: manageTeamVue, meta, ...createTeam },
+    { path: "edit/:id(\\d+)", component: manageTeamVue, meta, ...manageTeam },
     {
       path: "manage/:page(\\d+)?/:sort?/:direction?/:perpage?",
-      component: ManageTeams,
+      component: manageTeamsVue,
       meta,
       ...manageTeams,
     },
     {
       path: ":team(\\d+)/members/new",
-      component: ManageMember,
+      component: manageMemberVue,
       meta,
       ...createTeamMember,
     },
     {
       path: ":team(\\d+)/members/edit/:id(\\d+)",
-      component: ManageMember,
+      component: manageMemberVue,
       meta,
       ...manageTeamMember,
     },
     {
       path: ":team(\\d+)/members/:page(\\d+)?/:sort?/:direction?/:perpage?",
-      component: ManageMembers,
+      component: manageMembersVue,
       meta,
       ...manageTeamMembers,
     },

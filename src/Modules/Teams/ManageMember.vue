@@ -59,13 +59,13 @@
 
 <script lang="ts">
 import Form from "@/Components/Forms/Form"
-import FormPanel from "@/Components/Forms/FormPanel.vue"
 import FormGroup from "@/Components/Forms/FormGroup.vue"
+import FormPanel from "@/Components/Forms/FormPanel.vue"
 import FormSelect from "@/Components/Forms/FormSelect.vue"
-import PanelAction from "@/Components/Panel/PanelAction"
 import Notice from "@/Components/Notice"
+import PanelAction from "@/Components/Panel/PanelAction.vue"
 
-import { manageTeamMembers, manageTeamMember } from "@/Router/Routes"
+import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 
 import teamService from "./Store/Service"
 import TeamMember from "./TeamMember"
@@ -134,9 +134,7 @@ export default {
 
     async userSearch(name: string) {
       // Search users on server by entered text in input.
-      return await teamService.searchUser({
-        name: name,
-      })
+      return await teamService.searchUser({ name })
     },
 
     async preloadMember() {

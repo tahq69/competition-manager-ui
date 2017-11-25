@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import { home, IRoute } from "@/Router/Routes"
 import Auth from "@/Components/Auth"
+import { home, IRoute } from "@/Router/Routes"
 
 import { left as leftNav, right as rightNav } from "./Components/Navigation"
 

@@ -70,8 +70,8 @@
 
 <script lang="ts">
 import Grid from "@/Components/Grid/Grid.vue"
-import PanelAction from "@/Components/Panel/PanelAction.vue"
 import SortableHeader from "@/Components/Grid/SortableHeader.vue"
+import PanelAction from "@/Components/Panel/PanelAction.vue"
 
 import Paging from "@/Components/Grid/Paging"
 import { createTeam, manageTeams } from "@/Router/Routes"

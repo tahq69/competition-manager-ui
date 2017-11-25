@@ -13,7 +13,7 @@ export default {
   },
 
   props: {
-    to: { default: () => {} },
+    to: { default: () => ({}) },
   },
 }
 </script>

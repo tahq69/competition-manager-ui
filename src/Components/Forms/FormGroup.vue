@@ -18,7 +18,10 @@
 <script lang="ts">
 import Utils from "@/Helpers/Utils"
 import FormErrors from "./FormErrors.vue"
+
 import Form from "./Form"
+
+type methods = "control" | "label" | "empty"
 
 export default {
   name: "FormGroup",
@@ -46,7 +49,7 @@ export default {
     },
 
     controlClass() {
-      if (this.label == "") return this.getColClass("empty")
+      if (this.label === "") return this.getColClass("empty")
 
       return this.getColClass("control")
     },
@@ -71,11 +74,8 @@ export default {
   },
 
   methods: {
-    getColClass(
-      method: "control" | "label" | "empty",
-      initial: string[] = [],
-    ): string[] {
-      ;["Lg", "Md", "Sm", "Xs"].forEach(size => {
+    getColClass(method: methods, initial: string[] = []): string[] {
+      (["Lg", "Md", "Sm", "Xs"]).forEach(size => {
         const value = this[`col${size}`]
         if (value > 0) {
           initial.push(this[`${method}Calc`](value, size.toLowerCase()))
@@ -94,7 +94,7 @@ export default {
     },
 
     colClass(size: number, media: string, offset = false) {
-      let template = offset ? "col-{media}-offset-{size}" : "col-{media}-{size}"
+      const template = offset ? "col-{media}-offset-{size}" : "col-{media}-{size}"
 
       return Utils.supplant(template, { media, size })
     },
@@ -108,7 +108,7 @@ export default {
     offset(size: number) {
       const availableSpace = 12 - size
 
-      if (availableSpace == 0) return 0
+      if (availableSpace === 0) return 0
 
       return availableSpace
     },

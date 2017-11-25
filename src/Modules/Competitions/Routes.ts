@@ -6,8 +6,8 @@ import {
   manageCompetitions,
 } from "@/Router/Routes"
 
-const ManageCompetition = () => import("./ManageCompetition.vue")
-const ManageCompetitions = () => import("./ManageCompetitions.vue")
+const manageCm = () => import("./ManageCompetition.vue")
+const manageCms = () => import("./ManageCompetitions.vue")
 
 const requiresAuth = { requiresAuth: true }
 const createRole = [roles.CREATE_COMPETITIONS]
@@ -19,19 +19,19 @@ export default {
   children: [
     {
       path: "new",
-      component: ManageCompetition,
+      component: manageCm,
       meta: { requiresAuth, requiresRoles: createRole },
       ...createCompetition,
     },
     {
       path: "manage/:page(\\d+)?/:sort?/:order?",
-      component: ManageCompetitions,
+      component: manageCms,
       meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
       ...manageCompetitions,
     },
     {
       path: "edit/:id(\\d+)",
-      component: ManageCompetition,
+      component: manageCm,
       meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
       ...manageCompetition,
     },

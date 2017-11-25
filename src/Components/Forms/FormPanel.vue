@@ -7,26 +7,17 @@
     <div class="panel panel-default">
 
       <div class="panel-heading clearfix">
-        <div class="v-panel-title pull-left">
-          {{ title }}
-        </div>
-        <div class="v-panel-title pull-right">
-          <slot name="actions"/>
-        </div>
+        <div class="v-panel-title pull-left">{{ title }}</div>
+        <div class="v-panel-title pull-right"><slot name="actions"/></div>
       </div>
 
       <div class="panel-body form-horizontal">
         <div class="row">
-          <alert
-              :is-visible.sync="showError"
-              class="col-md-12"
-          >
+          <alert :is-visible.sync="showError" class="col-md-12">
             {{ error }}
           </alert>
 
-          <div :class="contentClass">
-            <slot/>
-          </div>
+          <div :class="contentClass"><slot/></div>
         </div>
       </div>
 
@@ -38,6 +29,8 @@
 import Alert from "@/Components/Alert.vue"
 import Utils from "@/Helpers/Utils"
 import Form from "./Form"
+
+import { IClasses } from "@/typings/common"
 
 export default {
   name: "FormPanel",
@@ -65,21 +58,15 @@ export default {
 
   computed: {
     contentClass(): string[] {
-      return this.calculateColClass("bodyCol{size}")
+      return this.cols("bodyCol{size}")
     },
 
     elementClass() {
-      let classes = []
-
-      if (this.hasErrors) {
-        classes.push("has-data-errors")
+      const initial = {
+        "has-data-errors": this.hasErrors,
+        "has-global-error": this.hasError,
       }
-
-      if (this.hasError) {
-        classes.push("has-global-error")
-      }
-
-      return this.calculateColClass("col{size}", classes)
+      return this.cols(`col{size}`, initial)
     },
 
     hasErrors() {
@@ -100,18 +87,18 @@ export default {
       this.$emit("submit")
     },
 
-    calculateColClass(selectorTemplate: string, initial: string[] = []) {
-      ;["Lg", "Md", "Sm", "Xs"].forEach(size => {
+    cols(selectorTemplate: string, initial: IClasses = {}) {
+      (["Lg", "Md", "Sm", "Xs"]).forEach(size => {
         const valueKey = Utils.supplant(selectorTemplate, { size })
         const value = this[valueKey]
 
         // Skip zero values to avoid un-required classes
         if (value <= 0) return
 
-        const offset = parseInt(((12 - value) / 2).toString())
+        const offset = parseInt(((12 - value) / 2).toString(), 10)
         const sizeKey = size.toLowerCase()
-        initial.push(`col-${sizeKey}-offset-${offset}`)
-        initial.push(`col-${sizeKey}-${value}`)
+        initial[`col-${sizeKey}-offset-${offset}`] = true
+        initial[`col-${sizeKey}-${value}`] = true
       })
 
       return initial

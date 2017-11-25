@@ -63,7 +63,7 @@ export default {
         content: "",
         duration: 1.5,
         closable: false,
-        name: name,
+        name,
       }
 
       this.notices.push(Object.assign(defaults, notice))
