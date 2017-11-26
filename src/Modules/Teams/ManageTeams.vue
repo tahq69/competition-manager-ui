@@ -1,3 +1,45 @@
+<script lang="ts">
+import Grid from "@/Components/Grid/Grid.vue"
+import SortableHeader from "@/Components/Grid/SortableHeader.vue"
+import PanelAction from "@/Components/Panel/PanelAction.vue"
+
+import Paging from "@/Components/Grid/Paging"
+import { createTeam, manageTeams } from "@/Router/Routes"
+
+import teamService from "./Store/Service"
+import Team from "./Team"
+
+export default {
+  name: "ManageTeams",
+
+  components: { Grid, PanelAction, SortableHeader },
+
+  data() {
+    return {
+      createRoute: createTeam,
+      paging: new Paging<Team>(this, { route: manageTeams }),
+    }
+  },
+
+  created() {
+    this.$logger.component(this)
+    this.paging.init(() => this.fetchPage())
+  },
+
+  methods: {
+    async fetchPage() {
+      this.paging.startLoading()
+
+      const pagination = await teamService.fetchTeams({
+        paging: this.paging,
+      })
+
+      this.paging.update(pagination)
+    },
+  },
+}
+</script>
+
 <template>
   <grid id="manage-teams" :paging="paging">
     <span slot="title">{{ $t('teams.manage_teams_grid_title') }}</span>
@@ -67,45 +109,3 @@
     </table>
   </grid>
 </template>
-
-<script lang="ts">
-import Grid from "@/Components/Grid/Grid.vue"
-import SortableHeader from "@/Components/Grid/SortableHeader.vue"
-import PanelAction from "@/Components/Panel/PanelAction.vue"
-
-import Paging from "@/Components/Grid/Paging"
-import { createTeam, manageTeams } from "@/Router/Routes"
-
-import teamService from "./Store/Service"
-import Team from "./Team"
-
-export default {
-  name: "ManageTeams",
-
-  components: { Grid, PanelAction, SortableHeader },
-
-  data() {
-    return {
-      paging: new Paging<Team>(this, { route: manageTeams }),
-      createRoute: createTeam,
-    }
-  },
-
-  created() {
-    this.$logger.component(this)
-    this.paging.init(() => this.fetchPage())
-  },
-
-  methods: {
-    async fetchPage() {
-      this.paging.startLoading()
-
-      const pagination = await teamService.fetchTeams({
-        paging: this.paging,
-      })
-
-      this.paging.update(pagination)
-    },
-  },
-}
-</script>

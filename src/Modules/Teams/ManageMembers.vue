@@ -1,3 +1,64 @@
+<script lang="ts">
+import Grid from "@/Components/Grid/Grid.vue"
+import SortableHeader from "@/Components/Grid/SortableHeader.vue"
+import PanelAction from "@/Components/Panel/PanelAction.vue"
+
+import Paging from "@/Components/Grid/Paging"
+import {
+  createTeamMember,
+  manageTeam,
+  manageTeamMembers,
+} from "@/Router/Routes"
+
+import teamService from "./Store/Service"
+import Team from "./Team"
+import TeamMember from "./TeamMember"
+
+export default {
+  name: "ManageMembers",
+
+  components: { Grid, PanelAction, SortableHeader },
+
+  data() {
+    return {
+      paging: new Paging<TeamMember>(this, { route: manageTeamMembers }),
+    }
+  },
+
+  created() {
+    this.$logger.component(this)
+    this.paging.init(this.fetchPage)
+  },
+
+  computed: {
+    teamId() {
+      return this.$route.params.team
+    },
+
+    manageTeamRoute() {
+      return { ...manageTeam, params: { id: this.teamId } }
+    },
+
+    createTeamMemberRoute() {
+      return { ...createTeamMember, params: { id: this.teamId } }
+    },
+  },
+
+  methods: {
+    async fetchPage() {
+      this.paging.startLoading()
+
+      const pagination = await teamService.fetchTeamMembers({
+        paging: this.paging,
+        team_id: this.teamId,
+      })
+
+      this.paging.update(pagination)
+    },
+  },
+}
+</script>
+
 <template>
   <grid id="manage-members" :paging="paging">
     <span slot="title">{{ $t('teams.manage_members_grid_title') }}</span>
@@ -57,64 +118,3 @@
     </table>
   </grid>
 </template>
-
-<script lang="ts">
-import Grid from "@/Components/Grid/Grid.vue"
-import SortableHeader from "@/Components/Grid/SortableHeader.vue"
-import PanelAction from "@/Components/Panel/PanelAction.vue"
-
-import Paging from "@/Components/Grid/Paging"
-import {
-  createTeamMember,
-  manageTeam,
-  manageTeamMembers,
-} from "@/Router/Routes"
-
-import teamService from "./Store/Service"
-import Team from "./Team"
-import TeamMember from "./TeamMember"
-
-export default {
-  name: "ManageMembers",
-
-  components: { Grid, PanelAction, SortableHeader },
-
-  data() {
-    return {
-      paging: new Paging<TeamMember>(this, { route: manageTeamMembers }),
-    }
-  },
-
-  created() {
-    this.$logger.component(this)
-    this.paging.init(this.fetchPage)
-  },
-
-  computed: {
-    teamId() {
-      return this.$route.params.team
-    },
-
-    manageTeamRoute() {
-      return { ...manageTeam, params: { id: this.teamId } }
-    },
-
-    createTeamMemberRoute() {
-      return { ...createTeamMember, params: { id: this.teamId } }
-    },
-  },
-
-  methods: {
-    async fetchPage() {
-      this.paging.startLoading()
-
-      const pagination = await teamService.fetchTeamMembers({
-        team_id: this.teamId,
-        paging: this.paging,
-      })
-
-      this.paging.update(pagination)
-    },
-  },
-}
-</script>

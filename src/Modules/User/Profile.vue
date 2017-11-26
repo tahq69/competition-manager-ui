@@ -1,7 +1,3 @@
-<template>
-  <div>Profile.vue</div>
-</template>
-
 <script lang="ts">
 import Gravatar from "@/Components/Gravatar.vue"
 
@@ -35,3 +31,7 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div>Profile.vue</div>
+</template>

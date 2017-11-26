@@ -1,3 +1,61 @@
+<script lang="ts">
+import Focus from "@/Components/Focus"
+import Form from "@/Components/Forms/Form"
+import FormGroup from "@/Components/Forms/FormGroup.vue"
+import FormPanel from "@/Components/Forms/FormPanel.vue"
+
+import Auth, { middleware as auth } from "@/Components/Auth"
+import { forgotPassword, home, IRoute } from "@/Router/Routes"
+
+export default {
+  name: "Login",
+
+  components: { FormPanel, FormGroup },
+
+  directives: { Focus },
+
+  mounted() {
+    this.$logger.component(this)
+
+    if (auth.isAuthenticated()) {
+      this.$router.push(home)
+    }
+  },
+
+  data() {
+    return {
+      form: new Form({
+        email: "",
+        password: "",
+      }),
+    }
+  },
+
+  computed: {
+    forgotPassword(): IRoute {
+      return forgotPassword
+    },
+  },
+
+  methods: {
+    async authorize() {
+      this.$logger.info("authorize", this.form)
+      this.form.clearErrors()
+      try {
+        const credentials = {
+          password: this.form.data.password,
+          username: this.form.data.email,
+        }
+        await Auth.login(credentials)
+        this.$router.push(home)
+      } catch (error) {
+        this.form.addErrors({ email: [error] })
+      }
+    },
+  },
+}
+</script>
+
 <template>
   <form-panel
       id="login"
@@ -58,61 +116,3 @@
     </form-group>
   </form-panel>
 </template>
-
-<script lang="ts">
-import Focus from "@/Components/Focus"
-import Form from "@/Components/Forms/Form"
-import FormGroup from "@/Components/Forms/FormGroup.vue"
-import FormPanel from "@/Components/Forms/FormPanel.vue"
-
-import Auth, { middleware as auth } from "@/Components/Auth"
-import { forgotPassword, home, IRoute } from "@/Router/Routes"
-
-export default {
-  name: "Login",
-
-  components: { FormPanel, FormGroup },
-
-  directives: { Focus },
-
-  mounted() {
-    this.$logger.component(this)
-
-    if (auth.isAuthenticated()) {
-      this.$router.push(home)
-    }
-  },
-
-  data() {
-    return {
-      form: new Form({
-        email: "",
-        password: "",
-      }),
-    }
-  },
-
-  computed: {
-    forgotPassword(): IRoute {
-      return forgotPassword
-    },
-  },
-
-  methods: {
-    async authorize() {
-      this.$logger.info("authorize", this.form)
-      this.form.clearErrors()
-      try {
-        const credentials = {
-          username: this.form.data.email,
-          password: this.form.data.password,
-        }
-        await Auth.login(credentials)
-        this.$router.push(home)
-      } catch (error) {
-        this.form.addErrors({ email: [error] })
-      }
-    },
-  },
-}
-</script>

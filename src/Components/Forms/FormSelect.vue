@@ -1,66 +1,24 @@
-<template>
-  <div class="dropdown v-form-select" :class="{'open': open}">
-    <input
-        class="form-control"
-        type="text"
-        v-model="search"
-        @focus="focus"
-        @blur="blur"
-        @keydown.esc="escape"
-        @keydown.enter="enter"
-        @keydown.down="down"
-        @keydown.up="up"
-        @input="change"
-    />
-    <ul class="dropdown-menu" style="width:100%">
-      <li
-          v-for="(option, index) in availableOptions"
-          :class="{'active': isActive(index)}"
-          :key="index"
-      >
-        <a @click.prevent="optionClick(index)" href="#">
-          {{ option.__text || text(option) }}
-        </a>
-      </li>
-
-      <li
-          v-if="loading"
-          class="disabled"
-      >
-        <a href="#">Searching...</a>
-      </li>
-
-      <li
-          v-if="availableOptions.length === 0"
-          class="disabled"
-      >
-        <a href="#">No data</a>
-      </li>
-    </ul>
-</div>
-</template>
-
 <script lang="ts">
 export default {
   name: "FormSelect",
 
   props: {
-    text: { type: Function, required: true },
-    options: { type: Array, default: () => [] },
     async: { type: Boolean, default: () => false },
-    searchOptions: { type: Function, default: () => null },
-    openOnFocus: { type: Boolean, default: () => true },
     init: { type: Function, default: () => async () => null },
+    openOnFocus: { type: Boolean, default: () => true },
+    options: { type: Array, default: () => [] },
+    searchOptions: { type: Function, default: () => null },
+    text: { type: Function, required: true },
   },
 
   data() {
     return {
+      checkpoint: null,
+      current: -1,
+      fetchedOptions: [],
       loading: false,
       open: false,
-      current: -1,
       search: "",
-      fetchedOptions: [],
-      checkpoint: null,
     }
   },
 
@@ -178,9 +136,9 @@ export default {
 
     createCheckpoint() {
       this.checkpoint = {
-        search: this.search,
         index: this.current,
         option: this.availableOptions[this.current],
+        search: this.search,
       }
     },
 
@@ -216,3 +174,44 @@ export default {
 }
 </style>
 
+<template>
+  <div class="dropdown v-form-select" :class="{'open': open}">
+    <input
+        class="form-control"
+        type="text"
+        v-model="search"
+        @focus="focus"
+        @blur="blur"
+        @keydown.esc="escape"
+        @keydown.enter="enter"
+        @keydown.down="down"
+        @keydown.up="up"
+        @input="change"
+    />
+    <ul class="dropdown-menu" style="width:100%">
+      <li
+          v-for="(option, index) in availableOptions"
+          :class="{'active': isActive(index)}"
+          :key="index"
+      >
+        <a @click.prevent="optionClick(index)" href="#">
+          {{ option.__text || text(option) }}
+        </a>
+      </li>
+
+      <li
+          v-if="loading"
+          class="disabled"
+      >
+        <a href="#">Searching...</a>
+      </li>
+
+      <li
+          v-if="availableOptions.length === 0"
+          class="disabled"
+      >
+        <a href="#">No data</a>
+      </li>
+    </ul>
+  </div>
+</template>

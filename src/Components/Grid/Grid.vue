@@ -1,3 +1,25 @@
+<script lang="ts">
+import Panel from "@/Components/Panel/Panel.vue"
+
+import Pagination from "./Pagination.vue"
+import Paging from "./Paging"
+
+export default {
+  name: "Grid",
+
+  components: { Panel, Pagination },
+
+  props: {
+    hideHeader: { type: Boolean, default: () => false },
+    paging: { type: Paging, required: true },
+  },
+
+  mounted() {
+    this.$logger.component(this)
+  },
+}
+</script>
+
 <template>
   <!--v-loading="paging.loading"-->
   <panel class="col-md-12" :hide-header="hideHeader">
@@ -11,28 +33,6 @@
     <pagination :paging="paging"></pagination>
   </panel>
 </template>
-
-<script lang="ts">
-import Panel from "@/Components/Panel/Panel.vue"
-
-import Pagination from "./Pagination.vue"
-import Paging from "./Paging"
-
-export default {
-  name: "Grid",
-
-  components: { Panel, Pagination },
-
-  props: {
-    paging: { type: Paging, required: true },
-    hideHeader: { type: Boolean, default: () => false },
-  },
-
-  mounted() {
-    this.$logger.component(this)
-  },
-}
-</script>
 
 <style>
 .panel-body .pagination,

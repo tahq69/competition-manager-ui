@@ -1,3 +1,64 @@
+<script lang="ts">
+import Focus from "@/Components/Focus"
+import Form from "@/Components/Forms/Form"
+import FormGroup from "@/Components/Forms/FormGroup.vue"
+import FormPanel from "@/Components/Forms/FormPanel.vue"
+
+import Auth, { middleware as auth } from "@/Components/Auth"
+import { home } from "@/Router/Routes"
+import store from "@/Store"
+
+import { IRegister } from "./Store/Contracts"
+
+export default {
+  name: "SignUp",
+
+  components: { FormPanel, FormGroup },
+
+  directives: { Focus },
+
+  mounted() {
+    this.$logger.component(this)
+
+    if (auth.isAuthenticated()) {
+      this.$router.push(home)
+    }
+  },
+
+  data() {
+    return {
+      form: new Form({
+        email: "",
+        name: "",
+        password: "",
+        password_confirmation: "",
+      }),
+    }
+  },
+
+  methods: {
+    async signUp() {
+      this.form.clearErrors()
+      try {
+        await store.dispatch<IRegister>({
+          type: "register",
+          ...this.form.data,
+        })
+
+        await Auth.login({
+          password: this.form.data.password,
+          username: this.form.data.email,
+        })
+
+        this.$router.push(home)
+      } catch (errors) {
+        this.form.addErrors(errors)
+      }
+    },
+  },
+}
+</script>
+
 <template>
   <form-panel
       id="signup"
@@ -89,64 +150,3 @@
     </form-group>
   </form-panel>
 </template>
-
-<script lang="ts">
-import Focus from "@/Components/Focus"
-import Form from "@/Components/Forms/Form"
-import FormGroup from "@/Components/Forms/FormGroup.vue"
-import FormPanel from "@/Components/Forms/FormPanel.vue"
-
-import Auth, { middleware as auth } from "@/Components/Auth"
-import { home } from "@/Router/Routes"
-import store from "@/Store"
-
-import { IRegister } from "./Store/Contracts"
-
-export default {
-  name: "SignUp",
-
-  components: { FormPanel, FormGroup },
-
-  directives: { Focus },
-
-  mounted() {
-    this.$logger.component(this)
-
-    if (auth.isAuthenticated()) {
-      this.$router.push(home)
-    }
-  },
-
-  data() {
-    return {
-      form: new Form({
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-      }),
-    }
-  },
-
-  methods: {
-    async signUp() {
-      this.form.clearErrors()
-      try {
-        await store.dispatch<IRegister>({
-          type: "register",
-          ...this.form.data,
-        })
-
-        await Auth.login({
-          username: this.form.data.email,
-          password: this.form.data.password,
-        })
-
-        this.$router.push(home)
-      } catch (errors) {
-        this.form.addErrors(errors)
-      }
-    },
-  },
-}
-</script>

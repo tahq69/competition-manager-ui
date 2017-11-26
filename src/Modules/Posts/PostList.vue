@@ -1,13 +1,13 @@
-<template>
-  <div>PostList.vue</div>
-</template>
-
 <script>
 export default {
   name: "PostList",
 
   mounted() {
-    this.$logger.component(this)
+    this.log = this.$logger.component(this)
   },
 }
 </script>
+
+<template>
+  <div>PostList.vue</div>
+</template>

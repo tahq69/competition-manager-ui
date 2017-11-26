@@ -1,20 +1,3 @@
-<template>
-  <div :class="groupClass" class="form-group crip-form-group">
-    <label
-        v-if="label"
-        :for="id"
-        :id="`${id}-label`"
-        :class="labelClass"
-    >
-      {{ label }}
-    </label>
-    <div :class="controlClass">
-      <slot/>
-      <form-errors :errors="formErrors"/>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import Utils from "@/Helpers/Utils"
 import FormErrors from "./FormErrors.vue"
@@ -29,14 +12,14 @@ export default {
   components: { FormErrors },
 
   props: {
-    for: { type: String },
-    label: { type: String, default: () => "" },
-    form: { type: Form, default: () => new Form({ __: false }) },
-    errors: { type: Array, default: () => [] },
     colLg: { type: Number, default: () => 0 },
     colMd: { type: Number, default: () => 0 },
     colSm: { type: Number, default: () => 0 },
     colXs: { type: Number, default: () => 12 },
+    errors: { type: Array, default: () => [] },
+    for: { type: String },
+    form: { type: Form, default: () => new Form({ __: false }) },
+    label: { type: String, default: () => "" },
   },
 
   computed: {
@@ -115,3 +98,20 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div :class="groupClass" class="form-group crip-form-group">
+    <label
+        v-if="label"
+        :for="id"
+        :id="`${id}-label`"
+        :class="labelClass"
+    >
+      {{ label }}
+    </label>
+    <div :class="controlClass">
+      <slot/>
+      <form-errors :errors="formErrors"/>
+    </div>
+  </div>
+</template>

@@ -1,11 +1,3 @@
-<template>
-  <ul v-if="hasErrors" class="help-block crip-form-errors">
-    <li v-for="error in errors" :key="error" class="text-danger">
-      {{ error }}
-    </li>
-  </ul>
-</template>
-
 <script lang="ts">
 export default {
   name: "FormErrors",
@@ -21,3 +13,11 @@ export default {
   },
 }
 </script>
+
+<template>
+  <ul v-if="hasErrors" class="help-block crip-form-errors">
+    <li v-for="error in errors" :key="error" class="text-danger">
+      {{ error }}
+    </li>
+  </ul>
+</template>

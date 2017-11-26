@@ -1,3 +1,13 @@
+<script lang="ts">
+export default {
+  name: "NavbarItems",
+
+  props: {
+    items: { type: Array, default: () => [] },
+  },
+}
+</script>
+
 <template>
   <ul>
     <template v-for="item in items">
@@ -11,13 +21,3 @@
     </template>
   </ul>
 </template>
-
-<script lang="ts">
-export default {
-  name: "NavbarItems",
-
-  props: {
-    items: { type: Array, default: () => [] },
-  },
-}
-</script>

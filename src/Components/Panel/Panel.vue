@@ -1,3 +1,17 @@
+<script lang="ts">
+export default {
+  name: "Panel",
+
+  mounted() {
+    this.$logger.component(this)
+  },
+
+  props: {
+    hideHeader: { type: Boolean, default: () => false },
+  },
+}
+</script>
+
 <template>
   <div class="v-panel">
     <div class="panel panel-default">
@@ -22,17 +36,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: "Panel",
-
-  mounted() {
-    this.$logger.component(this)
-  },
-
-  props: {
-    hideHeader: { type: Boolean, default: () => false },
-  },
-}
-</script>

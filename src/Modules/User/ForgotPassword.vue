@@ -1,42 +1,3 @@
-<template>
-  <form-panel
-      id="forgot-password"
-      @submit="sendResetEmail"
-      :form="form"
-      :title="$t('user.forgotPassword_title')"
-      :body-col-md="10"
-      :col-sm="10"
-      :col-md="8"
-      :col-lg="6"
-  >
-    <!-- #email -->
-    <form-group
-        for="email"
-        :form="form"
-        :label="$t('user.forgotPassword_email_label')"
-        :col-sm="8"
-    >
-      <input
-          type="email"
-          id="email"
-          name="email"
-          class="form-control"
-          :placeholder="$t('user.forgotPassword_email_placeholder')"
-          v-model="form.data.email"
-          v-focus="true"
-          required
-      >
-    </form-group>
-    
-    <!-- #submit -->
-    <form-group for="submit" :col-sm="8">
-      <button id="submit" type="submit" class="btn btn-primary">
-        {{ $t('user.forgotPassword_submit_button') }}
-      </button>
-    </form-group>
-  </form-panel>
-</template>
-
 <script lang="ts">
 import Focus from "@/Components/Focus"
 import Form from "@/Components/Forms/Form"
@@ -75,8 +36,8 @@ export default {
 
       try {
         await store.dispatch<IEmailPasswordReset>({
-          type: "emailPasswordReset",
           email: this.form.data.email,
+          type: "emailPasswordReset",
         })
 
         // TODO: add notification for user about email has been sent.
@@ -89,3 +50,42 @@ export default {
   },
 }
 </script>
+
+<template>
+  <form-panel
+      id="forgot-password"
+      @submit="sendResetEmail"
+      :form="form"
+      :title="$t('user.forgotPassword_title')"
+      :body-col-md="10"
+      :col-sm="10"
+      :col-md="8"
+      :col-lg="6"
+  >
+    <!-- #email -->
+    <form-group
+        for="email"
+        :form="form"
+        :label="$t('user.forgotPassword_email_label')"
+        :col-sm="8"
+    >
+      <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          :placeholder="$t('user.forgotPassword_email_placeholder')"
+          v-model="form.data.email"
+          v-focus="true"
+          required
+      >
+    </form-group>
+    
+    <!-- #submit -->
+    <form-group for="submit" :col-sm="8">
+      <button id="submit" type="submit" class="btn btn-primary">
+        {{ $t('user.forgotPassword_submit_button') }}
+      </button>
+    </form-group>
+  </form-panel>
+</template>

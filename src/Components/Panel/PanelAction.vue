@@ -1,9 +1,3 @@
-<template>
-  <router-link :to="to" class="btn btn-default btn-xs">
-    <slot></slot>
-  </router-link>
-</template>
-
 <script lang="ts">
 export default {
   name: "PanelAction",
@@ -17,3 +11,9 @@ export default {
   },
 }
 </script>
+
+<template>
+  <router-link :to="to" class="btn btn-default btn-xs">
+    <slot></slot>
+  </router-link>
+</template>

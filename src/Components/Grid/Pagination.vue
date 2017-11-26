@@ -1,24 +1,3 @@
-<template>
-  <ul class="pagination" v-if="hasMoreThanOnePage">
-    <li
-        v-for="page in pages"
-        :class="{
-          [paging.disabledClass]: page.disabled,
-          [paging.activeClass]: page.active
-        }"
-        :key="page.key"
-    >
-      <router-link
-          :to="page.route"
-          :title="page.title"
-          onclick="this.blur();"
-      >
-        {{ page.text }}
-      </router-link>
-    </li>
-  </ul>
-</template>
-
 <script lang="ts">
 import Page from "./Page"
 import Paging from "./Paging"
@@ -99,3 +78,24 @@ export default {
   },
 }
 </script>
+
+<template>
+  <ul class="pagination" v-if="hasMoreThanOnePage">
+    <li
+        v-for="page in pages"
+        :class="{
+          [paging.disabledClass]: page.disabled,
+          [paging.activeClass]: page.active
+        }"
+        :key="page.key"
+    >
+      <router-link
+          :to="page.route"
+          :title="page.title"
+          onclick="this.blur();"
+      >
+        {{ page.text }}
+      </router-link>
+    </li>
+  </ul>
+</template>

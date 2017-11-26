@@ -1,30 +1,3 @@
-<template>
-  <form
-      @submit.prevent="submit"
-      :class="elementClass"
-      class="crip-form-panel crip-panel"
-  >
-    <div class="panel panel-default">
-
-      <div class="panel-heading clearfix">
-        <div class="v-panel-title pull-left">{{ title }}</div>
-        <div class="v-panel-title pull-right"><slot name="actions"/></div>
-      </div>
-
-      <div class="panel-body form-horizontal">
-        <div class="row">
-          <alert :is-visible.sync="showError" class="col-md-12">
-            {{ error }}
-          </alert>
-
-          <div :class="contentClass"><slot/></div>
-        </div>
-      </div>
-
-    </div>
-  </form>
-</template>
-
 <script lang="ts">
 import Alert from "@/Components/Alert.vue"
 import Utils from "@/Helpers/Utils"
@@ -38,8 +11,6 @@ export default {
   components: { Alert },
 
   props: {
-    title: { type: String, required: true },
-    form: { type: Form, default: () => new Form({ __: false }) },
     bodyColLg: { type: Number, default: () => 0 },
     bodyColMd: { type: Number, default: () => 0 },
     bodyColSm: { type: Number, default: () => 0 },
@@ -48,6 +19,8 @@ export default {
     colMd: { type: Number, default: () => 0 },
     colSm: { type: Number, default: () => 0 },
     colXs: { type: Number, default: () => 12 },
+    form: { type: Form, default: () => new Form({ __: false }) },
+    title: { type: String, required: true },
   },
 
   data() {
@@ -118,3 +91,30 @@ export default {
   },
 }
 </script>
+
+<template>
+  <form
+      @submit.prevent="submit"
+      :class="elementClass"
+      class="crip-form-panel crip-panel"
+  >
+    <div class="panel panel-default">
+
+      <div class="panel-heading clearfix">
+        <div class="v-panel-title pull-left">{{ title }}</div>
+        <div class="v-panel-title pull-right"><slot name="actions"/></div>
+      </div>
+
+      <div class="panel-body form-horizontal">
+        <div class="row">
+          <alert :is-visible.sync="showError" class="col-md-12">
+            {{ error }}
+          </alert>
+
+          <div :class="contentClass"><slot/></div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</template>

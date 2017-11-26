@@ -1,3 +1,33 @@
+<script lang="ts">
+import Vue from "vue"
+
+const typeValues = ["success", "info", "warning", "danger"]
+
+export default {
+  name: "Alert",
+
+  mounted() {
+    this.$logger.component(this)
+  },
+
+  props: {
+    isVisible: { type: Boolean, default: () => true },
+    type: {
+      default: () => "danger",
+      type: String,
+      validator: value => typeValues.indexOf(value) > -1,
+    },
+  },
+
+  methods: {
+    hide() {
+      this.$emit("update:isVisible", false)
+      this.$emit("hide")
+    },
+  },
+}
+</script>
+
 <template>
   <div v-if="isVisible">
     <div
@@ -17,37 +47,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import Vue from "vue"
-
-const typeValues = ["success", "info", "warning", "danger"]
-
-export default {
-  name: "Alert",
-
-  mounted() {
-    this.$logger.component(this)
-  },
-
-  props: {
-    type: {
-      type: String,
-      default: () => "danger",
-      validator: value => typeValues.indexOf(value) > -1,
-    },
-
-    isVisible: {
-      type: Boolean,
-      default: () => true,
-    },
-  },
-
-  methods: {
-    hide() {
-      this.$emit("update:isVisible", false)
-      this.$emit("hide")
-    },
-  },
-}
-</script>

@@ -1,9 +1,6 @@
 // https://github.com/vuejs/vue
 import Vue from "vue"
 
-// https://github.com/shakee93/vue-toasted
-import Toasted from "vue-toasted"
-
 // https://www.npmjs.com/package/crip-vue-bootstrap-modal
 import CripModal from "crip-vue-bootstrap-modal"
 
