@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import {ILogger} from '../Helpers/Logger'
+import Vue from "vue"
+import { ILogger } from "../Helpers/Logger"
 
-declare module 'vue/types/vue' {
+declare module "vue/types/vue" {
   interface Vue {
     $logger: ILogger
   }

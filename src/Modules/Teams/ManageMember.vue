@@ -95,10 +95,11 @@ export default {
           team_id: this.teamId,
           user_id: this.form.data.user_id,
         })
-        /*Notice.success({
-          title: "saved",
+
+        this.$notice.success({
           description: "Record sucessfully saved",
-        })*/
+          title: "saved",
+        })
 
         this.$router.push(member.routes.edit)
       } catch (error) {

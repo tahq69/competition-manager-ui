@@ -7,6 +7,9 @@ import CripModal from "crip-vue-bootstrap-modal"
 // https://www.npmjs.com/package/crip-vue-loading
 import CripLoading from "crip-vue-loading"
 
+// https://www.npmjs.com/package/crip-vue-notice
+import CripNotice from "crip-vue-notice"
+
 // https://github.com/axios/axios
 import axios from "axios"
 
@@ -22,6 +25,7 @@ import Store from "./Store"
 
 Vue.use(CripLoading, { axios })
 Vue.use(CripModal)
+Vue.use(CripNotice, { duration: 4, style: { top: "64px" } })
 Vue.use(Logger, config.logs)
 
 sync(Store, Router)
