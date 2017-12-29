@@ -1,11 +1,13 @@
 <script lang="ts">
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   name: "ManagePosts",
 
   mounted() {
     this.log = this.$logger.component(this)
   },
-}
+})
 </script>
 
 <template>

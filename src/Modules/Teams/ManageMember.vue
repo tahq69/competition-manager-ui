@@ -1,50 +1,74 @@
 <script lang="ts">
+import CripSelect from "crip-vue-select"
+import Vue from "vue"
+
 import Form from "@/Components/Forms/Form"
 import FormGroup from "@/Components/Forms/FormGroup.vue"
 import FormPanel from "@/Components/Forms/FormPanel.vue"
-import FormSelect from "@/Components/Forms/FormSelect.vue"
 import PanelAction from "@/Components/Panel/PanelAction.vue"
 
 import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
+import { MemberBase } from "@/types"
 
 import teamService from "./Store/Service"
 import TeamMember from "./TeamMember"
 
-export default {
+export default Vue.extend({
   name: "ManageMember",
 
-  components: { FormPanel, PanelAction, FormGroup, FormSelect },
+  components: { FormPanel, PanelAction, FormGroup },
 
   data() {
     return {
       form: new Form({ user_id: 0, name: "", id: 0 }),
       team: {},
-      userOptions: [],
+      userSelect: new CripSelect({ async: true }),
     }
   },
 
   created() {
     this.log = this.$logger.component(this)
     this.fetchTeam()
+    this.userSelect.onUpdate((name, update) =>
+      teamService.searchUser({ name }).then(users => update(users)),
+    )
+    this.userSelect.onInit(select => {
+      teamService
+        .fetchTeamMember({
+          id: this.id,
+          team_id: this.teamId,
+        })
+        .then(member => {
+          select({
+            key: member.user_id || 0,
+            text: member.name,
+            value: {
+              id: member.id,
+              user_id: member.user_id,
+              name: member.name,
+            },
+          })
+        })
+    })
   },
 
   computed: {
-    teamId() {
-      return this.$route.params.team | 0
+    teamId(): number {
+      return parseInt(this.$route.params.team)
     },
 
-    id() {
-      return this.$route.params.id | 0
+    id(): number {
+      return parseInt(this.$route.params.id)
     },
 
     isEdit(): boolean {
       return this.$route.name === manageTeamMember.name
     },
 
-    title() {
-      if (this.isEdit) return this.$t("teams.manage_member_edit_title")
+    title(): string {
+      if (this.isEdit) return this.$t("teams.manage_member_edit_title") as string
 
-      return this.$t("teams.manage_member_create_title")
+      return this.$t("teams.manage_member_create_title") as string
     },
   },
 
@@ -77,14 +101,6 @@ export default {
       return await teamService.searchUser({ name })
     },
 
-    async preloadMember() {
-      this.log("preloadMember", { isEdit: this.isEdit })
-      if (!this.isEdit) return
-
-      const member = (await this.fetchTeamMember()) as TeamMember
-      return { id: member.user_id, name: member.name }
-    },
-
     async saveMember() {
       this.log("saveMember", { data: this.form.data })
       this.form.clearErrors()
@@ -101,26 +117,28 @@ export default {
           title: "saved",
         })
 
-        this.$router.push(member.routes.edit)
+        this.$router.push(member && member.routes ? member.routes.edit : "")
       } catch (error) {
         const errors = this.concatErrors(error)
         this.form.addErrors(errors)
       }
     },
 
-    concatErrors(errors) {
+    concatErrors(errors: any) {
       if (errors.user_id) {
-        errors.name = errors.name
-          ? [...errors.name, ...errors.user_id]
-          : errors.user_id
+        errors.name = errors.name ? [...errors.name, ...errors.user_id] : errors.user_id
       }
 
       return errors
     },
 
-    async associatedMember(user: { id: number; name: string }) {
+    async associatedMember(user: { id: number; name: string } | string) {
       this.log("associatedMember", { user })
-      if (!user) return
+
+      if (typeof user === "string") {
+        this.newMember(user)
+        return
+      }
 
       this.form.data.user_id = user.id
       this.form.data.name = user.name
@@ -136,62 +154,52 @@ export default {
       this.form.data.user_id = 0
     },
   },
-}
+})
 </script>
 
 <template>
-  <form-panel
-      id="manage-member"
-      :form="form"
-      :title="title"
-      @submit="saveMember"
-  >
-    <panel-action
-        slot="actions"
-        v-if="team.id"
-        :to="team.routes.manageMembers"
-    >
+  <form-panel id="manage-member"
+              :form="form"
+              :title="title"
+              @submit="saveMember">
+    <panel-action slot="actions"
+                  v-if="team.id"
+                  :to="team.routes.manageMembers">
       {{ $t('teams.manage_member_action_back', { team: team.short }) }}
     </panel-action>
 
     <!-- #name -->
-    <form-group
-        for="name"
-        :form="form"
-        :label="$t('teams.manage_member_name_label')"
-        :col-sm="8"
-    >
-      <form-select
-          :async="true"
-          :search-options="userSearch"
-          :text="(o) => o.name"
-          :init="preloadMember"
-          @input="associatedMember"
-          @create="newMember"
-      />
+    <form-group for="name"
+                :form="form"
+                :label="$t('teams.manage_member_name_label')"
+                :col-sm="8">
+
+      <crip-select :settings="userSelect"
+                   @input="associatedMember"
+                   :tags="true" />
     </form-group>
 
     <!-- #invitation -->
-    <form-group :col-sm="8" v-if="form.data.user_id && !isEdit">
-      <button
-          type="button"
-          @click="dismissInvitation"
-          class="close text-danger"
-          :title="$t('teams.manage_member_invitation_dismiss')"
-      >
+    <form-group :col-sm="8"
+                v-if="form.data.user_id && !isEdit">
+      <button type="button"
+              @click="dismissInvitation"
+              class="close text-danger"
+              :title="$t('teams.manage_member_invitation_dismiss')">
         &times;
       </button>
       <span>
-        {{ $t('teams.manage_member_invitation_text', {
-          name: form.data.name,
-          team: team.short,
-        }) }}
+        {{ $t('teams.manage_member_invitation_text', { name: form.data.name, team: team.short})
+        }}
       </span>
     </form-group>
 
     <!-- #submit -->
-    <form-group for="submit" :col-sm="8">
-      <button id="submit" type="submit" class="btn btn-primary">
+    <form-group for="submit"
+                :col-sm="8">
+      <button id="submit"
+              type="submit"
+              class="btn btn-primary">
         {{ $t('teams.manage_member_submit_btn') }}
       </button>
     </form-group>

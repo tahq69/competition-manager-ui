@@ -20,14 +20,13 @@ interface IUrlParams {
 }
 
 export class Api {
-  public static url(path: string, props?: IUrlParams) {
-    if (!props) props = {}
+  public static url(path: string, props: IUrlParams = {}) {
     let url = path.replace(new RegExp("^[\\/]+"), "")
     url = props.root ? `${config.url}/${url}` : `${config.api_url}/${url}`
     url = Utils.supplant(url, props.urlReplace || {})
 
     Object.keys(props.params || {}).forEach(index => {
-      const val = props.params[index]
+      const val = (props.params || {})[index]
       if (Utils.hasValue(val)) {
         url = Api.addParameter(url, index, val)
       }
@@ -40,7 +39,7 @@ export class Api {
    * Handle application error.
    * @param error
    */
-  public static handle(error) {
+  public static handle(error: any) {
     if (error && error.response) {
       Api.handleHttpError(error.response)
       return

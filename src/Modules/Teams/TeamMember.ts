@@ -18,13 +18,16 @@ export default class TeamMember extends Entity {
   public name: string
   public membership_type: string
 
-  constructor(data) {
+  constructor(data: any) {
     super()
     this.updateProps(data)
   }
 
   public get routes() {
-    const params = { team: this.team_id, id: this.id }
+    const params = {
+      team: this.team_id ? this.team_id.toString() : "",
+      id: this.id.toString(),
+    }
 
     return {
       edit: { ...manageTeamMember, params },
@@ -36,7 +39,7 @@ export default class TeamMember extends Entity {
    * Update current instance properties.
    * @param data
    */
-  protected updateProps(data) {
+  protected updateProps(data: any) {
     super.updateProps(data)
 
     this.user_id = data.user_id

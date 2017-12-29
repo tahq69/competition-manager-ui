@@ -71,7 +71,7 @@ export default class Utils {
     return !Utils.isEmpty(value)
   }
 
-  public static hasProperty(object: object, ...properties: string[]): boolean {
+  public static hasProperty(object: any, ...properties: string[]): boolean {
     let target = object
     // tslint:disable-next-line:forin
     for (const arg in properties) {
@@ -106,7 +106,7 @@ export default class Utils {
    * @returns
    * @memberof Utils
    */
-  public static supplant(template: string, values: object) {
+  public static supplant(template: string, values: any) {
     return template.replace(/\{([^{}]*)\}/g, (a, b): string => {
       const r = values[b]
       const isStrOrNr = typeof r === "string" || typeof r === "number"

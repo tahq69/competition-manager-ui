@@ -31,7 +31,7 @@ export default class Page {
     return this.nr === this.curr
   }
 
-  private cloneRoute(original) {
+  private cloneRoute(original: any) {
     const route = JSON.parse(JSON.stringify(original))
 
     if (!route.params) {

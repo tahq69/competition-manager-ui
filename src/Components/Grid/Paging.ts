@@ -2,6 +2,7 @@ import Vue from "vue"
 
 import Entity from "@/Components/Entity"
 import { IRoute } from "@/Router/Routes"
+import Pagination from "src/Helpers/Pagination";
 
 interface IDictionary<T> {
   [key: string]: T
@@ -13,7 +14,7 @@ export default class Paging<T extends Entity> {
   public $perPage: number
   public $direction: string
   public $sort: string
-  public selected: T
+  public selected: T | null
   public show: number
   public disabledClass: string
   public activeClass: string
@@ -27,7 +28,7 @@ export default class Paging<T extends Entity> {
   constructor(
     vm: Vue,
     {
-      route,
+      route = {} as IRoute,
       activeClass = "active",
       disabledClass = "disabled",
       show = 5,
@@ -74,7 +75,7 @@ export default class Paging<T extends Entity> {
     }
   }
 
-  public async init(callback) {
+  public async init(callback: () => void) {
     await callback()
     this.$vm.$watch("$route.params", async (newValues, oldValues) => {
       if (!this.isPagingParamsChanged(newValues, oldValues)) return
@@ -94,7 +95,7 @@ export default class Paging<T extends Entity> {
     this.loading = true
   }
 
-  public rowClasses(item, extra = {}) {
+  public rowClasses(item: T, extra = {}) {
     return {
       "with-hidden-actions": true,
       [this.activeClass]: this.selected && this.selected.id === item.id,
@@ -102,22 +103,16 @@ export default class Paging<T extends Entity> {
     }
   }
 
-  public select(item) {
+  public select(item: T) {
     this.selected = item
   }
 
-  public update({
-    currentPage = 0,
-    lastPage = 0,
-    perPage = 0,
-    items = [],
-    loading = false,
-  }) {
-    this.$page = currentPage
-    this.$perPage = perPage
-    this.lastPage = lastPage
-    this.items = items
-    this.loading = loading
+  public update(pagination: Pagination<T>) {
+    this.$page = pagination.currentPage
+    this.$perPage = pagination.perPage
+    this.lastPage = pagination.lastPage
+    this.items = pagination.items
+    this.loading = pagination.loading
 
     // this will allow return to page where we last time left
     this.route.params
@@ -125,7 +120,7 @@ export default class Paging<T extends Entity> {
       : (this.route.params = { page: this.$page })
   }
 
-  private isPagingParamsChanged(a, b) {
+  private isPagingParamsChanged(a: any, b: any) {
     return (
       a.page !== b.page ||
       a.sort !== b.sort ||

@@ -1,11 +1,13 @@
 <script lang="ts">
+import Vue from "vue"
+
 import Alert from "@/Components/Alert.vue"
 import Utils from "@/Helpers/Utils"
 import Form from "./Form"
 
-import { IClasses } from "@/typings/common"
+import { IClasses } from "@/types"
 
-export default {
+export default Vue.extend({
   name: "FormPanel",
 
   components: { Alert },
@@ -31,27 +33,32 @@ export default {
 
   computed: {
     contentClass(): string[] {
-      return this.cols("bodyCol{size}")
+      const self = this as any
+      return self.cols("bodyCol{size}")
     },
 
-    elementClass() {
+    elementClass(): IClasses {
+      const self = this as any
       const initial = {
         "has-data-errors": this.hasErrors,
         "has-global-error": this.hasError,
       }
-      return this.cols(`col{size}`, initial)
+      return self.cols(`col{size}`, initial)
     },
 
-    hasErrors() {
-      return this.form.hasErrors
+    hasErrors(): boolean {
+      const self = this as any
+      return self.form.hasErrors
     },
 
-    hasError() {
-      return this.form.hasUnknownError
+    hasError(): boolean {
+      const self = this as any
+      return self.form.hasUnknownError
     },
 
-    error() {
-      return this.form.unknownError
+    error(): string {
+      const self = this as any
+      return self.form.unknownError
     },
   },
 
@@ -61,9 +68,10 @@ export default {
     },
 
     cols(selectorTemplate: string, initial: IClasses = {}) {
+      const self = this as any
       (["Lg", "Md", "Sm", "Xs"]).forEach(size => {
         const valueKey = Utils.supplant(selectorTemplate, { size })
-        const value = this[valueKey]
+        const value = self[valueKey]
 
         // Skip zero values to avoid un-required classes
         if (value <= 0) return
@@ -80,38 +88,42 @@ export default {
 
   watch: {
     hasError(value: boolean, oldValue: boolean) {
+      const self = this as any
       if (!oldValue && value) {
-        this.showError = true
+        self.showError = true
       }
 
       if (oldValue && !value) {
-        this.showError = false
+        self.showError = false
       }
     },
   },
-}
+})
 </script>
 
 <template>
-  <form
-      @submit.prevent="submit"
-      :class="elementClass"
-      class="crip-form-panel crip-panel"
-  >
+  <form @submit.prevent="submit"
+        :class="elementClass"
+        class="crip-form-panel crip-panel">
     <div class="panel panel-default">
 
       <div class="panel-heading clearfix">
         <div class="v-panel-title pull-left">{{ title }}</div>
-        <div class="v-panel-title pull-right"><slot name="actions"/></div>
+        <div class="v-panel-title pull-right">
+          <slot name="actions" />
+        </div>
       </div>
 
       <div class="panel-body form-horizontal">
         <div class="row">
-          <alert :is-visible.sync="showError" class="col-md-12">
+          <alert :is-visible.sync="showError"
+                 class="col-md-12">
             {{ error }}
           </alert>
 
-          <div :class="contentClass"><slot/></div>
+          <div :class="contentClass">
+            <slot/>
+          </div>
         </div>
       </div>
 

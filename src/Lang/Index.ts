@@ -11,6 +11,8 @@ Vue.use(VueI18n)
 
 const translations = { en, lv }
 
+export { LocaleType } from "@/Lang/Contract"
+
 export interface ILocale {
   key: LocaleType
   text: string

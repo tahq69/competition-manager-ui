@@ -2,7 +2,9 @@
 import { NavGroup } from "./index"
 import NavbarItems from "./NavbarItems.vue"
 
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   name: "NavbarGroup",
 
   components: { NavbarItems },
@@ -13,22 +15,23 @@ export default {
   },
 
   computed: {
-    hasItems() {
+    hasItems(): boolean {
       return this.items.length > 0
     },
   },
-}
+})
 </script>
 
 <template>
   <li>
-    <a href class="dropdown-toggle" data-toggle="dropdown">
-      {{ item.text }} <span class="caret"></span>
+    <a href
+       class="dropdown-toggle"
+       data-toggle="dropdown">
+      {{ item.text }}
+      <span class="caret"></span>
     </a>
-    <navbar-items
-        v-if="hasItems"
-        :items="items"
-        class="dropdown-menu"
-    />
+    <navbar-items v-if="hasItems"
+                  :items="items"
+                  class="dropdown-menu" />
   </li>
 </template>

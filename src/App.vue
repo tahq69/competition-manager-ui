@@ -1,32 +1,14 @@
-<template>
-  <div id="app-view">
-    <navbar :left-menu="leftNav" :right-menu="rightNav">
-      <router-link :to="home" class="navbar-brand">
-        {{ $t('app.title') }}
-      </router-link>
-    </navbar>
-
-    <div class="container">
-      <crip-loading color="rgba(88, 91, 169, 1)"/>
-
-      <transition
-          mode="out-in"
-          name="fade-horizontal"
-          enter-active-class="animated fadeInLeft"
-          leave-active-class="animated fadeOutRight">
-        <router-view class="row"/>
-      </transition>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
+import Vue from "vue"
+
 import Auth from "@/Components/Auth"
 import { home, IRoute } from "@/Router/Routes"
 
+import NavGroup from "./Components/Nav/NavGroup"
+import NavItem from "./Components/Nav/NavItem"
 import { left as leftNav, right as rightNav } from "./Components/Navigation"
 
-export default {
+export default Vue.extend({
   name: "app",
 
   async mounted() {
@@ -39,11 +21,11 @@ export default {
       return home
     },
 
-    leftNav() {
+    leftNav(): (NavGroup | NavItem)[] {
       return leftNav()
     },
 
-    rightNav() {
+    rightNav(): (NavGroup | NavItem)[] {
       return rightNav()
     },
   },
@@ -71,13 +53,33 @@ export default {
       }
     },
   },
-}
+})
 </script>
+
+<template>
+  <div id="app-view">
+    <navbar :left-menu="leftNav"
+            :right-menu="rightNav">
+      <router-link :to="home"
+                   class="navbar-brand">
+        {{ $t('app.title') }}
+      </router-link>
+    </navbar>
+
+    <div class="container">
+      <transition mode="out-in"
+                  name="fade-horizontal"
+                  enter-active-class="animated fadeInLeft"
+                  leave-active-class="animated fadeOutRight">
+        <router-view class="row" />
+      </transition>
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 @import "./../node_modules/animate.css/animate.css";
 @import "./../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
-@import "./../node_modules/select2/dist/css/select2.css";
 @import "./../node_modules/font-awesome/css/font-awesome.css";
 @import "./sass/app";
 

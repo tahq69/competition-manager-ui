@@ -5,12 +5,12 @@ export default class LocalStorage {
     localStorage.removeItem(key)
   }
 
-  public static has(key): boolean {
+  public static has(key: string): boolean {
     const value = localStorage.getItem(key)
     return Utils.hasValue(value)
   }
 
-  public static get(key): string | null {
+  public static get(key: string): string | null {
     return localStorage.getItem(key)
   }
 

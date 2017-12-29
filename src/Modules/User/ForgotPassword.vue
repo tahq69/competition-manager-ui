@@ -9,7 +9,9 @@ import store from "@/Store"
 
 import { IEmailPasswordReset } from "./Store/Contracts"
 
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   name: "ForgotPassword",
 
   components: { FormPanel, FormGroup },
@@ -48,42 +50,39 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <template>
-  <form-panel
-      id="forgot-password"
-      @submit="sendResetEmail"
-      :form="form"
-      :title="$t('user.forgotPassword_title')"
-      :body-col-md="10"
-      :col-sm="10"
-      :col-md="8"
-      :col-lg="6"
-  >
+  <form-panel id="forgot-password"
+              @submit="sendResetEmail"
+              :form="form"
+              :title="$t('user.forgotPassword_title')"
+              :body-col-md="10"
+              :col-sm="10"
+              :col-md="8"
+              :col-lg="6">
     <!-- #email -->
-    <form-group
-        for="email"
-        :form="form"
-        :label="$t('user.forgotPassword_email_label')"
-        :col-sm="8"
-    >
-      <input
-          type="email"
-          id="email"
-          name="email"
-          class="form-control"
-          :placeholder="$t('user.forgotPassword_email_placeholder')"
-          v-model="form.data.email"
-          v-focus="true"
-          required
-      >
+    <form-group for="email"
+                :form="form"
+                :label="$t('user.forgotPassword_email_label')"
+                :col-sm="8">
+      <input type="email"
+             id="email"
+             name="email"
+             class="form-control"
+             :placeholder="$t('user.forgotPassword_email_placeholder')"
+             v-model="form.data.email"
+             v-focus="true"
+             required>
     </form-group>
-    
+
     <!-- #submit -->
-    <form-group for="submit" :col-sm="8">
-      <button id="submit" type="submit" class="btn btn-primary">
+    <form-group for="submit"
+                :col-sm="8">
+      <button id="submit"
+              type="submit"
+              class="btn btn-primary">
         {{ $t('user.forgotPassword_submit_button') }}
       </button>
     </form-group>

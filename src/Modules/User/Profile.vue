@@ -5,7 +5,9 @@ import store from "@/Store"
 
 import { IFetchProfile, IProfile } from "./Store/Contracts"
 
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   name: "Profile",
 
   components: { Gravatar },
@@ -18,18 +20,18 @@ export default {
   },
 
   data() {
-    const profile: IProfile = null
+    const profile: IProfile | null = null
     return {
       profile,
     }
   },
 
   computed: {
-    userId() {
-      return this.$route.params.id || store.state.auth.user.id
+    userId(): number {
+      return parseInt((this.$route.params.id || store.state.auth.user.id).toString(), 10)
     },
   },
-}
+})
 </script>
 
 <template>

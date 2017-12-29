@@ -24,7 +24,7 @@ export class Middleware {
 
     // tslint:disable:no-shadowed-variable
     // tslint:disable-next-line:no-bitwise
-    const check = role => !!~store.state.auth.roles.indexOf(role)
+    const check = (role: string) => !!~store.state.auth.roles.indexOf(role)
 
     // if user has an super_admin role, allow him to do anything
     if (check(roles.SUPER_ADMIN)) return true

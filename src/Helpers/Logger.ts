@@ -45,9 +45,10 @@ export interface ILogger {
    *
    * @param {Vue} vm
    * @param {...any[]} args
+   * @returns {(...args: any[]) => void}
    * @memberof ILogger
    */
-  component(vm: Vue, ...args: any[]): void
+  component(vm: Vue, ...args: any[]): (...args: any[]) => void
 }
 
 class WebLogger implements ILogger {
@@ -88,7 +89,7 @@ class WebLogger implements ILogger {
       this.writelog("debug", [component, ...args], "component")
     }
 
-    return this.group(vm.$options.name)
+    return this.group(vm.$options.name || "unnamed")
   }
 
   private writelog(type: LogType, args: any, section = "global") {

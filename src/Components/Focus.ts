@@ -1,6 +1,6 @@
 import { DirectiveOptions } from "vue"
 
-export default {
+const focus: DirectiveOptions = {
   // Called when the bound element has been inserted into its parent node (this
   // only guarantees parent node presence, not necessarily in-document).
   inserted: (el, { modifiers, value }) => {
@@ -19,4 +19,6 @@ export default {
       modifiers.focusDone = true
     } else el.blur()
   },
-} as DirectiveOptions
+}
+
+export default focus

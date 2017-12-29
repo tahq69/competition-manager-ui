@@ -34,6 +34,7 @@ export default {
       return data
     } catch (error) {
       Api.handle(error)
+      throw new Error("error handled")
     }
   },
 

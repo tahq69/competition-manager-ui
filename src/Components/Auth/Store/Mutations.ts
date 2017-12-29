@@ -3,9 +3,9 @@ import { ILogoutPayload, IState, IUpdateUserDetailsPayload } from "./Contracts"
 export default {
   logout(state: IState, payload: ILogoutPayload) {
     state.user.authenticated = false
-    state.user.email = null
-    state.user.id = null
-    state.user.name = null
+    state.user.email = ""
+    state.user.id = 0
+    state.user.name = ""
 
     state.roles = []
   },

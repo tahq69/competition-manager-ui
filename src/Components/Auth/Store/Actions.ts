@@ -7,6 +7,7 @@ import { IState as RootState } from "@/Store/Contracts"
 import {
   IFetchAuthUser,
   ILogin,
+  IRole,
   IState,
   IUpdateUserDetailsPayload,
 } from "./Contracts"
@@ -25,7 +26,7 @@ export default {
         email: data.email,
         id: data.id,
         name: data.name,
-        roles: data.roles.map(role => ({ key: role.key })),
+        roles: data.roles.map((role: IRole) => ({ key: role.key })),
       })
     } catch (error) {
       Api.handle(error)

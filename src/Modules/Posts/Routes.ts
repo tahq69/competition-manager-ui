@@ -13,7 +13,11 @@ const managePostsVue = () => import("./ManagePosts.vue")
 const postListVue = () => import("./PostList.vue")
 const postViewVue = () => import("./PostView.vue")
 
-export const home = { path: "/home/:page?", component: postListVue, ...homeRoute }
+export const home = {
+  path: "/home/:page?",
+  component: postListVue,
+  ...homeRoute,
+}
 export const posts = {
   path: "/posts",
   component: Wrapper,

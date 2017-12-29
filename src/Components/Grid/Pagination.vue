@@ -1,18 +1,24 @@
 <script lang="ts">
+import Vue from "vue"
+
+import { IRoute } from "@/Router/Routes"
+
 import Page from "./Page"
 import Paging from "./Paging"
 
-export default {
+export default Vue.extend({
+  name: "Pagination",
+
   props: {
     paging: { type: Paging },
   },
 
   computed: {
-    curr() {
+    curr(): number {
       return this.paging.$page
     },
 
-    route() {
+    route(): IRoute {
       return this.paging.route
     },
 
@@ -24,12 +30,12 @@ export default {
       const last = this.paging.lastPage
       const prew = this.curr > 1 ? this.curr - 1 : 1
       const next = this.curr >= last ? last : this.curr + 1
-      const prewText = this.$t("app.paging_prew")
+      const prewText = this.$t("app.paging_prew") as string
       const prewPage = new Page(this.curr, prewText, prew, this.route)
-      const nextText = this.$t("app.paging_next")
+      const nextText = this.$t("app.paging_next") as string
       const nextPage = new Page(this.curr, nextText, next, this.route)
       const pages = [prewPage]
-      const moreText = this.$t("app.paging_more")
+      const moreText = this.$t("app.paging_more") as string
 
       // if page count greater than visible, calculate where place '...'
       if (last > this.paging.show) {
@@ -76,24 +82,25 @@ export default {
       return pages
     },
   },
-}
+
+  mounted() {
+    this.log = this.$logger.component(this)
+  },
+})
 </script>
 
 <template>
-  <ul class="pagination" v-if="hasMoreThanOnePage">
-    <li
-        v-for="page in pages"
+  <ul class="pagination"
+      v-if="hasMoreThanOnePage">
+    <li v-for="page in pages"
         :class="{
           [paging.disabledClass]: page.disabled,
           [paging.activeClass]: page.active
         }"
-        :key="page.key"
-    >
-      <router-link
-          :to="page.route"
-          :title="page.title"
-          onclick="this.blur();"
-      >
+        :key="page.key">
+      <router-link :to="page.route"
+                   :title="page.title"
+                   onclick="this.blur();">
         {{ page.text }}
       </router-link>
     </li>

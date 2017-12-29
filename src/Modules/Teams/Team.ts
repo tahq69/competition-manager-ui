@@ -11,7 +11,7 @@ export default class Team extends Entity {
   public short: string
   public name: string
 
-  constructor(data) {
+  constructor(data: any) {
     super()
     this.updateProps(data)
   }
@@ -25,7 +25,7 @@ export default class Team extends Entity {
     }
   }
 
-  protected updateProps(data) {
+  protected updateProps(data: any) {
     super.updateProps(data)
 
     this.name = data.name

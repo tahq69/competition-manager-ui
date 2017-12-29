@@ -1,6 +1,6 @@
 import Vue from "vue"
 
-import { i18n, ILocale, locales as AppLocales, SetLocale } from "@/Lang"
+import { i18n, ILocale, locales as AppLocales, LocaleType, SetLocale } from "@/Lang"
 import * as routes from "@/Router/Routes"
 import store from "@/Store"
 
@@ -28,7 +28,6 @@ export const left = () => {
   const nav = new NavGroup(t("nav.manage"))
   const canManagePosts = auth.hasAnyRole(roles.posts)
   const canManageCM = auth.hasAnyRole(roles.competitions)
-  const divider = new NavItem({ divider: true })
 
   if (canManagePosts) {
     if (auth.hasRole(roles.CREATE_POST)) {
@@ -36,13 +35,13 @@ export const left = () => {
     }
 
     nav.create({ text: t("nav.manage_posts"), route: routes.managePosts })
-    nav.add(divider)
+    nav.add(new NavItem({ divider: true }))
   }
 
   if (auth.hasRole(roles.CREATE_TEAMS)) {
     nav.create({ text: t("nav.create_team"), route: routes.createTeam })
     nav.create({ text: t("nav.manage_teams"), route: routes.manageTeams })
-    nav.add(divider)
+    nav.add(new NavItem({ divider: true }))
   }
 
   if (canManageCM) {
@@ -57,7 +56,7 @@ export const left = () => {
       text: t("nav.manage_competitions"),
       route: routes.manageCompetitions,
     })
-    nav.add(divider)
+    nav.add(new NavItem({ divider: true }))
   }
 
   // delete last divider from manage nav
@@ -90,7 +89,7 @@ export const right = () => {
 function localesNav() {
   const locales = new NavGroup(t("nav.locale"))
   Object.keys(AppLocales).forEach(key => {
-    const locale: ILocale = AppLocales[key]
+    const locale: ILocale = AppLocales[key as LocaleType]
     locales.create({
       text: locale.text,
       click: () => SetLocale(locale.key),

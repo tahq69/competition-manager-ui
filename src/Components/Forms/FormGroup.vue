@@ -1,4 +1,7 @@
 <script lang="ts">
+import Vue from "vue"
+
+import { IClasses } from "@/types"
 import Utils from "@/Helpers/Utils"
 import FormErrors from "./FormErrors.vue"
 
@@ -6,7 +9,7 @@ import Form from "./Form"
 
 type methods = "control" | "label" | "empty"
 
-export default {
+export default Vue.extend({
   name: "FormGroup",
 
   components: { FormErrors },
@@ -23,45 +26,52 @@ export default {
   },
 
   computed: {
-    id() {
-      return this.for
+    id(): string {
+      const self = this as any
+      return self.for || ""
     },
 
-    labelClass() {
-      return this.getColClass("label", ["control-label"])
+    labelClass(): string {
+      const self = this as any
+      return self.getColClass("label", ["control-label"])
     },
 
-    controlClass() {
-      if (this.label === "") return this.getColClass("empty")
+    controlClass(): string {
+      const self = this as any
+      if (this.label === "") return self.getColClass("empty")
 
-      return this.getColClass("control")
+      return self.getColClass("control")
     },
 
-    groupClass() {
+    groupClass(): IClasses {
+      const self = this as any
       return {
-        "has-error": this.hasErrors,
+        "has-error": self.hasErrors,
       }
     },
 
-    formErrors() {
-      if (Utils.isDefined(this.form.data.__) && this.form.data.__ === false) {
-        return this.errors
+    formErrors(): string[] {
+      const self = this as any
+      if (Utils.isDefined(self.form.data.__) && self.form.data.__ === false) {
+        return self.errors
       }
 
-      return this.form.errors[this.for] || []
+      return self.form.errors[self.for] || []
     },
 
-    hasErrors() {
-      return this.formErrors.length > 0
+    hasErrors(): boolean {
+      const self = this as any
+      return self.formErrors.length > 0
     },
   },
 
   methods: {
     getColClass(method: methods, initial: string[] = []): string[] {
-      (["Lg", "Md", "Sm", "Xs"]).forEach(size => {
-        const value = this[`col${size}`]
+      const self = this as any
+      ; ["Lg", "Md", "Sm", "Xs"].forEach(size => {
+        const value = self[`col${size}`]
         if (value > 0) {
-          initial.push(this[`${method}Calc`](value, size.toLowerCase()))
+          initial.push(self[`${method}Calc`](value, size.toLowerCase()))
         }
       })
 
@@ -69,11 +79,13 @@ export default {
     },
 
     labelCalc(size: number, media: string, asOffset = false): string {
-      return this.colClass(this.offset(size), media, asOffset)
+      const self = this as any
+      return self.colClass(self.offset(size), media, asOffset)
     },
 
     controlCalc(size: number, media: string): string {
-      return this.colClass(size, media)
+      const self = this as any
+      return self.colClass(size, media)
     },
 
     colClass(size: number, media: string, offset = false) {
@@ -83,8 +95,9 @@ export default {
     },
 
     emptyCalc(size: number, media: string): string {
-      const control = this.controlCalc(size, media)
-      const offset = this.labelCalc(size, media, true)
+      const self = this as any
+      const control = self.controlCalc(size, media)
+      const offset = self.labelCalc(size, media, true)
       return `${control} ${offset}`
     },
 
@@ -96,22 +109,21 @@ export default {
       return availableSpace
     },
   },
-}
+})
 </script>
 
 <template>
-  <div :class="groupClass" class="form-group crip-form-group">
-    <label
-        v-if="label"
-        :for="id"
-        :id="`${id}-label`"
-        :class="labelClass"
-    >
+  <div :class="groupClass"
+       class="form-group crip-form-group">
+    <label v-if="label"
+           :for="id"
+           :id="`${id}-label`"
+           :class="labelClass">
       {{ label }}
     </label>
     <div :class="controlClass">
       <slot/>
-      <form-errors :errors="formErrors"/>
+      <form-errors :errors="formErrors" />
     </div>
   </div>
 </template>

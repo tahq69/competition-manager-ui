@@ -1,7 +1,12 @@
 <script lang="ts">
+import Vue from "vue"
+import { Route } from "vue-router"
+
 import Paging from "./Paging"
 
-export default {
+type Direction = "asc" | "desc"
+
+export default Vue.extend({
   name: "SortableHeader",
 
   props: {
@@ -10,15 +15,15 @@ export default {
   },
 
   computed: {
-    direction() {
+    direction(): Direction {
       return this.paging.$direction === "asc" ? "asc" : "desc"
     },
 
-    isEnabled() {
+    isEnabled(): boolean {
       return this.column === this.paging.$sort
     },
 
-    route() {
+    route(): Route {
       const route = JSON.parse(JSON.stringify(this.paging.route))
       let direction = "desc"
 
@@ -44,16 +49,20 @@ export default {
       return route
     },
   },
-}
+})
 </script>
 
 <template>
   <th class="sort-th clearfix">
-    <router-link :to="route" class="sort-th-anchor">
+    <router-link :to="route"
+                 class="sort-th-anchor">
       <slot></slot>
-      <div class="pull-right" v-if="isEnabled">
-        <span v-if="direction == 'asc'" class="fa fa-sort-asc"></span>
-        <span v-else class="fa fa-sort-desc"></span>
+      <div class="pull-right"
+           v-if="isEnabled">
+        <span v-if="direction == 'asc'"
+              class="fa fa-sort-asc"></span>
+        <span v-else
+              class="fa fa-sort-desc"></span>
       </div>
     </router-link>
   </th>

@@ -1,7 +1,9 @@
 <script lang="ts">
 import { NavGroup } from "./index"
 
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   name: "TheNavbar",
 
   props: {
@@ -10,15 +12,15 @@ export default {
   },
 
   computed: {
-    hasLeftMenu() {
+    hasLeftMenu(): boolean {
       return this.leftMenu.length > 0
     },
 
-    hasRightMenu() {
+    hasRightMenu(): boolean {
       return this.rightMenu.length > 0
     },
   },
-}
+})
 </script>
 
 <template>
@@ -27,12 +29,10 @@ export default {
       <div class="navbar-header">
 
         <!-- Collapsed Hamburger -->
-        <button
-            type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#app-navbar-collapse"
-        >
+        <button type="button"
+                class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#app-navbar-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -42,20 +42,17 @@ export default {
         <slot/>
       </div>
 
-      <div id="app-navbar-collapse" class="collapse navbar-collapse">
+      <div id="app-navbar-collapse"
+           class="collapse navbar-collapse">
         <!-- Left Side Of Navbar -->
-        <navbar-items
-            v-if="hasLeftMenu"
-            :items="leftMenu"
-            class="nav navbar-nav"
-        />
+        <navbar-items v-if="hasLeftMenu"
+                      :items="leftMenu"
+                      class="nav navbar-nav" />
 
         <!-- Right Side Of Navbar -->
-        <navbar-items
-            v-if="hasRightMenu"
-            :items="rightMenu"
-            class="nav navbar-nav navbar-right"
-        />
+        <navbar-items v-if="hasRightMenu"
+                      :items="rightMenu"
+                      class="nav navbar-nav navbar-right" />
       </div>
     </div>
   </nav>

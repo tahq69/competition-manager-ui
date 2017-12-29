@@ -3,12 +3,8 @@ import Vue from "vue"
 
 const typeValues = ["success", "info", "warning", "danger"]
 
-export default {
+export default Vue.extend({
   name: "Alert",
-
-  mounted() {
-    this.$logger.component(this)
-  },
 
   props: {
     isVisible: { type: Boolean, default: () => true },
@@ -25,20 +21,16 @@ export default {
       this.$emit("hide")
     },
   },
-}
+})
 </script>
 
 <template>
   <div v-if="isVisible">
-    <div
-        class="alert alert-dismissible"
-        :class="[`alert-${type}`]"
-    >
-      <button
-          type="button"
-          class="close"
-          @click="hide"
-      >
+    <div class="alert alert-dismissible"
+         :class="[`alert-${type}`]">
+      <button type="button"
+              class="close"
+              @click="hide">
         &times;
       </button>
 

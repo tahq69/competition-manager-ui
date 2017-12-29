@@ -9,7 +9,9 @@ import { createTeam, manageTeams } from "@/Router/Routes"
 import teamService from "./Store/Service"
 import Team from "./Team"
 
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   name: "ManageTeams",
 
   components: { Grid, PanelAction, SortableHeader },
@@ -37,7 +39,7 @@ export default {
       this.paging.update(pagination)
     },
   },
-}
+})
 </script>
 
 <template>

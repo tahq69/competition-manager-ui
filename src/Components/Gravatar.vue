@@ -1,5 +1,7 @@
 <script lang="ts">
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   name: "Gravatar",
 
   props: {
@@ -10,18 +12,20 @@ export default {
   },
 
   computed: {
-    url() {
+    url(): string {
       let picture = `&d=${this.default}`
       if (this.default === "gravatar") picture = ""
 
       return `${this.domain}/avatar/${this.md5}?s=${this.size}${picture}`
     },
   },
-}
+})
 </script>
 
 <template>
   <div class="gravatar">
-    <img :src="url" alt="avatar" class="img-responsive img-thumbnail">
+    <img :src="url"
+         alt="avatar"
+         class="img-responsive img-thumbnail">
   </div>
 </template>

@@ -1,22 +1,21 @@
 <script lang="ts">
-export default {
-  name: "Panel",
+import Vue from "vue"
 
-  mounted() {
-    this.$logger.component(this)
-  },
+export default Vue.extend({
+  name: "Panel",
 
   props: {
     hideHeader: { type: Boolean, default: () => false },
   },
-}
+})
 </script>
 
 <template>
   <div class="v-panel">
     <div class="panel panel-default">
 
-      <div class="panel-heading clearfix" v-if="!hideHeader">
+      <div class="panel-heading clearfix"
+           v-if="!hideHeader">
         <div class="v-panel-title pull-left">
           <slot name="title"></slot>
         </div>

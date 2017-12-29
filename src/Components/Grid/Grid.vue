@@ -1,10 +1,12 @@
 <script lang="ts">
+import Vue from "vue"
+
 import Panel from "@/Components/Panel/Panel.vue"
 
 import Pagination from "./Pagination.vue"
 import Paging from "./Paging"
 
-export default {
+export default Vue.extend({
   name: "Grid",
 
   components: { Panel, Pagination },
@@ -13,20 +15,22 @@ export default {
     hideHeader: { type: Boolean, default: () => false },
     paging: { type: Paging, required: true },
   },
-
-  mounted() {
-    this.$logger.component(this)
-  },
-}
+})
 </script>
 
 <template>
   <!--v-loading="paging.loading"-->
-  <panel class="col-md-12" :hide-header="hideHeader">
-    <span slot="title"><slot name="title"></slot></span>
-    <span slot="actions"><slot name="actions"></slot></span>
+  <panel class="col-md-12"
+         :hide-header="hideHeader">
+    <span slot="title">
+      <slot name="title"></slot>
+    </span>
+    <span slot="actions">
+      <slot name="actions"></slot>
+    </span>
 
-    <div slot="pre" class="grid-placeholder table-responsive">
+    <div slot="pre"
+         class="grid-placeholder table-responsive">
       <slot></slot>
     </div>
 

@@ -33,7 +33,7 @@ export default class Entity {
    * Update current instance base properties.
    * @param data
    */
-  protected updateProps(data) {
+  protected updateProps(data: any) {
     this.id = data.id
 
     this.created = {
