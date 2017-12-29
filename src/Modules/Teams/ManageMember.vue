@@ -54,11 +54,11 @@ export default Vue.extend({
 
   computed: {
     teamId(): number {
-      return parseInt(this.$route.params.team)
+      return parseInt(this.$route.params.team, 10)
     },
 
     id(): number {
-      return parseInt(this.$route.params.id)
+      return parseInt(this.$route.params.id, 10)
     },
 
     isEdit(): boolean {

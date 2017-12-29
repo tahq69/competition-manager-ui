@@ -21,11 +21,11 @@ export default Vue.extend({
       return home
     },
 
-    leftNav(): (NavGroup | NavItem)[] {
+    leftNav(): Array<NavGroup | NavItem> {
       return leftNav()
     },
 
-    rightNav(): (NavGroup | NavItem)[] {
+    rightNav(): Array<NavGroup | NavItem> {
       return rightNav()
     },
   },

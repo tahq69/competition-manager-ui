@@ -1,8 +1,8 @@
 <script lang="ts">
 import Vue from "vue"
 
-import { IClasses } from "@/types"
 import Utils from "@/Helpers/Utils"
+import { IClasses } from "@/types"
 import FormErrors from "./FormErrors.vue"
 
 import Form from "./Form"
@@ -68,7 +68,8 @@ export default Vue.extend({
   methods: {
     getColClass(method: methods, initial: string[] = []): string[] {
       const self = this as any
-      ; ["Lg", "Md", "Sm", "Xs"].forEach(size => {
+      const sizes = ["Lg", "Md", "Sm", "Xs"]
+      sizes.forEach(size => {
         const value = self[`col${size}`]
         if (value > 0) {
           initial.push(self[`${method}Calc`](value, size.toLowerCase()))
