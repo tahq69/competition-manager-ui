@@ -1,5 +1,5 @@
 <script lang="ts">
-import CripSelect from "crip-vue-select"
+import CripSelect, { SelectOption, UpdateOptions } from "crip-vue-select"
 import Vue from "vue"
 
 import Form from "@/Components/Forms/Form"
@@ -7,49 +7,39 @@ import FormGroup from "@/Components/Forms/FormGroup.vue"
 import FormPanel from "@/Components/Forms/FormPanel.vue"
 import PanelAction from "@/Components/Panel/PanelAction.vue"
 
-import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
+import { IRoute, manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 import { MemberBase } from "@/types"
 
 import teamService from "./Store/Service"
+import Team from "./Team"
 import TeamMember from "./TeamMember"
+
+interface IData {
+  form: Form<{ user_id: number; name: string; id: number }>
+  team: Team | boolean
+  userSelect: CripSelect<MemberBase>
+  initialUserId: number
+}
 
 export default Vue.extend({
   name: "ManageMember",
 
   components: { FormPanel, PanelAction, FormGroup },
 
-  data() {
+  data(): IData {
     return {
       form: new Form({ user_id: 0, name: "", id: 0 }),
-      team: {},
+      team: false,
       userSelect: new CripSelect({ async: true }),
+      initialUserId: 0,
     }
   },
 
   created() {
     this.log = this.$logger.component(this)
     this.fetchTeam()
-    this.userSelect.onUpdate((name, update) =>
-      teamService.searchUser({ name }).then(users => update(users)),
-    )
-    this.userSelect.onInit(select => {
-      teamService
-        .fetchTeamMember({
-          id: this.id,
-          team_id: this.teamId,
-        })
-        .then(member => {
-          select({
-            key: member.user_id || 0,
-            text: member.name,
-            value: {
-              id: member.id,
-              user_id: member.user_id,
-              name: member.name,
-            },
-          })
-        })
-    })
+    this.userSelect.onUpdate(this.searchUser)
+    this.userSelect.onInit(this.fetchTeamMember)
   },
 
   computed: {
@@ -70,35 +60,82 @@ export default Vue.extend({
 
       return this.$t("teams.manage_member_create_title") as string
     },
+
+    isInvitationVisible(): boolean {
+      return !!this.form.data.user_id && this.form.data.user_id !== this.initialUserId
+    },
+
+    invitation(): IRoute | {} {
+      if (typeof this.team === "boolean") return {}
+      return { name: this.form.data.name, team: this.team.short }
+    },
   },
 
   methods: {
     async fetchTeam() {
-      const team = await teamService.fetchTeam({
-        id: this.teamId,
-      })
+      const team = await teamService.fetchTeam({ id: this.teamId })
 
       this.team = team
-
-      return team
     },
 
-    async fetchTeamMember(): Promise<TeamMember> {
+    async fetchTeamMember(select: SelectOption<MemberBase>): Promise<void> {
+      if (!this.isEdit) return
+
       const member = await teamService.fetchTeamMember({
         id: this.id,
         team_id: this.teamId,
       })
 
+      const userId = member.user_id || 0
+      this.initialUserId = userId
+
+      // Fil up form with member information from API.
       this.form.data.name = member.name
-      this.form.data.user_id = member.user_id || 0
+      this.form.data.user_id = userId
       this.form.data.id = member.id
 
-      return member
+      // Select member for dropdown component.
+      select({
+        key: userId,
+        text: member.name,
+        value: {
+          id: member.id,
+          user_id: userId,
+          name: member.name,
+        },
+      })
     },
 
-    async userSearch(name: string) {
+    async searchUser(criteria: string, update: UpdateOptions<MemberBase>) {
       // Search users on server by entered text in input.
-      return await teamService.searchUser({ name })
+      const options = await teamService.searchUser({ name })
+
+      update(options)
+    },
+
+    async associatedMember(user: MemberBase | string | null) {
+      this.log("associatedMember", { user })
+
+      if (typeof user === "string") {
+        this.newMember(user)
+        return
+      }
+
+      if (user === null) {
+        this.form.data.user_id = 0
+        this.form.data.name = ""
+
+        return
+      }
+
+      this.form.data.user_id = user.user_id
+      this.form.data.name = user.name
+    },
+
+    newMember(name: string) {
+      this.log("newMember", { name })
+      this.form.data.user_id = 0
+      this.form.data.name = name
     },
 
     async saveMember() {
@@ -112,12 +149,10 @@ export default Vue.extend({
           user_id: this.form.data.user_id,
         })
 
-        this.$notice.success({
-          description: "Record sucessfully saved",
-          title: "saved",
-        })
+        this.$notice.success(this.notificationDetails())
 
-        this.$router.push(member && member.routes ? member.routes.edit : "")
+        this.initialUserId = member.user_id || 0
+        this.$router.push(member.routes.edit)
       } catch (error) {
         const errors = this.concatErrors(error)
         this.form.addErrors(errors)
@@ -132,26 +167,25 @@ export default Vue.extend({
       return errors
     },
 
-    async associatedMember(user: { id: number; name: string } | string) {
-      this.log("associatedMember", { user })
-
-      if (typeof user === "string") {
-        this.newMember(user)
-        return
-      }
-
-      this.form.data.user_id = user.id
-      this.form.data.name = user.name
-    },
-
-    newMember(name: string) {
-      this.log("newMember", { name })
-      this.form.data.user_id = 0
-      this.form.data.name = name
-    },
-
     dismissInvitation() {
       this.form.data.user_id = 0
+    },
+
+    notificationDetails(): { title: string; description: string } {
+      if (this.isInvitationVisible) {
+        return {
+          title: this.$t("teams.manage_member_invitation_sent_title").toString(),
+          description: this.$t(
+            "teams.manage_member_invitation_sent_body",
+            this.invitation,
+          ).toString(),
+        }
+      }
+
+      return {
+        title: this.$t("teams.manage_member_saved_title").toString(),
+        description: this.$t("teams.manage_member_saved_body", this.invitation).toString(),
+      }
     },
   },
 })
@@ -175,13 +209,14 @@ export default Vue.extend({
                 :col-sm="8">
 
       <crip-select :settings="userSelect"
-                   @input="associatedMember"
-                   :tags="true" />
+                   :clear="true"
+                   :tags="true"
+                   @input="associatedMember" />
     </form-group>
 
     <!-- #invitation -->
     <form-group :col-sm="8"
-                v-if="form.data.user_id && !isEdit">
+                v-if="isInvitationVisible">
       <button type="button"
               @click="dismissInvitation"
               class="close text-danger"
@@ -189,8 +224,7 @@ export default Vue.extend({
         &times;
       </button>
       <span>
-        {{ $t('teams.manage_member_invitation_text', { name: form.data.name, team: team.short})
-        }}
+        {{ $t('teams.manage_member_invitation_text', invitation) }}
       </span>
     </form-group>
 

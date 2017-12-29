@@ -17,7 +17,7 @@
     "crip-vue-bootstrap-modal": "^1.0.5",
     "crip-vue-loading": "^1.2.4",
     "crip-vue-notice": "^1.0.6",
-    "crip-vue-select": "0.0.2",
+    "crip-vue-select": "0.0.5",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "moment": "^2.20.1",
