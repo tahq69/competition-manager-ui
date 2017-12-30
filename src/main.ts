@@ -5,7 +5,7 @@ import Vue from "vue"
 // import CripModal from "crip-vue-bootstrap-modal"
 
 // https://www.npmjs.com/package/crip-vue-loading
-import CripLoading, { PluginOptions as LoadingOptions } from "crip-vue-loading"
+import CripLoading, { ILoadingOptions } from "crip-vue-loading"
 
 // https://www.npmjs.com/package/crip-vue-notice
 import CripNotice from "crip-vue-notice"
@@ -27,7 +27,7 @@ import Guard from "./Router/Guard"
 import Store from "./Store"
 
 Vue.use(CripNotice, { duration: 4, style: { top: "64px" } })
-Vue.use<LoadingOptions>(CripLoading, { axios, color: "rgba(88,91,169,1)" })
+Vue.use<ILoadingOptions>(CripLoading, { axios, color: "rgba(88,91,169,1)" })
 // Vue.use(CripModal)
 Vue.use<CripSelectOptions>(CripSelect)
 Vue.use(Logger, config.logs)
