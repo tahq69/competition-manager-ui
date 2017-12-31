@@ -8,10 +8,17 @@ import {
   readPost,
 } from "@/Router/Routes"
 
-const managePostVue = () => import("./ManagePost.vue")
-const managePostsVue = () => import("./ManagePosts.vue")
-const postListVue = () => import("./PostList.vue")
-const postViewVue = () => import("./PostView.vue")
+const managePostVue = () =>
+  import(/* webpackChunkName: "posts" */ "./ManagePost.vue")
+
+const managePostsVue = () =>
+  import(/* webpackChunkName: "posts" */ "./ManagePosts.vue")
+
+const postListVue = () =>
+  import(/* webpackChunkName: "posts" */ "./PostList.vue")
+
+const postViewVue = () =>
+  import(/* webpackChunkName: "posts" */ "./PostView.vue")
 
 export const home = {
   path: "/home/:page?",

@@ -6,8 +6,11 @@ import {
   manageCompetitions,
 } from "@/Router/Routes"
 
-const manageCm = () => import("./ManageCompetition.vue")
-const manageCms = () => import("./ManageCompetitions.vue")
+const manageCm = () =>
+  import(/* webpackChunkName: "cm" */ "./ManageCompetition.vue")
+
+const manageCms = () =>
+  import(/* webpackChunkName: "cm" */ "./ManageCompetitions.vue")
 
 const requiresAuth = { requiresAuth: true }
 const createRole = [roles.CREATE_COMPETITIONS]

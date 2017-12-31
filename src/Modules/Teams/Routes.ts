@@ -10,10 +10,17 @@ import {
   teamDetails,
 } from "@/Router/Routes"
 
-const manageMemberVue = () => import("./ManageMember.vue")
-const manageMembersVue = () => import("./ManageMembers.vue")
-const manageTeamVue = () => import("./ManageTeam.vue")
-const manageTeamsVue = () => import("./ManageTeams.vue")
+const manageMemberVue = () =>
+  import(/* webpackChunkName: "teams" */ "./ManageMember.vue")
+
+const manageMembersVue = () =>
+  import(/* webpackChunkName: "teams" */ "./ManageMembers.vue")
+
+const manageTeamVue = () =>
+  import(/* webpackChunkName: "teams" */ "./ManageTeam.vue")
+
+const manageTeamsVue = () =>
+  import(/* webpackChunkName: "teams" */ "./ManageTeams.vue")
 
 const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] }
 

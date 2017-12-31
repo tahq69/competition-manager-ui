@@ -78,9 +78,6 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
-@import "./../node_modules/animate.css/animate.css";
-@import "./../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
-@import "./../node_modules/font-awesome/css/font-awesome.css";
 @import "./sass/app";
 
 .router-link-active {
