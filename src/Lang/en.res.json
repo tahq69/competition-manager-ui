@@ -7,5 +7,18 @@
   "paging_next": "»",
   "paging_prew": "«",
   "paging_more": "...",
-  "paging_go_to": "Go to page {nr}"
+  "paging_go_to": "Go to page {nr}",
+
+  "nav_login": "Login",
+  "nav_locale": "English",
+  "nav_profile": "Profile",
+  "nav_signup": "Sign-up",
+  "nav_logout": "Logout",
+  "nav_manage": "Manage",
+  "nav_create_post": "Create post",
+  "nav_manage_posts": "Posts",
+  "nav_create_team": "Create team",
+  "nav_manage_teams": "Teams",
+  "nav_create_competition": "Create competition",
+  "nav_manage_competitions": "Competitions"
 }

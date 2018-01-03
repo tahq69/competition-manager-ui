@@ -46,29 +46,29 @@ export default Vue.extend({
     <table class="table table-hover">
       <thead>
         <tr>
-          <CSortableHeader :paging="paging"
-                           column="id"
-                           :title="$t('teams.manage_teams_grid_head_id_title')">
+          <CGridHeader :paging="paging"
+                       column="id"
+                       :title="$t('teams.manage_teams_grid_head_id_title')">
             {{ $t('teams.manage_teams_grid_head_id_text') }}
-          </CSortableHeader>
+          </CGridHeader>
 
-          <CSortableHeader :paging="paging"
-                           column="name"
-                           :title="$t('teams.manage_teams_grid_head_name_title')">
+          <CGridHeader :paging="paging"
+                       column="name"
+                       :title="$t('teams.manage_teams_grid_head_name_title')">
             {{ $t('teams.manage_teams_grid_head_name_text') }}
-          </CSortableHeader>
+          </CGridHeader>
 
-          <CSortableHeader :paging="paging"
-                           column="short"
-                           :title="$t('teams.manage_teams_grid_head_short_title')">
+          <CGridHeader :paging="paging"
+                       column="short"
+                       :title="$t('teams.manage_teams_grid_head_short_title')">
             {{ $t('teams.manage_teams_grid_head_short_text') }}
-          </CSortableHeader>
+          </CGridHeader>
         </tr>
       </thead>
       <tbody>
         <template v-for="team in paging.items">
           <tr @click="paging.select(team)"
-              :class="paging.rowClasses(team)"
+              :class="paging.classes(team)"
               :key="team.id">
             <td>{{ team.id }}</td>
             <td>{{ team.name }} &nbsp;

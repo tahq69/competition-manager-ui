@@ -22,22 +22,22 @@ export const leftNav = () => {
     return []
   }
 
-  const nav = Nav.group(t("nav.manage"))
+  const nav = Nav.group(t("manage"))
   const canManagePosts = auth.hasAnyRole(roles.posts)
   const canManageCM = auth.hasAnyRole(roles.competitions)
 
   if (canManagePosts) {
     if (auth.hasRole(roles.CREATE_POST)) {
-      nav.create({ text: t("nav.create_post"), route: routes.createPost })
+      nav.create({ text: t("create_post"), route: routes.createPost })
     }
 
-    nav.create({ text: t("nav.manage_posts"), route: routes.managePosts })
+    nav.create({ text: t("manage_posts"), route: routes.managePosts })
     nav.add(Nav.divider())
   }
 
   if (auth.hasRole(roles.CREATE_TEAMS)) {
-    nav.create({ text: t("nav.create_team"), route: routes.createTeam })
-    nav.create({ text: t("nav.manage_teams"), route: routes.manageTeams })
+    nav.create({ text: t("create_team"), route: routes.createTeam })
+    nav.create({ text: t("manage_teams"), route: routes.manageTeams })
     nav.add(Nav.divider())
   }
 
@@ -45,13 +45,13 @@ export const leftNav = () => {
     if (auth.hasRole(roles.CREATE_COMPETITIONS)) {
       nav.create({
         route: routes.createCompetition,
-        text: t("nav.create_competition"),
+        text: t("create_competition"),
       })
     }
 
     nav.create({
       route: routes.manageCompetitions,
-      text: t("nav.manage_competitions"),
+      text: t("manage_competitions"),
     })
     nav.add(Nav.divider())
   }
@@ -66,8 +66,8 @@ export const rightNav = () => {
   const nav: NavElement[] = [localesNav()]
 
   if (!auth.isAuthenticated()) {
-    nav.push(Nav.item({ text: t("nav.login"), route: routes.login }))
-    nav.push(Nav.item({ text: t("nav.signup"), route: routes.signUp }))
+    nav.push(Nav.item({ text: t("login"), route: routes.login }))
+    nav.push(Nav.item({ text: t("signup"), route: routes.signUp }))
     return nav
   }
 
@@ -75,8 +75,8 @@ export const rightNav = () => {
     Nav.group(store.state.auth.user.name, [
       // TODO: add profile menu item
       // TODO: add messages menu item
-      Nav.item({ text: t("nav.profile"), route: routes.profile }),
-      Nav.item({ text: t("nav.logout"), click: Auth.logout }),
+      Nav.item({ text: t("profile"), route: routes.profile }),
+      Nav.item({ text: t("logout"), click: Auth.logout }),
     ]),
   )
 
@@ -84,12 +84,12 @@ export const rightNav = () => {
 }
 
 function localesNav() {
-  const locales = Nav.group(t("nav.locale"))
+  const locales = Nav.group(t("locale"))
   Object.keys(AppLocales).forEach(key => {
     const locale: ILocale = AppLocales[key as LocaleType]
     locales.create({
       click: () => SetLocale(locale.key),
-      isActive: t("nav.locale") === locale.text,
+      isActive: t("locale") === locale.text,
       text: locale.text,
     })
   })
@@ -98,5 +98,5 @@ function localesNav() {
 }
 
 function t(key: string): string {
-  return i18n.t(key) as string
+  return i18n.t(`app.nav_${key}`) as string
 }

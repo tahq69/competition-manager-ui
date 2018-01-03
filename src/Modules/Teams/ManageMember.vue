@@ -189,7 +189,8 @@ export default Vue.extend({
   <CFormPanel id="manage-member"
               :form="form"
               :title="title"
-              @submit="saveMember">
+              @submit="saveMember"
+              class="col-xs-12">
     <CPanelAction slot="actions"
                   v-if="team.id"
                   :to="team.routes.manageMembers">

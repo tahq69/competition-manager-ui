@@ -6,5 +6,8 @@
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap";
 
 // Custom
-@import "components/tables";
 @import "components/colors";
+
+.panel-footer .pagination {
+  margin: 0;
+}

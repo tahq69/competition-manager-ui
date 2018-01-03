@@ -1,9 +1,9 @@
 {
   "env": "local",
   "local": {
-    "auth_secret": "llSvMVnqxQSMYfCZAJTSL2QaS6JeibuwmbtL3rDm",
+    "auth_secret": "wGpGtqpF3Frhy9pC5UqLuclVGC3tHLCnrn1aSo01",
     "auth_token_type": "Bearer",
-    "auth_id": 1,
+    "auth_id": 2,
     "url": "",
     "api_url": "/api",
     "server_date_format": "YYYY-MM-DD HH:mm:ss",

@@ -59,6 +59,7 @@ export default Vue.extend({
   <div id="app-view">
     <CNavbar :left="leftNav"
              :right="rightNav"
+             :containered="true"
              class="navbar-default navbar-static-top">
       <router-link :to="home"
                    class="navbar-brand">

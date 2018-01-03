@@ -42,7 +42,7 @@ export default [
     ...(manageTeams as Location),
     component: manageTeamsVue,
     meta,
-    path: "/teams/manage/:page(\\d+)?/:sort?/:direction?/:perpage?",
+    path: "/teams/manage/:page(\\d+)?/:sort?/:direction?/:perPage?",
   } as RouteConfig,
   {
     ...(createTeamMember as Location),
@@ -61,6 +61,6 @@ export default [
     component: manageMembersVue,
     meta,
     path:
-      "/teams/:team(\\d+)/members/:page(\\d+)?/:sort?/:direction?/:perpage?",
+      "/teams/:team(\\d+)/members/:page(\\d+)?/:sort?/:direction?/:perPage?",
   } as RouteConfig,
 ]

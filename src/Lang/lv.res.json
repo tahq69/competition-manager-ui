@@ -7,5 +7,18 @@
   "paging_next": "»",
   "paging_prew": "«",
   "paging_more": "...",
-  "paging_go_to": "Pāriet uz {nr} lapu"
+  "paging_go_to": "Pāriet uz {nr} lapu",
+
+  "nav_login": "Ienākt",
+  "nav_locale": "Latviešu",
+  "nav_profile": "Profils",
+  "nav_signup": "Reģistrēties",
+  "nav_logout": "Iziet",
+  "nav_manage": "Vadība",
+  "nav_create_post": "Izveidot rakstu",
+  "nav_manage_posts": "Raksti",
+  "nav_create_team": "Izveidot komandu",
+  "nav_manage_teams": "Komandas",
+  "nav_create_competition": "Izveidot sacensības",
+  "nav_manage_competitions": "Sacensības"
 }
