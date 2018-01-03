@@ -35,7 +35,7 @@ module.exports = {
         loader: "tslint-loader",
         exclude: /node_modules|vue\/src|vendor\/*/,
         options: {
-          configFile: "tslint.json",
+          configFile: resolve("tslint.json"),
         },
       },
       {

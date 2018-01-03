@@ -1,16 +1,12 @@
 <script lang="ts">
-import Gravatar from "@/Components/Gravatar.vue"
+import Vue from "vue"
 
 import store from "@/Store"
 
 import { IFetchProfile, IProfile } from "./Store/Contracts"
 
-import Vue from "vue"
-
 export default Vue.extend({
   name: "Profile",
-
-  components: { Gravatar },
 
   async created() {
     this.profile = await store.dispatch<IFetchProfile>({

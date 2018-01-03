@@ -1,9 +1,10 @@
-import Wrapper from "@/Components/Wrapper.vue"
 import {
   forgotPassword,
+  Location,
   login,
   profile,
   resetPassword,
+  RouteConfig,
   signUp,
 } from "@/Router/Routes"
 
@@ -18,18 +19,30 @@ const forgotPasswordVue = () =>
 
 const profileVue = () => import(/* webpackChunkName: "user" */ "./Profile.vue")
 
-export default {
-  path: "/auth",
-  component: Wrapper,
-  children: [
-    { path: "login", ...login, component: Login },
-    { path: "profile/:id?", ...profile, component: profileVue },
-    { path: "sign-up", ...signUp, component: SignUp },
-    { path: "password/email", ...forgotPassword, component: forgotPasswordVue },
-    {
-      path: "password/reset/:token",
-      ...resetPassword,
-      component: resetPasswordVue,
-    },
-  ],
-}
+export default [
+  {
+    ...(login as Location),
+    component: Login,
+    path: "/login",
+  } as RouteConfig,
+  {
+    ...(profile as Location),
+    component: profileVue,
+    path: "/profile/:id?",
+  } as RouteConfig,
+  {
+    ...(signUp as Location),
+    component: SignUp,
+    path: "/sign-up",
+  } as RouteConfig,
+  {
+    ...(forgotPassword as Location),
+    component: forgotPasswordVue,
+    path: "/auth/password/email",
+  } as RouteConfig,
+  {
+    ...(resetPassword as Location),
+    component: resetPasswordVue,
+    path: "/auth/password/reset/:token",
+  } as RouteConfig,
+]

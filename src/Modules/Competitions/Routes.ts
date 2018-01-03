@@ -1,9 +1,10 @@
 import * as roles from "@/Components/Auth/Roles"
-import Wrapper from "@/Components/Wrapper.vue"
 import {
   createCompetition,
+  Location,
   manageCompetition,
   manageCompetitions,
+  RouteConfig,
 } from "@/Router/Routes"
 
 const manageCm = () =>
@@ -16,27 +17,25 @@ const requiresAuth = { requiresAuth: true }
 const createRole = [roles.CREATE_COMPETITIONS]
 const listRole = [roles.EDIT_COMPETITIONS]
 
-export default {
-  path: "/competitions",
-  component: Wrapper,
-  children: [
-    {
-      path: "new",
-      component: manageCm,
-      meta: { requiresAuth, requiresRoles: createRole },
-      ...createCompetition,
-    },
-    {
-      path: "manage/:page(\\d+)?/:sort?/:order?",
-      component: manageCms,
-      meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-      ...manageCompetitions,
-    },
-    {
-      path: "edit/:id(\\d+)",
-      component: manageCm,
-      meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-      ...manageCompetition,
-    },
-  ],
-}
+const routes: RouteConfig[] = [
+  {
+    ...(createCompetition as Location),
+    component: manageCm,
+    meta: { requiresAuth, requiresRoles: createRole },
+    path: "/competitions/new",
+  } as RouteConfig,
+  {
+    ...(manageCompetitions as Location),
+    component: manageCms,
+    meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
+    path: "/competitions/manage/:page(\\d+)?/:sort?/:order?",
+  } as RouteConfig,
+  {
+    ...(manageCompetition as Location),
+    component: manageCm,
+    meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
+    path: "/competitions/edit/:id(\\d+)",
+  } as RouteConfig,
+]
+
+export default routes

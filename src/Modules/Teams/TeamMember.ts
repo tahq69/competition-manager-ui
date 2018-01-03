@@ -2,7 +2,7 @@ import http from "axios"
 
 import Entity from "@/Components/Entity"
 import { Api } from "@/Helpers/Api"
-import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
+import { Location, manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 
 import Team from "./Team"
 
@@ -25,13 +25,19 @@ export default class TeamMember extends Entity {
 
   public get routes() {
     const params = {
-      team: this.team_id ? this.team_id.toString() : "",
       id: this.id.toString(),
+      team: this.team_id ? this.team_id.toString() : "",
     }
 
     return {
-      edit: { ...manageTeamMember, params },
-      members: { ...manageTeamMembers, params: { team: this.team_id } },
+      edit: {
+        ...(manageTeamMember as Location),
+        params,
+      },
+      members: {
+        ...(manageTeamMembers as Location),
+        params: { team: this.team_id },
+      },
     }
   }
 

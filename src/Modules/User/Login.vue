@@ -1,25 +1,18 @@
 <script lang="ts">
-import Focus from "@/Components/Focus"
-import Form from "@/Components/Forms/Form"
-import FormGroup from "@/Components/Forms/FormGroup.vue"
-import FormPanel from "@/Components/Forms/FormPanel.vue"
+import { Form } from "crip-vue-bootstrap"
+import Vue from "vue"
 
 import Auth, { middleware as auth } from "@/Components/Auth"
-import { forgotPassword, home, IRoute } from "@/Router/Routes"
-
-import Vue from "vue"
+import { forgotPassword, home, Location } from "@/Router/Routes"
 
 export default Vue.extend({
   name: "Login",
 
-  components: { FormPanel, FormGroup },
-
-  directives: { Focus },
-
   mounted() {
-    this.$logger.component(this)
+    this.log = this.$logger.component(this)
 
     if (auth.isAuthenticated()) {
+      this.log("User is authenticated. Redirecting to homepage.")
       this.$router.push(home)
     }
   },
@@ -34,8 +27,8 @@ export default Vue.extend({
   },
 
   computed: {
-    forgotPassword(): IRoute {
-      return forgotPassword
+    forgotPassword(): Location {
+      return forgotPassword as Location
     },
   },
 
@@ -59,34 +52,36 @@ export default Vue.extend({
 </script>
 
 <template>
-  <form-panel id="login"
+  <CFormPanel id="login"
               @submit="authorize"
               :form="form"
               :title="$t('user.login_title')"
-              :body-col-md="10"
-              :col-sm="10"
-              :col-md="8"
-              :col-lg="6">
+              :body-md="10"
+              :sm="10"
+              :md="8"
+              :lg="6">
 
     <!-- #email -->
-    <form-group for="email"
+    <CFormGroup for="email"
                 :form="form"
                 :label="$t('user.login_email_label')"
-                :col-sm="8">
+                :md="8"
+                :sm="8">
       <input type="email"
              id="email"
              name="email"
              class="form-control"
              :placeholder="$t('user.login_email_placeholder')"
              v-model="form.data.email"
-             v-focus="true"
+             v-c-focus="true"
              required>
-    </form-group>
+    </CFormGroup>
 
     <!-- #password -->
-    <form-group for="password"
+    <CFormGroup for="password"
                 :label="$t('user.login_password_label')"
-                :col-sm="8">
+                :md="8"
+                :sm="8">
       <input type="password"
              id="password"
              name="password"
@@ -94,11 +89,12 @@ export default Vue.extend({
              :placeholder="$t('user.login_password_placeholder')"
              v-model="form.data.password"
              required>
-    </form-group>
+    </CFormGroup>
 
     <!-- #submit -->
-    <form-group for="submit"
-                :col-sm="8">
+    <CFormGroup for="submit"
+                :md="8"
+                :sm="8">
       <button id="submit"
               type="submit"
               class="btn btn-primary">
@@ -109,6 +105,6 @@ export default Vue.extend({
                    class="btn btn-link">
         {{ $t('user.login_submit_forgot') }}
       </router-link>
-    </form-group>
-  </form-panel>
+    </CFormGroup>
+  </CFormPanel>
 </template>

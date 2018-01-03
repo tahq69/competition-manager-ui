@@ -1,8 +1,6 @@
 <script lang="ts">
-import Focus from "@/Components/Focus"
-import Form from "@/Components/Forms/Form"
-import FormGroup from "@/Components/Forms/FormGroup.vue"
-import FormPanel from "@/Components/Forms/FormPanel.vue"
+import { Form } from "crip-vue-bootstrap"
+import Vue from "vue"
 
 import Auth, { middleware as auth } from "@/Components/Auth"
 import { home } from "@/Router/Routes"
@@ -10,14 +8,8 @@ import store from "@/Store"
 
 import { IRegister } from "./Store/Contracts"
 
-import Vue from "vue"
-
 export default Vue.extend({
   name: "SignUp",
-
-  components: { FormPanel, FormGroup },
-
-  directives: { Focus },
 
   mounted() {
     this.$logger.component(this)
@@ -62,33 +54,35 @@ export default Vue.extend({
 </script>
 
 <template>
-  <form-panel id="signup"
+  <CFormPanel id="signup"
               @submit="signUp"
               :form="form"
               :title="$t('user.signUp_title')"
-              :body-col-md="10"
-              :col-md="10"
-              :col-lg="8">
+              :body-md="10"
+              :md="10"
+              :lg="8">
     <!-- #name -->
-    <form-group for="name"
+    <CFormGroup for="name"
                 :form="form"
                 :label="$t('user.signUp_name_label')"
-                :col-sm="8">
+                :md="8"
+                :sm="8">
       <input type="text"
              id="name"
              name="name"
              class="form-control"
              :placeholder="$t('user.signUp_name_placeholder')"
              v-model="form.data.name"
-             v-focus="true"
+             v-c-focus="true"
              required>
-    </form-group>
+    </CFormGroup>
 
     <!-- #email -->
-    <form-group for="email"
+    <CFormGroup for="email"
                 :form="form"
                 :label="$t('user.signUp_email_label')"
-                :col-sm="8">
+                :md="8"
+                :sm="8">
       <input type="email"
              id="email"
              name="email"
@@ -96,13 +90,14 @@ export default Vue.extend({
              :placeholder="$t('user.signUp_email_placeholder')"
              v-model="form.data.email"
              required>
-    </form-group>
+    </CFormGroup>
 
     <!-- #password -->
-    <form-group for="password"
+    <CFormGroup for="password"
                 :form="form"
                 :label="$t('user.signUp_password_label')"
-                :col-sm="8">
+                :md="8"
+                :sm="8">
       <input type="password"
              id="password"
              name="password"
@@ -110,13 +105,14 @@ export default Vue.extend({
              :placeholder="$t('user.signUp_password_placeholder')"
              v-model="form.data.password"
              required>
-    </form-group>
+    </CFormGroup>
 
     <!-- #password_confirmation -->
-    <form-group for="password_confirmation"
+    <CFormGroup for="password_confirmation"
                 :form="form"
                 :label="$t('user.signUp_password_confirmation_label')"
-                :col-sm="8">
+                :md="8"
+                :sm="8">
       <input type="password"
              id="password_confirmation"
              name="password_confirmation"
@@ -124,16 +120,17 @@ export default Vue.extend({
              :placeholder="$t('user.signUp_password_confirmation_placeholder')"
              v-model="form.data.password_confirmation"
              required>
-    </form-group>
+    </CFormGroup>
 
     <!-- #submit -->
-    <form-group for="submit"
-                :col-sm="8">
+    <CFormGroup for="submit"
+                :md="8"
+                :sm="8">
       <button id="submit"
               type="submit"
               class="btn btn-primary">
         {{ $t('user.signUp_submit_button') }}
       </button>
-    </form-group>
-  </form-panel>
+    </CFormGroup>
+  </CFormPanel>
 </template>

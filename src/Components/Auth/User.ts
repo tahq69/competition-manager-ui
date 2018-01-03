@@ -1,5 +1,5 @@
 import Entity from "@/Components/Entity"
-import { profile } from "@/Router/Routes"
+import { Location, profile } from "@/Router/Routes"
 
 export default class User extends Entity {
   public name: string
@@ -15,7 +15,7 @@ export default class User extends Entity {
 
   public get routes() {
     return {
-      profile: { ...profile, params: { id: this.id } },
+      profile: { ...(profile as Location), params: { id: this.id } },
     }
   }
 

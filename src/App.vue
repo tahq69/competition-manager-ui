@@ -3,7 +3,7 @@ import { NavElement } from "crip-vue-bootstrap"
 import Vue from "vue"
 
 import Auth from "@/Components/Auth"
-import { home, IRoute } from "@/Router/Routes"
+import { home, Location } from "@/Router/Routes"
 
 import { leftNav, rightNav } from "./Components/Navigation"
 
@@ -16,8 +16,8 @@ export default Vue.extend({
   },
 
   computed: {
-    home(): IRoute {
-      return home
+    home(): Location {
+      return home as Location
     },
 
     leftNav(): NavElement[] {
@@ -25,9 +25,7 @@ export default Vue.extend({
     },
 
     rightNav(): NavElement[] {
-      const nav = rightNav()
-      console.log({ nav })
-      return nav
+      return rightNav()
     },
   },
 
@@ -59,22 +57,19 @@ export default Vue.extend({
 
 <template>
   <div id="app-view">
-    <crip-navbar :left="leftNav"
-                 :right="rightNav"
-                 class="navbar-default navbar-static-top">
+    <CNavbar :left="leftNav"
+             :right="rightNav"
+             class="navbar-default navbar-static-top">
       <router-link :to="home"
                    class="navbar-brand">
         {{ $t('app.title') }}
       </router-link>
-    </crip-navbar>
+    </CNavbar>
 
     <div class="container">
-      <transition mode="out-in"
-                  name="fade-horizontal"
-                  enter-active-class="animated fadeInLeft"
-                  leave-active-class="animated fadeOutRight">
-        <router-view class="row" />
-      </transition>
+      <div class="row">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>

@@ -1,6 +1,7 @@
 import Entity from "@/Components/Entity"
 import {
   createTeamMember,
+  Location,
   manageTeam,
   manageTeamMembers,
   teamDetails,
@@ -18,10 +19,22 @@ export default class Team extends Entity {
 
   public get routes() {
     return {
-      details: { ...teamDetails, params: { tab: "members", team: this.id } },
-      edit: { ...manageTeam, params: { id: this.id } },
-      manageMembers: { ...manageTeamMembers, params: { team: this.id } },
-      createMember: { ...createTeamMember, params: { team: this.id } },
+      createMember: {
+        ...(createTeamMember as Location),
+        params: { team: this.id },
+      },
+      details: {
+        ...(teamDetails as Location),
+        params: { tab: "members", team: this.id },
+      },
+      edit: {
+        ...(manageTeam as Location),
+        params: { id: this.id },
+      },
+      manageMembers: {
+        ...(manageTeamMembers as Location),
+        params: { team: this.id },
+      },
     }
   }
 

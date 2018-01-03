@@ -1,4 +1,5 @@
-import Paging from "@/Components/Grid/Paging"
+import { Paging } from "crip-vue-bootstrap"
+
 import Pagination from "@/Helpers/Pagination"
 import BaseService from "@/Store/Service"
 
@@ -14,20 +15,20 @@ interface IFetchTeams {
 }
 
 interface ISaveTeamMember {
-  team_id: number
-  name: string
-  user_id?: number
   id?: number
+  name: string
+  team_id: number
+  user_id?: number
 }
 
 interface IFetchMember {
-  team_id: number
   id: number
+  team_id: number
 }
 
 interface IFetchMembers {
-  team_id: number
   paging: Paging<TeamMember>
+  team_id: number
 }
 
 class Service extends BaseService {
@@ -80,8 +81,8 @@ class Service extends BaseService {
     return await this.safeContext(async (http, api) => {
       const url = api.url("teams/{team}/members/{id}", {
         urlReplace: {
-          team: payload.team_id.toString(),
           id: payload.id.toString(),
+          team: payload.team_id.toString(),
         },
       })
 

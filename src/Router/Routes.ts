@@ -1,39 +1,37 @@
-export interface IRoute {
-  name: string
+import { RawLocation } from "vue-router"
 
-  [key: string]: any
-}
+export { RawLocation, Location, RouteConfig } from "vue-router"
 
-export const home: IRoute = { name: "home" }
+export const home: RawLocation = { name: "home" }
 
-export const login: IRoute = { name: "login" }
-export const signUp: IRoute = { name: "signUp" }
-export const profile: IRoute = { name: "profile" }
-export const forgotPassword: IRoute = { name: "forgotPassword" }
-export const resetPassword: IRoute = { name: "resetPassword" }
+export const login: RawLocation = { name: "login" }
+export const signUp: RawLocation = { name: "signUp" }
+export const profile: RawLocation = { name: "profile" }
+export const forgotPassword: RawLocation = { name: "forgotPassword" }
+export const resetPassword: RawLocation = { name: "resetPassword" }
 
-export const messages: IRoute = { name: "messages" }
-export const message: IRoute = { name: "message" }
-export const createMessage: IRoute = { name: "createMessage" }
+export const messages: RawLocation = { name: "messages" }
+export const message: RawLocation = { name: "message" }
+export const createMessage: RawLocation = { name: "createMessage" }
 
-export const managePosts: IRoute = { name: "managePosts" }
-export const createPost: IRoute = { name: "createPost" }
-export const managePost: IRoute = { name: "managePost" }
-export const readPost: IRoute = { name: "readPost" }
+export const managePosts: RawLocation = { name: "managePosts" }
+export const createPost: RawLocation = { name: "createPost" }
+export const managePost: RawLocation = { name: "managePost" }
+export const readPost: RawLocation = { name: "readPost" }
 
-export const manageTeams: IRoute = { name: "manageTeams" }
-export const createTeam: IRoute = { name: "createTeam" }
-export const manageTeam: IRoute = { name: "manageTeam" }
+export const manageTeams: RawLocation = { name: "manageTeams" }
+export const createTeam: RawLocation = { name: "createTeam" }
+export const manageTeam: RawLocation = { name: "manageTeam" }
 
-export const manageTeamMembers: IRoute = { name: "manageTeamMembers" }
-export const createTeamMember: IRoute = { name: "createTeamMember" }
-export const manageTeamMember: IRoute = { name: "manageTeamMember" }
+export const manageTeamMembers: RawLocation = { name: "manageTeamMembers" }
+export const createTeamMember: RawLocation = { name: "createTeamMember" }
+export const manageTeamMember: RawLocation = { name: "manageTeamMember" }
 
-export const teamDetails: IRoute = {
+export const teamDetails: RawLocation = {
   name: "teamDetails",
   params: { tab: "members" },
 }
 
-export const manageCompetitions: IRoute = { name: "manageCompetitions" }
-export const createCompetition: IRoute = { name: "createCompetition" }
-export const manageCompetition: IRoute = { name: "manageCompetition" }
+export const manageCompetitions: RawLocation = { name: "manageCompetitions" }
+export const createCompetition: RawLocation = { name: "createCompetition" }
+export const manageCompetition: RawLocation = { name: "manageCompetition" }

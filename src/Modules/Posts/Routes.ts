@@ -1,11 +1,12 @@
 import * as roles from "@/Components/Auth/Roles"
-import Wrapper from "@/Components/Wrapper.vue"
 import {
   createPost,
   home as homeRoute,
+  Location,
   managePost,
   managePosts,
   readPost,
+  RouteConfig,
 } from "@/Router/Routes"
 
 const managePostVue = () =>
@@ -21,38 +22,39 @@ const postViewVue = () =>
   import(/* webpackChunkName: "posts" */ "./PostView.vue")
 
 export const home = {
-  path: "/home/:page?",
+  ...(homeRoute as Location),
   component: postListVue,
-  ...homeRoute,
-}
-export const posts = {
-  path: "/posts",
-  component: Wrapper,
-  children: [
-    { path: ":id(\\d+)", component: postViewVue, ...readPost },
-    {
-      path: "manage/new",
-      component: managePostVue,
-      meta: { requiresAuth: true, requiresRoles: [roles.CREATE_POST] },
-      ...createPost,
+  path: "/home/:page?",
+} as RouteConfig
+
+export const posts = [
+  {
+    ...(readPost as Location),
+    component: postViewVue,
+    path: "/posts/:id(\\d+)",
+  } as RouteConfig,
+  {
+    ...(createPost as Location),
+    component: managePostVue,
+    meta: { requiresAuth: true, requiresRoles: [roles.CREATE_POST] },
+    path: "/posts/manage/new",
+  } as RouteConfig,
+  {
+    ...(managePosts as Location),
+    component: managePostsVue,
+    meta: {
+      requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],
+      requiresAuth: true,
     },
-    {
-      path: "manage/all/:page(\\d+)?/:sort?/:order?",
-      component: managePostsVue,
-      meta: {
-        requiresAuth: true,
-        requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],
-      },
-      ...managePosts,
+    path: "/posts/manage/all/:page(\\d+)?/:sort?/:order?",
+  } as RouteConfig,
+  {
+    ...(managePost as Location),
+    component: managePostVue,
+    meta: {
+      requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],
+      requiresAuth: true,
     },
-    {
-      path: "manage/:id(\\d+)",
-      component: managePostVue,
-      meta: {
-        requiresAuth: true,
-        requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],
-      },
-      ...managePost,
-    },
-  ],
-}
+    path: "/posts/manage/:id(\\d+)",
+  } as RouteConfig,
+]

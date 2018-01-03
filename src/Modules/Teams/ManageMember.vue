@@ -1,13 +1,9 @@
 <script lang="ts">
+import { Form } from "crip-vue-bootstrap"
 import CripSelect, { SelectOption, UpdateOptions } from "crip-vue-select"
 import Vue from "vue"
 
-import Form from "@/Components/Forms/Form"
-import FormGroup from "@/Components/Forms/FormGroup.vue"
-import FormPanel from "@/Components/Forms/FormPanel.vue"
-import PanelAction from "@/Components/Panel/PanelAction.vue"
-
-import { IRoute, manageTeamMember, manageTeamMembers } from "@/Router/Routes"
+import { Location, manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 import { MemberBase } from "@/types"
 
 import teamService from "./Store/Service"
@@ -24,14 +20,12 @@ interface IData {
 export default Vue.extend({
   name: "ManageMember",
 
-  components: { FormPanel, PanelAction, FormGroup },
-
   data(): IData {
     return {
       form: new Form({ user_id: 0, name: "", id: 0 }),
+      initialUserId: 0,
       team: false,
       userSelect: new CripSelect({ async: true }),
-      initialUserId: 0,
     }
   },
 
@@ -52,7 +46,7 @@ export default Vue.extend({
     },
 
     isEdit(): boolean {
-      return this.$route.name === manageTeamMember.name
+      return this.$route.name === (manageTeamMember as Location).name
     },
 
     title(): string {
@@ -65,7 +59,7 @@ export default Vue.extend({
       return !!this.form.data.user_id && this.form.data.user_id !== this.initialUserId
     },
 
-    invitation(): IRoute | {} {
+    invitation(): Location | {} {
       if (typeof this.team === "boolean") return {}
       return { name: this.form.data.name, team: this.team.short }
     },
@@ -100,8 +94,8 @@ export default Vue.extend({
         text: member.name,
         value: {
           id: member.id,
-          user_id: userId,
           name: member.name,
+          user_id: userId,
         },
       })
     },
@@ -174,17 +168,17 @@ export default Vue.extend({
     notificationDetails(): { title: string; description: string } {
       if (this.isInvitationVisible) {
         return {
-          title: this.$t("teams.manage_member_invitation_sent_title").toString(),
           description: this.$t(
             "teams.manage_member_invitation_sent_body",
             this.invitation,
           ).toString(),
+          title: this.$t("teams.manage_member_invitation_sent_title").toString(),
         }
       }
 
       return {
-        title: this.$t("teams.manage_member_saved_title").toString(),
         description: this.$t("teams.manage_member_saved_body", this.invitation).toString(),
+        title: this.$t("teams.manage_member_saved_title").toString(),
       }
     },
   },
@@ -192,30 +186,30 @@ export default Vue.extend({
 </script>
 
 <template>
-  <form-panel id="manage-member"
+  <CFormPanel id="manage-member"
               :form="form"
               :title="title"
               @submit="saveMember">
-    <panel-action slot="actions"
+    <CPanelAction slot="actions"
                   v-if="team.id"
                   :to="team.routes.manageMembers">
       {{ $t('teams.manage_member_action_back', { team: team.short }) }}
-    </panel-action>
+    </CPanelAction>
 
     <!-- #name -->
-    <form-group for="name"
+    <CFormGroup for="name"
                 :form="form"
                 :label="$t('teams.manage_member_name_label')"
-                :col-sm="8">
+                :sm="8">
 
       <crip-select :settings="userSelect"
                    :clear="true"
                    :tags="true"
                    @input="associatedMember" />
-    </form-group>
+    </CFormGroup>
 
     <!-- #invitation -->
-    <form-group :col-sm="8"
+    <CFormGroup :sm="8"
                 v-if="isInvitationVisible">
       <button type="button"
               @click="dismissInvitation"
@@ -226,18 +220,18 @@ export default Vue.extend({
       <span>
         {{ $t('teams.manage_member_invitation_text', invitation) }}
       </span>
-    </form-group>
+    </CFormGroup>
 
     <!-- #submit -->
-    <form-group for="submit"
-                :col-sm="8">
+    <CFormGroup for="submit"
+                :sm="8">
       <button id="submit"
               type="submit"
               class="btn btn-primary">
         {{ $t('teams.manage_member_submit_btn') }}
       </button>
-    </form-group>
-  </form-panel>
+    </CFormGroup>
+  </CFormPanel>
 </template>
 
 <style lang="scss" scoped>

@@ -1,12 +1,8 @@
 <script lang="ts">
+import { Paging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import Grid from "@/Components/Grid/Grid.vue"
-import SortableHeader from "@/Components/Grid/SortableHeader.vue"
-import PanelAction from "@/Components/Panel/PanelAction.vue"
-
-import Paging from "@/Components/Grid/Paging"
-import { createTeamMember, IRoute, manageTeam, manageTeamMembers } from "@/Router/Routes"
+import { createTeamMember, Location, manageTeam, manageTeamMembers } from "@/Router/Routes"
 
 import teamService from "./Store/Service"
 import Team from "./Team"
@@ -15,11 +11,9 @@ import TeamMember from "./TeamMember"
 export default Vue.extend({
   name: "ManageMembers",
 
-  components: { Grid, PanelAction, SortableHeader },
-
   data() {
     return {
-      paging: new Paging<TeamMember>(this, { route: manageTeamMembers }),
+      paging: new Paging<TeamMember>(this, { route: manageTeamMembers as Location }),
     }
   },
 
@@ -33,19 +27,17 @@ export default Vue.extend({
       return parseInt(this.$route.params.team, 10)
     },
 
-    manageTeamRoute(): IRoute {
-      return { ...manageTeam, params: { id: this.teamId } }
+    manageTeamRoute(): Location {
+      return { ...(manageTeam as Location), params: { id: this.teamId.toString() } }
     },
 
-    createTeamMemberRoute(): IRoute {
-      return { ...createTeamMember, params: { id: this.teamId } }
+    createTeamMemberRoute(): Location {
+      return { ...(createTeamMember as Location), params: { id: this.teamId.toString() } }
     },
   },
 
   methods: {
     async fetchPage() {
-      this.paging.startLoading()
-
       const pagination = await teamService.fetchTeamMembers({
         paging: this.paging,
         team_id: this.teamId,
@@ -58,34 +50,34 @@ export default Vue.extend({
 </script>
 
 <template>
-  <grid id="manage-members"
-        :paging="paging">
+  <CGrid id="manage-members"
+         :paging="paging">
     <span slot="title">{{ $t('teams.manage_members_grid_title') }}</span>
 
     <span slot="actions">
-      <panel-action :to="manageTeamRoute">
+      <CPanelAction :to="manageTeamRoute">
         {{ $t('teams.manage_members_grid_head_manage_team') }}
-      </panel-action>
+      </CPanelAction>
 
-      <panel-action :to="createTeamMemberRoute">
+      <CPanelAction :to="createTeamMemberRoute">
         {{ $t('teams.manage_members_grid_head_create_member') }}
-      </panel-action>
+      </CPanelAction>
     </span>
 
     <table class="table table-hover">
       <thead>
         <tr>
-          <sortable-header :paging="paging"
+          <CSortableHeader :paging="paging"
                            column="id"
                            :title="$t('teams.manage_members_grid_head_id_title')">
             {{ $t('teams.manage_members_grid_head_id_text') }}
-          </sortable-header>
+          </CSortableHeader>
 
-          <sortable-header :paging="paging"
+          <CSortableHeader :paging="paging"
                            column="name"
                            :title="$t('teams.manage_members_grid_head_name_title')">
             {{ $t('teams.manage_members_grid_head_name_text') }}
-          </sortable-header>
+          </CSortableHeader>
         </tr>
       </thead>
       <tbody>
@@ -106,5 +98,5 @@ export default Vue.extend({
         </template>
       </tbody>
     </table>
-  </grid>
+  </CGrid>
 </template>

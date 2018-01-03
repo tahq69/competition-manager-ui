@@ -6,7 +6,7 @@ import config from "@/Config"
 import Utils from "@/Helpers/Utils"
 import { i18n } from "@/Lang"
 import router from "@/Router"
-import { login } from "@/Router/Routes"
+import { Location, login } from "@/Router/Routes"
 import store from "@/Store"
 
 interface IDictionary<T> {
@@ -124,7 +124,7 @@ export class Api {
         // will allow redirect user to expected route after authorization will
         // be completed.
         router.push({
-          ...login,
+          ...(login as Location),
           query: { redirect: router.currentRoute.fullPath },
         })
         break

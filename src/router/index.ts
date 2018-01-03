@@ -1,18 +1,18 @@
 import Vue from "vue"
-import Router from "vue-router"
+import Router, { RouteConfig } from "vue-router"
 
 Vue.use(Router)
 
 import competitions from "@/Modules/Competitions/Routes"
 import { home, posts } from "@/Modules/Posts/Routes"
 import teams from "@/Modules/Teams/Routes"
-import auth from "@/Modules/User/Routes"
+import user from "@/Modules/User/Routes"
 
 export default new Router({
   mode: "history",
   routes: [
-    teams, posts, home, auth, competitions,
-    { path: "/auth", redirect: "/auth/login" },
+    home, ...competitions, ...user, ...posts, ...teams,
+    { path: "/auth", redirect: "/login" },
     { path: "/password/reset/:token", redirect: "/auth/password/reset/:token" },
     { path: "*", redirect: "/home" },
   ],

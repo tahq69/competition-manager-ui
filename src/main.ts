@@ -26,10 +26,10 @@ import Router from "./Router"
 import Guard from "./Router/Guard"
 import Store from "./Store"
 
-Vue.use<IBootstrapOptions>(CripBootstrap)
+Vue.use<CripSelectOptions>(CripSelect)
+Vue.use<IBootstrapOptions>(CripBootstrap, { prefix: "C" })
 Vue.use<INoticesOptions>(CripNotice, { duration: 4, styles: { top: "64px", right: "15px" } })
 Vue.use<ILoadingOptions>(CripLoading, { axios, color: "rgba(88,91,169,1)" })
-Vue.use<CripSelectOptions>(CripSelect)
 Vue.use(Logger, config.logs)
 
 sync(Store, Router)
@@ -43,6 +43,8 @@ const app = new Vue({
   router: Router,
   store: Store,
 })
+
+// console.log("Vue.options.components", (Vue as any).options.components)
 
 // Initialize user locale after app mount is completed.
 Lang()
