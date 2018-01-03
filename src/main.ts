@@ -10,6 +10,9 @@ import CripNotice, { INoticesOptions } from "crip-vue-notice"
 // https://www.npmjs.com/package/crip-vue-select
 import CripSelect, { CripSelectOptions } from "crip-vue-select"
 
+// https://www.npmjs.com/package/crip-vue-bootstrap
+import CripBootstrap, { IBootstrapOptions } from "crip-vue-bootstrap"
+
 // https://github.com/axios/axios
 import axios from "axios"
 
@@ -23,6 +26,7 @@ import Router from "./Router"
 import Guard from "./Router/Guard"
 import Store from "./Store"
 
+Vue.use<IBootstrapOptions>(CripBootstrap)
 Vue.use<INoticesOptions>(CripNotice, { duration: 4, styles: { top: "64px", right: "15px" } })
 Vue.use<ILoadingOptions>(CripLoading, { axios, color: "rgba(88,91,169,1)" })
 Vue.use<CripSelectOptions>(CripSelect)
@@ -34,10 +38,10 @@ Guard(Router)
 Vue.config.productionTip = false
 
 const app = new Vue({
+  i18n,
   render: h => h(App),
   router: Router,
   store: Store,
-  i18n,
 })
 
 // Initialize user locale after app mount is completed.

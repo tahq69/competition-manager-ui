@@ -1,12 +1,11 @@
 <script lang="ts">
+import { NavElement } from "crip-vue-bootstrap"
 import Vue from "vue"
 
 import Auth from "@/Components/Auth"
 import { home, IRoute } from "@/Router/Routes"
 
-import NavGroup from "./Components/Nav/NavGroup"
-import NavItem from "./Components/Nav/NavItem"
-import { left as leftNav, right as rightNav } from "./Components/Navigation"
+import { leftNav, rightNav } from "./Components/Navigation"
 
 export default Vue.extend({
   name: "app",
@@ -21,12 +20,14 @@ export default Vue.extend({
       return home
     },
 
-    leftNav(): Array<NavGroup | NavItem> {
+    leftNav(): NavElement[] {
       return leftNav()
     },
 
-    rightNav(): Array<NavGroup | NavItem> {
-      return rightNav()
+    rightNav(): NavElement[] {
+      const nav = rightNav()
+      console.log({ nav })
+      return nav
     },
   },
 
@@ -58,13 +59,14 @@ export default Vue.extend({
 
 <template>
   <div id="app-view">
-    <navbar :left-menu="leftNav"
-            :right-menu="rightNav">
+    <crip-navbar :left="leftNav"
+                 :right="rightNav"
+                 class="navbar-default navbar-static-top">
       <router-link :to="home"
                    class="navbar-brand">
         {{ $t('app.title') }}
       </router-link>
-    </navbar>
+    </crip-navbar>
 
     <div class="container">
       <transition mode="out-in"
