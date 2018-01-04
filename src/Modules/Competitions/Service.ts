@@ -8,6 +8,10 @@ interface IFetchCompetitions {
   owned?: boolean
 }
 
+interface IFetchCompetition {
+  id: number | string
+}
+
 class CompetitionService extends Service {
   public async fetchCompetitions(payload: IFetchCompetitions) {
     return await this.safeContext(async (http, api) => {
@@ -18,6 +22,17 @@ class CompetitionService extends Service {
       const response = await http.get(url)
       const pagination = Pagination.create(response, r => new Competition(r))
       return pagination
+    })
+  }
+
+  public async fetchCompetition(payload: IFetchCompetition) {
+    return await this.safeContext(async (http, api) => {
+      const url = api.url("competitions/{id}", {
+        urlReplace: payload,
+      })
+
+      const { data } = await http.get(url)
+      return new Competition(data)
     })
   }
 }
