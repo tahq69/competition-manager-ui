@@ -1,10 +1,10 @@
 import { Paging } from "crip-vue-bootstrap"
 
 import Pagination from "@/Helpers/Pagination"
-import BaseService from "@/Store/Service"
+import { Service } from "@/Helpers/Service"
 
-import Team from "../Team"
-import TeamMember from "../TeamMember"
+import Team from "./Team"
+import TeamMember from "./TeamMember"
 
 interface IFetchTeam {
   id: number
@@ -31,7 +31,7 @@ interface IFetchMembers {
   team_id: number
 }
 
-class Service extends BaseService {
+class TeamsService extends Service {
   /**
    * Fetch single team instance from server api.
    * @param {IFetchTeam} payload
@@ -73,7 +73,7 @@ class Service extends BaseService {
   public async saveTeamMember(payload: ISaveTeamMember): Promise<TeamMember> {
     return await this.safeContext(async (http, api) => {
       const entity = new TeamMember(payload)
-      return await entity.save()
+      return this.save(entity)
     })
   }
 
@@ -113,4 +113,4 @@ class Service extends BaseService {
   }
 }
 
-export default new Service()
+export default new TeamsService()

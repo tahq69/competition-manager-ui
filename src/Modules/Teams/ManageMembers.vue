@@ -4,7 +4,7 @@ import Vue from "vue"
 
 import { createTeamMember, Location, manageTeam, manageTeamMembers } from "@/Router/Routes"
 
-import teamService from "./Store/Service"
+import teamService from "./Service"
 import Team from "./Team"
 import TeamMember from "./TeamMember"
 

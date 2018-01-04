@@ -1,16 +1,17 @@
 import http, { AxiosStatic as Axios } from "axios"
 
-import User from "@/Components/Auth/User"
+import { User } from "@/Components/Auth/User"
 import { Api } from "@/Helpers/Api"
+import { Entity } from "@/Helpers/Entity"
 
-type ContextAction<T> = (http: Axios, api: typeof Api) => T
+export type ContextAction<T> = (http: Axios, api: typeof Api) => T
 
-interface ISearchUser {
+export interface ISearchUser {
   id?: number
   name?: string
 }
 
-export default class Service {
+export class Service {
   protected http: Axios
   protected api: typeof Api
 
@@ -33,16 +34,30 @@ export default class Service {
     })
   }
 
+  protected async save<T extends Entity>(entity: T): Promise<T> {
+    // If entity already exists, send patch request, otherwise - post.
+    const type = entity.id > 0 ? "patch" : "post"
+    const requestUrl = entity.id > 0 ? entity.updateUrl : entity.createUrl
+
+    const url = Api.url(requestUrl, { urlReplace: entity })
+
+    const { data } = await http[type](url, entity)
+    entity.updateProps(data)
+
+    return entity
+  }
+
   /**
    * Execute action in save context where default error handling is implemented.
    * @param {function} action
    */
-  protected async safeContext<T>(action: ContextAction<Promise<T>>): Promise<T> {
+  protected async safeContext<T>(
+    action: ContextAction<Promise<T>>,
+  ): Promise<T> {
     try {
       return await action(this.http, this.api)
     } catch (error) {
-      Api.handle(error)
-      return Promise.reject("error handled")
+      throw Api.handle(error)
     }
   }
 }

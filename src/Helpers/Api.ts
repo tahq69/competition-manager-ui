@@ -1,17 +1,14 @@
 import { AxiosResponse } from "axios"
 import Vue from "vue"
+import { Location } from "vue-router"
 
 import Auth from "@/Components/Auth"
 import config from "@/Config"
-import Utils from "@/Helpers/Utils"
-import { i18n } from "@/Lang"
+import { t, Utils } from "@/Helpers"
 import router from "@/Router"
-import { Location, login } from "@/Router/Routes"
+import { login } from "@/Router/Routes"
 import store from "@/Store"
-
-interface IDictionary<T> {
-  [key: string]: T
-}
+import { IDictionary } from "@/types"
 
 interface IUrlParams {
   params?: IDictionary<string>
@@ -39,15 +36,16 @@ export class Api {
    * Handle application error.
    * @param error
    */
-  public static handle(error: any) {
+  public static handle(error: any): Error {
     if (error && error.response) {
-      Api.handleHttpError(error.response)
-      return
+      return Api.handleHttpError(error.response)
     }
 
     Vue.logger.error("Api.handle -> unknown", error)
 
-    throw i18n.t("app.api_unexpectedError")
+    Vue.notice.error({ title: t("app.api_unexpectedError") })
+
+    return new Error(t("app.api_unexpectedError"))
   }
 
   /**
@@ -94,30 +92,31 @@ export class Api {
    * Handle http error and throw details.
    * @param {AxiosResponse} response
    */
-  private static handleHttpError(response: AxiosResponse) {
+  private static handleHttpError(response: AxiosResponse): Error {
     if (response.status !== 422) {
-      Api.handleUnexpectedHttpError(response)
-      return
+      return Api.handleUnexpectedHttpError(response)
     }
 
     Vue.logger.log("Api.error -> validation", response.data)
 
     // Simply throw validation response errors.
     if (response.data.hasOwnProperty("errors")) {
-      throw response.data.errors
+      return response.data.errors
     }
 
-    throw response.data
+    return response.data
   }
 
   /**
    * Handle unexpected http error and handle its details.
    * @param {AxiosResponse} response
+   * @returns {Error}
    */
-  private static handleUnexpectedHttpError(response: AxiosResponse) {
+  private static handleUnexpectedHttpError(response: AxiosResponse): Error {
     switch (response.status) {
       case 401:
         Vue.logger.error("Api.http -> unauthorized", response.data)
+        Vue.notice.warning({ title: t("app.unauthorized") })
         Auth.logout()
 
         // Redirect user to login page, but with query to current path. This
@@ -127,19 +126,20 @@ export class Api {
           ...(login as Location),
           query: { redirect: router.currentRoute.fullPath },
         })
-        break
+
+        return new Error(t("app.unauthorized"))
       case 403:
       case 405:
         Vue.logger.log("Api.http -> not allowed", response)
         // TODO: send this as email to admin to be able detect users who is
         // trying hack app or some places has not enough protection and simple
         // user can open it and create not allowed requests.
-        throw i18n.t("app.api_actionNotAllowed")
+        return new Error(t("app.api_actionNotAllowed"))
       default:
         Vue.logger.log("Api.http -> unknown", response)
         // TODO: send this as email to admin to be able detect unexpected http
         // errors.
-        throw i18n.t("app.api_unknownHttpError")
+        return new Error(t("app.api_unknownHttpError"))
     }
   }
 }

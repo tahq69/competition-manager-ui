@@ -1,4 +1,4 @@
-import Entity from "@/Components/Entity"
+import { Entity } from "@/Helpers/Entity"
 import {
   createTeamMember,
   Location,
@@ -38,7 +38,7 @@ export default class Team extends Entity {
     }
   }
 
-  protected updateProps(data: any) {
+  public updateProps(data: any) {
     super.updateProps(data)
 
     this.name = data.name

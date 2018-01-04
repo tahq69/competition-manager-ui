@@ -1,7 +1,7 @@
 import http from "axios"
 
-import Entity from "@/Components/Entity"
 import { Api } from "@/Helpers/Api"
+import { Entity } from "@/Helpers/Entity"
 import { Location, manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 
 import Team from "./Team"
@@ -11,12 +11,15 @@ interface IUser {
 }
 
 export default class TeamMember extends Entity {
+  public membership_type: string
+  public name: string
+  public team?: Team
+  public team_id?: number
   public user?: IUser
   public user_id?: number
-  public team_id?: number
-  public team?: Team
-  public name: string
-  public membership_type: string
+
+  public createUrl = "teams/{team_id}/members"
+  public updateUrl = "teams/{team_id}/members/{id}"
 
   constructor(data: any) {
     super()
@@ -45,7 +48,7 @@ export default class TeamMember extends Entity {
    * Update current instance properties.
    * @param data
    */
-  protected updateProps(data: any) {
+  public updateProps(data: any) {
     super.updateProps(data)
 
     this.user_id = data.user_id
@@ -60,30 +63,5 @@ export default class TeamMember extends Entity {
 
     this.name = data.name
     this.membership_type = data.membership_type
-  }
-
-  /**
-   * Store current entity instance.
-   * @returns {Promise<TeamMember>} Created instance.
-   */
-  protected async create(): Promise<this> {
-    const url = Api.url("teams/{team_id}/members", { urlReplace: this })
-    const { data } = await http.post(url, this)
-
-    this.updateProps(data)
-
-    return this
-  }
-
-  /**
-   * Update current entity instance.
-   * @returns {Promise<TeamMember>} Updated instance.
-   */
-  protected async update(): Promise<this> {
-    const url = Api.url("teams/{team_id}/members/{id}", { urlReplace: this })
-    const { data } = await http.patch(url, this)
-
-    this.updateProps(data)
-    return this
   }
 }

@@ -1,7 +1,7 @@
-import Entity from "@/Components/Entity"
+import { Entity } from "@/Helpers/Entity"
 import { Location, profile } from "@/Router/Routes"
 
-export default class User extends Entity {
+export class User extends Entity {
   public name: string
 
   public key: string
@@ -19,7 +19,7 @@ export default class User extends Entity {
     }
   }
 
-  protected updateProps(data: any) {
+  public updateProps(data: any) {
     super.updateProps(data)
 
     this.name = data.name
