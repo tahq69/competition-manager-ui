@@ -28,7 +28,7 @@ const routes: RouteConfig[] = [
     ...(manageCompetitions as Location),
     component: manageCms,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-    path: "/competitions/manage/:page(\\d+)?/:sort?/:order?",
+    path: "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
     ...(manageCompetition as Location),

@@ -4,10 +4,6 @@
   "api_actionNotAllowed": "Darbība nav atļauta",
   "api_unknownHttpError": "Nezināma komunikācijas kļūda",
   "api_unexpectedError": "Nezināma iekšējā kļūda",
-  "paging_next": "»",
-  "paging_prew": "«",
-  "paging_more": "...",
-  "paging_go_to": "Pāriet uz {nr} lapu",
 
   "nav_login": "Ienākt",
   "nav_locale": "Latviešu",

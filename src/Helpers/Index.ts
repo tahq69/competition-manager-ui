@@ -3,6 +3,7 @@ import utils from "./Utils"
 
 export { Entity } from "./Entity"
 export { Service } from "./Service"
+export { Pagination } from "./Pagination"
 
 export const Utils = utils
 

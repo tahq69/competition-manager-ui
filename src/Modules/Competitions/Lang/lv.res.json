@@ -1,3 +1,14 @@
 {
-  "title": "Sacensības"
+  "manage_competitions_grid_title": "Sacensības",
+  "manage_competitions_grid_head_create_new": "Izveidot jaunu",
+  "manage_competitions_grid_head_id_title": "Kārtot pēc kārtas numura",
+  "manage_competitions_grid_head_id_text": "#",
+  "manage_competitions_grid_head_title_title": "Kārtot pēc nosaukuma",
+  "manage_competitions_grid_head_title_text": "Nosaukums",
+  "manage_competitions_grid_head_judge_name_title": "Kārtot pēc tiesneša",
+  "manage_competitions_grid_head_judge_name_text": "Tiesnesis",
+  "manage_competitions_grid_head_organization_date_title": "Kārtot pēc organizēšanas datuma",
+  "manage_competitions_grid_head_organization_date_text": "Organizēšanas datums",
+  "manage_competitions_grid_btn_edit_title": "Labot sacensību detaļas",
+  "manage_competitions_grid_btn_edit_text": "Labot"
 }

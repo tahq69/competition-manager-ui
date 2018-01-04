@@ -1,7 +1,6 @@
 import { Paging } from "crip-vue-bootstrap"
 
-import Pagination from "@/Helpers/Pagination"
-import { Service } from "@/Helpers/Service"
+import { Pagination, Service } from "@/Helpers"
 
 import Team from "./Team"
 import TeamMember from "./TeamMember"

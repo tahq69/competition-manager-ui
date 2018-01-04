@@ -1,10 +1,10 @@
 import { AxiosResponse } from "axios"
 
-type Resolver<T> = (x: any) => T
+export type Resolver<T> = (x: any) => T
 
-export default class Pagination<T1> {
-  public static create<T2>(response: AxiosResponse, resolver: Resolver<T2>) {
-    const pagination = new Pagination<T2>(response)
+export class Pagination<T> {
+  public static create<T>(response: AxiosResponse, resolver: Resolver<T>) {
+    const pagination = new Pagination<T>(response)
 
     response.data.data.forEach((row: any) => {
       const entity = resolver(row)
@@ -26,7 +26,7 @@ export default class Pagination<T1> {
   public nextPageUrl: string
   public prevPageUrl: string
 
-  public items: T1[]
+  public items: T[]
   public loading: boolean
 
   constructor(response: AxiosResponse) {

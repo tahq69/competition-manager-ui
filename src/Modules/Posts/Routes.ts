@@ -46,7 +46,7 @@ export const posts = [
       requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],
       requiresAuth: true,
     },
-    path: "/posts/manage/all/:page(\\d+)?/:sort?/:order?",
+    path: "/posts/manage/all/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
     ...(managePost as Location),
