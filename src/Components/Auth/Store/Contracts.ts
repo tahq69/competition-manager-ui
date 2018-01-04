@@ -44,13 +44,3 @@ export interface IUpdateUserDetailsPayload extends IPayload {
 export interface IFetchAuthUser extends IPayload {
   type: "fetchAuthUser"
 }
-
-export interface ILogin extends IPayload {
-  type: "login"
-  username: string
-  password: string
-  client_id: number
-  client_secret: string
-  grant_type: "password"
-  scope: "*"
-}

@@ -1,5 +1,6 @@
 import http from "axios"
 
+import authService from "@/Components/Auth/Service"
 import config from "@/Config"
 import Storage from "@/Helpers/LocalStorage"
 import { i18n } from "@/Lang"
@@ -9,7 +10,6 @@ import Middleware from "./Middleware"
 import * as Roles from "./Roles"
 import {
   IFetchAuthUser,
-  ILogin,
   ILogoutPayload,
   ITokenResponse,
 } from "./Store/Contracts"
@@ -45,19 +45,17 @@ export default class Auth {
   public static async login(credentials: ICredentials) {
     if (await Auth.check()) return
 
-    const payload = {
-      type: "login",
-      client_id: config.auth_id,
-      client_secret: config.auth_secret,
-      grant_type: "password",
-      scope: "*",
-      username: credentials.username,
-      password: credentials.password,
-    } as ILogin
-
     try {
       // Fetch secrets from server.
-      const secrets = await store.dispatch<ILogin>(payload)
+      const secrets = await authService.fetchLoginToken({
+        client_id: config.auth_id,
+        client_secret: config.auth_secret,
+        grant_type: "password",
+        scope: "*",
+        password: credentials.password,
+        username: credentials.username,
+      })
+
       // Save secret in local storage to be able use them after browser page is
       // refreshed.
       Auth.storeSession(secrets)
