@@ -1,5 +1,5 @@
 import Vue from "vue"
-import Router, { Location, RawLocation, Route } from "vue-router"
+import Router, { Location, RawLocation, Route, RouteRecord } from "vue-router"
 
 import { middleware as auth } from "@/Components/Auth"
 import { home, login } from "./Routes"
@@ -9,6 +9,18 @@ export default function(router: Router) {
 }
 
 type Next = (to?: RawLocation | false | ((vm: Vue) => any) | void) => void
+
+function searchAllRoles(routes: RouteRecord[], metaKey: string) {
+  return routes.reduce<string[]>((acc, route) => {
+    if (!route.meta[metaKey]) return acc
+
+    route.meta[metaKey].map((role: string) => {
+      if (acc.indexOf(role) === -1) acc.push(role)
+    })
+
+    return acc
+  }, [])
+}
 
 async function navigationGuard(to: Route, from: Route, next: Next) {
   // Ignore all routes, where auth is not required
@@ -27,7 +39,10 @@ async function navigationGuard(to: Route, from: Route, next: Next) {
   const checkAny = to.matched.some(r => r.meta.requiresAnyOfRoles)
 
   if (checkAll) {
-    if (await auth.hasAllRoles(to.meta.requiresRoles)) return next()
+    // Merge roles with all parent routes where all roles are required.
+    const roles = searchAllRoles(to.matched, "requiresRoles")
+
+    if (await auth.hasAllRoles(roles)) return next()
     return next({
       ...(home as Location),
       params: { message: "permission_denied" },
@@ -35,7 +50,10 @@ async function navigationGuard(to: Route, from: Route, next: Next) {
   }
 
   if (checkAny) {
-    if (await auth.hasAnyRole(to.meta.requiresAnyOfRoles)) return next()
+    // Merge roles with all parent routes.
+    const roles = searchAllRoles(to.matched, "requiresAnyOfRoles")
+
+    if (await auth.hasAnyRole(roles)) return next()
     return next({
       ...(home as Location),
       params: { message: "permission_denied" },

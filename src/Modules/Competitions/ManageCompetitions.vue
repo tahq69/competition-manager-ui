@@ -84,7 +84,7 @@ export default Vue.extend({
                 :key="competition.id">
               <td>{{ competition.id }}</td>
               <td>{{ competition.title }} &nbsp;
-                <router-link :to="competition.routes.edit"
+                <router-link :to="competition.routes.editDetails"
                              class="label label-info actions"
                              :title="$t('competitions.manage_competitions_grid_btn_edit_title')">
                   <i class="fa fa-pencil-square-o"></i>

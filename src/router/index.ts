@@ -16,4 +16,6 @@ export default new Router({
     { path: "/password/reset/:token", redirect: "/auth/password/reset/:token" },
     { path: "*", redirect: "/home" },
   ],
+  linkActiveClass: "active",
+  linkExactActiveClass: "active",
 })

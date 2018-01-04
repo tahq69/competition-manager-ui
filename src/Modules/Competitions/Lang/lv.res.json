@@ -10,5 +10,10 @@
   "manage_competitions_grid_head_organization_date_title": "Kārtot pēc organizēšanas datuma",
   "manage_competitions_grid_head_organization_date_text": "Organizēšanas datums",
   "manage_competitions_grid_btn_edit_title": "Labot sacensību detaļas",
-  "manage_competitions_grid_btn_edit_text": "Labot"
+  "manage_competitions_grid_btn_edit_text": "Labot",
+
+  "manage_competition_edit_details_tab": "Labot detaļas",
+  "manage_competition_edit_disciplines_tab": "Labot disciplīnas",
+  "manage_competition_edit_areas_tab": "Labot laukumus",
+  "manage_competition_edit_managers_tab": "Labot administrātorus"
 }

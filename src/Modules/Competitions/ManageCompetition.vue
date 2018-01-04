@@ -19,7 +19,7 @@ export default Vue.extend({
   data(): IData {
     return {
       competition: {} as Competition,
-      judge: null
+      judge: null,
     }
   },
 
@@ -50,10 +50,36 @@ export default Vue.extend({
             :lg="3">
         Judge
       </CCol>
-      <CCol :sm="6"
+      <CCol v-if="competition.routes"
+            :sm="6"
             :md="8"
             :lg="9">
-        Content
+        <ul class="nav nav-tabs">
+          <router-link :to="competition.routes.editDetails"
+                       tag="li"
+                       exact>
+            <a>{{ $t("competitions.manage_competition_edit_details_tab") }}</a>
+          </router-link>
+
+          <router-link :to="competition.routes.editDisciplines"
+                       tag="li"
+                       exact>
+            <a>{{ $t("competitions.manage_competition_edit_disciplines_tab") }}</a>
+          </router-link>
+
+          <router-link :to="competition.routes.editAreas"
+                       tag="li"
+                       exact>
+            <a>{{ $t("competitions.manage_competition_edit_areas_tab") }}</a>
+          </router-link>
+
+          <router-link :to="competition.routes.editManagers"
+                       tag="li"
+                       exact>
+            <a>{{ $t("competitions.manage_competition_edit_managers_tab") }}</a>
+          </router-link>
+        </ul>
+        <router-view></router-view>
       </CCol>
     </CRow>
   </CCol>

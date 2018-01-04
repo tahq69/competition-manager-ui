@@ -4,6 +4,10 @@ import { Entity } from "@/Helpers/Entity"
 import {
   createCompetition,
   manageCompetition,
+  manageCompetitionAreas,
+  manageCompetitionDetails,
+  manageCompetitionDisciplines,
+  manageCompetitionManagers,
   manageCompetitions,
 } from "@/Router/Routes"
 
@@ -31,8 +35,20 @@ export class Competition extends Entity {
 
   public get routes() {
     return {
-      edit: {
-        ...(manageCompetition as Location),
+      editDetails: {
+        ...(manageCompetitionDetails as Location),
+        params: { id: this.id },
+      },
+      editAreas: {
+        ...(manageCompetitionAreas as Location),
+        params: { id: this.id },
+      },
+      editDisciplines: {
+        ...(manageCompetitionDisciplines as Location),
+        params: { id: this.id },
+      },
+      editManagers: {
+        ...(manageCompetitionManagers as Location),
         params: { id: this.id },
       },
     }
