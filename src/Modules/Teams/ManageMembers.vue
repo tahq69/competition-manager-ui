@@ -1,8 +1,9 @@
 <script lang="ts">
 import { Paging } from "crip-vue-bootstrap"
 import Vue from "vue"
+import { Location } from "vue-router"
 
-import { createTeamMember, Location, manageTeam, manageTeamMembers } from "@/Router/Routes"
+import { createTeamMember, manageTeam, manageTeamMembers } from "@/Router/Routes"
 
 import teamService from "./Service"
 import Team from "./Team"

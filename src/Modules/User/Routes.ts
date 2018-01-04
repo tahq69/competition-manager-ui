@@ -1,10 +1,10 @@
+import { Location, RouteConfig } from "vue-router"
+
 import {
   forgotPassword,
-  Location,
   login,
   profile,
   resetPassword,
-  RouteConfig,
   signUp,
 } from "@/Router/Routes"
 

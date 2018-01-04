@@ -1,12 +1,12 @@
+import { Location, RouteConfig } from "vue-router"
+
 import * as roles from "@/Components/Auth/Roles"
 import {
   createPost,
   home as homeRoute,
-  Location,
   managePost,
   managePosts,
   readPost,
-  RouteConfig,
 } from "@/Router/Routes"
 
 const managePostVue = () =>

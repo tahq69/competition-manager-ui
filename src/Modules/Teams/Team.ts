@@ -1,7 +1,8 @@
+import { Location } from "vue-router"
+
 import { Entity } from "@/Helpers/Entity"
 import {
   createTeamMember,
-  Location,
   manageTeam,
   manageTeamMembers,
   teamDetails,

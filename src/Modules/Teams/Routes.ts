@@ -1,13 +1,13 @@
+import { Location, RouteConfig } from "vue-router"
+
 import * as roles from "@/Components/Auth/Roles"
 import {
   createTeam,
   createTeamMember,
-  Location,
   manageTeam,
   manageTeamMember,
   manageTeamMembers,
   manageTeams,
-  RouteConfig,
   teamDetails,
 } from "@/Router/Routes"
 

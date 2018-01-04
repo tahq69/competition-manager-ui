@@ -1,8 +1,9 @@
 import http from "axios"
+import { Location } from "vue-router"
 
 import { Api } from "@/Helpers/Api"
 import { Entity } from "@/Helpers/Entity"
-import { Location, manageTeamMember, manageTeamMembers } from "@/Router/Routes"
+import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 
 import Team from "./Team"
 

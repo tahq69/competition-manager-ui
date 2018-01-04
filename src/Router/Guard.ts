@@ -1,8 +1,8 @@
 import Vue from "vue"
-import Router, { RawLocation, Route } from "vue-router"
+import Router, { Location, RawLocation, Route } from "vue-router"
 
 import { middleware as auth } from "@/Components/Auth"
-import { home, Location, login } from "./Routes"
+import { home, login } from "./Routes"
 
 export default function(router: Router) {
   router.beforeEach(navigationGuard)

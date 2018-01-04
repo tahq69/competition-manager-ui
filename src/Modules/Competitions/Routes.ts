@@ -1,10 +1,10 @@
+import { Location, RouteConfig } from "vue-router"
+
 import * as roles from "@/Components/Auth/Roles"
 import {
   createCompetition,
-  Location,
   manageCompetition,
   manageCompetitions,
-  RouteConfig,
 } from "@/Router/Routes"
 
 const manageCm = () =>

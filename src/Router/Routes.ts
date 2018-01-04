@@ -1,7 +1,5 @@
 import { RawLocation } from "vue-router"
 
-export { RawLocation, Location, RouteConfig } from "vue-router"
-
 export const home: RawLocation = { name: "home" }
 
 export const login: RawLocation = { name: "login" }

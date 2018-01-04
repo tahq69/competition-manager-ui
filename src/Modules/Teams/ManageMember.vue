@@ -2,8 +2,9 @@
 import { Form } from "crip-vue-bootstrap"
 import CripSelect, { SelectOption, UpdateOptions } from "crip-vue-select"
 import Vue from "vue"
+import { Location } from "vue-router"
 
-import { Location, manageTeamMember, manageTeamMembers } from "@/Router/Routes"
+import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 import { MemberBase } from "@/types"
 
 import teamService from "./Service"

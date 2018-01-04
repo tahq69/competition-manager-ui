@@ -1,9 +1,10 @@
 <script lang="ts">
 import { NavElement } from "crip-vue-bootstrap"
 import Vue from "vue"
+import { Location } from "vue-router"
 
 import Auth from "@/Components/Auth"
-import { home, Location } from "@/Router/Routes"
+import { home } from "@/Router/Routes"
 
 import { leftNav, rightNav } from "./Components/Navigation"
 
