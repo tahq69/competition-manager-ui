@@ -92,7 +92,7 @@ class WebLogger implements ILogger {
     return this.group(vm.$options.name || "unnamed")
   }
 
-  private writelog(type: LogType, args: any, section = "global") {
+  private writelog(type: LogType, args: any[], section = "global") {
     if (!this.isInAvailableSections(section)) return
 
     if (this.target === "console") {
@@ -100,7 +100,7 @@ class WebLogger implements ILogger {
     }
   }
 
-  private consoleLog(type: LogType, args: any) {
+  private consoleLog(type: LogType, args: any[]) {
     if (window.console && console[type]) {
       console[type].apply(console, args)
     }

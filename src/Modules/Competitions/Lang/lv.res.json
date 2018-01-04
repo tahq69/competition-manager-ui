@@ -15,5 +15,7 @@
   "manage_competition_edit_details_tab": "Labot detaļas",
   "manage_competition_edit_disciplines_tab": "Labot disciplīnas",
   "manage_competition_edit_areas_tab": "Labot laukumus",
-  "manage_competition_edit_managers_tab": "Labot administrātorus"
+  "manage_competition_edit_managers_tab": "Labot administrātorus",
+
+  "discipline_badge_edit": "Labot"
 }

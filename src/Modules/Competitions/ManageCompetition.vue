@@ -8,31 +8,16 @@ import { Next } from "@/types"
 import { Competition } from "./Competition"
 import competitionService from "./Service"
 
-interface IData {
-  competition: Competition
-  judge: User | null
-}
-
 export default Vue.extend({
   name: "ManageCompetition",
 
-  data(): IData {
-    return {
-      competition: {} as Competition,
-      judge: null,
-    }
-  },
+  computed: {
+    id(): number {
+      return parseInt(this.$route.params.competition_id, 10)
+    },
 
-  async beforeRouteEnter(to: Route, from: Route, next: Next<any>) {
-    // Pre-load competition while this component is not open.
-    const competition = await competitionService.fetchCompetition({ id: to.params.id })
-    next(vm => vm.setCompetition(competition))
-  },
-
-  methods: {
-    async setCompetition(competition: Competition) {
-      this.log("setCompetition()", { competition })
-      this.competition = competition
+    competition(): Competition {
+      return new Competition({ id: this.id })
     },
   },
 
@@ -50,8 +35,8 @@ export default Vue.extend({
             :lg="3">
         Judge
       </CCol>
-      <CCol v-if="competition.routes"
-            :sm="6"
+
+      <CCol :sm="6"
             :md="8"
             :lg="9">
         <ul class="nav nav-tabs">
@@ -79,6 +64,7 @@ export default Vue.extend({
             <a>{{ $t("competitions.manage_competition_edit_managers_tab") }}</a>
           </router-link>
         </ul>
+
         <router-view></router-view>
       </CCol>
     </CRow>

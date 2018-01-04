@@ -13,7 +13,7 @@
     "axios": "^0.16.2",
     "bootstrap-datepicker": "^1.7.1",
     "bootstrap-sass": "^3.3.7",
-    "crip-vue-bootstrap": "0.0.3",
+    "crip-vue-bootstrap": "0.0.5",
     "crip-vue-loading": "^1.2.5",
     "crip-vue-notice": "^1.1.1",
     "crip-vue-select": "0.0.6",

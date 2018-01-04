@@ -15,5 +15,7 @@
   "manage_competition_edit_details_tab": "Edit details",
   "manage_competition_edit_disciplines_tab": "Edit disciplines",
   "manage_competition_edit_areas_tab": "Edit areas",
-  "manage_competition_edit_managers_tab": "Edit managers"
+  "manage_competition_edit_managers_tab": "Edit managers",
+
+  "discipline_badge_edit": "Edit"
 }

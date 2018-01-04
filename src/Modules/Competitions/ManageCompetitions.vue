@@ -40,7 +40,7 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div class="col-xs-12">
+  <CCol>
     <CGrid id="manage-competitions"
            :paging="paging">
       <span slot="title">{{ $t('competitions.manage_competitions_grid_title') }}</span>
@@ -98,5 +98,5 @@ export default Vue.extend({
         </tbody>
       </table>
     </CGrid>
-  </div>
+  </CCol>
 </template>

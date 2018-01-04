@@ -32,8 +32,12 @@ export const teamDetails: RawLocation = {
 
 export const manageCompetitions: RawLocation = { name: "manageCompetitions" }
 export const createCompetition: RawLocation = { name: "createCompetition" }
-export const manageCompetition: RawLocation = { name: "manageCompetition" }
 export const manageCompetitionDetails: RawLocation = { name: "manageCompetitionDetails" }
 export const manageCompetitionDisciplines: RawLocation = { name: "manageCompetitionDisciplines" }
+export const manageCompetitionDiscipline: RawLocation = { name: "manageCompetitionDiscipline" }
 export const manageCompetitionAreas: RawLocation = { name: "manageCompetitionAreas" }
 export const manageCompetitionManagers: RawLocation = { name: "manageCompetitionManagers" }
+
+export const competitionDiscipline: RawLocation = { name: "competitionDiscipline" }
+
+
