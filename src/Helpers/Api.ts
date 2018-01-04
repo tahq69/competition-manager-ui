@@ -128,8 +128,12 @@ export class Api {
         })
 
         return new Error(t("app.unauthorized"))
+      case 404:
+        Vue.notice.error({ title: t("app.api_actionNotFound") })
+        return new Error(t("app.api_actionNotFound"))
       case 403:
       case 405:
+        Vue.notice.warning({ title: t("app.api_actionNotAllowed") })
         Vue.logger.log("Api.http -> not allowed", response)
         // TODO: send this as email to admin to be able detect users who is
         // trying hack app or some places has not enough protection and simple
@@ -137,6 +141,7 @@ export class Api {
         return new Error(t("app.api_actionNotAllowed"))
       default:
         Vue.logger.log("Api.http -> unknown", response)
+        Vue.notice.warning({ title: t("app.api_unknownHttpError") })
         // TODO: send this as email to admin to be able detect unexpected http
         // errors.
         return new Error(t("app.api_unknownHttpError"))

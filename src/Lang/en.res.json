@@ -4,6 +4,7 @@
   "api_actionNotAllowed": "Action is not allowed",
   "api_unknownHttpError": "Unknown communication error occurred",
   "api_unexpectedError": "Unexpected error occurred",
+  "api_actionNotFound": "Record not found",
 
   "nav_login": "Login",
   "nav_locale": "English",

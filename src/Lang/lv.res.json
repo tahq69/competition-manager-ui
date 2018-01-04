@@ -4,6 +4,7 @@
   "api_actionNotAllowed": "Darbība nav atļauta",
   "api_unknownHttpError": "Nezināma komunikācijas kļūda",
   "api_unexpectedError": "Nezināma iekšējā kļūda",
+  "api_actionNotFound": "Meklētais ieraksts netika atrasts",
 
   "nav_login": "Ienākt",
   "nav_locale": "Latviešu",
