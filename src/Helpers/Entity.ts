@@ -1,3 +1,5 @@
+import { Id } from "@/types"
+
 export interface IAudit {
   at: Date
   by: number
@@ -13,7 +15,7 @@ export interface IModifiedAudit extends IAudit {
 }
 
 export class Entity {
-  public id: number
+  public id: Id
   public created: ICreatedAudit
   public updated: IModifiedAudit
 

@@ -1,21 +1,34 @@
 <script lang="ts">
 import Vue from "vue"
+import { Location } from "vue-router"
 
-import { middleware, roles } from "@/Components/Auth"
-import { Next } from "@/types"
+import { createCompetitionDiscipline } from "@/Router/Routes"
+import { Id, Next } from "@/types"
 
+import { DisciplineAuth } from "./Auth"
 import { Discipline } from "./Discipline"
 
 export default Vue.extend({
   name: "DisciplinesBadge",
 
   props: {
-    discipline: { type: Discipline, required: true },
+    discipline: { type: Discipline },
+    create: { type: Boolean },
   },
 
   computed: {
     canEdit(): boolean {
-      return middleware.hasAnyRole(roles.competitions)
+      if (this.create) return false
+      return DisciplineAuth.canEdit(this.discipline.id, this.discipline.competition_id)
+    },
+
+    newDiscipline(): Location {
+      return {
+        ...(createCompetitionDiscipline as Location),
+        params: {
+          competition_id: this.$route.params.competition_id,
+        },
+      }
     },
   },
 })
@@ -31,17 +44,24 @@ export default Vue.extend({
     </router-link>
 
     <h4>
-      <router-link :to="discipline.routes.show">
+      <router-link v-if="!create"
+                   :to="discipline.routes.show">
         {{ discipline.title }}
       </router-link>
+      <router-link v-else
+                   :to="newDiscipline">
+        <i class="fa fa-plus-square-o fa-2x"></i>
+      </router-link>
     </h4>
-    <small>{{ discipline.short }}</small>
+    <small v-if="!create">{{ discipline.short }}</small>
+    <small v-else>Create new discipline</small>
   </div>
 </template>
 
 <style lang="scss">
 .discipline-badge {
   display: block;
+  margin-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
   position: relative;

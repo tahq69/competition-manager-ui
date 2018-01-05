@@ -1,12 +1,13 @@
 import { Paging } from "crip-vue-bootstrap"
 
 import { Pagination, Service } from "@/Helpers"
+import { Id } from "@/types"
 
 import Team from "./Team"
 import TeamMember from "./TeamMember"
 
 interface IFetchTeam {
-  id: number
+  id: Id
 }
 
 interface IFetchTeams {
@@ -14,20 +15,20 @@ interface IFetchTeams {
 }
 
 interface ISaveTeamMember {
-  id?: number
+  id?: Id
   name: string
-  team_id: number
-  user_id?: number
+  team_id: Id
+  user_id?: Id
 }
 
 interface IFetchMember {
-  id: number
-  team_id: number
+  id: Id
+  team_id: Id
 }
 
 interface IFetchMembers {
   paging: Paging<TeamMember>
-  team_id: number
+  team_id: Id
 }
 
 class TeamsService extends Service {

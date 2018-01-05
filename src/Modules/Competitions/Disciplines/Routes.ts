@@ -3,6 +3,7 @@ import { Location, RouteConfig } from "vue-router"
 import {
   competitionDiscipline,
   competitionDisciplines,
+  createCompetitionDiscipline,
   manageCompetitionDiscipline,
 } from "@/Router/Routes"
 
@@ -28,6 +29,12 @@ const routes: RouteConfig[] = [
     ...(manageCompetitionDiscipline as Location),
     meta: { requiresAuth: true },
     path: "disciplines/edit/:id(\\d+)",
+    component: manageDiscipline,
+  } as RouteConfig,
+  {
+    ...(createCompetitionDiscipline as Location),
+    meta: { requiresAuth: true },
+    path: "disciplines/new",
     component: manageDiscipline,
   } as RouteConfig,
   {

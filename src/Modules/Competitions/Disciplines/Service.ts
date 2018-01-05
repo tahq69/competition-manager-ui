@@ -1,21 +1,22 @@
 import { Service } from "@/Helpers/Service"
+import { Id } from "@/types"
 
 import { Discipline } from "./Discipline"
 
 interface IFetchDisciplines {
-  competition_id: string | number
+  competition_id: Id
 }
 
 interface IFetchDiscipline {
-  competition_id: string | number
-  id: string | number
+  competition_id: Id
+  id: Id
 }
 
 interface ISaveDiscipline {
-  competition_id: number
+  competition_id: Id
   description: string
   game_type: string
-  id: number
+  id: Id
   short: string
   title: string
   type: string

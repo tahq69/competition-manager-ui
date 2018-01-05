@@ -2,26 +2,45 @@
 import { Form } from "crip-vue-bootstrap"
 import CripSelect from "crip-vue-select"
 import Vue from "vue"
+import { Location } from "vue-router"
 
+import { manageCompetitionDiscipline } from "@/Router/Routes"
 import { Next } from "@/types"
 
 import { Discipline } from "./Discipline"
 import disciplineService from "./Service"
+
+const editRoute = manageCompetitionDiscipline as Location
 
 export default Vue.extend({
   name: "ManageDiscipline",
 
   beforeRouteEnter(to, from, next: Next<any>) {
     const payload = { competition_id: to.params.competition_id, id: to.params.id }
-    disciplineService
-      .fetchDiscipline(payload)
-      .then(discipline => next(vm => vm.setDiscipline(discipline)))
+
+    if (to.name === editRoute.name) {
+      disciplineService
+        .fetchDiscipline(payload)
+        .then(discipline => next(vm => vm.setDiscipline(discipline)))
+    } else {
+      // If we open create route, we have no data to load from API.
+      next()
+    }
   },
 
   data() {
     return {
       discipline: {} as Discipline,
-      form: {} as Form<Discipline>,
+      form: new Form(
+        new Discipline({
+          competition_id: this.$route.params.competition_id,
+          title: "",
+          short: "",
+          type: "",
+          game_type: "",
+          description: "",
+        }),
+      ),
       typeSelect: new CripSelect({
         options: [
           { key: "1", text: "Kickboxing", value: "KICKBOXING" },
@@ -32,12 +51,21 @@ export default Vue.extend({
   },
 
   computed: {
+    isEdit(): boolean {
+      return this.$route.name === editRoute.name
+    },
+
     id(): number {
       return parseInt(this.$route.params.id, 10)
     },
 
     competitionId(): number {
       return parseInt(this.$route.params.competition_id, 10)
+    },
+
+    title(): string {
+      if (this.isEdit) return `Manage discipline: ${this.discipline.title}`
+      return "Create new discipline"
     },
   },
 
@@ -49,9 +77,13 @@ export default Vue.extend({
 
     async save() {
       this.log("save()", this.form.data)
-      const discipline = await disciplineService.saveDiscipline(this.form.data)
-      this.$notice.success({ title: "Discipline saved" })
-      this.$router.push(discipline.routes.show)
+      try {
+        const discipline = await disciplineService.saveDiscipline(this.form.data)
+        this.$notice.success({ title: "Discipline saved" })
+        this.$router.push(discipline.routes.show)
+      } catch (errors) {
+        this.form.addErrors(errors)
+      }
     },
   },
 
@@ -62,8 +94,8 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CRow v-if="form.data">
-    <CFormPanel :title="`Manage discipline: ${discipline.title}`"
+  <CRow>
+    <CFormPanel :title="title"
                 id="manage-discipline"
                 @submit="save">
 

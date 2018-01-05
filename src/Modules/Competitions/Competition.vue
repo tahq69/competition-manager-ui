@@ -41,26 +41,22 @@ export default Vue.extend({
             :lg="9">
         <ul class="nav nav-tabs">
           <router-link :to="competition.routes.editDetails"
-                       tag="li"
-                       exact>
+                       tag="li">
             <a>{{ $t("competitions.competition_edit_details_tab") }}</a>
           </router-link>
 
           <router-link :to="competition.routes.disciplines"
-                       tag="li"
-                       exact>
+                       tag="li">
             <a>{{ $t("competitions.competition_disciplines_tab") }}</a>
           </router-link>
 
           <router-link :to="competition.routes.editAreas"
-                       tag="li"
-                       exact>
+                       tag="li">
             <a>{{ $t("competitions.competition_edit_areas_tab") }}</a>
           </router-link>
 
           <router-link :to="competition.routes.editManagers"
-                       tag="li"
-                       exact>
+                       tag="li">
             <a>{{ $t("competitions.competition_edit_managers_tab") }}</a>
           </router-link>
         </ul>

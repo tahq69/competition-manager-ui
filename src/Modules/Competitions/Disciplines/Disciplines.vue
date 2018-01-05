@@ -3,6 +3,7 @@ import Vue from "vue"
 
 import { Next } from "@/types"
 
+import { DisciplineAuth } from "./Auth"
 import { Discipline } from "./Discipline"
 import disciplineService from "./Service"
 
@@ -30,6 +31,12 @@ export default Vue.extend({
     }
   },
 
+  computed: {
+    canCreate(): boolean {
+      return DisciplineAuth.canCreate(this.$route.params.competition_id)
+    },
+  },
+
   methods: {
     setDisciplines(disciplines: Discipline[]): void {
       this.disciplines = disciplines
@@ -48,6 +55,11 @@ export default Vue.extend({
           :key="discipline.id"
           :sm="6">
       <DisciplineBadge :discipline="discipline" />
+    </CCol>
+
+    <CCol v-if="canCreate"
+          :sm="6">
+      <DisciplineBadge :create="true" />
     </CCol>
   </CRow>
 </template>

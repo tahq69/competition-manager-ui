@@ -12,7 +12,7 @@ import Team from "./Team"
 import TeamMember from "./TeamMember"
 
 interface IData {
-  form: Form<{ user_id: number; name: string; id: number }>
+  form: Form<{ user_id: number | string; name: string; id: number | string }>
   team: Team | boolean
   userSelect: CripSelect<MemberBase>
   initialUserId: number
