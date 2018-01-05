@@ -2,10 +2,10 @@ import { Location } from "vue-router"
 
 import { Entity } from "@/Helpers/Entity"
 import {
+  competitionDisciplines,
   createCompetition,
   manageCompetitionAreas,
   manageCompetitionDetails,
-  manageCompetitionDisciplines,
   manageCompetitionManagers,
   manageCompetitions,
 } from "@/Router/Routes"
@@ -34,16 +34,16 @@ export class Competition extends Entity {
 
   public get routes() {
     return {
+      disciplines: {
+        ...(competitionDisciplines as Location),
+        params: { competition_id: this.id },
+      },
       editDetails: {
         ...(manageCompetitionDetails as Location),
         params: { competition_id: this.id },
       },
       editAreas: {
         ...(manageCompetitionAreas as Location),
-        params: { competition_id: this.id },
-      },
-      editDisciplines: {
-        ...(manageCompetitionDisciplines as Location),
         params: { competition_id: this.id },
       },
       editManagers: {

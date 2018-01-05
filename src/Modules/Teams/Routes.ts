@@ -61,6 +61,6 @@ export default [
     component: manageMembersVue,
     meta,
     path:
-      "/teams/:team(\\d+)/members/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+      "/teams/:team(\\d+)/members/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
 ]

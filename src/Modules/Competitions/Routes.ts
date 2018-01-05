@@ -11,11 +11,13 @@ import {
 
 import disciplines from "./Disciplines/Routes"
 
+/** Public routes */
+const competition = () =>
+  import(/* webpackChunkName: "cm" */ "./Competition.vue")
+
+/** Management routes */
 const manageCms = () =>
   import(/* webpackChunkName: "cm" */ "./ManageCompetitions.vue")
-
-const manageCm = () =>
-  import(/* webpackChunkName: "cm" */ "./ManageCompetition.vue")
 
 const manageCmAreas = () =>
   import(/* webpackChunkName: "cm" */ "./ManageCompetition.Areas.vue")
@@ -33,7 +35,7 @@ const listRole = [roles.EDIT_COMPETITIONS]
 const routes: RouteConfig[] = [
   {
     ...(createCompetition as Location),
-    component: manageCm,
+    component: competition,
     meta: { requiresAuth, requiresRoles: createRole },
     path: "/competitions/new",
   } as RouteConfig,
@@ -45,27 +47,27 @@ const routes: RouteConfig[] = [
       "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
-    component: manageCm,
+    component: competition,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-    path: "/competitions/edit/:competition_id(\\d+)",
+    path: "/competitions/:competition_id(\\d+)",
     children: [
       ...disciplines,
       {
         ...(manageCompetitionDetails as Location),
         meta: { requiresAuth },
-        path: "",
+        path: "edit/details",
         component: manageCmDetails,
       } as RouteConfig,
       {
         ...(manageCompetitionAreas as Location),
         meta: { requiresAuth },
-        path: "areas",
+        path: "edit/areas",
         component: manageCmAreas,
       } as RouteConfig,
       {
         ...(manageCompetitionManagers as Location),
         meta: { requiresAuth },
-        path: "managers",
+        path: "edit/managers",
         component: manageCmManagers,
       } as RouteConfig,
     ],

@@ -13,7 +13,7 @@ interface IData {
 }
 
 export default Vue.extend({
-  name: "ManageCompetitionDisciplines",
+  name: "Disciplines",
 
   components: { DisciplineBadge },
 

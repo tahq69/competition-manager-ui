@@ -1,24 +1,40 @@
 import { Location, RouteConfig } from "vue-router"
 
 import {
-  competitionDiscipline, manageCompetitionDisciplines,
+  competitionDiscipline,
+  competitionDisciplines,
+  manageCompetitionDiscipline,
 } from "@/Router/Routes"
 
-const manageCmDisciplines = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./ManageDisciplines.vue")
+/** Public routes */
+const disciplines = () =>
+  import(/* webpackChunkName: "cm-discipline" */ "./Disciplines.vue")
+
+const discipline = () =>
+  import(/* webpackChunkName: "cm-discipline" */ "./Discipline.vue")
+
+/** Management routes */
+const manageDiscipline = () =>
+  import(/* webpackChunkName: "cm-discipline" */ "./ManageDiscipline.vue")
 
 const routes: RouteConfig[] = [
   {
-    ...(manageCompetitionDisciplines as Location),
+    ...(competitionDisciplines as Location),
     meta: { requiresAuth: true },
-    path: "disciplines/manage",
-    component: manageCmDisciplines,
+    path: "disciplines",
+    component: disciplines,
+  } as RouteConfig,
+  {
+    ...(manageCompetitionDiscipline as Location),
+    meta: { requiresAuth: true },
+    path: "disciplines/edit/:id(\\d+)",
+    component: manageDiscipline,
   } as RouteConfig,
   {
     ...(competitionDiscipline as Location),
     meta: { requiresAuth: true },
-    path: "disciplines/manage/:id(\\d+)",
-    component: manageCmDisciplines,
+    path: "disciplines/:id(\\d+)",
+    component: discipline,
   } as RouteConfig,
 ]
 

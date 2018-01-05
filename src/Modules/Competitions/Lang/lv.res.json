@@ -12,10 +12,10 @@
   "manage_competitions_grid_btn_edit_title": "Labot sacensību detaļas",
   "manage_competitions_grid_btn_edit_text": "Labot",
 
-  "manage_competition_edit_details_tab": "Labot detaļas",
-  "manage_competition_edit_disciplines_tab": "Labot disciplīnas",
-  "manage_competition_edit_areas_tab": "Labot laukumus",
-  "manage_competition_edit_managers_tab": "Labot administrātorus",
+  "competition_disciplines_tab": "Disciplīnas",
+  "competition_edit_details_tab": "Labot detaļas",
+  "competition_edit_areas_tab": "Labot laukumus",
+  "competition_edit_managers_tab": "Labot administrātorus",
 
   "discipline_badge_edit": "Labot"
 }

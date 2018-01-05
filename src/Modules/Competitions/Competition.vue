@@ -9,7 +9,7 @@ import { Competition } from "./Competition"
 import competitionService from "./Service"
 
 export default Vue.extend({
-  name: "ManageCompetition",
+  name: "Competition",
 
   computed: {
     id(): number {
@@ -43,25 +43,25 @@ export default Vue.extend({
           <router-link :to="competition.routes.editDetails"
                        tag="li"
                        exact>
-            <a>{{ $t("competitions.manage_competition_edit_details_tab") }}</a>
+            <a>{{ $t("competitions.competition_edit_details_tab") }}</a>
           </router-link>
 
-          <router-link :to="competition.routes.editDisciplines"
+          <router-link :to="competition.routes.disciplines"
                        tag="li"
                        exact>
-            <a>{{ $t("competitions.manage_competition_edit_disciplines_tab") }}</a>
+            <a>{{ $t("competitions.competition_disciplines_tab") }}</a>
           </router-link>
 
           <router-link :to="competition.routes.editAreas"
                        tag="li"
                        exact>
-            <a>{{ $t("competitions.manage_competition_edit_areas_tab") }}</a>
+            <a>{{ $t("competitions.competition_edit_areas_tab") }}</a>
           </router-link>
 
           <router-link :to="competition.routes.editManagers"
                        tag="li"
                        exact>
-            <a>{{ $t("competitions.manage_competition_edit_managers_tab") }}</a>
+            <a>{{ $t("competitions.competition_edit_managers_tab") }}</a>
           </router-link>
         </ul>
 

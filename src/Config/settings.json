@@ -19,7 +19,8 @@
         "select2",
         "Notification",
         "ManageMember",
-        "FormSelect"
+        "FormSelect",
+        "ManageDiscipline"
       ]
     }
   },

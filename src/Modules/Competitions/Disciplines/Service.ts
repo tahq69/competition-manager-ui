@@ -11,6 +11,16 @@ interface IFetchDiscipline {
   id: string | number
 }
 
+interface ISaveDiscipline {
+  competition_id: number
+  description: string
+  game_type: string
+  id: number
+  short: string
+  title: string
+  type: string
+}
+
 class DisciplineService extends Service {
   public async fetchDisciplines(
     payload: IFetchDisciplines,
@@ -34,6 +44,13 @@ class DisciplineService extends Service {
 
       const { data } = await http.get(url)
       return new Discipline(data)
+    })
+  }
+
+  public async saveDiscipline(payload: ISaveDiscipline): Promise<Discipline> {
+    return await this.safeContext(async (http, api) => {
+      const entity = new Discipline(payload)
+      return this.save(entity)
     })
   }
 }

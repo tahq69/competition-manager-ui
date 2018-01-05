@@ -1,7 +1,10 @@
 import { Location } from "vue-router"
 
 import { Entity } from "@/Helpers/Entity"
-import { competitionDiscipline, manageCompetitionDiscipline } from "@/Router/Routes"
+import {
+  competitionDiscipline,
+  manageCompetitionDiscipline,
+} from "@/Router/Routes"
 
 export class Discipline extends Entity {
   public competition_id: number
@@ -11,21 +14,26 @@ export class Discipline extends Entity {
   public game_type: string
   public description: string
 
+  public createUrl = "competitions/{competition_id}/disciplines"
+  public updateUrl = "competitions/{competition_id}/disciplines/{id}"
+
   constructor(data: any) {
     super()
     this.updateProps(data)
   }
 
   public get routes() {
+    const competition_id = this.competition_id.toString()
+    const id = this.id.toString()
     return {
       edit: {
         ...(manageCompetitionDiscipline as Location),
-        params: { competition_id: this.competition_id, id: this.id },
+        params: { competition_id, id },
       },
       show: {
         ...(competitionDiscipline as Location),
-        params: { competition_id: this.competition_id, id: this.id },
-      }
+        params: { competition_id, id },
+      },
     }
   }
 
