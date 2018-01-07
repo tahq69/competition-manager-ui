@@ -21,7 +21,7 @@ import { sync } from "vuex-router-sync"
 Vue.use<CripSelectOptions>(CripSelect)
 Vue.use<IBootstrapOptions>(CripBootstrap, { prefix: "C" })
 Vue.use<INoticesOptions>(CripNotice, { duration: 4, styles: { top: "73px", right: "15px" } })
-Vue.use<ILoadingOptions>(CripLoading, { axios, color: "rgba(88,91,169,1)", verbose: true })
+Vue.use<ILoadingOptions>(CripLoading, { axios, color: "rgba(88,91,169,1)", verbose: false })
 
 import App from "./App.vue"
 import config from "./Config"
@@ -30,6 +30,8 @@ import Lang, { i18n } from "./Lang"
 import Router from "./Router"
 import Guard from "./Router/Guard"
 import Store from "./Store"
+
+import "./Helpers/Filters"
 
 Vue.use(Logger, config.logs)
 

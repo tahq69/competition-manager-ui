@@ -1,12 +1,7 @@
 <script lang="ts">
 import Vue from "vue"
-import { Route } from "vue-router"
-
-import { User } from "@/Components/Auth/User"
-import { Next } from "@/types"
 
 import { Competition } from "./Competition"
-import competitionService from "./Service"
 
 export default Vue.extend({
   name: "Competition",

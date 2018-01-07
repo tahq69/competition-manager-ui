@@ -10,6 +10,7 @@ import {
   manageCompetitions,
 } from "@/Router/Routes"
 
+import details from "./Details/Routes"
 import disciplines from "./Disciplines/Routes"
 
 /** Public routes */
@@ -25,9 +26,6 @@ const manageCms = () =>
 
 const manageCmAreas = () =>
   import(/* webpackChunkName: "cm" */ "./ManageCompetition.Areas.vue")
-
-const manageCmDetails = () =>
-  import(/* webpackChunkName: "cm" */ "./ManageCompetition.Details.vue")
 
 const manageCmManagers = () =>
   import(/* webpackChunkName: "cm" */ "./ManageCompetition.Managers.vue")
@@ -61,13 +59,8 @@ const routes: RouteConfig[] = [
     path: "/competition/:competition_id(\\d+)",
     props: true,
     children: [
+      ...details,
       ...disciplines,
-      {
-        ...manageCompetitionDetails,
-        meta: { requiresAuth },
-        path: "edit/details",
-        component: manageCmDetails,
-      } as RouteConfig,
       {
         ...manageCompetitionAreas,
         meta: { requiresAuth },

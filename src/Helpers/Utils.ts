@@ -114,4 +114,56 @@ export default class Utils {
       return isStrOrNr ? r.toString() : a
     })
   }
+
+  /**
+   * Debounce method call.
+   *
+   * @static
+   * @param {function} func      Method to be debounced
+   * @param {number}   wait      Timeout to wait nex call
+   * @param {boolean}  immediate Call method immediately
+   * @returns {function}
+   * @memberof Utils
+   */
+  public static debounce<T extends Function>(
+    func: T,
+    wait = 100,
+    immediate = false,
+  ): T {
+    let timeout: number | null
+    let args: IArguments | null
+    let context: any
+    let timestamp: number
+    let result: number
+
+    function later() {
+      const last = Date.now() - timestamp
+
+      if (last < wait && last >= 0) {
+        timeout = window.setTimeout(later, wait - last)
+      } else {
+        timeout = null
+        if (!immediate) {
+          result = func.apply(context, args)
+          context = args = null
+        }
+      }
+    }
+
+    const debounced: any = function(this: any) {
+      context = this
+      args = arguments
+      timestamp = Date.now()
+      const callNow = immediate && !timeout
+      if (!timeout) timeout = window.setTimeout(later, wait)
+      if (callNow) {
+        result = func.apply(context, args)
+        context = args = null
+      }
+
+      return result
+    }
+
+    return debounced
+  }
 }
