@@ -39,8 +39,7 @@ const routes: RouteConfig[] = [
     ...manageCompetitions,
     component: manageCms,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-    path:
-      "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+    path: "/competitions/manage/:page(\\d+)?",
   } as RouteConfig,
   {
     ...competitionsRoute,
@@ -57,7 +56,9 @@ const routes: RouteConfig[] = [
     component: competition,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
     path: "/competition/:competition_id(\\d+)",
-    props: true,
+    props: route => ({
+      competitionId: parseInt(route.params.competition_id, 10),
+    }),
     children: [
       ...details,
       ...disciplines,
