@@ -2,13 +2,12 @@ import Vue from "vue"
 import Router, { Location, RawLocation, Route, RouteRecord } from "vue-router"
 
 import { middleware as auth } from "@/Components/Auth"
+import { Next } from "@/types"
 import { home, login } from "./Routes"
 
 export default function(router: Router) {
   router.beforeEach(navigationGuard)
 }
-
-type Next = (to?: RawLocation | false | ((vm: Vue) => any) | void) => void
 
 function searchAllRoles(routes: RouteRecord[], metaKey: string) {
   return routes.reduce<string[]>((acc, route) => {

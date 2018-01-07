@@ -11,9 +11,13 @@ import competitionService from "./Service"
 export default Vue.extend({
   name: "Competition",
 
+  props: {
+    competition_id: { type: Number, required: true },
+  },
+
   computed: {
     id(): number {
-      return parseInt(this.$route.params.competition_id, 10)
+      return this.competition_id
     },
 
     competition(): Competition {

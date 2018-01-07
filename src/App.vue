@@ -38,8 +38,6 @@ export default Vue.extend({
         this.$router.push(this.$route.query["redirect"])
         return
       }
-
-      this.$router.push(home)
     },
   },
 

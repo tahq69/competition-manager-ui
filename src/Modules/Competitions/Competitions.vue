@@ -1,9 +1,6 @@
 <script lang="ts">
 import { createPaging } from "crip-vue-bootstrap"
-import Vue, { ComponentOptions } from "vue"
-
-import { Pagination } from "@/Helpers"
-import { Next } from "@/types"
+import Vue from "vue"
 
 import { Competition } from "./Competition"
 import CompetitionBadge from "./CompetitionBadge.vue"

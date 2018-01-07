@@ -38,16 +38,16 @@ const listRole = [roles.EDIT_COMPETITIONS]
 
 const routes: RouteConfig[] = [
   {
-    ...competitionsRoute,
-    component: competitions,
-    path: "/competitions/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
-  } as RouteConfig,
-  {
     ...manageCompetitions,
     component: manageCms,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
     path:
       "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+  } as RouteConfig,
+  {
+    ...competitionsRoute,
+    component: competitions,
+    path: "/competitions/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
     ...createCompetition,
@@ -59,6 +59,7 @@ const routes: RouteConfig[] = [
     component: competition,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
     path: "/competition/:competition_id(\\d+)",
+    props: true,
     children: [
       ...disciplines,
       {

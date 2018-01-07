@@ -30,8 +30,8 @@ export const teamDetails: Location = {
   params: { tab: "members" },
 }
 
-export const competitions: Location = { name: "competitions", params: { page: "1" } }
-export const manageCompetitions: Location = { name: "manageCompetitions", params: { page: "1" } }
+export const competitions: Location = { name: "competitions" }
+export const manageCompetitions: Location = { name: "manageCompetitions" }
 export const createCompetition: Location = { name: "createCompetition" }
 export const manageCompetitionDetails: Location = { name: "manageCompetitionDetails" }
 export const createCompetitionDiscipline: Location = { name: "createCompetitionDiscipline" }
