@@ -30,7 +30,7 @@ async function navigationGuard(to: Route, from: Route, next: Next) {
 
   // Check if user is logged in. If not, redirect to login page.
   if (!auth.isAuthenticated()) {
-    return next({ ...(login as Location), query: { redirect: to.fullPath } })
+    return next({ ...login, query: { redirect: to.fullPath } })
   }
 
   // This route may require set of roles. If user has no access to route,
@@ -44,7 +44,7 @@ async function navigationGuard(to: Route, from: Route, next: Next) {
 
     if (await auth.hasAllRoles(roles)) return next()
     return next({
-      ...(home as Location),
+      ...home,
       params: { message: "permission_denied" },
     })
   }
@@ -55,7 +55,7 @@ async function navigationGuard(to: Route, from: Route, next: Next) {
 
     if (await auth.hasAnyRole(roles)) return next()
     return next({
-      ...(home as Location),
+      ...home,
       params: { message: "permission_denied" },
     })
   }

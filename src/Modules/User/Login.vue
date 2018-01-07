@@ -29,7 +29,7 @@ export default Vue.extend({
 
   computed: {
     forgotPassword(): Location {
-      return forgotPassword as Location
+      return forgotPassword
     },
   },
 

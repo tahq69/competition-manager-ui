@@ -21,19 +21,19 @@ export default class Team extends Entity {
   public get routes() {
     return {
       createMember: {
-        ...(createTeamMember as Location),
+        ...createTeamMember,
         params: { team: this.id },
       },
       details: {
-        ...(teamDetails as Location),
+        ...teamDetails,
         params: { tab: "members", team: this.id },
       },
       edit: {
-        ...(manageTeam as Location),
+        ...manageTeam,
         params: { id: this.id },
       },
       manageMembers: {
-        ...(manageTeamMembers as Location),
+        ...manageTeamMembers,
         params: { team: this.id },
       },
     }

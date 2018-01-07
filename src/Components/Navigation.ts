@@ -59,7 +59,11 @@ export const leftNav = () => {
   // delete last divider from manage nav
   nav.items.splice(-1, 1)
 
-  return [nav]
+  const publicNav = [
+    Nav.item({ text: t("competitions"), route: routes.competitions }),
+  ]
+
+  return [nav, ...publicNav]
 }
 
 export const rightNav = () => {

@@ -27,37 +27,37 @@ const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] }
 
 export default [
   {
-    ...(createTeam as Location),
+    ...createTeam,
     component: manageTeamVue,
     meta,
     path: "/teams/new",
   } as RouteConfig,
   {
-    ...(manageTeam as Location),
+    ...manageTeam,
     component: manageTeamVue,
     meta,
     path: "/teams/edit/:id(\\d+)",
   } as RouteConfig,
   {
-    ...(manageTeams as Location),
+    ...manageTeams,
     component: manageTeamsVue,
     meta,
     path: "/teams/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
-    ...(createTeamMember as Location),
+    ...createTeamMember,
     component: manageMemberVue,
     meta,
     path: "/teams/:team(\\d+)/members/new",
   } as RouteConfig,
   {
-    ...(manageTeamMember as Location),
+    ...manageTeamMember,
     component: manageMemberVue,
     meta,
     path: "/teams/:team(\\d+)/members/edit/:id(\\d+)",
   } as RouteConfig,
   {
-    ...(manageTeamMembers as Location),
+    ...manageTeamMembers,
     component: manageMembersVue,
     meta,
     path:

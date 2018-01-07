@@ -27,11 +27,11 @@ export class Discipline extends Entity {
     const id = this.id.toString()
     return {
       edit: {
-        ...(manageCompetitionDiscipline as Location),
+        ...manageCompetitionDiscipline,
         params: { competition_id, id },
       },
       show: {
-        ...(competitionDiscipline as Location),
+        ...competitionDiscipline,
         params: { competition_id, id },
       },
     }

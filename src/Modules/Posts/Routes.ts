@@ -22,25 +22,25 @@ const postViewVue = () =>
   import(/* webpackChunkName: "posts" */ "./PostView.vue")
 
 export const home = {
-  ...(homeRoute as Location),
+  ...homeRoute,
   component: postListVue,
   path: "/home/:page?",
 } as RouteConfig
 
 export const posts = [
   {
-    ...(readPost as Location),
+    ...readPost,
     component: postViewVue,
     path: "/posts/:id(\\d+)",
   } as RouteConfig,
   {
-    ...(createPost as Location),
+    ...createPost,
     component: managePostVue,
     meta: { requiresAuth: true, requiresRoles: [roles.CREATE_POST] },
     path: "/posts/manage/new",
   } as RouteConfig,
   {
-    ...(managePosts as Location),
+    ...managePosts,
     component: managePostsVue,
     meta: {
       requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],
@@ -49,7 +49,7 @@ export const posts = [
     path: "/posts/manage/all/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
-    ...(managePost as Location),
+    ...managePost,
     component: managePostVue,
     meta: {
       requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],

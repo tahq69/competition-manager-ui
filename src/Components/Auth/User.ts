@@ -17,7 +17,7 @@ export class User extends Entity {
 
   public get routes() {
     return {
-      profile: { ...(profile as Location), params: { id: this.id } },
+      profile: { ...profile, params: { id: this.id } },
     }
   }
 

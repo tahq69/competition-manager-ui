@@ -12,9 +12,10 @@ export default Vue.extend({
   name: "ManageCompetitions",
 
   data() {
+    const vm = this
     return {
       createRoute: createCompetition,
-      paging: new Paging<Competition>(this, { route: manageCompetitions as Location }),
+      paging: new Paging<Competition>({ vm, route: manageCompetitions }),
     }
   },
 

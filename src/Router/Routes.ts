@@ -1,44 +1,45 @@
-import { RawLocation } from "vue-router"
+import { Location } from "vue-router"
 
-export const home: RawLocation = { name: "home" }
+export const home: Location = { name: "home" }
 
-export const login: RawLocation = { name: "login" }
-export const signUp: RawLocation = { name: "signUp" }
-export const profile: RawLocation = { name: "profile" }
-export const forgotPassword: RawLocation = { name: "forgotPassword" }
-export const resetPassword: RawLocation = { name: "resetPassword" }
+export const login: Location = { name: "login" }
+export const signUp: Location = { name: "signUp" }
+export const profile: Location = { name: "profile" }
+export const forgotPassword: Location = { name: "forgotPassword" }
+export const resetPassword: Location = { name: "resetPassword" }
 
-export const messages: RawLocation = { name: "messages" }
-export const message: RawLocation = { name: "message" }
-export const createMessage: RawLocation = { name: "createMessage" }
+export const messages: Location = { name: "messages" }
+export const message: Location = { name: "message" }
+export const createMessage: Location = { name: "createMessage" }
 
-export const managePosts: RawLocation = { name: "managePosts" }
-export const createPost: RawLocation = { name: "createPost" }
-export const managePost: RawLocation = { name: "managePost" }
-export const readPost: RawLocation = { name: "readPost" }
+export const managePosts: Location = { name: "managePosts" }
+export const createPost: Location = { name: "createPost" }
+export const managePost: Location = { name: "managePost" }
+export const readPost: Location = { name: "readPost" }
 
-export const manageTeams: RawLocation = { name: "manageTeams" }
-export const createTeam: RawLocation = { name: "createTeam" }
-export const manageTeam: RawLocation = { name: "manageTeam" }
+export const manageTeams: Location = { name: "manageTeams" }
+export const createTeam: Location = { name: "createTeam" }
+export const manageTeam: Location = { name: "manageTeam" }
 
-export const manageTeamMembers: RawLocation = { name: "manageTeamMembers" }
-export const createTeamMember: RawLocation = { name: "createTeamMember" }
-export const manageTeamMember: RawLocation = { name: "manageTeamMember" }
+export const manageTeamMembers: Location = { name: "manageTeamMembers" }
+export const createTeamMember: Location = { name: "createTeamMember" }
+export const manageTeamMember: Location = { name: "manageTeamMember" }
 
-export const teamDetails: RawLocation = {
+export const teamDetails: Location = {
   name: "teamDetails",
   params: { tab: "members" },
 }
 
-export const manageCompetitions: RawLocation = { name: "manageCompetitions" }
-export const createCompetition: RawLocation = { name: "createCompetition" }
-export const manageCompetitionDetails: RawLocation = { name: "manageCompetitionDetails" }
-export const createCompetitionDiscipline: RawLocation = { name: "createCompetitionDiscipline" }
-export const manageCompetitionDiscipline: RawLocation = { name: "manageCompetitionDiscipline" }
-export const manageCompetitionAreas: RawLocation = { name: "manageCompetitionAreas" }
-export const manageCompetitionManagers: RawLocation = { name: "manageCompetitionManagers" }
+export const competitions: Location = { name: "competitions", params: { page: "1" } }
+export const manageCompetitions: Location = { name: "manageCompetitions", params: { page: "1" } }
+export const createCompetition: Location = { name: "createCompetition" }
+export const manageCompetitionDetails: Location = { name: "manageCompetitionDetails" }
+export const createCompetitionDiscipline: Location = { name: "createCompetitionDiscipline" }
+export const manageCompetitionDiscipline: Location = { name: "manageCompetitionDiscipline" }
+export const manageCompetitionAreas: Location = { name: "manageCompetitionAreas" }
+export const manageCompetitionManagers: Location = { name: "manageCompetitionManagers" }
 
-export const competitionDisciplines: RawLocation = { name: "competitionDisciplines" }
-export const competitionDiscipline: RawLocation = { name: "competitionDiscipline" }
+export const competitionDisciplines: Location = { name: "competitionDisciplines" }
+export const competitionDiscipline: Location = { name: "competitionDiscipline" }
 
 

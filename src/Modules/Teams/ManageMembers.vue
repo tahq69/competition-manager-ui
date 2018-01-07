@@ -13,8 +13,9 @@ export default Vue.extend({
   name: "ManageMembers",
 
   data() {
+    const vm = this
     return {
-      paging: new Paging<TeamMember>(this, { route: manageTeamMembers as Location }),
+      paging: new Paging<TeamMember>({ vm, route: manageTeamMembers }),
     }
   },
 
@@ -29,11 +30,11 @@ export default Vue.extend({
     },
 
     manageTeamRoute(): Location {
-      return { ...(manageTeam as Location), params: { id: this.teamId.toString() } }
+      return { ...manageTeam, params: { id: this.teamId.toString() } }
     },
 
     createTeamMemberRoute(): Location {
-      return { ...(createTeamMember as Location), params: { id: this.teamId.toString() } }
+      return { ...createTeamMember, params: { id: this.teamId.toString() } }
     },
   },
 

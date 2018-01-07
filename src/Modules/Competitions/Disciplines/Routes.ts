@@ -20,25 +20,25 @@ const manageDiscipline = () =>
 
 const routes: RouteConfig[] = [
   {
-    ...(competitionDisciplines as Location),
+    ...competitionDisciplines,
     meta: { requiresAuth: true },
     path: "disciplines",
     component: disciplines,
   } as RouteConfig,
   {
-    ...(manageCompetitionDiscipline as Location),
+    ...manageCompetitionDiscipline,
     meta: { requiresAuth: true },
     path: "disciplines/edit/:id(\\d+)",
     component: manageDiscipline,
   } as RouteConfig,
   {
-    ...(createCompetitionDiscipline as Location),
+    ...createCompetitionDiscipline,
     meta: { requiresAuth: true },
     path: "disciplines/new",
     component: manageDiscipline,
   } as RouteConfig,
   {
-    ...(competitionDiscipline as Location),
+    ...competitionDiscipline,
     meta: { requiresAuth: true },
     path: "disciplines/:id(\\d+)",
     component: discipline,

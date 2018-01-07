@@ -12,9 +12,10 @@ export default Vue.extend({
   name: "ManageTeams",
 
   data() {
+    const vm = this
     return {
       createRoute: createTeam,
-      paging: new Paging<Team>(this, { route: manageTeams as Location }),
+      paging: new Paging<Team>({ vm, route: manageTeams }),
     }
   },
 

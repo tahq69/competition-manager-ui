@@ -123,7 +123,7 @@ export class Api {
         // will allow redirect user to expected route after authorization will
         // be completed.
         router.push({
-          ...(login as Location),
+          ...login,
           query: { redirect: router.currentRoute.fullPath },
         })
 

@@ -35,19 +35,19 @@ export class Competition extends Entity {
   public get routes() {
     return {
       disciplines: {
-        ...(competitionDisciplines as Location),
+        ...competitionDisciplines,
         params: { competition_id: this.id },
       },
       editDetails: {
-        ...(manageCompetitionDetails as Location),
+        ...manageCompetitionDetails,
         params: { competition_id: this.id },
       },
       editAreas: {
-        ...(manageCompetitionAreas as Location),
+        ...manageCompetitionAreas,
         params: { competition_id: this.id },
       },
       editManagers: {
-        ...(manageCompetitionManagers as Location),
+        ...manageCompetitionManagers,
         params: { competition_id: this.id },
       },
     }

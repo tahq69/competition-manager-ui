@@ -2,6 +2,7 @@ import { Location, RouteConfig } from "vue-router"
 
 import * as roles from "@/Components/Auth/Roles"
 import {
+  competitions as competitionsRoute,
   createCompetition,
   manageCompetitionAreas,
   manageCompetitionDetails,
@@ -12,6 +13,9 @@ import {
 import disciplines from "./Disciplines/Routes"
 
 /** Public routes */
+const competitions = () =>
+  import(/* webpackChunkName: "cm" */ "./Competitions.vue")
+
 const competition = () =>
   import(/* webpackChunkName: "cm" */ "./Competition.vue")
 
@@ -34,38 +38,43 @@ const listRole = [roles.EDIT_COMPETITIONS]
 
 const routes: RouteConfig[] = [
   {
-    ...(createCompetition as Location),
-    component: competition,
-    meta: { requiresAuth, requiresRoles: createRole },
-    path: "/competitions/new",
+    ...competitionsRoute,
+    component: competitions,
+    path: "/competitions/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
-    ...(manageCompetitions as Location),
+    ...manageCompetitions,
     component: manageCms,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
     path:
       "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
+    ...createCompetition,
+    component: competition,
+    meta: { requiresAuth, requiresRoles: createRole },
+    path: "/competition/new",
+  } as RouteConfig,
+  {
     component: competition,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-    path: "/competitions/:competition_id(\\d+)",
+    path: "/competition/:competition_id(\\d+)",
     children: [
       ...disciplines,
       {
-        ...(manageCompetitionDetails as Location),
+        ...manageCompetitionDetails,
         meta: { requiresAuth },
         path: "edit/details",
         component: manageCmDetails,
       } as RouteConfig,
       {
-        ...(manageCompetitionAreas as Location),
+        ...manageCompetitionAreas,
         meta: { requiresAuth },
         path: "edit/areas",
         component: manageCmAreas,
       } as RouteConfig,
       {
-        ...(manageCompetitionManagers as Location),
+        ...manageCompetitionManagers,
         meta: { requiresAuth },
         path: "edit/managers",
         component: manageCmManagers,

@@ -21,27 +21,27 @@ const profileVue = () => import(/* webpackChunkName: "user" */ "./Profile.vue")
 
 export default [
   {
-    ...(login as Location),
+    ...login,
     component: Login,
     path: "/login",
   } as RouteConfig,
   {
-    ...(profile as Location),
+    ...profile,
     component: profileVue,
     path: "/profile/:id?",
   } as RouteConfig,
   {
-    ...(signUp as Location),
+    ...signUp,
     component: SignUp,
     path: "/sign-up",
   } as RouteConfig,
   {
-    ...(forgotPassword as Location),
+    ...forgotPassword,
     component: forgotPasswordVue,
     path: "/auth/password/email",
   } as RouteConfig,
   {
-    ...(resetPassword as Location),
+    ...resetPassword,
     component: resetPasswordVue,
     path: "/auth/password/reset/:token",
   } as RouteConfig,

@@ -35,11 +35,11 @@ export default class TeamMember extends Entity {
 
     return {
       edit: {
-        ...(manageTeamMember as Location),
+        ...manageTeamMember,
         params,
       },
       members: {
-        ...(manageTeamMembers as Location),
+        ...manageTeamMembers,
         params: { team: this.team_id },
       },
     }

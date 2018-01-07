@@ -47,7 +47,7 @@ export default Vue.extend({
     },
 
     isEdit(): boolean {
-      return this.$route.name === (manageTeamMember as Location).name
+      return this.$route.name === manageTeamMember.name
     },
 
     title(): string {

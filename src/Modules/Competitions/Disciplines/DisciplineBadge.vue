@@ -24,7 +24,7 @@ export default Vue.extend({
 
     newDiscipline(): Location {
       return {
-        ...(createCompetitionDiscipline as Location),
+        ...createCompetitionDiscipline,
         params: {
           competition_id: this.$route.params.competition_id,
         },

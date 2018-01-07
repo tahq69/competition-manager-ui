@@ -10,7 +10,7 @@ import { Next } from "@/types"
 import { Discipline } from "./Discipline"
 import disciplineService from "./Service"
 
-const editRoute = manageCompetitionDiscipline as Location
+const editRoute = manageCompetitionDiscipline
 
 export default Vue.extend({
   name: "ManageDiscipline",

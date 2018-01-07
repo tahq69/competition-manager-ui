@@ -18,7 +18,7 @@ export default Vue.extend({
 
   computed: {
     home(): Location {
-      return home as Location
+      return home
     },
 
     leftNav(): NavElement[] {
