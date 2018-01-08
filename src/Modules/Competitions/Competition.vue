@@ -14,6 +14,10 @@ export default Vue.extend({
     competition(): Competition {
       return new Competition({ id: this.competitionId })
     },
+
+    canManageManagers(): boolean {
+      return true
+    },
   },
 
   mounted() {
@@ -35,9 +39,10 @@ export default Vue.extend({
             :md="8"
             :lg="9">
         <ul class="nav nav-tabs">
-          <router-link :to="competition.routes.editDetails"
-                       tag="li">
-            <a>{{ $t("competitions.competition_edit_details_tab") }}</a>
+          <router-link :to="competition.routes.details"
+                       tag="li"
+                       exact>
+            <a>{{ $t("competitions.competition_details_tab") }}</a>
           </router-link>
 
           <router-link :to="competition.routes.disciplines"
@@ -45,12 +50,13 @@ export default Vue.extend({
             <a>{{ $t("competitions.competition_disciplines_tab") }}</a>
           </router-link>
 
-          <router-link :to="competition.routes.editAreas"
+          <router-link :to="competition.routes.areas"
                        tag="li">
-            <a>{{ $t("competitions.competition_edit_areas_tab") }}</a>
+            <a>{{ $t("competitions.competition_areas_tab") }}</a>
           </router-link>
 
-          <router-link :to="competition.routes.editManagers"
+          <router-link v-if="canManageManagers"
+                       :to="competition.routes.editManagers"
                        tag="li">
             <a>{{ $t("competitions.competition_edit_managers_tab") }}</a>
           </router-link>

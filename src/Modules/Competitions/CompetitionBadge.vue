@@ -52,7 +52,7 @@ export default Vue.extend({
     </router-link>
 
     <h4>
-      <router-link :to="competition.routes.show">
+      <router-link :to="competition.routes.details">
         {{ competition.title }}<br>
         <small>{{ competition.subtitle }}</small>
       </router-link>

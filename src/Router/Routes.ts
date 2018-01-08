@@ -34,11 +34,14 @@ export const competitions: Location = { name: "competitions" }
 export const competitionDetails: Location = { name: "competitionDetails" }
 export const competitionDisciplines: Location = { name: "competitionDisciplines" }
 export const competitionDiscipline: Location = { name: "competitionDiscipline" }
+export const competitionAreas: Location = { name: "competitionAreas" }
+export const competitionArea: Location = { name: "competitionArea" }
 
 export const manageCompetitions: Location = { name: "manageCompetitions" }
 export const createCompetition: Location = { name: "createCompetition" }
 export const manageCompetitionDetails: Location = { name: "manageCompetitionDetails" }
 export const createCompetitionDiscipline: Location = { name: "createCompetitionDiscipline" }
 export const manageCompetitionDiscipline: Location = { name: "manageCompetitionDiscipline" }
-export const manageCompetitionAreas: Location = { name: "manageCompetitionAreas" }
+export const createCompetitionArea: Location = { name: "createCompetitionArea" }
+export const manageCompetitionArea: Location = { name: "manageCompetitionArea" }
 export const manageCompetitionManagers: Location = { name: "manageCompetitionManagers" }

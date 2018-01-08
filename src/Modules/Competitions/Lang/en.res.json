@@ -13,9 +13,9 @@
   "manage_competitions_grid_btn_edit_text": "Edit",
 
   "competition_disciplines_tab": "Disciplines",
-  "competition_edit_details_tab": "Edit details",
-  "competition_edit_areas_tab": "Edit areas",
-  "competition_edit_managers_tab": "Edit managers",
+  "competition_details_tab": "Details",
+  "competition_areas_tab": "Areas",
+  "competition_edit_managers_tab": "Managers",
 
   "competition_badge_edit": "Edit",
   "discipline_badge_edit": "Edit"

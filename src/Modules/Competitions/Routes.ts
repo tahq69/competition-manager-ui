@@ -4,12 +4,11 @@ import * as roles from "@/Components/Auth/Roles"
 import {
   competitions as competitionsRoute,
   createCompetition,
-  manageCompetitionAreas,
-  manageCompetitionDetails,
   manageCompetitionManagers,
   manageCompetitions,
 } from "@/Router/Routes"
 
+import areas from "./Areas/Routes"
 import details from "./Details/Routes"
 import disciplines from "./Disciplines/Routes"
 
@@ -39,12 +38,12 @@ const routes: RouteConfig[] = [
     ...manageCompetitions,
     component: manageCms,
     meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-    path: "/competitions/manage/:page(\\d+)?",
+    path: "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
     ...competitionsRoute,
     component: competitions,
-    path: "/competitions/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+    path: "/competitions/:page(\\d+)?",
   } as RouteConfig,
   {
     ...createCompetition,
@@ -54,20 +53,14 @@ const routes: RouteConfig[] = [
   } as RouteConfig,
   {
     component: competition,
-    meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
     path: "/competition/:competition_id(\\d+)",
     props: route => ({
       competitionId: parseInt(route.params.competition_id, 10),
     }),
     children: [
+      ...areas,
       ...details,
       ...disciplines,
-      {
-        ...manageCompetitionAreas,
-        meta: { requiresAuth },
-        path: "edit/areas",
-        component: manageCmAreas,
-      } as RouteConfig,
       {
         ...manageCompetitionManagers,
         meta: { requiresAuth },

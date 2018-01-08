@@ -2,7 +2,7 @@
 import Vue from "vue"
 
 export default Vue.extend({
-  name: "ManageCompetitionDetails",
+  name: "CompetitionAreas",
 
   props: {
     competitionId: { type: Number, required: true },
@@ -11,5 +11,5 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div id="manage-competition-details">ManageCompetitionDetails.Vue</div>
+  <div id="competition-areas">CompetitionAreas.Vue</div>
 </template>

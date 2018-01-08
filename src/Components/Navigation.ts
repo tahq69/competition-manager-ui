@@ -17,9 +17,13 @@ import Auth, { middleware as auth, roles } from "./Auth"
 const canManage = () => auth.hasAnyRole(roles.all)
 
 export const leftNav = () => {
+  const publicNav = [
+    Nav.item({ text: t("competitions"), route: routes.competitions }),
+  ]
+
   if (!auth.isAuthenticated() || !canManage()) {
     // Left menu is available only for users with access to manage
-    return []
+    return publicNav
   }
 
   const nav = Nav.group(t("manage"))
@@ -58,10 +62,6 @@ export const leftNav = () => {
 
   // delete last divider from manage nav
   nav.items.splice(-1, 1)
-
-  const publicNav = [
-    Nav.item({ text: t("competitions"), route: routes.competitions }),
-  ]
 
   return [nav, ...publicNav]
 }

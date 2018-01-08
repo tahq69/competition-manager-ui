@@ -1,5 +1,6 @@
 import { Location, RouteConfig } from "vue-router"
 
+import * as roles from "@/Components/Auth/Roles"
 import {
   competitionDiscipline,
   competitionDisciplines,
@@ -18,28 +19,30 @@ const discipline = () =>
 const manageDiscipline = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./ManageDiscipline.vue")
 
+const requiresAuth = { requiresAuth: true }
+const createRole = [roles.CREATE_COMPETITIONS]
+const listRole = [roles.EDIT_COMPETITIONS]
 const routes: RouteConfig[] = [
   {
     ...competitionDisciplines,
-    meta: { requiresAuth: true },
     path: "disciplines",
     component: disciplines,
   } as RouteConfig,
   {
     ...manageCompetitionDiscipline,
-    meta: { requiresAuth: true },
-    path: "disciplines/edit/:id(\\d+)",
+    meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
+    path: "disciplines/:id(\\d+)/edit",
     component: manageDiscipline,
   } as RouteConfig,
   {
     ...createCompetitionDiscipline,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
     path: "disciplines/new",
     component: manageDiscipline,
   } as RouteConfig,
   {
+    // TODO: this one should go to root view.
     ...competitionDiscipline,
-    meta: { requiresAuth: true },
     path: "disciplines/:id(\\d+)",
     component: discipline,
   } as RouteConfig,
