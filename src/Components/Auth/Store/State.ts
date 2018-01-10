@@ -8,4 +8,5 @@ export default {
     email: "",
   },
   roles: [],
+  team_roles: {},
 } as IState

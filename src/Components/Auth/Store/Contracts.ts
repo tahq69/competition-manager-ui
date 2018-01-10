@@ -19,6 +19,7 @@ export interface IUser {
 export interface IState {
   user: IUser
   roles: string[]
+  team_roles: { [key: string]: string[] }
 }
 
 export interface IPayload {
@@ -37,6 +38,7 @@ export interface IUpdateUserDetailsPayload extends IPayload {
   email: string
   id: number
   roles: IRole[]
+  team_roles: { [key: string]: IRole[] }
 }
 
 /* ACTIONS */

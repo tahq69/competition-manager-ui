@@ -20,6 +20,7 @@ export default {
       id: parseInt(user.id.toString(), 10),
       name: user.name,
       roles: user.roles,
+      team_roles: user.team_roles,
     })
   },
 }

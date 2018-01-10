@@ -1,5 +1,7 @@
 import { Service } from "@/Helpers/Service"
 
+import { Id } from "@/types"
+
 import { User } from "./User"
 
 interface IUserRole {
@@ -7,10 +9,11 @@ interface IUserRole {
 }
 
 interface IAuthUser {
-  id: string | number
+  id: Id
   email: string
   name: string
   roles: IUserRole[]
+  team_roles: { [key: string]: IUserRole[] }
 }
 
 interface ILogin {
@@ -36,7 +39,8 @@ class UserService extends Service {
         email: data.email,
         id: data.id,
         name: data.name,
-        roles: data.roles.map((role: IUserRole) => ({ key: role.key })),
+        roles: data.roles,
+        team_roles: data.team_roles,
       }
     })
   }
