@@ -3,7 +3,7 @@ import { ActionContext, Store } from "vuex"
 
 import authService from "@/Components/Auth/Service"
 import { Api } from "@/Helpers/Api"
-import { IState as RootState } from "@/Store/Contracts"
+import { IState as RootState } from "@/Store/types"
 
 import { IFetchAuthUser, IState, IUpdateUserDetailsPayload } from "./Contracts"
 

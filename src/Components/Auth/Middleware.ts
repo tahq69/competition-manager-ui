@@ -1,4 +1,5 @@
 import store from "@/Store"
+import { Id } from "@/types"
 import * as roles from "./Roles"
 
 export class Middleware {
@@ -9,7 +10,7 @@ export class Middleware {
    * @memberof Middleware
    */
   public isAuthenticated(): boolean {
-    return store.state.auth.user.authenticated
+    return store.getters.isAuthenticated
   }
 
   /**
@@ -32,6 +33,21 @@ export class Middleware {
     return check(role)
   }
 
+  public hasTeamRole(team: Id, role: string): boolean {
+    if (!this.isAuthenticated()) return false
+
+    // tslint:disable:no-shadowed-variable
+    // tslint:disable-next-line:no-bitwise
+    const check = (role: string) =>
+      typeof store.state.auth.team_roles[team] !== undefined &&
+      !!~store.state.auth.team_roles[team].indexOf(role)
+
+    // if user has an super_admin role, allow him to do anything
+    if (check(roles.SUPER_ADMIN)) return true
+
+    return check(role)
+  }
+
   /**
    * Determine has a auth user any of role presented in list of roles.
    *
@@ -47,6 +63,14 @@ export class Middleware {
     return !!hasAny
   }
 
+  public hasAnyTeamRole(team: Id, roles: string[]) {
+    if (!this.isAuthenticated()) return false
+
+    const hasAny = roles.find(role => this.hasTeamRole(team, role))
+
+    return !!hasAny
+  }
+
   /**
    * Determine has a auth user all roles presented in list.
    *
@@ -58,6 +82,14 @@ export class Middleware {
     if (!this.isAuthenticated()) return false
 
     const hasNoAny = roles.find(role => !this.hasRole(role))
+
+    return !hasNoAny
+  }
+
+  public hasAllTeamRoles(team: Id, roles: string[]): boolean {
+    if (!this.isAuthenticated()) return false
+
+    const hasNoAny = roles.find(role => !this.hasTeamRole(team, role))
 
     return !hasNoAny
   }

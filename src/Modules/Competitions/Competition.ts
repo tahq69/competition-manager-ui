@@ -7,26 +7,27 @@ import {
   competitionDisciplines,
   createCompetition,
   manageCompetitionDetails,
-  manageCompetitionManagers,
   manageCompetitions,
 } from "@/Router/Routes"
+import { Id } from "@/types"
 
 export class Competition extends Entity {
-  public title: string
-  public subtitle: string
+  public ambulance: string
   public cooperation: string
+  public equipment: string
   public invitation: string
+  public price: string
+  public prizes: string
   public program: string
   public rules: string
-  public ambulance: string
-  public prizes: string
-  public equipment: string
-  public price: string
+  public subtitle: string
+  public team_id: Id
+  public title: string
 
-  public organization_date?: string
-  public registration_till?: string
   public judge_id?: number
   public judge_name?: string
+  public organization_date?: string
+  public registration_till?: string
 
   constructor(data: any) {
     super()
@@ -52,31 +53,28 @@ export class Competition extends Entity {
         ...competitionAreas,
         params: { competition_id },
       },
-      editManagers: {
-        ...manageCompetitionManagers,
-        params: { competition_id },
-      },
     }
   }
 
   public updateProps(data: any) {
     super.updateProps(data)
 
-    this.title = data.title
-    this.subtitle = data.subtitle
+    this.ambulance = data.ambulance
     this.cooperation = data.cooperation
+    this.equipment = data.equipment
     this.invitation = data.invitation
+    this.price = data.price
+    this.prizes = data.prizes
     this.program = data.program
     this.rules = data.rules
-    this.ambulance = data.ambulance
-    this.prizes = data.prizes
-    this.equipment = data.equipment
-    this.price = data.price
+    this.subtitle = data.subtitle
+    this.team_id = data.team_id
+    this.title = data.title
 
-    this.organization_date = data.organization_date
-    this.registration_till = data.registration_till
     this.judge_id = data.judge_id
     this.judge_name = data.judge_name
+    this.organization_date = data.organization_date
+    this.registration_till = data.registration_till
 
     // judge
     // managers

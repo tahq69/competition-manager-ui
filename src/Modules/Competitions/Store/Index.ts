@@ -3,10 +3,10 @@ import { Module } from "vuex"
 import { IState as RootState } from "@/Store/types"
 
 import actions from "./Actions"
-import { IState } from "./Contracts"
 import getters from "./Getters"
 import mutations from "./Mutations"
 import state from "./State"
+import { IState } from "./types"
 
 export default {
   state,

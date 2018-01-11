@@ -44,4 +44,3 @@ export const createCompetitionDiscipline: Location = { name: "createCompetitionD
 export const manageCompetitionDiscipline: Location = { name: "manageCompetitionDiscipline" }
 export const createCompetitionArea: Location = { name: "createCompetitionArea" }
 export const manageCompetitionArea: Location = { name: "manageCompetitionArea" }
-export const manageCompetitionManagers: Location = { name: "manageCompetitionManagers" }

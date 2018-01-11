@@ -14,7 +14,14 @@ import store from "@/Store"
 
 import Auth, { middleware as auth, roles } from "./Auth"
 
-const canManage = () => auth.hasAnyRole(roles.all)
+const manageRoles = [
+  roles.CREATE_POST,
+  roles.MANAGE_POSTS,
+  roles.MANAGE_USERS,
+  roles.MANAGE_USER_ROLES,
+  roles.CREATE_TEAMS,
+]
+const canManage = () => auth.hasAnyRole(manageRoles)
 
 export const leftNav = () => {
   const publicNav = [
@@ -27,8 +34,10 @@ export const leftNav = () => {
   }
 
   const nav = Nav.group(t("manage"))
-  const canManagePosts = auth.hasAnyRole(roles.posts)
-  const canManageCM = auth.hasAnyRole(roles.competitions)
+  const canManagePosts = auth.hasAnyRole([
+    roles.CREATE_POST,
+    roles.MANAGE_POSTS,
+  ])
 
   if (canManagePosts) {
     if (auth.hasRole(roles.CREATE_POST)) {
@@ -42,21 +51,6 @@ export const leftNav = () => {
   if (auth.hasRole(roles.CREATE_TEAMS)) {
     nav.create({ text: t("create_team"), route: routes.createTeam })
     nav.create({ text: t("manage_teams"), route: routes.manageTeams })
-    nav.add(Nav.divider())
-  }
-
-  if (canManageCM) {
-    if (auth.hasRole(roles.CREATE_COMPETITIONS)) {
-      nav.create({
-        route: routes.createCompetition,
-        text: t("create_competition"),
-      })
-    }
-
-    nav.create({
-      route: routes.manageCompetitions,
-      text: t("manage_competitions"),
-    })
     nav.add(Nav.divider())
   }
 

@@ -7,6 +7,7 @@ import { home, login } from "./Routes"
 
 export default function(router: Router) {
   router.beforeEach(navigationGuard)
+  router.beforeEach(managementNavigationGuard)
 }
 
 function searchAllRoles(routes: RouteRecord[], metaKey: string) {
@@ -62,4 +63,8 @@ async function navigationGuard(to: Route, from: Route, next: Next) {
   // No roles check required, simply user should be authorized to access next
   // route.
   return next()
+}
+
+async function managementNavigationGuard(to: Route, from: Route, next: Next) {
+  next()
 }

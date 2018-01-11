@@ -4,7 +4,6 @@ import * as roles from "@/Components/Auth/Roles"
 import {
   competitions as competitionsRoute,
   createCompetition,
-  manageCompetitionManagers,
   manageCompetitions,
 } from "@/Router/Routes"
 
@@ -22,12 +21,6 @@ const competition = () =>
 /** Management routes */
 const manageCms = () =>
   import(/* webpackChunkName: "cm" */ "./ManageCompetitions.vue")
-
-const manageCmAreas = () =>
-  import(/* webpackChunkName: "cm" */ "./ManageCompetition.Areas.vue")
-
-const manageCmManagers = () =>
-  import(/* webpackChunkName: "cm" */ "./ManageCompetition.Managers.vue")
 
 const requiresAuth = { requiresAuth: true }
 const createRole = [roles.CREATE_COMPETITIONS]
@@ -61,12 +54,6 @@ const routes: RouteConfig[] = [
       ...areas,
       ...details,
       ...disciplines,
-      {
-        ...manageCompetitionManagers,
-        meta: { requiresAuth },
-        path: "edit/managers",
-        component: manageCmManagers,
-      } as RouteConfig,
     ],
   } as RouteConfig,
 ]

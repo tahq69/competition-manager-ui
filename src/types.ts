@@ -17,3 +17,7 @@ export interface MemberBase {
   user_id: Id
   name: string
 }
+
+export interface IPayload {
+  type: string
+}
