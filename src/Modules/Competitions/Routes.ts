@@ -1,4 +1,4 @@
-import { Location, RouteConfig } from "vue-router"
+import { RouteConfig } from "vue-router"
 
 import * as roles from "@/Components/Auth/Roles"
 import {
@@ -8,8 +8,8 @@ import {
 } from "@/Router/Routes"
 
 import areas from "./Areas/Routes"
-import details from "./Details/Routes"
-import disciplines from "./Disciplines/Routes"
+import { details, root as detailsRoot } from "./Details/Routes"
+import { disciplines, root as disciplinesRoot } from "./Disciplines/Routes"
 
 /** Public routes */
 const competitions = () =>
@@ -29,25 +29,27 @@ const routes: RouteConfig[] = [
     meta: { auth: true, roles: [roles.SUPER_ADMIN] },
     path:
       "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
-  } as RouteConfig,
+  },
   {
     ...competitionsRoute,
     component: competitions,
     path: "/competitions/:page(\\d+)?",
-  } as RouteConfig,
+  },
   {
     ...createCompetition,
     component: competition,
     meta: { auth: true, teamRoles: [roles.CREATE_COMPETITIONS] },
     path: "/competition/new/:team(\\d+)",
     props: true,
-  } as RouteConfig,
+  },
   {
     component: competition,
     path: "/competition/:cm(\\d+)",
     props: true,
-    children: [...areas, ...details, ...disciplines],
-  } as RouteConfig,
+    children: [...details, ...disciplines, ...areas],
+  },
+  ...detailsRoot,
+  ...disciplinesRoot,
 ]
 
 export default routes

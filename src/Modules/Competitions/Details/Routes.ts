@@ -1,30 +1,29 @@
-import { Location, Route, RouteConfig } from "vue-router"
-
 import * as roles from "@/Components/Auth/Roles"
 import { competitionDetails, manageCompetitionDetails } from "@/Router/Routes"
 
 /** Public routes */
-const details = () =>
+const detailsView = () =>
   import(/* webpackChunkName: "cm-details" */ "./Details.vue")
 
 /** Management routes */
-const manageDetails = () =>
+const manageDetailsView = () =>
   import(/* webpackChunkName: "cm-details" */ "./ManageDetails.vue")
 
-const routes: RouteConfig[] = [
-  {
-    ...competitionDetails,
-    path: "",
-    component: details,
-    props: true,
-  } as RouteConfig,
+export const root = [
   {
     ...manageCompetitionDetails,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITIONS] },
-    path: "edit",
-    component: manageDetails,
+    path: "/competition/:cm(\\d+)/edit",
+    component: manageDetailsView,
     props: true,
-  } as RouteConfig,
+  },
 ]
 
-export default routes
+export const details = [
+  {
+    ...competitionDetails,
+    path: "",
+    component: detailsView,
+    props: true,
+  },
+]

@@ -1,5 +1,3 @@
-import { Route, RouteConfig } from "vue-router"
-
 import * as roles from "@/Components/Auth/Roles"
 import {
   competitionDiscipline,
@@ -9,7 +7,7 @@ import {
 } from "@/Router/Routes"
 
 /** Public routes */
-const disciplines = () =>
+const disciplinesView = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./Disciplines.vue")
 
 const discipline = () =>
@@ -19,34 +17,34 @@ const discipline = () =>
 const manageDiscipline = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./ManageDiscipline.vue")
 
-const routes: RouteConfig[] = [
+export const disciplines = [
   {
     ...competitionDisciplines,
-    component: disciplines,
+    component: disciplinesView,
     path: "disciplines",
     props: true
   },
+]
+
+export const root = [
   {
     ...manageCompetitionDiscipline,
     component: manageDiscipline,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-    path: "disciplines/:discipline(\\d+)/edit",
+    path: "/competition/:cm(\\d+)/discipline/:discipline(\\d+)/edit",
     props: true
   },
   {
     ...createCompetitionDiscipline,
     component: manageDiscipline,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-    path: "disciplines/new",
+    path: "/competition/:cm(\\d+)/discipline/new",
     props: true
   },
   {
-    // TODO: this one should go to root view.
     ...competitionDiscipline,
     component: discipline,
-    path: "disciplines/:discipline(\\d+)",
+    path: "/competition/:cm(\\d+)/discipline/:discipline(\\d+)",
     props: true,
-  } as RouteConfig,
+  },
 ]
-
-export default routes

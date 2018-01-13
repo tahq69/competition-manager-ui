@@ -50,12 +50,14 @@ export default Vue.extend({
     <CCol v-for="discipline in disciplines"
           :key="discipline.id"
           :sm="6">
-      <DisciplineBadge :discipline="discipline" />
+      <DisciplineBadge :cm="cm"
+                       :discipline="discipline" />
     </CCol>
 
     <CCol v-if="canCreate"
           :sm="6">
-      <DisciplineBadge :create="true" />
+      <DisciplineBadge :cm="cm"
+                       :create="true" />
     </CCol>
   </CRow>
 </template>
