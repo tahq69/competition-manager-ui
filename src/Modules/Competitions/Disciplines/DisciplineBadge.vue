@@ -12,24 +12,31 @@ export default Vue.extend({
   name: "DisciplinesBadge",
 
   props: {
+    cm: { type: [Number, String], required: true },
     discipline: { type: Discipline },
     create: { type: Boolean },
   },
 
-  computed: {
-    canEdit(): boolean {
-      if (this.create) return false
-      return DisciplineAuth.canEdit(this.discipline.id, this.discipline.competition_id)
-    },
+  data() {
+    return {
+      canEdit: false,
+    }
+  },
 
+  computed: {
     newDiscipline(): Location {
       return {
         ...createCompetitionDiscipline,
         params: {
-          competition_id: this.$route.params.competition_id,
+          cm: this.cm.toString(),
         },
       }
     },
+  },
+
+  async created() {
+    if (this.create) return
+    this.canEdit = await DisciplineAuth.canEdit(this.discipline.id, this.cm)
   },
 })
 </script>

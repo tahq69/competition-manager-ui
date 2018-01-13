@@ -3,7 +3,7 @@ import Vue from "vue"
 
 import { store } from "@/Store"
 
-import { IFetchProfile, IProfile } from "./Store/Contracts"
+import { IFetchProfile, IProfile } from "./Store/types"
 
 export default Vue.extend({
   name: "Profile",

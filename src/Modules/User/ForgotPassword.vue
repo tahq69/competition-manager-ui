@@ -5,7 +5,7 @@ import Vue from "vue"
 import { login } from "@/Router/Routes"
 import { store } from "@/Store"
 
-import { IEmailPasswordReset } from "./Store/Contracts"
+import { IEmailPasswordReset } from "./Store/types"
 
 export default Vue.extend({
   name: "ForgotPassword",

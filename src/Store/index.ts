@@ -3,7 +3,7 @@ import Vuex from "vuex"
 
 Vue.use(Vuex)
 
-import { store as auth, Getters as AuthGetters } from "@/Components/Auth/Store"
+import { Getters as AuthGetters, store as auth } from "@/Components/Auth/Store"
 import { store as user } from "@/Modules/User/Store"
 
 import actions from "./Actions"

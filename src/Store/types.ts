@@ -1,5 +1,5 @@
-import { IState as AuthState } from "@/Components/Auth/Store/Contracts"
-import { IState as TeamsState } from "@/Modules/Teams/Store/Contracts"
+import { IState as AuthState } from "@/Components/Auth/Store/types"
+import { IState as TeamsState } from "@/Modules/User/Store/types"
 
 export interface IState {
   auth: AuthState

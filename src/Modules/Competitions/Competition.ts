@@ -35,23 +35,23 @@ export class Competition extends Entity {
   }
 
   public get routes() {
-    const competition_id = this.id
+    const cm = this.id
     return {
       details: {
         ...competitionDetails,
-        params: { competition_id },
+        params: { cm },
       },
       editDetails: {
         ...manageCompetitionDetails,
-        params: { competition_id },
+        params: { cm },
       },
       disciplines: {
         ...competitionDisciplines,
-        params: { competition_id },
+        params: { cm },
       },
       areas: {
         ...competitionAreas,
-        params: { competition_id },
+        params: { cm },
       },
     }
   }

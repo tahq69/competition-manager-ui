@@ -7,12 +7,12 @@ export default Vue.extend({
   name: "Competition",
 
   props: {
-    competitionId: { type: Number, required: true },
+    cm: { type: [Number, String], required: true },
   },
 
   computed: {
     competition(): Competition {
-      return new Competition({ id: this.competitionId })
+      return new Competition({ id: this.cm })
     },
   },
 

@@ -1,6 +1,7 @@
 import { Paging } from "crip-vue-bootstrap"
 
 import { Pagination, Service } from "@/Helpers"
+import { store } from "@/Store"
 import { Competition } from "./Competition"
 
 interface IFetchCompetitions {
@@ -20,7 +21,18 @@ class CompetitionService extends Service {
       })
 
       const response = await http.get(url)
-      const pagination = Pagination.create(response, r => new Competition(r))
+      const pagination = Pagination.create(response, r => {
+        const cm = new Competition(r)
+
+        // Add competition to store for auth role validation on UI components.
+        store.commit({
+          type: "addCompetition",
+          id: cm.id,
+          team_id: cm.team_id,
+        })
+
+        return cm
+      })
       return pagination
     })
   }

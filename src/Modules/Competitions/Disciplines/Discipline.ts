@@ -23,16 +23,16 @@ export class Discipline extends Entity {
   }
 
   public get routes() {
-    const competition_id = this.competition_id.toString()
+    const cm = this.competition_id.toString()
     const id = this.id.toString()
     return {
       edit: {
         ...manageCompetitionDiscipline,
-        params: { competition_id, id },
+        params: { cm, id },
       },
       show: {
         ...competitionDiscipline,
-        params: { competition_id, id },
+        params: { cm, id },
       },
     }
   }

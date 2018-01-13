@@ -10,7 +10,7 @@ import {
   IProfile,
   IRegister,
   IState,
-} from "./Contracts"
+} from "./types"
 
 type Action = ActionContext<IState, RootState>
 

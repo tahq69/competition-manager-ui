@@ -15,8 +15,13 @@ const editRoute = manageCompetitionDiscipline
 export default Vue.extend({
   name: "ManageDiscipline",
 
+  props: {
+    cm: { type: [Number, String], required: true },
+    discipline: { type: [Number, String], required: true },
+  },
+
   beforeRouteEnter(to, from, next: Next<any>) {
-    const payload = { competition_id: to.params.competition_id, id: to.params.id }
+    const payload = { competition_id: to.params.cm, id: to.params.discipline }
 
     if (to.name === editRoute.name) {
       disciplineService
@@ -30,7 +35,7 @@ export default Vue.extend({
 
   data() {
     return {
-      discipline: {} as Discipline,
+      title: "",
       form: new Form(
         new Discipline({
           competition_id: this.$route.params.competition_id,
@@ -55,23 +60,15 @@ export default Vue.extend({
       return this.$route.name === editRoute.name
     },
 
-    id(): number {
-      return parseInt(this.$route.params.id, 10)
-    },
-
-    competitionId(): number {
-      return parseInt(this.$route.params.competition_id, 10)
-    },
-
     title(): string {
-      if (this.isEdit) return `Manage discipline: ${this.discipline.title}`
+      if (this.isEdit) return `Manage discipline: ${this.title}`
       return "Create new discipline"
     },
   },
 
   methods: {
     setDiscipline(discipline: Discipline): void {
-      this.discipline = Object.assign({}, discipline)
+      this.title = discipline.title
       this.form = new Form(discipline)
     },
 

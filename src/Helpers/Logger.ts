@@ -1,5 +1,6 @@
 import Vue from "vue"
 
+import config from "./../Config"
 import ILoggerOptions from "./../Config/LoggerOptions"
 import Utils from "./Utils"
 
@@ -112,13 +113,21 @@ class WebLogger implements ILogger {
   }
 }
 
-export default {
-  install(vueInstance: typeof Vue, options: ILoggerOptions) {
-    const logger = new WebLogger(options)
-    vueInstance.logger = logger
+const logger = new WebLogger(config.logs)
+const attrs = { get: () => logger }
 
-    Object.defineProperties(vueInstance.prototype, {
-      $logger: { get: () => logger },
-    })
+Object.defineProperty(Vue, "logger", attrs)
+Object.defineProperty(Vue.prototype, "$logger", attrs)
+
+/*
+export default {
+  install(vueInstance: typeof Vue, options?: ILoggerOptions) {
+    if (!options) throw new Error("Logger options required")
+
+    const logger = new WebLogger(options)
+    const attrs = { get: () => logger }
+
+    Object.defineProperty(vueInstance, "logger", attrs)
+    Object.defineProperty(vueInstance.prototype, "$logger", attrs)
   },
-}
+}*/

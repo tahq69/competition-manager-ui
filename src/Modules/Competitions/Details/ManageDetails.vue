@@ -5,7 +5,7 @@ export default Vue.extend({
   name: "ManageCompetitionDetails",
 
   props: {
-    competitionId: { type: Number, required: true },
+    cm: { type: [Number, String], required: true },
   },
 })
 </script>

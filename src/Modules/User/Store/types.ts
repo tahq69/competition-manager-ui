@@ -1,13 +1,7 @@
-export interface IPayload {
-  type: string
-}
-
-export interface IDictionary<T> {
-  [key: number]: T
-}
+import { Id, IDictionary, IPayload } from "@/types"
 
 export interface IProfile {
-  id: number
+  id: Id
   name: string
   md5: string
 }
@@ -30,7 +24,7 @@ export interface IRegister extends IPayload {
 
 export interface IFetchProfile extends IPayload {
   type: "fetchProfile"
-  userId: number
+  userId: Id
 }
 
 export interface IEmailPasswordReset extends IPayload {

@@ -6,7 +6,7 @@ import Auth, { middleware as auth } from "@/Components/Auth"
 import { home } from "@/Router/Routes"
 import { store } from "@/Store"
 
-import { IRegister } from "./Store/Contracts"
+import { IRegister } from "./Store/types"
 
 export default Vue.extend({
   name: "SignUp",

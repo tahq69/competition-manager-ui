@@ -22,16 +22,13 @@ const competition = () =>
 const manageCms = () =>
   import(/* webpackChunkName: "cm" */ "./ManageCompetitions.vue")
 
-const requiresAuth = { requiresAuth: true }
-const createRole = [roles.CREATE_COMPETITIONS]
-const listRole = [roles.EDIT_COMPETITIONS]
-
 const routes: RouteConfig[] = [
   {
     ...manageCompetitions,
     component: manageCms,
-    meta: { requiresAuth, requiresAnyOfRoles: [...createRole, ...listRole] },
-    path: "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+    meta: { auth: true, roles: [roles.SUPER_ADMIN] },
+    path:
+      "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
     ...competitionsRoute,
@@ -41,20 +38,15 @@ const routes: RouteConfig[] = [
   {
     ...createCompetition,
     component: competition,
-    meta: { requiresAuth, requiresRoles: createRole },
-    path: "/competition/new",
+    meta: { auth: true, teamRoles: [roles.CREATE_COMPETITIONS] },
+    path: "/competition/new/:team(\\d+)",
+    props: true,
   } as RouteConfig,
   {
     component: competition,
-    path: "/competition/:competition_id(\\d+)",
-    props: route => ({
-      competitionId: parseInt(route.params.competition_id, 10),
-    }),
-    children: [
-      ...areas,
-      ...details,
-      ...disciplines,
-    ],
+    path: "/competition/:cm(\\d+)",
+    props: true,
+    children: [...areas, ...details, ...disciplines],
   } as RouteConfig,
 ]
 

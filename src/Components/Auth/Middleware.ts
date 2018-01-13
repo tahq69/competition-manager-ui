@@ -1,9 +1,12 @@
+import Vue from "vue"
+
 import { Getters, store } from "@/Store"
 import { Id } from "@/types"
-import * as roles from "./Roles"
+import * as sysRoles from "./Roles"
 import { ICompetition, IFetchCompetition } from "./Store/types"
 
 const getters: Getters = store.getters
+const log = Vue.logger.group("auth.middleware")
 
 interface ITeamOption {
   cm?: Id
@@ -19,7 +22,7 @@ export class Middleware {
     if (!getters.isAuthenticated) return false
 
     // if user has an super_admin role, allow him to do anything
-    if (getters.hasRole(roles.SUPER_ADMIN)) return true
+    if (getters.hasRole(sysRoles.SUPER_ADMIN)) return true
 
     return getters.hasRole(role)
   }
@@ -28,11 +31,13 @@ export class Middleware {
     { cm, team }: ITeamOption,
     role: string,
   ): Promise<boolean> {
+    log("hasTeamRole()", { opt: { cm, team }, role })
+
     if (!this.isAuthenticated()) return false
     if (!cm && !team) throw new Error("Team or competition should be provided.")
 
     // if user has an super_admin role, allow him to do anything
-    if (getters.hasRole(roles.SUPER_ADMIN)) return true
+    if (getters.hasRole(sysRoles.SUPER_ADMIN)) return true
 
     if (!team && cm) {
       const payload: IFetchCompetition = { type: "fetchCompetition", id: cm }
@@ -54,10 +59,11 @@ export class Middleware {
   }
 
   public static async hasAnyTeamRole(opt: ITeamOption, roles: string[]) {
+    log("hasAnyTeamRole()", { opt, roles })
     if (!getters.isAuthenticated) return false
 
     return await roles.reduce(async (acc, role) => {
-      if (!acc && !await Middleware.hasTeamRole(opt, role)) return true
+      if ((await acc) || (await Middleware.hasTeamRole(opt, role))) return true
       return false
     }, Promise.resolve(false))
   }
@@ -74,7 +80,7 @@ export class Middleware {
     if (!this.isAuthenticated()) return false
 
     return await roles.reduce(async (acc, role) => {
-      if (acc && (await Middleware.hasTeamRole(opt, role))) return true
+      if ((await acc) && (await Middleware.hasTeamRole(opt, role))) return true
       return false
     }, Promise.resolve(true))
   }

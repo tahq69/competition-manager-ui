@@ -2,11 +2,18 @@ import { middleware, roles } from "@/Components/Auth"
 import { Id } from "@/types"
 
 export class DisciplineAuth {
-  public static canEdit(discipline: Id, competition: Id): boolean {
-    return middleware.hasAnyRole(roles.competitions)
+  public static async canEdit(discipline: Id, cm: Id) {
+    return await middleware.hasAllTeamRoles({ cm }, [
+      roles.MANAGE_COMPETITIONS,
+      roles.MANAGE_COMPETITION_DISCIPLINES,
+    ])
   }
 
-  public static canCreate(competition: Id): boolean {
-    return middleware.hasAnyRole(roles.competitions)
+  public static async canCreate(cm: Id) {
+    return await middleware.hasAllTeamRoles({ cm }, [
+      roles.CREATE_COMPETITIONS,
+      roles.MANAGE_COMPETITIONS,
+      roles.MANAGE_COMPETITION_DISCIPLINES,
+    ])
   }
 }

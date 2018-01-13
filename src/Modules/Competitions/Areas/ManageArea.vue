@@ -5,8 +5,8 @@ export default Vue.extend({
   name: "ManageCompetitionArea",
 
   props: {
-    competitionId: { type: Number, required: true },
-    id: { type: Number, required: true },
+    cm: { type: [Number, String], required: true },
+    area: { type: [Number, String], required: true },
   },
 })
 </script>

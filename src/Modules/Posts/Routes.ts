@@ -25,36 +25,34 @@ export const home = {
   ...homeRoute,
   component: postListVue,
   path: "/home/:page(\\d+)?",
+  props: true,
 } as RouteConfig
 
 export const posts = [
   {
     ...readPost,
     component: postViewVue,
-    path: "/posts/:id(\\d+)",
+    path: "/posts/:post(\\d+)",
+    props: true,
   } as RouteConfig,
   {
     ...createPost,
     component: managePostVue,
-    meta: { requiresAuth: true, requiresRoles: [roles.CREATE_POST] },
+    meta: { auth: true, roles: [roles.CREATE_POST] },
     path: "/post/new",
+    props: true,
   } as RouteConfig,
   {
     ...managePosts,
     component: managePostsVue,
-    meta: {
-      requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],
-      requiresAuth: true,
-    },
+    meta: { auth: true, roles: [roles.CREATE_POST, roles.MANAGE_POSTS] },
     path: "/posts/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   } as RouteConfig,
   {
     ...managePost,
     component: managePostVue,
-    meta: {
-      requiresAnyOfRoles: [roles.CREATE_POST, roles.MANAGE_POSTS],
-      requiresAuth: true,
-    },
-    path: "/post/edit/:id(\\d+)",
+    meta: { auth: true, roles: [roles.MANAGE_POSTS] },
+    path: "/post/edit/:post(\\d+)",
+    props: true,
   } as RouteConfig,
 ]

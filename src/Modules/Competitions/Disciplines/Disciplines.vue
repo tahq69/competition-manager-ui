@@ -9,32 +9,27 @@ import disciplineService from "./Service"
 
 import DisciplineBadge from "./DisciplineBadge.vue"
 
-interface IData {
-  disciplines: Discipline[]
-}
-
 export default Vue.extend({
   name: "Disciplines",
 
   components: { DisciplineBadge },
 
   beforeRouteEnter(to, from, next: Next<any>) {
-    const payload = { competition_id: to.params.competition_id }
+    const payload = { competition_id: to.params.cm }
     disciplineService
       .fetchDisciplines(payload)
       .then(disciplines => next(vm => vm.setDisciplines(disciplines)))
   },
 
-  data(): IData {
-    return {
-      disciplines: [],
-    }
+  props: {
+    cm: { type: [Number, String], required: true },
   },
 
-  computed: {
-    canCreate(): boolean {
-      return DisciplineAuth.canCreate(this.$route.params.competition_id)
-    },
+  data() {
+    return {
+      canCreate: false,
+      disciplines: [] as Discipline[],
+    }
   },
 
   methods: {
@@ -43,8 +38,9 @@ export default Vue.extend({
     },
   },
 
-  created() {
+  async created() {
     this.log = this.$logger.component(this)
+    this.canCreate = await DisciplineAuth.canCreate(this.cm)
   },
 })
 </script>
