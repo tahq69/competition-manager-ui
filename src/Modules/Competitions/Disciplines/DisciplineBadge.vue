@@ -2,6 +2,7 @@
 import Vue from "vue"
 import { Location } from "vue-router"
 
+import Badge from "@/Components/Badge"
 import { createCompetitionDiscipline } from "@/Router/Routes"
 import { Id, Next } from "@/types"
 
@@ -11,10 +12,12 @@ import { Discipline } from "./Discipline"
 export default Vue.extend({
   name: "DisciplinesBadge",
 
+  mixins: [Badge],
+
   props: {
     cm: { type: [Number, String], required: true },
-    discipline: { type: Discipline },
     create: { type: Boolean },
+    discipline: { type: Discipline },
   },
 
   data() {
@@ -27,14 +30,13 @@ export default Vue.extend({
     newDiscipline(): Location {
       return {
         ...createCompetitionDiscipline,
-        params: {
-          cm: this.cm.toString(),
-        },
+        params: { cm: this.cm.toString() },
       }
     },
   },
 
   async created() {
+    this.log = this.$logger.component(this)
     if (this.create) return
     this.canEdit = await DisciplineAuth.canEdit(this.discipline.id, this.cm)
   },
@@ -42,7 +44,8 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div class="img-thumbnail discipline-badge">
+  <div class="img-thumbnail discipline-badge"
+       :style="{height: elHeight}">
     <router-link v-if="canEdit"
                  :to="discipline.routes.edit"
                  class="badge-edit btn btn-xs btn-link">

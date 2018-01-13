@@ -1,6 +1,7 @@
 <script lang="ts">
 import Vue from "vue"
 
+import BadgeWrapper from "@/Components/BadgeWrapper"
 import { Next } from "@/types"
 
 import { DisciplineAuth } from "./Auth"
@@ -11,6 +12,8 @@ import DisciplineBadge from "./DisciplineBadge.vue"
 
 export default Vue.extend({
   name: "Disciplines",
+
+  mixins: [BadgeWrapper],
 
   components: { DisciplineBadge },
 
@@ -51,13 +54,17 @@ export default Vue.extend({
           :key="discipline.id"
           :sm="6">
       <DisciplineBadge :cm="cm"
-                       :discipline="discipline" />
+                       :discipline="discipline"
+                       :height="maxHeight"
+                       @dimensions="setupHeight" />
     </CCol>
 
     <CCol v-if="canCreate"
           :sm="6">
       <DisciplineBadge :cm="cm"
-                       :create="true" />
+                       :create="true"
+                       :height="maxHeight"
+                       @dimensions="setupHeight" />
     </CCol>
   </CRow>
 </template>

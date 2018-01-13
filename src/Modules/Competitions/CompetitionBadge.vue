@@ -1,15 +1,17 @@
 <script lang="ts">
 import Vue from "vue"
 
+import Badge from "@/Components/Badge"
 import { CompetitionAuth } from "./Auth"
 import { Competition } from "./Competition"
 
 export default Vue.extend({
   name: "CompetitionBadge",
 
+  mixins: [Badge],
+
   props: {
     competition: { type: Competition, required: true },
-    height: { type: Number, required: false },
   },
 
   data() {
@@ -18,30 +20,8 @@ export default Vue.extend({
     }
   },
 
-  computed: {
-    elHeight(): string {
-      return this.height > 0 ? `${this.height}px` : "auto"
-    },
-  },
-
   async created() {
     this.canEdit = await CompetitionAuth.canEdit({ cm: this.competition.id })
-  },
-
-  mounted() {
-    this.$emit("dimensions", { height: this.$el.offsetHeight })
-  },
-
-  watch: {
-    height(newHeight: number, oldHeight: number) {
-      if (newHeight === 0) {
-        Vue.nextTick(() => {
-          // Update dimensions when parent says that unified value is unset, but
-          // only when auto height is applied to component.
-          this.$emit("dimensions", { height: this.$el.offsetHeight })
-        })
-      }
-    },
   },
 })
 </script>

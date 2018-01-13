@@ -2,7 +2,7 @@
 import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import Utils from "@/Helpers/Utils"
+import BadgeWrapper from "@/Components/BadgeWrapper"
 
 import { Competition } from "./Competition"
 import CompetitionBadge from "./CompetitionBadge.vue"
@@ -19,30 +19,12 @@ export default Vue.extend({
 
   components: { CompetitionBadge },
 
-  mixins: [mixin],
-
-  beforeRouteUpdate(to, from, next) {
-    // Make sure we update component heights when entering new page.
-    this.maxHeight = 0
-    next()
-  },
+  mixins: [mixin, BadgeWrapper],
 
   data() {
     return {
       competitions,
-      maxHeight: 0,
     }
-  },
-
-  methods: {
-    setupHeight(options: { height: number }) {
-      if (options.height > this.maxHeight) this.maxHeight = options.height
-    },
-  },
-
-  mounted() {
-    // Debounce window resize event and force badges to update height.
-    window.addEventListener("resize", Utils.debounce(() => (this.maxHeight = 0), 100))
   },
 })
 </script>
