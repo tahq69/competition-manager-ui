@@ -1,4 +1,4 @@
-import { IState } from "./Contracts"
+import { IState } from "./types"
 
 export default {
   user: {
@@ -9,4 +9,5 @@ export default {
   },
   roles: [],
   team_roles: {},
+  competitions: []
 } as IState

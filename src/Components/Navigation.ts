@@ -10,7 +10,7 @@ import {
 } from "@/Lang"
 
 import * as routes from "@/Router/Routes"
-import store from "@/Store"
+import { store } from "@/Store"
 
 import Auth, { middleware as auth, roles } from "./Auth"
 

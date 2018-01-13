@@ -4,15 +4,15 @@ import authService from "@/Components/Auth/Service"
 import config from "@/Config"
 import Storage from "@/Helpers/LocalStorage"
 import { i18n } from "@/Lang"
-import store from "@/Store"
+import { store } from "@/Store"
 
-import Middleware from "./Middleware"
+import { Middleware } from "./Middleware"
 import * as Roles from "./Roles"
 import {
   IFetchAuthUser,
   ILogoutPayload,
   ITokenResponse,
-} from "./Store/Contracts"
+} from "./Store/types"
 
 export const middleware = Middleware
 export const roles = Roles

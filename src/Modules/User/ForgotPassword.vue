@@ -3,7 +3,7 @@ import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 
 import { login } from "@/Router/Routes"
-import store from "@/Store"
+import { store } from "@/Store"
 
 import { IEmailPasswordReset } from "./Store/Contracts"
 

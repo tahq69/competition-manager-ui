@@ -1,98 +1,81 @@
-import store from "@/Store"
+import { Getters, store } from "@/Store"
 import { Id } from "@/types"
 import * as roles from "./Roles"
+import { ICompetition, IFetchCompetition } from "./Store/types"
 
-export class Middleware {
-  /**
-   * Determines user authenticated sate.
-   *
-   * @returns {boolean}
-   * @memberof Middleware
-   */
-  public isAuthenticated(): boolean {
-    return store.getters.isAuthenticated
-  }
+const getters: Getters = store.getters
 
-  /**
-   * Determine has a auth user presented role.
-   *
-   * @param {string} role
-   * @returns {boolean}
-   * @memberof Middleware
-   */
-  public hasRole(role: string): boolean {
-    if (!this.isAuthenticated()) return false
-
-    // tslint:disable:no-shadowed-variable
-    // tslint:disable-next-line:no-bitwise
-    const check = (role: string) => !!~store.state.auth.roles.indexOf(role)
-
-    // if user has an super_admin role, allow him to do anything
-    if (check(roles.SUPER_ADMIN)) return true
-
-    return check(role)
-  }
-
-  public hasTeamRole(team: Id, role: string): boolean {
-    if (!this.isAuthenticated()) return false
-
-    // tslint:disable:no-shadowed-variable
-    // tslint:disable-next-line:no-bitwise
-    const check = (role: string) =>
-      typeof store.state.auth.team_roles[team] !== undefined &&
-      !!~store.state.auth.team_roles[team].indexOf(role)
-
-    // if user has an super_admin role, allow him to do anything
-    if (check(roles.SUPER_ADMIN)) return true
-
-    return check(role)
-  }
-
-  /**
-   * Determine has a auth user any of role presented in list of roles.
-   *
-   * @param {string[]} roles
-   * @returns {boolean}
-   * @memberof Middleware
-   */
-  public hasAnyRole(roles: string[]): boolean {
-    if (!this.isAuthenticated()) return false
-
-    const hasAny = roles.find(role => this.hasRole(role))
-
-    return !!hasAny
-  }
-
-  public hasAnyTeamRole(team: Id, roles: string[]) {
-    if (!this.isAuthenticated()) return false
-
-    const hasAny = roles.find(role => this.hasTeamRole(team, role))
-
-    return !!hasAny
-  }
-
-  /**
-   * Determine has a auth user all roles presented in list.
-   *
-   * @param {string[]} roles
-   * @returns {boolean}
-   * @memberof Middleware
-   */
-  public hasAllRoles(roles: string[]): boolean {
-    if (!this.isAuthenticated()) return false
-
-    const hasNoAny = roles.find(role => !this.hasRole(role))
-
-    return !hasNoAny
-  }
-
-  public hasAllTeamRoles(team: Id, roles: string[]): boolean {
-    if (!this.isAuthenticated()) return false
-
-    const hasNoAny = roles.find(role => !this.hasTeamRole(team, role))
-
-    return !hasNoAny
-  }
+interface ITeamOption {
+  cm?: Id
+  team?: Id
 }
 
-export default new Middleware()
+export class Middleware {
+  public static isAuthenticated(): boolean {
+    return getters.isAuthenticated
+  }
+
+  public static hasRole(role: string): boolean {
+    if (!getters.isAuthenticated) return false
+
+    // if user has an super_admin role, allow him to do anything
+    if (getters.hasRole(roles.SUPER_ADMIN)) return true
+
+    return getters.hasRole(role)
+  }
+
+  public static async hasTeamRole(
+    { cm, team }: ITeamOption,
+    role: string,
+  ): Promise<boolean> {
+    if (!this.isAuthenticated()) return false
+    if (!cm && !team) throw new Error("Team or competition should be provided.")
+
+    // if user has an super_admin role, allow him to do anything
+    if (getters.hasRole(roles.SUPER_ADMIN)) return true
+
+    if (!team && cm) {
+      const payload: IFetchCompetition = { type: "fetchCompetition", id: cm }
+      const competition: ICompetition = await store.dispatch(payload)
+      return getters.hasTeamRole(competition.team_id.toString(), role)
+    }
+
+    if (team) return getters.hasTeamRole(team.toString(), role)
+
+    return false
+  }
+
+  public static hasAnyRole(roles: string[]): boolean {
+    if (!getters.isAuthenticated) return false
+
+    const hasAny = roles.find(role => Middleware.hasRole(role))
+
+    return !!hasAny
+  }
+
+  public static async hasAnyTeamRole(opt: ITeamOption, roles: string[]) {
+    if (!getters.isAuthenticated) return false
+
+    return await roles.reduce(async (acc, role) => {
+      if (!acc && !await Middleware.hasTeamRole(opt, role)) return true
+      return false
+    }, Promise.resolve(false))
+  }
+
+  public static hasAllRoles(roles: string[]): boolean {
+    if (!getters.isAuthenticated) return false
+
+    const hasNoAny = roles.find(role => !Middleware.hasRole(role))
+
+    return !hasNoAny
+  }
+
+  public static async hasAllTeamRoles(opt: ITeamOption, roles: string[]) {
+    if (!this.isAuthenticated()) return false
+
+    return await roles.reduce(async (acc, role) => {
+      if (acc && (await Middleware.hasTeamRole(opt, role))) return true
+      return false
+    }, Promise.resolve(true))
+  }
+}

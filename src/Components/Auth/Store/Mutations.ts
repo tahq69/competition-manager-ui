@@ -1,4 +1,9 @@
-import { ILogoutPayload, IState, IUpdateUserDetailsPayload } from "./Contracts"
+import {
+  IAddCompetitionPayload,
+  ILogoutPayload,
+  IState,
+  IUpdateUserDetailsPayload,
+} from "./types"
 
 export default {
   logout(state: IState, payload: ILogoutPayload) {
@@ -28,5 +33,9 @@ export default {
 
     // allow listeners to watch that user details has received
     state.user.authenticated = true
+  },
+
+  addCompetition(state: IState, payload: IAddCompetitionPayload) {
+    state.competitions.push({ id: payload.id, team_id: payload.team_id })
   },
 }

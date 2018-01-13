@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue"
 
-import store from "@/Store"
+import { store } from "@/Store"
 
 import { IFetchProfile, IProfile } from "./Store/Contracts"
 

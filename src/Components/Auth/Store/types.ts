@@ -1,3 +1,5 @@
+import { Id, IPayload } from "@/types"
+
 export interface ITokenResponse {
   token_type: string
   expires_in: number
@@ -16,14 +18,26 @@ export interface IUser {
   id: number
 }
 
+export interface ICompetition {
+  id: Id
+  team_id: Id
+}
+
 export interface IState {
   user: IUser
   roles: string[]
   team_roles: { [key: string]: string[] }
+  competitions: ICompetition[]
 }
 
-export interface IPayload {
-  type: string
+export interface Getters {
+  user: IUser
+  isAuthenticated: boolean
+  roles: string[]
+  hasRole: (role: string) => boolean
+  teamRoles: (teamId: string) => string[]
+  hasTeamRole: (teamId: string, role: string) => boolean
+  getCmById: (id: Id) => ICompetition
 }
 
 /* MUTATIONS */
@@ -41,8 +55,17 @@ export interface IUpdateUserDetailsPayload extends IPayload {
   team_roles: { [key: string]: IRole[] }
 }
 
+export interface IAddCompetitionPayload extends IPayload, ICompetition {
+  type: "addCompetition"
+}
+
 /* ACTIONS */
 
 export interface IFetchAuthUser extends IPayload {
   type: "fetchAuthUser"
+}
+
+export interface IFetchCompetition extends IPayload {
+  type: "fetchCompetition"
+  id: Id
 }

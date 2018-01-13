@@ -12,14 +12,20 @@ export default Vue.extend({
     height: { type: Number, required: false },
   },
 
-  computed: {
-    canEdit(): boolean {
-      return CompetitionAuth.canEdit(this.competition.id)
-    },
+  data() {
+    return {
+      canEdit: false,
+    }
+  },
 
+  computed: {
     elHeight(): string {
       return this.height > 0 ? `${this.height}px` : "auto"
     },
+  },
+
+  async created() {
+    this.canEdit = await CompetitionAuth.canEdit({ cm: this.competition.id })
   },
 
   mounted() {

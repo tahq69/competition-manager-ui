@@ -29,13 +29,13 @@ import Logger from "./Helpers/Logger"
 import Lang, { i18n } from "./Lang"
 import Router from "./Router"
 import Guard from "./Router/Guard"
-import Store from "./Store"
+import { store } from "./Store"
 
 import "./Helpers/Filters"
 
 Vue.use(Logger, config.logs)
 
-sync(Store, Router)
+sync(store, Router)
 Guard(Router)
 
 Vue.config.productionTip = false
@@ -44,7 +44,7 @@ const app = new Vue({
   i18n,
   render: h => h(App),
   router: Router,
-  store: Store,
+  store,
 })
 
 // console.log("Vue.options.components", (Vue as any).options.components)

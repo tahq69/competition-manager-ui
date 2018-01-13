@@ -7,7 +7,7 @@ import config from "@/Config"
 import { t, Utils } from "@/Helpers"
 import router from "@/Router"
 import { login } from "@/Router/Routes"
-import store from "@/Store"
+import { store } from "@/Store"
 import { IDictionary } from "@/types"
 
 interface IUrlParams {
