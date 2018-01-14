@@ -59,12 +59,13 @@ export default Vue.extend({
         {{ discipline.title }}
       </router-link>
       <router-link v-else
-                   :to="newDiscipline">
+                   :to="newDiscipline"
+                   title="Add new discipline"
+                   class="btn btn-lg btn-block">
         <i class="fa fa-plus-square-o fa-2x"></i>
       </router-link>
     </h4>
     <small v-if="!create">{{ discipline.short }}</small>
-    <small v-else>Create new discipline</small>
   </div>
 </template>
 

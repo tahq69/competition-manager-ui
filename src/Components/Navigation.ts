@@ -48,6 +48,20 @@ export const leftNav = () => {
     nav.add(Nav.divider())
   }
 
+  if (auth.hasRole(roles.SUPER_ADMIN)) {
+    nav.create({
+      text: t("create_competition"),
+      route: routes.createCompetition,
+    })
+
+    nav.create({
+      text: t("manage_competitions"),
+      route: routes.manageCompetitions,
+    })
+
+    nav.add(Nav.divider())
+  }
+
   if (auth.hasRole(roles.CREATE_TEAMS)) {
     nav.create({ text: t("create_team"), route: routes.createTeam })
     nav.create({ text: t("manage_teams"), route: routes.manageTeams })
