@@ -3,6 +3,7 @@ import { Location } from "vue-router"
 import { Entity } from "@/Helpers/Entity"
 import {
   competitionDiscipline,
+  competitionDisciplineGroups,
   manageCompetitionDiscipline,
 } from "@/Router/Routes"
 
@@ -32,6 +33,10 @@ export class Discipline extends Entity {
       },
       show: {
         ...competitionDiscipline,
+        params: { cm, discipline },
+      },
+      groups: {
+        ...competitionDisciplineGroups,
         params: { cm, discipline },
       },
     }
