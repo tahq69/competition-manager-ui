@@ -38,7 +38,11 @@ export default Vue.extend({
 <template>
   <CCol id="discipline-details"
         :class="`discipline discipline-${discipline}`">
-    DisciplineDetails.vue
+    <h2>{{ details.title }} <small>{{ details.short }}</small></h2>
+    <h3>{{ details.type }}</h3>
+
+    <div><strong>Game type</strong>: {{ details.game_type }}</div>
+    <div>{{ details.description }}</div>
   </CCol>
 </template>
 
