@@ -76,7 +76,9 @@ export default Vue.extend({
     async save() {
       this.log("save()", this.form.data)
       try {
-        const discipline = await disciplineService.saveDiscipline(this.form.data)
+        const discipline = await disciplineService.saveDiscipline(
+          this.form.data,
+        )
         this.$notice.success({ title: "Discipline saved" })
         this.$router.push(discipline.routes.show)
       } catch (errors) {
@@ -92,9 +94,9 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CFormPanel :title="title"
-              id="manage-discipline"
-              @submit="save">
+  <CFormCard :title="title"
+             id="manage-discipline"
+             @submit="save">
 
     <!-- #title -->
     <CFormGroup for="title"
@@ -158,5 +160,5 @@ export default Vue.extend({
         Save
       </button>
     </CFormGroup>
-  </CFormPanel>
+  </CFormCard>
 </template>

@@ -66,10 +66,8 @@ export default Vue.extend({
       </router-link>
     </CNavbar>
 
-    <div class="container">
-      <div class="row">
-        <router-view />
-      </div>
+    <div class="container mt-3">
+      <router-view />
     </div>
   </div>
 </template>

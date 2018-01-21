@@ -46,14 +46,14 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CFormPanel id="forgot-password"
-              @submit="sendResetEmail"
-              :form="form"
-              :title="$t('user.forgotPassword_title')"
-              :body-md="10"
-              :sm="10"
-              :md="8"
-              :lg="6">
+  <CFormCard id="forgot-password"
+             @submit="sendResetEmail"
+             :form="form"
+             :title="$t('user.forgotPassword_title')"
+             :body-md="10"
+             :sm="10"
+             :md="8"
+             :lg="6">
     <!-- #email -->
     <CFormGroup for="email"
                 :form="form"
@@ -80,5 +80,5 @@ export default Vue.extend({
         {{ $t('user.forgotPassword_submit_button') }}
       </button>
     </CFormGroup>
-  </CFormPanel>
+  </CFormCard>
 </template>

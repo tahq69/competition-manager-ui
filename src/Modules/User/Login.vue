@@ -53,14 +53,14 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CFormPanel id="login"
-              @submit="authorize"
-              :form="form"
-              :title="$t('user.login_title')"
-              :body-md="10"
-              :sm="10"
-              :md="8"
-              :lg="6">
+  <CFormCard id="login"
+             @submit="authorize"
+             :form="form"
+             :title="$t('user.login_title')"
+             :body-md="10"
+             :sm="10"
+             :md="8"
+             :lg="6">
 
     <!-- #email -->
     <CFormGroup for="email"
@@ -107,5 +107,5 @@ export default Vue.extend({
         {{ $t('user.login_submit_forgot') }}
       </router-link>
     </CFormGroup>
-  </CFormPanel>
+  </CFormCard>
 </template>

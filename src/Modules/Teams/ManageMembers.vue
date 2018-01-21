@@ -57,13 +57,13 @@ export default Vue.extend({
     <span slot="title">{{ $t('teams.manage_members_grid_title') }}</span>
 
     <span slot="actions">
-      <CPanelAction :to="manageTeamRoute">
+      <CCardAction :to="manageTeamRoute">
         {{ $t('teams.manage_members_grid_head_manage_team') }}
-      </CPanelAction>
+      </CCardAction>
 
-      <CPanelAction :to="createTeamMemberRoute">
+      <CCardAction :to="createTeamMemberRoute">
         {{ $t('teams.manage_members_grid_head_create_member') }}
-      </CPanelAction>
+      </CCardAction>
     </span>
 
     <table class="table table-hover">

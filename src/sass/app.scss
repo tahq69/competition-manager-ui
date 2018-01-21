@@ -1,12 +1,7 @@
-// Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 // Variables
 @import "variables";
 // Bootstrap
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap";
-
-// Custom
-@import "components/colors";
+@import "~bootstrap/scss/bootstrap";
 
 .panel-footer .pagination {
   margin: 0;

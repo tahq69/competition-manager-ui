@@ -45,10 +45,10 @@ export default Vue.extend({
     <CGrid id="manage-competitions"
            :paging="paging">
       <span slot="title">{{ $t('competitions.manage_competitions_grid_title') }}</span>
-      <CPanelAction slot="actions"
+      <CCardAction slot="actions"
                     :to="createRoute">
         {{ $t('competitions.manage_competitions_grid_head_create_new') }}
-      </CPanelAction>
+      </CCardAction>
 
       <table class="table table-hover">
         <thead>

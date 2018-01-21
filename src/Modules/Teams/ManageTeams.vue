@@ -40,10 +40,10 @@ export default Vue.extend({
   <CGrid id="manage-teams"
          :paging="paging">
     <span slot="title">{{ $t('teams.manage_teams_grid_title') }}</span>
-    <CPanelAction slot="actions"
-                  :to="createRoute">
+    <CCardAction slot="actions"
+                 :to="createRoute">
       {{ $t('teams.manage_teams_grid_head_create_new') }}
-    </CPanelAction>
+    </CCardAction>
 
     <table class="table table-hover">
       <thead>

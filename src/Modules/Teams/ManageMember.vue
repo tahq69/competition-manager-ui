@@ -187,16 +187,16 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CFormPanel id="manage-member"
-              :form="form"
-              :title="title"
-              @submit="saveMember"
-              class="col-xs-12">
-    <CPanelAction slot="actions"
-                  v-if="team.id"
-                  :to="team.routes.manageMembers">
+  <CFormCard id="manage-member"
+             :form="form"
+             :title="title"
+             @submit="saveMember"
+             class="col-xs-12">
+    <CCardAction slot="actions"
+                 v-if="team.id"
+                 :to="team.routes.manageMembers">
       {{ $t('teams.manage_member_action_back', { team: team.short }) }}
-    </CPanelAction>
+    </CCardAction>
 
     <!-- #name -->
     <CFormGroup for="name"
@@ -233,7 +233,7 @@ export default Vue.extend({
         {{ $t('teams.manage_member_submit_btn') }}
       </button>
     </CFormGroup>
-  </CFormPanel>
+  </CFormCard>
 </template>
 
 <style lang="scss" scoped>

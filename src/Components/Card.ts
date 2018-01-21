@@ -2,7 +2,7 @@ import Vue from "vue"
 
 export default {
   props: {
-    height: { type: Number, required: true },
+    height: { type: Number, required: false },
   },
 
   data() {

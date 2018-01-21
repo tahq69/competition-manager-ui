@@ -1,21 +1,21 @@
 <script lang="ts">
 import Vue from "vue"
 
-import BadgeWrapper from "@/Components/BadgeWrapper"
+import CardWrapper from "@/Components/CardWrapper"
 import { Next } from "@/types"
 
 import { DisciplineAuth } from "./Auth"
 import { Discipline } from "./Discipline"
 import disciplineService from "./Service"
 
-import DisciplineBadge from "./DisciplineBadge.vue"
+import DisciplineCard from "./DisciplineCard.vue"
 
 export default Vue.extend({
   name: "Disciplines",
 
-  mixins: [BadgeWrapper],
+  mixins: [CardWrapper],
 
-  components: { DisciplineBadge },
+  components: { DisciplineCard },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     const payload = { competition_id: to.params.cm }
@@ -53,18 +53,16 @@ export default Vue.extend({
     <CCol v-for="discipline in disciplines"
           :key="discipline.id"
           :sm="6">
-      <DisciplineBadge :cm="cm"
-                       :discipline="discipline"
-                       :height="maxHeight"
-                       @dimensions="setupHeight" />
+      <DisciplineCard :cm="cm"
+                      :discipline="discipline"
+                      :height="maxHeight"
+                      @dimensions="setupHeight" />
     </CCol>
 
     <CCol v-if="canCreate"
           :sm="6">
-      <DisciplineBadge :cm="cm"
-                       :create="true"
-                       :height="maxHeight"
-                       @dimensions="setupHeight" />
+      <DisciplineCard :cm="cm"
+                      :create="true" />
     </CCol>
   </CRow>
 </template>

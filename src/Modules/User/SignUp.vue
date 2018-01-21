@@ -54,13 +54,13 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CFormPanel id="signup"
-              @submit="signUp"
-              :form="form"
-              :title="$t('user.signUp_title')"
-              :body-md="10"
-              :md="10"
-              :lg="8">
+  <CFormCard id="signup"
+             @submit="signUp"
+             :form="form"
+             :title="$t('user.signUp_title')"
+             :body-md="10"
+             :md="10"
+             :lg="8">
     <!-- #name -->
     <CFormGroup for="name"
                 :form="form"
@@ -132,5 +132,5 @@ export default Vue.extend({
         {{ $t('user.signUp_submit_button') }}
       </button>
     </CFormGroup>
-  </CFormPanel>
+  </CFormCard>
 </template>
