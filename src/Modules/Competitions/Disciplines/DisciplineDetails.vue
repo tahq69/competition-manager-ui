@@ -41,8 +41,8 @@ export default Vue.extend({
     <h2>{{ details.title }} <small>{{ details.short }}</small></h2>
     <h3>{{ details.type }}</h3>
 
-    <div><strong>Game type</strong>: {{ details.game_type }}</div>
-    <div>{{ details.description }}</div>
+    <!--<div><strong>Game type</strong>: <div v-html="details.game_type"></div></div>-->
+    <div v-html="details.description"></div>
   </CCol>
 </template>
 

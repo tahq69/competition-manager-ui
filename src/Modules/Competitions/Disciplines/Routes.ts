@@ -3,11 +3,12 @@ import { RouteConfig } from "vue-router"
 import * as roles from "@/Components/Auth/Roles"
 import {
   competitionDiscipline,
-  competitionDisciplineGroups,
   competitionDisciplines,
   createCompetitionDiscipline,
   manageCompetitionDiscipline,
 } from "@/Router/Routes"
+
+import { groups } from "./Groups/Routes"
 
 /** Public routes */
 const disciplinesView = () =>
@@ -18,9 +19,6 @@ const discipline = () =>
 
 const disciplineDetails = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./DisciplineDetails.vue")
-
-const disciplineGroups = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./Groups.vue")
 
 /** Management routes */
 const manageDiscipline = () =>
@@ -62,10 +60,8 @@ export const root: RouteConfig[] = [
         props: true,
       },
       {
-        ...competitionDisciplineGroups,
-        component: disciplineGroups,
         path: "groups",
-        props: true,
+        children: groups
       },
     ],
   },
