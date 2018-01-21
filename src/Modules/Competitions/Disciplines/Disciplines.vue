@@ -49,7 +49,7 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CRow id="manage-competition-disciplines">
+  <CRow id="disciplines">
     <CCol v-for="discipline in disciplines"
           :key="discipline.id"
           :sm="6">
@@ -68,8 +68,9 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
-#manage-competition-disciplines {
-  padding-top: 15px;
+#disciplines {
+  margin-top: -1rem;
+  margin-bottom: -1rem;
 }
 </style>
 

@@ -28,23 +28,31 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CCol id="discipline"
-        :class="`discipline discipline-${discipline}`">
-    <ul v-if="details.routes"
-        class="nav nav-tabs">
-      <router-link :to="details.routes.show"
-                   tag="li"
-                   exact>
-        <a>Details</a>
-      </router-link>
+  <div id="discipline"
+       class="card discipline mb-3"
+       :class="`discipline-${discipline}`">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <router-link :to="details.routes.show"
+                       class="nav-link"
+                       exact>
+            Details
+          </router-link>
+        </li>
 
-      <router-link :to="details.routes.groups"
-                   tag="li">
-        <a>Groups</a>
-      </router-link>
-    </ul>
-
-    <router-view></router-view>
-  </CCol>
+        <li class="nav-item">
+          <router-link :to="details.routes.groups"
+                       class="nav-link"
+                       exact>
+            Groups
+          </router-link>
+        </li>
+      </ul>
+    </div><!-- /.card-header -->
+     <div class="card-body">
+      <router-view></router-view>
+     </div>
+  </div>
 </template>
 

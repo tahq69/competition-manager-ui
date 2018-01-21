@@ -36,13 +36,13 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CCol id="discipline-details"
+  <div id="discipline-details"
         :class="`discipline discipline-${discipline}`">
-    <h2>{{ details.title }} <small>{{ details.short }}</small></h2>
-    <h3>{{ details.type }}</h3>
+    <h2 class="card-title">{{ details.title }} <small class="text-muted">{{ details.short }}</small></h2>
+    <h3 class="card-title">{{ details.type }}</h3>
 
     <!--<div><strong>Game type</strong>: <div v-html="details.game_type"></div></div>-->
-    <div v-html="details.description"></div>
-  </CCol>
+    <div class="card-text" v-html="details.description"></div>
+  </div>
 </template>
 
