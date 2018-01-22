@@ -14,7 +14,7 @@ export default Vue.extend({
   },
 
   data() {
-    // Required only for routes, se we have no need to fetch data from server.
+    // Required only for routes, so we have no need to fetch data from server.
     const details = new Discipline({
       id: this.discipline,
       competition_id: this.cm,
@@ -29,7 +29,7 @@ export default Vue.extend({
 
 <template>
   <div id="discipline"
-       class="card discipline mb-3"
+       class="crip-card card discipline mb-3"
        :class="`discipline-${discipline}`">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
@@ -49,10 +49,23 @@ export default Vue.extend({
           </router-link>
         </li>
       </ul>
+      <div class="card-header-tabs-actions">
+        <div class="btn-group dropleft">
+        <router-link :to="details.routes.competition"
+                      class="btn btn-light btn-sm crip-arr left"
+                      exact>
+          Competition
+        </router-link>
+        </div>
+        <router-link :to="details.routes.disciplines"
+                      class="btn btn-light btn-sm crip-arr left"
+                      exact>
+          Disciplines
+        </router-link>
+      </div>
     </div><!-- /.card-header -->
      <div class="card-body">
       <router-view></router-view>
      </div>
   </div>
 </template>
-

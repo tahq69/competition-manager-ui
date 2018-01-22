@@ -12,7 +12,7 @@ import { groups } from "./Groups/Routes"
 
 /** Public routes */
 const disciplinesView = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./Disciplines.vue")
+  import(/* webpackChunkName: "cm-discipline" */ "./CompetitionDisciplines.vue")
 
 const discipline = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./Discipline.vue")
@@ -59,10 +59,7 @@ export const root: RouteConfig[] = [
         path: "",
         props: true,
       },
-      {
-        path: "groups",
-        children: groups
-      },
+      ...groups,
     ],
   },
 ]

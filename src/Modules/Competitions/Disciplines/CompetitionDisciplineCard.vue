@@ -10,7 +10,7 @@ import { DisciplineAuth } from "./Auth"
 import { Discipline } from "./Discipline"
 
 export default Vue.extend({
-  name: "DisciplinesCard",
+  name: "CompetitionDisciplineCard",
 
   mixins: [Card],
 

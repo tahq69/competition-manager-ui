@@ -8,10 +8,10 @@ import { DisciplineAuth } from "./Auth"
 import { Discipline } from "./Discipline"
 import disciplineService from "./Service"
 
-import DisciplineCard from "./DisciplineCard.vue"
+import DisciplineCard from "./CompetitionDisciplineCard.vue"
 
 export default Vue.extend({
-  name: "Disciplines",
+  name: "CompetitionDisciplines",
 
   mixins: [CardWrapper],
 

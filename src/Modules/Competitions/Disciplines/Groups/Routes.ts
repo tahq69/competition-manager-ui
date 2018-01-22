@@ -7,7 +7,7 @@ import {
 
 /** Public routes */
 const groupsView = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./Groups.vue")
+  import(/* webpackChunkName: "cm-discipline" */ "./DisciplineGroups.vue")
 
 /** Management routes */
 const manageGroup = () =>
@@ -17,7 +17,7 @@ export const groups: RouteConfig[] = [
   {
     ...competitionDisciplineGroups,
     component: groupsView,
-    path: "",
+    path: "groups",
     props: true,
   },
 ]
