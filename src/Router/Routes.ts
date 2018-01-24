@@ -35,6 +35,7 @@ export const competitionDetails = { name: "competitionDetails" }
 export const competitionDisciplines = { name: "competitionDisciplines" }
 export const competitionDiscipline = { name: "competitionDiscipline" }
 export const competitionDisciplineGroups = { name: "competitionDisciplineGroups" }
+export const manageCompetitionDisciplineGroups = { name: "manageCompetitionDisciplineGroups" }
 export const competitionAreas = { name: "competitionAreas" }
 export const competitionArea = { name: "competitionArea" }
 

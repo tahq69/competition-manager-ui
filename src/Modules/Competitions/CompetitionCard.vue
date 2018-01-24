@@ -45,7 +45,7 @@ export default Vue.extend({
 
       <router-link v-if="canEdit"
                    :to="competition.routes.editDetails"
-                   class="btn btn-light">
+                   class="btn btn-link btn-sm btn-edit">
         {{ $t("competitions.competition_badge_edit") }}
         <i class="fa fa-pencil-square-o"></i>
       </router-link>
@@ -54,15 +54,10 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
-.competition-badge {
-  display: block;
-  margin-bottom: 15px;
-  margin-top: 15px;
-  padding-left: 15px;
-  padding-right: 15px;
+.competition-card {
   position: relative;
 
-  .badge-edit {
+  .btn-edit {
     position: absolute;
     right: 0;
     top: 0;
@@ -70,8 +65,6 @@ export default Vue.extend({
 
   label {
     display: block;
-    position: relative;
-    bottom: 0;
   }
 }
 </style>

@@ -67,24 +67,20 @@ export default Vue.extend({
       </router-link>
 
       <router-link v-if="canEdit && !create"
-                  :to="discipline.routes.edit"
-                  class="btn btn-light">
-        {{ $t("competitions.discipline_badge_edit") }}
+                   :to="discipline.routes.edit"
+                   class="btn btn-link btn-edit btn-sm">
         <i class="fa fa-pencil-square-o"></i>
+        {{ $t("competitions.discipline_badge_edit") }}
       </router-link>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-.discipline-badge {
-  display: block;
-  margin-bottom: 15px;
-  padding-left: 15px;
-  padding-right: 15px;
+.discipline-card {
   position: relative;
 
-  .badge-edit {
+  .btn-edit {
     position: absolute;
     right: 0;
     top: 0;

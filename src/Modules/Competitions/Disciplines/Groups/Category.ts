@@ -3,21 +3,23 @@ import { Location } from "vue-router"
 import { Entity } from "@/Helpers/Entity"
 import { competitionDisciplineGroups } from "@/Router/Routes"
 
-import { Category } from "./Category"
-
-export class Group extends Entity {
+export class Category extends Entity {
   public competition_id: number
+  public area_id: number
   public discipline_id: number
   public discipline_short: string
   public discipline_title: string
+  public category_group_id: number
+  public category_group_short: string
+  public category_group_title: string
   public short: string
   public title: string
   public order: number
 
-  public categories: Category[]
-
-  public createUrl = "competitions/{competition_id}/disciplines/{discipline_id}/groups"
-  public updateUrl = "competitions/{competition_id}/disciplines/{discipline_id}/groups/{id}"
+  public createUrl = "competitions/{competition_id}/disciplines/{discipline_id}" +
+    "/groups/{category_group_id}/categories"
+  public updateUrl = "competitions/{competition_id}/disciplines/{discipline_id}" +
+    "/groups/{category_group_id}/categories/{id}"
 
   constructor(data: any) {
     super()
@@ -27,7 +29,8 @@ export class Group extends Entity {
   public get routes() {
     const cm = this.competition_id.toString()
     const discipline = this.discipline_id.toString()
-    const group = this.id.toString()
+    const group = this.category_group_id.toString()
+    const category = this.id.toString()
 
     return {
       groups: {
@@ -38,29 +41,18 @@ export class Group extends Entity {
   }
 
   public updateProps(data: any) {
-    this.categories = data.categories || []
     super.updateProps(data)
 
     this.competition_id = data.competition_id
+    this.area_id = data.area_id
     this.discipline_id = data.discipline_id
     this.discipline_short = data.discipline_short
     this.discipline_title = data.discipline_title
+    this.category_group_id = data.category_group_id
+    this.category_group_short = data.category_group_short
+    this.category_group_title = data.category_group_title
     this.short = data.short
     this.title = data.title
-  }
-
-  public setCategories(categories: Category[]) {
-    this.categories = categories
-  }
-
-  public hasCategory(orderNr: number): boolean {
-    return !!this.categories.filter(c => c.order === orderNr)
-  }
-
-  public getCategory(orderNr: number): string {
-    const category = this.categories.filter(c => c.order === orderNr)[0]
-    if (!category) return ""
-
-    return category.title
+    this.order = data.order
   }
 }
