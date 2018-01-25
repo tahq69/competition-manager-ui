@@ -6,13 +6,17 @@ import { Next } from "@/types"
 import { Discipline } from "./Discipline"
 import disciplineService from "./Service"
 
+import { DisciplineAuth } from "./Auth"
 
 export default Vue.extend({
   name: "DisciplineDetails",
 
   beforeRouteEnter(to, from, next: Next<any>) {
     disciplineService
-      .fetchDiscipline({ competition_id: to.params.cm, id: to.params.discipline })
+      .fetchDiscipline({
+        competition_id: to.params.cm,
+        id: to.params.discipline,
+      })
       .then(details => next(vm => vm.setDetails(details)))
   },
 
@@ -24,6 +28,7 @@ export default Vue.extend({
   data() {
     return {
       details: {} as Discipline,
+      canEdit: false,
     }
   },
 
@@ -32,12 +37,24 @@ export default Vue.extend({
       this.details = details
     },
   },
+
+  async created() {
+    this.canEdit = await DisciplineAuth.canEdit(this.discipline, this.cm)
+  },
 })
 </script>
 
 <template>
   <div id="discipline-details"
         :class="`discipline discipline-${discipline}`">
+
+    <router-link v-if="canEdit"
+                 :to="details.routes.edit"
+                 class="btn btn-link btn-edit btn-sm">
+      <i class="fa fa-pencil-square-o"></i>
+      Edit
+    </router-link>
+
     <h2 class="card-title">{{ details.title }} <small class="text-muted">{{ details.short }}</small></h2>
     <h3 class="card-title">{{ details.type }}</h3>
 
@@ -46,3 +63,14 @@ export default Vue.extend({
   </div>
 </template>
 
+<style lang="scss">
+.discipline {
+  position: relative;
+
+  .btn-edit {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+</style>

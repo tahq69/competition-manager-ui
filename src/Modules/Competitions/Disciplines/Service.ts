@@ -13,6 +13,8 @@ interface IFetchDiscipline {
 }
 
 interface ISaveDiscipline {
+  category_group_type: string
+  category_type: string
   competition_id: Id
   description: string
   game_type: string

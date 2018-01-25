@@ -4,13 +4,17 @@ import CripSelect from "crip-vue-select"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import { manageCompetitionDiscipline } from "@/Router/Routes"
+import {
+  createCompetitionDiscipline,
+  manageCompetitionDiscipline,
+} from "@/Router/Routes"
 import { Next } from "@/types"
 
 import { Discipline } from "./Discipline"
 import disciplineService from "./Service"
 
 const editRoute = manageCompetitionDiscipline
+const createRoute = createCompetitionDiscipline
 
 export default Vue.extend({
   name: "ManageDiscipline",
@@ -21,17 +25,15 @@ export default Vue.extend({
   },
 
   beforeRouteEnter(to, from, next: Next<any>) {
+    // If we open create route, we have no data to load from API.
+    if (to.name === createRoute.name) return next()
+
+    // If we open edit route, we have to load data from API.
     const payload = { competition_id: to.params.cm, id: to.params.discipline }
 
-    if (to.name === editRoute.name) {
-      // If we open edit route, we have to load data from API.
-      disciplineService
-        .fetchDiscipline(payload)
-        .then(discipline => next(vm => vm.setDiscipline(discipline)))
-    } else {
-      // If we open create route, we have no data to load from API.
-      next()
-    }
+    disciplineService
+      .fetchDiscipline(payload)
+      .then(discipline => next(vm => vm.setDiscipline(discipline)))
   },
 
   data() {
@@ -51,6 +53,12 @@ export default Vue.extend({
         options: [
           { key: "1", text: "Kickboxing", value: "KICKBOXING" },
           { key: "2", text: "Box", value: "BOXING" },
+        ],
+      }),
+      categoryTypeSelect: new CripSelect({
+        options: [
+          { key: "1", text: "Age", value: "AGE" },
+          { key: "2", text: "Weight", value: "WEIGHT" },
         ],
       }),
     }
@@ -106,7 +114,7 @@ export default Vue.extend({
              id="title"
              v-model="form.data.title"
              name="title"
-             class="form-control">
+             :class="[{'is-invalid': form.errors.title}, 'form-control']">
     </CFormGroup>
 
     <!-- #short -->
@@ -117,7 +125,7 @@ export default Vue.extend({
              id="short"
              v-model="form.data.short"
              name="short"
-             class="form-control">
+             :class="[{'is-invalid': form.errors.short}, 'form-control']">
     </CFormGroup>
 
     <!-- #type -->
@@ -127,7 +135,32 @@ export default Vue.extend({
 
       <crip-select id="type"
                    :settings="typeSelect"
-                   v-model="form.data.type" />
+                   v-model="form.data.type"
+                   :class="{'is-invalid': form.errors.type}" />
+    </CFormGroup>
+
+    <!-- #category_group_type -->
+    <CFormGroup for="category_group_type"
+                :form="form"
+                label="Group Type">
+
+      <crip-select id="category_group_type"
+                   :settings="categoryTypeSelect"
+                   v-model="form.data.category_group_type"
+                   :disabled="isEdit"
+                   :class="{'is-invalid': form.errors.category_group_type}" />
+    </CFormGroup>
+
+    <!-- #category_type -->
+    <CFormGroup for="category_type"
+                :form="form"
+                label="Category Type">
+
+      <crip-select id="category_type"
+                   :settings="categoryTypeSelect"
+                   v-model="form.data.category_type"
+                   :disabled="isEdit"
+                   :class="{'is-invalid': form.errors.category_type}" />
     </CFormGroup>
 
     <!-- #game_type -->
@@ -137,7 +170,7 @@ export default Vue.extend({
 
       <textarea id="game_type"
                 v-model="form.data.game_type"
-                class="form-control"
+                :class="[{'is-invalid': form.errors.game_type}, 'form-control']"
                 rows="8"></textarea>
     </CFormGroup>
 
@@ -148,7 +181,7 @@ export default Vue.extend({
 
       <textarea id="description"
                 v-model="form.data.description"
-                class="form-control"
+                :class="[{'is-invalid': form.errors.description}, 'form-control']"
                 rows="8"></textarea>
     </CFormGroup>
 

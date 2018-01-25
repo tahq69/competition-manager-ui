@@ -10,12 +10,14 @@ import {
 } from "@/Router/Routes"
 
 export class Discipline extends Entity {
+  public category_group_type: string
+  public category_type: string
   public competition_id: number
-  public title: string
-  public short: string
-  public type: string
-  public game_type: string
   public description: string
+  public game_type: string
+  public short: string
+  public title: string
+  public type: string
 
   public createUrl = "competitions/{competition_id}/disciplines"
   public updateUrl = "competitions/{competition_id}/disciplines/{id}"
@@ -55,11 +57,13 @@ export class Discipline extends Entity {
   public updateProps(data: any) {
     super.updateProps(data)
 
+    this.category_group_type = data.category_group_type
+    this.category_type = data.category_type
     this.competition_id = data.competition_id
-    this.title = data.title
-    this.short = data.short
-    this.type = data.type
-    this.game_type = data.game_type
     this.description = data.description
+    this.game_type = data.game_type
+    this.short = data.short
+    this.title = data.title
+    this.type = data.type
   }
 }
