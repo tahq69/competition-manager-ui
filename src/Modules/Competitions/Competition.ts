@@ -1,15 +1,15 @@
 import { Location } from "vue-router"
 
 import { Entity } from "@/Helpers/Entity"
-import {
-  competitionAreas,
-  competitionDetails,
-  competitionDisciplines,
-  createCompetition,
-  manageCompetitionDetails,
-  manageCompetitions,
-} from "@/Router/Routes"
+import { createCompetition, manageCompetitionDetails } from "@/Router/Routes"
 import { Id } from "@/types"
+
+import { getManageCompetitionDetails } from "./Details/Routes"
+import {
+  getCompetitionAreas,
+  getCompetitionDetails,
+  getCompetitionDisciplines,
+} from "./Routes"
 
 export class Competition extends Entity {
   public ambulance: string
@@ -35,24 +35,11 @@ export class Competition extends Entity {
   }
 
   public get routes() {
-    const cm = this.id
     return {
-      details: {
-        ...competitionDetails,
-        params: { cm },
-      },
-      editDetails: {
-        ...manageCompetitionDetails,
-        params: { cm },
-      },
-      disciplines: {
-        ...competitionDisciplines,
-        params: { cm },
-      },
-      areas: {
-        ...competitionAreas,
-        params: { cm },
-      },
+      details: getCompetitionDetails(this.id),
+      editDetails: getManageCompetitionDetails(this.id),
+      disciplines: getCompetitionDisciplines(this.id),
+      areas: getCompetitionAreas(this.id),
     }
   }
 
@@ -77,6 +64,5 @@ export class Competition extends Entity {
     this.registration_till = data.registration_till
 
     // judge
-    // managers
   }
 }

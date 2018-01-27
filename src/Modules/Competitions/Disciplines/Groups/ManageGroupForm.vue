@@ -42,54 +42,65 @@ export default Vue.extend({
   <form @submit.prevent="submit()">
     <div class="form-group mb-1">
       <label class="mb-0">Full title</label>
-      <input name="title"
-             type="text"
-             v-model="form.title"
-             class="form-control form-control-sm">
+      <input
+        name="title"
+        type="text"
+        v-model="form.title"
+        class="form-control form-control-sm"
+      >
     </div>
 
     <div class="form-group mb-1">
       <label class="mb-0">Short title</label>
-      <input name="short"
-             type="text"
-             v-model="form.short"
-             class="form-control form-control-sm">
+      <input
+        name="short"
+        type="text"
+        v-model="form.short"
+        class="form-control form-control-sm"
+      >
     </div>
 
     <div class="form-group mb-1">
       <label class="mb-0">Rounds</label>
-      <input name="rounds"
-             type="number"
-             v-model="form.rounds"
-             class="form-control form-control-sm">
+      <input
+        name="rounds"
+        type="number"
+        v-model="form.rounds"
+        class="form-control form-control-sm"
+      >
     </div>
 
     <div class="form-group mb-1">
       <label class="mb-0">Time</label>
-      <input name="time"
-             type="text"
-             v-model="form.time"
-             class="form-control form-control-sm">
+      <input
+        name="time"
+        type="text"
+        v-model="form.time"
+        class="form-control form-control-sm"
+      >
     </div>
 
     <div class="form-group mb-1">
       <label class="mb-0">Minimum value</label>
-      <input name="min"
-             type="number"
-             v-model="form.min"
-             class="form-control form-control-sm">
+      <input
+        name="min"
+        type="number"
+        v-model="form.min"
+        class="form-control form-control-sm"
+      >
     </div>
 
     <div class="form-group mb-1">
       <label class="mb-0">Maximum value</label>
-      <input name="max"
-             type="number"
-             v-model="form.max"
-             class="form-control form-control-sm">
+      <input
+        name="max"
+        type="number"
+        v-model="form.max"
+        class="form-control form-control-sm"
+      >
     </div>
 
-    <button type="submit"
-            class="btn btn-primary btn-sm">
+    <button type="submit" class="btn btn-primary btn-sm">
       Add
     </button>
   </form>

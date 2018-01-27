@@ -2,7 +2,7 @@
 import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import CardWrapper from "@/Components/CardWrapper"
+import CardWrapper from "@/Components/Cards/CardWrapper"
 
 import { Competition } from "./Competition"
 import CompetitionCard from "./CompetitionCard.vue"
@@ -32,13 +32,16 @@ export default Vue.extend({
 <template>
   <div id="competitions">
     <CRow>
-      <CCol v-for="competition in competitions.items"
-            :key="competition.id"
-            :md="4"
-            :sm="6">
-        <CompetitionCard :competition="competition"
-                         :height="maxHeight"
-                         @dimensions="setupHeight" />
+      <CCol
+        v-for="competition in competitions.items"
+        :key="competition.id"
+        :md="4" :sm="6"
+      >
+        <CompetitionCard
+          :competition="competition"
+          :height="maxHeight"
+          @dimensions="setupHeight"
+        />
       </CCol>
     </CRow>
     <CRow>

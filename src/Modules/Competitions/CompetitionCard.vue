@@ -1,12 +1,18 @@
 <script lang="ts">
 import Vue from "vue"
 
-import Card from "@/Components/Card"
+import Card from "@/Components/Cards/Card"
+import EditBtn from "@/Components/EditBtn.vue"
+
+import CompetitionLink from "./Links/CompetitionLink.vue"
+
 import { CompetitionAuth } from "./Auth"
 import { Competition } from "./Competition"
 
 export default Vue.extend({
   name: "CompetitionCard",
+
+  components: { CompetitionLink, EditBtn },
 
   mixins: [Card],
 
@@ -27,9 +33,11 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div :id="`competition-${competition.id}`"
-       class="card competition-card mt-3 mb-3"
-       :style="{height: elHeight}">
+  <div
+    :id="`competition-${competition.id}`"
+    class="card competition-card mt-3 mb-3"
+    :style="{height: elHeight}"
+  >
     <div class="card-body">
       <h5 class="card-title">{{ competition.title }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">{{ competition.subtitle }}</h6>
@@ -38,17 +46,11 @@ export default Vue.extend({
         <label v-if="competition.judge_id">Judge: {{ competition.judge_name }}</label>
       </div>
 
-      <router-link :to="competition.routes.details"
-                   class="btn btn-primary">
+      <CompetitionLink :cm="competition.id" class="btn btn-primary">
         Details
-      </router-link>
+      </CompetitionLink>
 
-      <router-link v-if="canEdit"
-                   :to="competition.routes.editDetails"
-                   class="btn btn-link btn-sm btn-edit">
-        {{ $t("competitions.competition_badge_edit") }}
-        <i class="fa fa-pencil-square-o"></i>
-      </router-link>
+      <EditBtn v-if="canEdit" :to="competition.routes.editDetails" />
     </div>
   </div>
 </template>
@@ -56,12 +58,6 @@ export default Vue.extend({
 <style lang="scss">
 .competition-card {
   position: relative;
-
-  .btn-edit {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
 
   label {
     display: block;

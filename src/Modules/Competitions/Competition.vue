@@ -2,9 +2,14 @@
 import Vue from "vue"
 
 import { Competition } from "./Competition"
+import AreasLink from "./Links/AreasLink.vue"
+import CompetitionLink from "./Links/CompetitionLink.vue"
+import DisciplinesLink from "./Links/DisciplinesLink.vue"
 
 export default Vue.extend({
   name: "Competition",
+
+  components: { AreasLink, DisciplinesLink, CompetitionLink },
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -24,40 +29,28 @@ export default Vue.extend({
 
 <template>
   <CRow id="manage-competition">
-    <CCol :sm="6"
-          :md="4"
-          :lg="3">
-      Judge
-    </CCol>
+    <CCol :sm="6" :md="4" :lg="3">Judge</CCol>
 
-    <CCol :sm="6"
-          :md="8"
-          :lg="9">
+    <CCol :sm="6" :md="8" :lg="9">
       <div class="card">
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-              <router-link :to="competition.routes.details"
-                           class="nav-link"
-                           exact>
+              <CompetitionLink :cm="cm" class="nav-link">
                 {{ $t("competitions.competition_details_tab") }}
-              </router-link>
+              </CompetitionLink>
             </li>
 
             <li class="nav-item">
-              <router-link :to="competition.routes.disciplines"
-                           class="nav-link"
-                           exact>
+              <DisciplinesLink :cm="cm" class="nav-link">
                 {{ $t("competitions.competition_disciplines_tab") }}
-              </router-link>
+              </DisciplinesLink>
             </li>
 
             <li class="nav-item">
-              <router-link :to="competition.routes.areas"
-                           class="nav-link"
-                           exact>
+              <AreasLink :cm="cm" class="nav-link">
                 {{ $t("competitions.competition_areas_tab") }}
-              </router-link>
+              </AreasLink>
             </li>
           </ul>
         </div><!-- /.card-header -->

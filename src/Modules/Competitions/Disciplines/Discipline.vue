@@ -1,12 +1,20 @@
 <script lang="ts">
 import Vue from "vue"
 
+import CardActions from "@/Components/Cards/CardActions.vue"
 import { Next } from "@/types"
+
+import CompetitionLink from "../Links/CompetitionLink.vue"
+import DisciplineLink from "../Links/DisciplineLink.vue"
+import DisciplinesLink from "../Links/DisciplinesLink.vue"
+import GroupsLink from "../Links/GroupsLink.vue"
 
 import { Discipline } from "./Discipline"
 
 export default Vue.extend({
   name: "Discipline",
+
+  components: { CardActions, CompetitionLink, DisciplineLink, DisciplinesLink, GroupsLink },
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -32,40 +40,27 @@ export default Vue.extend({
        class="crip-card card discipline mb-3"
        :class="`discipline-${discipline}`">
     <div class="card-header">
+
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <router-link :to="details.routes.show"
-                       class="nav-link"
-                       exact>
-            Details
-          </router-link>
+          <DisciplineLink :cm="cm" :discipline="discipline" class="nav-link" />
         </li>
 
         <li class="nav-item">
-          <router-link :to="details.routes.groups"
-                       class="nav-link"
-                       exact>
-            Groups
-          </router-link>
+          <GroupsLink :cm="cm" :discipline="discipline" class="nav-link" />
         </li>
-      </ul>
-      <div class="card-header-tabs-actions">
-        <div class="btn-group dropleft">
-        <router-link :to="details.routes.competition"
-                      class="btn btn-light btn-sm crip-arr left"
-                      exact>
-          Competition
-        </router-link>
-        </div>
-        <router-link :to="details.routes.disciplines"
-                      class="btn btn-light btn-sm crip-arr left"
-                      exact>
-          Disciplines
-        </router-link>
-      </div>
+      </ul><!-- /.card-header-tabs -->
+
+      <CardActions>
+        <CompetitionLink :cm="cm" :action="true" />
+        <DisciplinesLink :cm="cm" :action="true" />
+      </CardActions>
+
     </div><!-- /.card-header -->
+
      <div class="card-body">
       <router-view></router-view>
      </div>
+
   </div>
 </template>

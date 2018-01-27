@@ -3,10 +3,12 @@ import { RouteConfig } from "vue-router"
 import * as roles from "@/Components/Auth/Roles"
 import {
   competitionDiscipline,
+  competitionDisciplineGroups,
   competitionDisciplines,
   createCompetitionDiscipline,
   manageCompetitionDiscipline,
 } from "@/Router/Routes"
+import { Id } from "@/types"
 
 import { groups } from "./Groups/Routes"
 
@@ -63,3 +65,17 @@ export const root: RouteConfig[] = [
     ],
   },
 ]
+
+export const getManageCompetitionDiscipline = (cmId: Id, disciplineId: Id) => {
+  return {
+    ...manageCompetitionDiscipline,
+    params: { cm: cmId.toString(), discipline: disciplineId.toString() },
+  }
+}
+
+export const getCompetitionDisciplineGroups = (cmId: Id, disciplineId: Id) => {
+  return {
+    ...competitionDisciplineGroups,
+    params: { cm: cmId.toString(), discipline: disciplineId.toString() },
+  }
+}

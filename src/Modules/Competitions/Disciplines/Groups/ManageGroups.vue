@@ -44,23 +44,19 @@ export default Vue.extend({
 
 <template>
   <CRow>
-    <CCol :lg="8">
+    <CCol :xs="12" :lg="8">
       <table class="table table-bordered">
-        <tr v-for="group in groups"
-            :key="group.i">
-          <td v-for="category in group.categories"
-              :key="category.i"></td>
+        <tr v-for="group in groups" :key="group.i">
+          <td v-for="category in group.categories" :key="category.i"></td>
           <td>
-            <button @click="createCategory(group)"
-                    class="btn btn-light">
+            <button @click="createCategory(group)" class="btn btn-light">
               + Category
             </button>
           </td>
         </tr>
         <tr>
           <td>
-            <button @click="createGroup()"
-                    class="btn btn-light">
+            <button @click="createGroup()" class="btn btn-light">
               + Group
             </button>
           </td>
@@ -68,10 +64,8 @@ export default Vue.extend({
       </table>
     </CCol>
 
-    <CCol :lg="4">
-      <GroupFrom v-if="showGroupForm"
-                 :data="actualGroup"
-                 @created="addGroup" />
+    <CCol :xs="12" :lg="4">
+      <GroupFrom v-if="showGroupForm" :data="actualGroup" @created="addGroup" />
     </CCol>
   </CRow>
 </template>

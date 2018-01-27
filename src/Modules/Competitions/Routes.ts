@@ -2,17 +2,22 @@ import { RouteConfig } from "vue-router"
 
 import * as roles from "@/Components/Auth/Roles"
 import {
-  competitions as competitionsRoute,
+  competitionAreas,
+  competitionDetails,
+  competitionDiscipline,
+  competitionDisciplines,
+  competitions,
   createCompetition,
   manageCompetitions,
 } from "@/Router/Routes"
+import { Id } from "@/types"
 
 import areas from "./Areas/Routes"
 import { details, root as detailsRoot } from "./Details/Routes"
 import { disciplines, root as disciplinesRoot } from "./Disciplines/Routes"
 
 /** Public routes */
-const competitions = () =>
+const competitionsView = () =>
   import(/* webpackChunkName: "cm" */ "./Competitions.vue")
 
 const competition = () =>
@@ -22,7 +27,7 @@ const competition = () =>
 const manageCms = () =>
   import(/* webpackChunkName: "cm" */ "./ManageCompetitions.vue")
 
-const routes: RouteConfig[] = [
+export const root: RouteConfig[] = [
   {
     ...manageCompetitions,
     component: manageCms,
@@ -31,8 +36,8 @@ const routes: RouteConfig[] = [
       "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   },
   {
-    ...competitionsRoute,
-    component: competitions,
+    ...competitions,
+    component: competitionsView,
     path: "/competitions/:page(\\d+)?",
   },
   {
@@ -52,4 +57,30 @@ const routes: RouteConfig[] = [
   ...disciplinesRoot,
 ]
 
-export default routes
+export const getCompetitionDetails = (cmId: Id) => {
+  return {
+    ...competitionDetails,
+    params: { cm: cmId.toString() },
+  }
+}
+
+export const getCompetitionDisciplines = (cmId: Id) => {
+  return {
+    ...competitionDisciplines,
+    params: { cm: cmId.toString() },
+  }
+}
+
+export const getCompetitionAreas = (cmId: Id) => {
+  return {
+    ...competitionAreas,
+    params: { cm: cmId.toString() },
+  }
+}
+
+export const getCompetitionDiscipline = (cmId: Id, disciplineId: Id) => {
+  return {
+    ...competitionDiscipline,
+    params: { cm: cmId.toString(), discipline: disciplineId.toString() },
+  }
+}

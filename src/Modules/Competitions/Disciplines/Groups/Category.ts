@@ -1,7 +1,8 @@
 import { Location } from "vue-router"
 
 import { Entity } from "@/Helpers/Entity"
-import { competitionDisciplineGroups } from "@/Router/Routes"
+
+import { getCompetitionDisciplineGroups } from "../Routes"
 
 export class Category extends Entity {
   public competition_id: number
@@ -27,16 +28,12 @@ export class Category extends Entity {
   }
 
   public get routes() {
-    const cm = this.competition_id.toString()
-    const discipline = this.discipline_id.toString()
-    const group = this.category_group_id.toString()
-    const category = this.id.toString()
+    const cm = this.competition_id
+    const discipline = this.discipline_id
+    const group = this.category_group_id
 
     return {
-      groups: {
-        ...competitionDisciplineGroups,
-        params: { cm, discipline },
-      },
+      groups: getCompetitionDisciplineGroups(cm, discipline),
     }
   }
 

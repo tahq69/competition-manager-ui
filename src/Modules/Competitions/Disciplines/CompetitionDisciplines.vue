@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue"
 
-import CardWrapper from "@/Components/CardWrapper"
+import CardWrapper from "@/Components/Cards/CardWrapper"
 import { Next } from "@/types"
 
 import { DisciplineAuth } from "./Auth"
@@ -50,19 +50,18 @@ export default Vue.extend({
 
 <template>
   <CRow id="disciplines">
-    <CCol v-for="discipline in disciplines"
-          :key="discipline.id"
-          :sm="6">
-      <DisciplineCard :cm="cm"
-                      :discipline="discipline"
-                      :height="maxHeight"
-                      @dimensions="setupHeight" />
+    <CCol
+      v-for="discipline in disciplines"
+      :key="discipline.id" :sm="6"
+    >
+      <DisciplineCard
+        :cm="cm" :discipline="discipline"
+        :height="maxHeight" @dimensions="setupHeight"
+      />
     </CCol>
 
-    <CCol v-if="canCreate"
-          :sm="6">
-      <DisciplineCard :cm="cm"
-                      :create="true" />
+    <CCol v-if="canCreate" :sm="6">
+      <DisciplineCard :cm="cm" :create="true" />
     </CCol>
   </CRow>
 </template>

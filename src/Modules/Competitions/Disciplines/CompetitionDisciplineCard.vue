@@ -2,15 +2,20 @@
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import Card from "@/Components/Card"
+import Card from "@/Components/Cards/Card"
+import EditBtn from "@/Components/EditBtn.vue"
 import { createCompetitionDiscipline } from "@/Router/Routes"
 import { Id, Next } from "@/types"
+
+import DisciplineLink from "../Links/DisciplineLink.vue"
 
 import { DisciplineAuth } from "./Auth"
 import { Discipline } from "./Discipline"
 
 export default Vue.extend({
   name: "CompetitionDisciplineCard",
+
+  components: { DisciplineLink, EditBtn },
 
   mixins: [Card],
 
@@ -44,34 +49,26 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div class="discipline-card card mt-3 mb-3"
-       :style="{height: elHeight}">
+  <div class="discipline-card card mt-3 mb-3" :style="{height: elHeight}">
 
     <div class="card-body">
-      <h5 v-if="!create"
-          class="card-title">{{ discipline.title }}</h5>
-      <h6 v-if="!create"
-          class="card-subtitle mb-2 text-muted">{{ discipline.short }}</h6>
+      <h5 v-if="!create" class="card-title">{{ discipline.title }}</h5>
+      <h6 v-if="!create" class="card-subtitle mb-2 text-muted">{{ discipline.short }}</h6>
 
-      <router-link v-else
-                    :to="newDiscipline"
-                    title="Add new discipline"
-                    class="btn btn-lg btn-block">
-        <i class="fa fa-plus-square-o fa-2x"></i>
-      </router-link>
+      <router-link
+        v-else
+        :to="newDiscipline"
+        title="Add new discipline"
+        class="btn btn-lg btn-block"
+      ><i class="fa fa-plus-square-o fa-2x"></i></router-link>
 
-      <router-link v-if="!create"
-                   :to="discipline.routes.show"
-                   class="btn btn-primary">
-        Details
-      </router-link>
+      <DisciplineLink
+        v-if="!create"
+        :cm="cm" :discipline="discipline.id"
+        class="btn btn-primary"
+      />
 
-      <router-link v-if="canEdit && !create"
-                   :to="discipline.routes.edit"
-                   class="btn btn-link btn-edit btn-sm">
-        <i class="fa fa-pencil-square-o"></i>
-        {{ $t("competitions.discipline_badge_edit") }}
-      </router-link>
+      <EditBtn v-if="canEdit && !create" :to="discipline.routes.edit" />
     </div>
   </div>
 </template>
@@ -79,11 +76,5 @@ export default Vue.extend({
 <style lang="scss">
 .discipline-card {
   position: relative;
-
-  .btn-edit {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
 }
 </style>
