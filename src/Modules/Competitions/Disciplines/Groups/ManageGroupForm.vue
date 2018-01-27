@@ -1,36 +1,42 @@
 <script lang="ts">
+import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
+
+import { Group } from "./Group"
+import groupService from "./Service"
 
 export default Vue.extend({
   name: "ManageGroupForm",
 
   props: {
-    defaults: { type: Object, required: false },
+    cm: { type: [String, Number], required: true },
+    discipline: { type: [String, Number], required: true },
   },
 
   data() {
     return {
-      form: {
-        title: "",
-        short: "",
-        rounds: 0,
-        time: 0,
-        min: 0,
-        max: 0,
-      },
+      form: new Form(
+        new Group({
+          competition_id: this.cm,
+          discipline_id: this.discipline,
+          max: 0,
+          min: 0,
+          rounds: 0,
+          short: "",
+          time: 0,
+          title: "",
+        }),
+      ),
     }
   },
 
   methods: {
-    submit() {
-      this.$emit("submit", Object.assign({}, this.defaults, this.form))
-      this.form = {
-        title: "",
-        short: "",
-        rounds: 0,
-        time: 0,
-        min: 0,
-        max: 0,
+    async submit() {
+      try {
+        const group = await groupService.saveGroup(this.form.data)
+        this.$emit("saved", group)
+      } catch (errors) {
+        this.form.addErrors(errors)
       }
     },
   },
@@ -39,69 +45,126 @@ export default Vue.extend({
 
 
 <template>
-  <form @submit.prevent="submit()">
-    <div class="form-group mb-1">
-      <label class="mb-0">Full title</label>
+  <form @submit.prevent="submit">
+    <!-- #title -->
+    <CFormGroup
+      for="title"
+      :form="form"
+      label="Full title"
+      :xs="12" :sm="12" :md="12" :compact="true"
+    >
       <input
+        type="text"
+        id="title"
+        v-model="form.data.title"
         name="title"
-        type="text"
-        v-model="form.title"
-        class="form-control form-control-sm"
+        :class="[
+          {'is-invalid': form.errors.title},
+          'form-control', 'form-control-sm'
+        ]"
       >
-    </div>
+    </CFormGroup>
 
-    <div class="form-group mb-1">
-      <label class="mb-0">Short title</label>
+    <!-- #short -->
+    <CFormGroup
+      for="short"
+      :form="form"
+      label="Short title"
+      :xs="12" :sm="12" :md="12" :compact="true"
+    >
       <input
+        type="text"
+        id="short"
+        v-model="form.data.short"
         name="short"
-        type="text"
-        v-model="form.short"
-        class="form-control form-control-sm"
+        :class="[
+          {'is-invalid': form.errors.short},
+          'form-control', 'form-control-sm'
+        ]"
       >
-    </div>
+    </CFormGroup>
 
-    <div class="form-group mb-1">
-      <label class="mb-0">Rounds</label>
+    <!-- #rounds -->
+    <CFormGroup
+      for="rounds"
+      :form="form"
+      label="Rounds"
+      :xs="12" :sm="12" :md="12" :compact="true"
+    >
       <input
+        type="number"
+        id="rounds"
+        v-model="form.data.rounds"
         name="rounds"
-        type="number"
-        v-model="form.rounds"
-        class="form-control form-control-sm"
+        :class="[
+          {'is-invalid': form.errors.rounds},
+          'form-control', 'form-control-sm'
+        ]"
       >
-    </div>
+    </CFormGroup>
 
-    <div class="form-group mb-1">
-      <label class="mb-0">Time</label>
+    <!-- #time -->
+    <CFormGroup
+      for="time"
+      :form="form"
+      label="Round time"
+      :xs="12" :sm="12" :md="12" :compact="true"
+    >
       <input
+        type="number"
+        id="time"
+        v-model="form.data.time"
         name="time"
-        type="text"
-        v-model="form.time"
-        class="form-control form-control-sm"
+        :class="[
+          {'is-invalid': form.errors.time},
+          'form-control', 'form-control-sm'
+        ]"
       >
-    </div>
+    </CFormGroup>
 
-    <div class="form-group mb-1">
-      <label class="mb-0">Minimum value</label>
+    <!-- #min -->
+    <CFormGroup
+      for="min"
+      :form="form"
+      label="Minimum value"
+      :xs="12" :sm="12" :md="12" :compact="true"
+    >
       <input
+        type="number"
+        id="min"
+        v-model="form.data.min"
         name="min"
-        type="number"
-        v-model="form.min"
-        class="form-control form-control-sm"
+        :class="[
+          {'is-invalid': form.errors.min},
+          'form-control', 'form-control-sm'
+        ]"
       >
-    </div>
+    </CFormGroup>
 
-    <div class="form-group mb-1">
-      <label class="mb-0">Maximum value</label>
+    <!-- #max -->
+    <CFormGroup
+      for="max"
+      :form="form"
+      label="Maximum value"
+      :xs="12" :sm="12" :md="12" :compact="true"
+    >
       <input
-        name="max"
         type="number"
-        v-model="form.max"
-        class="form-control form-control-sm"
+        id="max"
+        v-model="form.data.max"
+        name="max"
+        :class="[
+          {'is-invalid': form.errors.max},
+          'form-control', 'form-control-sm'
+        ]"
       >
-    </div>
+    </CFormGroup>
 
-    <button type="submit" class="btn btn-primary btn-sm">
-      Add
-    </button>
+    <!-- #submit -->
+    <CFormGroup :xs="12" :sm="12" :md="12">
+      <button id="submit" type="submit" class="btn btn-primary btn-sm">
+        Save
+      </button>
+    </CFormGroup>
   </form>
 </template>

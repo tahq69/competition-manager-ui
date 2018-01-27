@@ -10,6 +10,11 @@ export default Vue.extend({
 
   components: { GroupFrom },
 
+  props: {
+    cm: { type: [Number, String], required: true },
+    discipline: { type: [Number, String], required: true },
+  },
+
   data() {
     return {
       groups: [] as any[],
@@ -28,7 +33,7 @@ export default Vue.extend({
       this.actualGroup = group
     },
 
-    addGroup(group: any) {
+    onGroupSaved(group: any) {
       this.groups.push(Object.assign({ i: ++i }, group))
       this.showGroupForm = false
     },
@@ -65,7 +70,11 @@ export default Vue.extend({
     </CCol>
 
     <CCol :xs="12" :lg="4">
-      <GroupFrom v-if="showGroupForm" :data="actualGroup" @created="addGroup" />
+      <GroupFrom
+        v-if="showGroupForm"
+        :cm="cm" :discipline="discipline"
+        @saved="onGroupSaved"
+      />
     </CCol>
   </CRow>
 </template>

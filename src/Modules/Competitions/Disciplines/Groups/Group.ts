@@ -11,9 +11,14 @@ export class Group extends Entity {
   public discipline_id: number
   public discipline_short: string
   public discipline_title: string
-  public short: string
-  public title: string
+  public max: number
+  public min: number
   public order: number
+  public rounds: number
+  public short: string
+  public time: number
+  public title: string
+  public type: string
 
   public categories: Category[]
 
@@ -42,8 +47,14 @@ export class Group extends Entity {
     this.discipline_id = data.discipline_id
     this.discipline_short = data.discipline_short
     this.discipline_title = data.discipline_title
+    this.max = data.max
+    this.min = data.min
+    this.order = data.order
+    this.rounds = data.rounds
     this.short = data.short
+    this.time = data.time
     this.title = data.title
+    this.type = data.type
   }
 
   public setCategories(categories: Category[]) {

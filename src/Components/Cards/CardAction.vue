@@ -35,6 +35,6 @@ export default Vue.extend({
     :to="to"
     :class="classes"
   >
-    <slot><!-- default slot --></slot>
+    &nbsp;<slot><!-- default slot --></slot>&nbsp;
   </router-link>
 </template>

@@ -22,11 +22,16 @@ interface IFetchGroup {
 }
 
 interface ISaveGroup {
+  id: Id
   competition_id: Id
   discipline_id: Id
-  id: Id
+  max: number
+  min: number
+  rounds: number
   short: string
+  time: number
   title: string
+  type: string
 }
 
 class GroupService extends Service {
@@ -55,7 +60,7 @@ class GroupService extends Service {
     })
   }
 
-  public async saveDiscipline(payload: ISaveGroup): Promise<Group> {
+  public async saveGroup(payload: ISaveGroup): Promise<Group> {
     return await this.safeContext(async (http, api) => {
       const entity = new Group(payload)
       return this.save(entity)
