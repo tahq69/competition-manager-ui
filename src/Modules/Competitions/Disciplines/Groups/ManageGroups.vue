@@ -1,14 +1,27 @@
 <script lang="ts">
 import Vue from "vue"
 
-import GroupFrom from "./ManageGroupForm.vue"
+import { Id, Next } from "@/types"
 
-let i = 0
+import { Category } from "./Category"
+import { Group } from "./Group"
+import GroupFrom from "./ManageGroupForm.vue"
+import groupService from "./Service"
 
 export default Vue.extend({
   name: "ManageGroups",
 
   components: { GroupFrom },
+
+  beforeRouteEnter(to, from, next: Next<any>) {
+    const payload = {
+      competition_id: to.params.cm,
+      discipline_id: to.params.discipline,
+    }
+    groupService
+      .fetchGroups(payload)
+      .then(groups => next(vm => vm.setGroups(groups)))
+  },
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -17,28 +30,48 @@ export default Vue.extend({
 
   data() {
     return {
-      groups: [] as any[],
+      groups: [] as Group[],
+      groupId: 0 as Id,
       showGroupForm: false,
-      actualGroup: {} as any,
     }
   },
 
   methods: {
+    async setGroups(groups: Group[]): Promise<void> {
+      this.groups = groups
+    },
+
     createGroup() {
       this.showGroupForm = true
+      this.groupId = 0
     },
 
-    createCategory(group: any) {
+    editGroup(id: Id) {
+      this.showGroupForm = true
+      this.groupId = id
+    },
+
+    createCategory(group: Group) {
       this.showGroupForm = false
-      this.actualGroup = group
     },
 
-    onGroupSaved(group: any) {
-      this.groups.push(Object.assign({ i: ++i }, group))
+    onGroupSaved(group: Group) {
       this.showGroupForm = false
+      const existing = this.groups.filter(
+        g => g.id.toString() === group.id.toString(),
+      )
+
+      // If item does not exist in grid, add it.
+      if (existing.length === 0) {
+        this.groups.push(group)
+        return
+      }
+
+      // If exists, update its value.
+      Object.assign(existing[0], group)
     },
 
-    addCategory(category: any) {
+    onCategorySaved(category: any) {
       /*
       this.groups.push(Object.assign({ i: ++i }, category))
       this.showGroupForm = false*/
@@ -51,8 +84,13 @@ export default Vue.extend({
   <CRow>
     <CCol :xs="12" :lg="8">
       <table class="table table-bordered">
-        <tr v-for="group in groups" :key="group.i">
-          <td v-for="category in group.categories" :key="category.i"></td>
+        <tr v-for="group in groups" :key="group.id">
+          <td>
+            <button @click="editGroup(group.id)" class="btn btn-light">
+              {{ group.short }}
+            </button>
+          </td>
+          <td v-for="category in group.categories" :key="category.id"></td>
           <td>
             <button @click="createCategory(group)" class="btn btn-light">
               + Category
@@ -72,7 +110,7 @@ export default Vue.extend({
     <CCol :xs="12" :lg="4">
       <GroupFrom
         v-if="showGroupForm"
-        :cm="cm" :discipline="discipline"
+        :cm="cm" :discipline="discipline" :group="groupId"
         @saved="onGroupSaved"
       />
     </CCol>

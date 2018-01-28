@@ -2,13 +2,14 @@ import { Location } from "vue-router"
 
 import { Entity } from "@/Helpers/Entity"
 import { competitionDisciplineGroups } from "@/Router/Routes"
+import { Id } from "@/types"
 
 import { getCompetitionDisciplineGroups } from "../Routes"
 import { Category } from "./Category"
 
 export class Group extends Entity {
-  public competition_id: number
-  public discipline_id: number
+  public competition_id: Id
+  public discipline_id: Id
   public discipline_short: string
   public discipline_title: string
   public max: number

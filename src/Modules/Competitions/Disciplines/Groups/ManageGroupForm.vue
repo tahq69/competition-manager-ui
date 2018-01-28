@@ -2,6 +2,8 @@
 import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 
+import { Id } from "@/types"
+
 import { Group } from "./Group"
 import groupService from "./Service"
 
@@ -11,6 +13,7 @@ export default Vue.extend({
   props: {
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
+    group: { type: [String, Number], required: true },
   },
 
   data() {
@@ -38,6 +41,61 @@ export default Vue.extend({
       } catch (errors) {
         this.form.addErrors(errors)
       }
+    },
+
+    reset() {
+      this.form.data.competition_id = this.cm
+      this.form.data.discipline_id = this.discipline
+      this.form.data.max = 0
+      this.form.data.min = 0
+      this.form.data.rounds = 0
+      this.form.data.short = ""
+      this.form.data.time = 0
+      this.form.data.title = ""
+      this.form.data.id = 0
+    },
+
+    update(group: Group) {
+      this.form.data.competition_id = group.competition_id
+      this.form.data.discipline_id = group.discipline_id
+      this.form.data.max = group.max
+      this.form.data.min = group.min
+      this.form.data.rounds = group.rounds
+      this.form.data.short = group.short
+      this.form.data.time = group.time
+      this.form.data.title = group.title
+      this.form.data.id = group.id
+    },
+
+    fetchGroup(id: Id) {
+      groupService
+        .fetchGroup({
+          competition_id: this.cm,
+          discipline_id: this.discipline,
+          id,
+        })
+        .then(group => this.update(group))
+    },
+  },
+
+  created() {
+    this.log = this.$logger.component(this)
+    if (this.group > 0) this.fetchGroup(this.group)
+  },
+
+  watch: {
+    group(newId: Id, oldId: Id) {
+      this.log("watch:group()", { newId, oldId })
+
+      // Reset form data to default if new id is 0.
+      if (newId < 1) {
+        this.reset()
+        return
+      }
+
+      // Fetch data from api and set it to form if new value is existing group
+      // identifier.
+      this.fetchGroup(newId)
     },
   },
 })
