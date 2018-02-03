@@ -5,13 +5,14 @@ import { Id, Next } from "@/types"
 
 import { Category } from "./Category"
 import { Group } from "./Group"
+import GroupText from "./GroupText.vue"
 import GroupFrom from "./ManageGroupForm.vue"
 import groupService from "./Service"
 
 export default Vue.extend({
   name: "ManageGroups",
 
-  components: { GroupFrom },
+  components: { GroupFrom, GroupText },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     const payload = {
@@ -67,8 +68,17 @@ export default Vue.extend({
         return
       }
 
-      // If exists, update its value.
+      // If exists, update it's value.
       Object.assign(existing[0], group)
+    },
+
+    onGroupDeleted(id: Id) {
+      this.showGroupForm = false
+      for (let i = this.groups.length - 1; i >= 0; --i) {
+        if (this.groups[i].id.toString() === id.toString()) {
+          this.groups.splice(i, 1)
+        }
+      }
     },
 
     onCategorySaved(category: any) {
@@ -87,7 +97,7 @@ export default Vue.extend({
         <tr v-for="group in groups" :key="group.id">
           <td>
             <button @click="editGroup(group.id)" class="btn btn-light">
-              {{ group.short }}
+              <GroupText :group="group" :short="true" />
             </button>
           </td>
           <td v-for="category in group.categories" :key="category.id"></td>
@@ -109,9 +119,9 @@ export default Vue.extend({
 
     <CCol :xs="12" :lg="4">
       <GroupFrom
-        v-if="showGroupForm"
-        :cm="cm" :discipline="discipline" :group="groupId"
-        @saved="onGroupSaved"
+        v-if="showGroupForm" :cm="cm"
+        :discipline="discipline" :group="groupId"
+        @saved="onGroupSaved" @deleted="onGroupDeleted"
       />
     </CCol>
   </CRow>

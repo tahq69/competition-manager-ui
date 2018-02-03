@@ -15,6 +15,12 @@ interface IFetchCategories {
   category_group_id: Id
 }
 
+interface IDeleteGroup {
+  competition_id: Id
+  discipline_id: Id
+  id: Id
+}
+
 interface IFetchGroup {
   competition_id: Id
   discipline_id: Id
@@ -64,6 +70,13 @@ class GroupService extends Service {
     return await this.safeContext(async (http, api) => {
       const entity = new Group(payload)
       return this.save(entity)
+    })
+  }
+
+  public async deleteGroup(payload: IDeleteGroup): Promise<void> {
+    await this.safeContext(async (http, api) => {
+      const entity = new Group(payload)
+      this.delete(entity)
     })
   }
 

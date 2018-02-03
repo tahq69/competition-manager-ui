@@ -1,4 +1,5 @@
 import http, { AxiosStatic as Axios } from "axios"
+import Vue from "vue"
 
 import { User } from "@/Components/Auth/User"
 import { Api } from "@/Helpers/Api"
@@ -45,6 +46,12 @@ export class Service {
     entity.updateProps(data)
 
     return entity
+  }
+
+  protected async delete<T extends Entity>(entity: T): Promise<void> {
+    const url = Api.url(entity.updateUrl, { urlReplace: entity })
+    const { data } = await http.delete(url)
+    Vue.logger.log(`Deleted ${url} [${data}]`)
   }
 
   /**
