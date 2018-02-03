@@ -6,13 +6,14 @@ import { Id, Next } from "@/types"
 import { Category } from "./Category"
 import { Group } from "./Group"
 import GroupText from "./GroupText.vue"
+import CategoryFrom from "./ManageCategoryForm.vue"
 import GroupFrom from "./ManageGroupForm.vue"
 import groupService from "./Service"
 
 export default Vue.extend({
   name: "ManageGroups",
 
-  components: { GroupFrom, GroupText },
+  components: { CategoryFrom, GroupFrom, GroupText },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     const payload = {
@@ -33,7 +34,9 @@ export default Vue.extend({
     return {
       groups: [] as Group[],
       groupId: 0 as Id,
+      categoryId: 0 as Id,
       showGroupForm: false,
+      showCategoryForm: false,
     }
   },
 
@@ -44,16 +47,30 @@ export default Vue.extend({
 
     createGroup() {
       this.showGroupForm = true
+      this.showCategoryForm = false
       this.groupId = 0
-    },
-
-    editGroup(id: Id) {
-      this.showGroupForm = true
-      this.groupId = id
+      this.categoryId = 0
     },
 
     createCategory(group: Group) {
       this.showGroupForm = false
+      this.showCategoryForm = true
+      this.groupId = group.id
+      this.categoryId = 0
+    },
+
+    editGroup(id: Id) {
+      this.showGroupForm = true
+      this.showCategoryForm = false
+      this.groupId = id
+      this.categoryId = 0
+    },
+
+    editCategory(groupId: Id, categoryId: Id) {
+      this.showGroupForm = false
+      this.showCategoryForm = true
+      this.groupId = groupId
+      this.categoryId = categoryId
     },
 
     onGroupSaved(group: Group) {
@@ -81,10 +98,37 @@ export default Vue.extend({
       }
     },
 
-    onCategorySaved(category: any) {
-      /*
-      this.groups.push(Object.assign({ i: ++i }, category))
-      this.showGroupForm = false*/
+    onCategorySaved(groupId: Id, category: Category) {
+      this.showGroupForm = false
+      const group = this.findGroup(groupId)
+
+      const existing = group.categories.filter(
+        c => c.id.toString() === category.id.toString(),
+      )
+
+      // If item does not exist in grid, add it.
+      if (existing.length === 0) {
+        group.categories.push(category)
+        return
+      }
+
+      // If exists, update it's value.
+      Object.assign(existing[0], category)
+    },
+
+    onCategoryDeleted(groupId: Id, categoryId: Id) {
+      this.showCategoryForm = false
+      const group = this.findGroup(groupId)
+
+      for (let i = group.categories.length - 1; i >= 0; --i) {
+        if (group.categories[i].id.toString() === categoryId.toString()) {
+          group.categories.splice(i, 1)
+        }
+      }
+    },
+
+    findGroup(id: Id) {
+      return this.groups.filter(g => g.id.toString() === id.toString())[0]
     },
   },
 })
@@ -100,7 +144,11 @@ export default Vue.extend({
               <GroupText :group="group" :short="true" />
             </button>
           </td>
-          <td v-for="category in group.categories" :key="category.id"></td>
+          <td v-for="category in group.categories" :key="category.id">
+            <button @click="editCategory(group.id, category.id)" class="btn btn-light">
+              {{ category.shortText }}
+            </button>
+          </td>
           <td>
             <button @click="createCategory(group)" class="btn btn-light">
               + Category
@@ -122,6 +170,12 @@ export default Vue.extend({
         v-if="showGroupForm" :cm="cm"
         :discipline="discipline" :group="groupId"
         @saved="onGroupSaved" @deleted="onGroupDeleted"
+      />
+
+      <CategoryFrom
+        v-if="showCategoryForm" :cm="cm"
+        :discipline="discipline" :group="groupId" :category="categoryId"
+        @saved="onCategorySaved" @deleted="onCategoryDeleted"
       />
     </CCol>
   </CRow>

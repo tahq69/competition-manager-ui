@@ -1,21 +1,34 @@
 import { Location } from "vue-router"
 
 import { Entity } from "@/Helpers/Entity"
+import { Id } from "@/types"
 
 import { getCompetitionDisciplineGroups } from "../Routes"
 
+
+
+export enum DisplayType {
+  Min = "MIN",
+  Max = "MAX",
+  Both = "BOTH",
+}
+
 export class Category extends Entity {
-  public competition_id: number
-  public area_id: number
-  public discipline_id: number
-  public discipline_short: string
-  public discipline_title: string
-  public category_group_id: number
+  public area_id: Id
+  public category_group_id: Id
   public category_group_short: string
   public category_group_title: string
+  public competition_id: Id
+  public discipline_id: Id
+  public discipline_short: string
+  public discipline_title: string
+  public display_type: DisplayType
+  public max: number
+  public min: number
+  public order: number
   public short: string
   public title: string
-  public order: number
+  public type: string
 
   public createUrl = "competitions/{competition_id}/disciplines/{discipline_id}" +
     "/groups/{category_group_id}/categories"
@@ -40,16 +53,20 @@ export class Category extends Entity {
   public updateProps(data: any) {
     super.updateProps(data)
 
-    this.competition_id = data.competition_id
     this.area_id = data.area_id
-    this.discipline_id = data.discipline_id
-    this.discipline_short = data.discipline_short
-    this.discipline_title = data.discipline_title
     this.category_group_id = data.category_group_id
     this.category_group_short = data.category_group_short
     this.category_group_title = data.category_group_title
+    this.competition_id = data.competition_id
+    this.discipline_id = data.discipline_id
+    this.discipline_short = data.discipline_short
+    this.discipline_title = data.discipline_title
+    this.display_type = data.display_type
+    this.max = data.max
+    this.min = data.min
+    this.order = data.order
     this.short = data.short
     this.title = data.title
-    this.order = data.order
+    this.type = data.type
   }
 }
