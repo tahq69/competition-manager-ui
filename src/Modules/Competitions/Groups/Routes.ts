@@ -43,24 +43,28 @@ export const groups: RouteConfig[] = [
       {
         ...createCompetitionDisciplineGroup,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
+        component: manageGroup,
         path: "new",
         props: true,
       },
       {
         ...manageCompetitionDisciplineGroup,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
+        component: manageGroup,
         path: ":group(\\d+)/edit",
         props: true,
       },
       {
         ...createCompetitionDisciplineCategory,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
+        component: manageCategory,
         path: ":group(\\d+)/category/new",
         props: true,
       },
       {
         ...manageCompetitionDisciplineCategory,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
+        component: manageCategory,
         path: ":group(\\d+)/category/:category(\\d+)/edit",
         props: true,
       },
@@ -84,7 +88,7 @@ export const getCreateGroup = (p: { cm: Id, discipline: Id }) => {
 
 export const getManageGroup = (p: { cm: Id, discipline: Id, group: Id }) => {
   return {
-    ...createCompetitionDisciplineGroup,
+    ...manageCompetitionDisciplineGroup,
     params: convertParams(p),
   }
 }

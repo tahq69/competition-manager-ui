@@ -1,12 +1,24 @@
 <script lang="ts">
 import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
+import { Route } from "vue-router"
 
-import { Id } from "@/types"
+import Events from "@/Helpers/Events"
+import { createCompetitionDisciplineCategory as createRoute } from "@/Router/Routes"
+import { Id, Next } from "@/types"
 
 import { Category, DisplayType } from "./Category"
 import { Group } from "./Group"
 import groupService from "./Service"
+
+function createPayload(route: Route) {
+  return {
+    competition_id: route.params.cm,
+    discipline_id: route.params.discipline,
+    category_group_id: route.params.group,
+    id: route.params.category,
+  }
+}
 
 export default Vue.extend({
   name: "ManageCategoryForm",
@@ -16,6 +28,33 @@ export default Vue.extend({
     discipline: { type: [String, Number], required: true },
     group: { type: [String, Number], required: true },
     category: { type: [String, Number], required: true },
+  },
+
+  beforeRouteEnter(to, from, next: Next<any>) {
+    // If we open create route, we have no data to load from API.
+    if (to.name === createRoute.name) return next(vm => vm.reset())
+
+    // If we open edit route, we have to load data from API.
+    const payload = createPayload(to)
+
+    groupService
+      .fetchCategory(payload)
+      .then(category => next(vm => vm.update(category)))
+  },
+
+  beforeRouteUpdate(to, from, next: Next<any>) {
+    // User may have option to change route in runtime. In this case we should
+    // update form data.
+    if (to.name === createRoute.name) {
+      this.reset()
+      return next()
+    }
+
+    const payload = createPayload(to)
+    groupService.fetchCategory(payload).then(category => {
+      this.update(category)
+      next()
+    })
   },
 
   data() {
@@ -38,9 +77,10 @@ export default Vue.extend({
 
   methods: {
     async submit() {
+      this.form.clearErrors()
       try {
         const category = await groupService.saveCategory(this.form.data)
-        this.$emit("saved", category)
+        Events.$emit("cm:category:saved", category)
       } catch (errors) {
         this.form.addErrors(errors)
       }
@@ -48,7 +88,7 @@ export default Vue.extend({
 
     async destroy() {
       await groupService.deleteCategory(this.form.data)
-      this.$emit("deleted", this.form.data.id)
+      Events.$emit("cm:category:deleted", this.form.data.id)
     },
 
     reset() {
@@ -74,38 +114,6 @@ export default Vue.extend({
       this.form.data.display_type = category.display_type
       this.form.data.id = category.id
     },
-
-    fetchCategory(id: Id) {
-      groupService
-        .fetchCategory({
-          category_group_id: this.group,
-          competition_id: this.cm,
-          discipline_id: this.discipline,
-          id,
-        })
-        .then(category => this.update(category))
-    },
-  },
-
-  created() {
-    this.log = this.$logger.component(this)
-    if (this.category > 0) this.fetchCategory(this.category)
-  },
-
-  watch: {
-    category(newId: Id, oldId: Id) {
-      this.log("watch:category()", { newId, oldId })
-
-      // Reset form data to default if new id is 0.
-      if (newId < 1) {
-        this.reset()
-        return
-      }
-
-      // Fetch data from api and set it to form if new value is existing
-      // category identifier.
-      this.fetchCategory(newId)
-    },
   },
 })
 </script>
@@ -114,77 +122,53 @@ export default Vue.extend({
 <template>
   <form @submit.prevent="submit">
     <!-- #title -->
-    <CFormGroup
-      for="title" :form="form" label="Full title"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="title" :form="form" label="Full title">
       <input
         type="text" id="title" name="title"
         v-model="form.data.title"
-        :class="[
-          {'is-invalid': form.errors.title},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.title}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #short -->
-    <CFormGroup
-      for="short" :form="form" label="Short title"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="short" :form="form" label="Short title">
       <input
         type="text" id="short" name="short"
         v-model="form.data.short"
-        :class="[
-          {'is-invalid': form.errors.short},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.short}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #min -->
-    <CFormGroup
-      for="min" :form="form" label="Minimum value"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="min" :form="form" label="Minimum value">
       <input
         type="number" id="min" name="min"
         v-model="form.data.min"
-        :class="[
-          {'is-invalid': form.errors.min},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.min}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #max -->
-    <CFormGroup
-      for="max" :form="form" label="Maximum value"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="max" :form="form" label="Maximum value">
       <input
         type="number" id="max" name="max"
         v-model="form.data.max"
-        :class="[
-          {'is-invalid': form.errors.max},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.max}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #submit -->
-    <CFormGroup :xs="12" :sm="12" :md="12">
+    <CFormGroup>
       <button
         id="submit" type="submit"
-        class="btn btn-primary btn-sm"
+        class="btn btn-primary"
       >
         Save
       </button>
 
       <button
         v-if="form.data.id > 0" type="button"
-        @click="destroy" class="btn btn-danger btn-sm"
+        @click="destroy" class="btn btn-danger"
       >
         Delete
       </button>

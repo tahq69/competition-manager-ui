@@ -1,11 +1,22 @@
 <script lang="ts">
 import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
+import { Route } from "vue-router"
 
-import { Id } from "@/types"
+import Events from "@/Helpers/Events"
+import { createCompetitionDisciplineGroup as createRoute } from "@/Router/Routes"
+import { Id, Next } from "@/types"
 
 import { Group } from "./Group"
 import groupService from "./Service"
+
+function createPayload(route: Route) {
+  return {
+    competition_id: route.params.cm,
+    discipline_id: route.params.discipline,
+    id: route.params.group,
+  }
+}
 
 export default Vue.extend({
   name: "ManageGroupForm",
@@ -13,7 +24,32 @@ export default Vue.extend({
   props: {
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
-    group: { type: [String, Number], required: true },
+    group: { type: [String, Number], required: false },
+  },
+
+  beforeRouteEnter(to, from, next: Next<any>) {
+    // If we open create route, we have no data to load from API.
+    if (to.name === createRoute.name) return next(vm => vm.reset())
+
+    // If we open edit route, we have to load data from API.
+    const payload = createPayload(to)
+
+    groupService.fetchGroup(payload).then(group => next(vm => vm.update(group)))
+  },
+
+  beforeRouteUpdate(to, from, next: Next<any>) {
+    // User may have option to change route in runtime. In this case we should
+    // update form data.
+    if (to.name === createRoute.name) {
+      this.reset()
+      return next()
+    }
+
+    const payload = createPayload(to)
+    groupService.fetchGroup(payload).then(group => {
+      this.update(group)
+      next()
+    })
   },
 
   data() {
@@ -35,9 +71,10 @@ export default Vue.extend({
 
   methods: {
     async submit() {
+      this.form.clearErrors()
       try {
         const group = await groupService.saveGroup(this.form.data)
-        this.$emit("saved", group)
+        Events.$emit("cm:group:saved", group)
       } catch (errors) {
         this.form.addErrors(errors)
       }
@@ -45,7 +82,7 @@ export default Vue.extend({
 
     async destroy() {
       await groupService.deleteGroup(this.form.data)
-      this.$emit("deleted", this.form.data.id)
+      Events.$emit("cm:group:deleted", this.form.data.id)
     },
 
     reset() {
@@ -70,37 +107,6 @@ export default Vue.extend({
       this.form.data.time = group.time
       this.form.data.title = group.title
       this.form.data.id = group.id
-    },
-
-    fetchGroup(id: Id) {
-      groupService
-        .fetchGroup({
-          competition_id: this.cm,
-          discipline_id: this.discipline,
-          id,
-        })
-        .then(group => this.update(group))
-    },
-  },
-
-  created() {
-    this.log = this.$logger.component(this)
-    if (this.group > 0) this.fetchGroup(this.group)
-  },
-
-  watch: {
-    group(newId: Id, oldId: Id) {
-      this.log("watch:group()", { newId, oldId })
-
-      // Reset form data to default if new id is 0.
-      if (newId < 1) {
-        this.reset()
-        return
-      }
-
-      // Fetch data from api and set it to form if new value is existing group
-      // identifier.
-      this.fetchGroup(newId)
     },
   },
 })
@@ -167,14 +173,14 @@ export default Vue.extend({
     <CFormGroup>
       <button
         id="submit" type="submit"
-        class="btn btn-primary btn-sm"
+        class="btn btn-primary"
       >
         Save
       </button>
 
       <button
         v-if="form.data.id > 0" type="button"
-        @click="destroy" class="btn btn-danger btn-sm"
+        @click="destroy" class="btn btn-danger"
       >
         Delete
       </button>

@@ -6,21 +6,23 @@ import { Id, Next } from "@/types"
 
 import { Category } from "./Category"
 import { Group } from "./Group"
-import GroupText from "./GroupText.vue"
-import CategoryFrom from "./ManageCategoryForm.vue"
-import GroupFrom from "./ManageGroupForm.vue"
+import {
+  getCreateCategory,
+  getCreateGroup,
+  getManageCategory,
+  getManageGroup,
+} from "./Routes"
 import groupService from "./Service"
 
 export default Vue.extend({
   name: "ManageGroups",
-
-  components: { CategoryFrom, GroupFrom, GroupText },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     const payload = {
       competition_id: to.params.cm,
       discipline_id: to.params.discipline,
     }
+
     groupService
       .fetchGroups(payload)
       .then(groups => next(vm => vm.setGroups(groups)))
@@ -34,14 +36,42 @@ export default Vue.extend({
   data() {
     return {
       groups: [] as Group[],
-      groupId: 0 as Id,
-      categoryId: 0 as Id,
-      showGroupForm: false,
-      showCategoryForm: false,
     }
   },
 
   methods: {
+    createGroupRoute() {
+      return getCreateGroup({
+        cm: this.cm,
+        discipline: this.discipline,
+      })
+    },
+
+    editGroupRoute(group: Group) {
+      return getManageGroup({
+        cm: this.cm,
+        discipline: this.discipline,
+        group: group.id,
+      })
+    },
+
+    createCategoryRoute(group: Group) {
+      return getCreateCategory({
+        cm: this.cm,
+        discipline: this.discipline,
+        group: group.id,
+      })
+    },
+
+    editCategoryRoute(group: Group, category: Category) {
+      return getManageCategory({
+        cm: this.cm,
+        discipline: this.discipline,
+        group: group.id,
+        category: category.id,
+      })
+    },
+
     async setGroups(groups: Group[]): Promise<void> {
       this.groups = groups
 
@@ -63,36 +93,7 @@ export default Vue.extend({
       group.categories = categories
     },
 
-    createGroup() {
-      this.showGroupForm = true
-      this.showCategoryForm = false
-      this.groupId = 0
-      this.categoryId = 0
-    },
-
-    createCategory(group: Group) {
-      this.showGroupForm = false
-      this.showCategoryForm = true
-      this.groupId = group.id
-      this.categoryId = 0
-    },
-
-    editGroup(id: Id) {
-      this.showGroupForm = true
-      this.showCategoryForm = false
-      this.groupId = id
-      this.categoryId = 0
-    },
-
-    editCategory(groupId: Id, categoryId: Id) {
-      this.showGroupForm = false
-      this.showCategoryForm = true
-      this.groupId = groupId
-      this.categoryId = categoryId
-    },
-
     onGroupSaved(group: Group) {
-      this.showGroupForm = false
       const existing = this.groups.filter(
         g => g.id.toString() === group.id.toString(),
       )
@@ -108,7 +109,6 @@ export default Vue.extend({
     },
 
     onGroupDeleted(id: Id) {
-      this.showGroupForm = false
       for (let i = this.groups.length - 1; i >= 0; --i) {
         if (this.groups[i].id.toString() === id.toString()) {
           this.groups.splice(i, 1)
@@ -117,7 +117,6 @@ export default Vue.extend({
     },
 
     onCategorySaved(groupId: Id, category: Category) {
-      this.showGroupForm = false
       const group = this.findGroup(groupId)
 
       const existing = group.categories.filter(
@@ -135,7 +134,6 @@ export default Vue.extend({
     },
 
     onCategoryDeleted(groupId: Id, categoryId: Id) {
-      this.showCategoryForm = false
       const group = this.findGroup(groupId)
 
       for (let i = group.categories.length - 1; i >= 0; --i) {
@@ -165,61 +163,50 @@ export default Vue.extend({
       <table class="table table-bordered table-sm">
         <tr v-for="group in groups" :key="group.id">
           <td>
-            <button
-              @click="editGroup(group.id)"
+            <router-link
+              :to="editGroupRoute(group)"
+              :title="group.longText"
+              v-html="group.shortText"
               class="btn btn-light btn-sm btn-block"
-            >
-              <GroupText
-                :group="group"
-                :short="true"
-              />
-            </button>
+            />
           </td>
 
           <td
             v-for="category in group.categories"
             :key="category.id"
           >
-            <button
-              @click="editCategory(group.id, category.id)"
+            <router-link
+              :to="editCategoryRoute(group, category)"
+              :title="category.longText"
+              v-html="category.shortText"
               class="btn btn-light btn-sm btn-block"
-            >
-              {{ category.shortText }}
-            </button>
+            />
           </td>
 
           <td>
-            <button
-              @click="createCategory(group)"
+            <router-link
+              :to="createCategoryRoute(group)"
+              :title="'Add new category'"
               class="btn btn-light btn-sm btn-block"
             >
               <i class="fa fa-plus-square-o"></i>
-            </button>
+            </router-link>
           </td>
         </tr>
         <tr>
           <td>
-            <button
-              @click="createGroup"
+            <router-link
+              :to="createGroupRoute()"
+              :title="'Add new group'"
               class="btn btn-light btn-sm btn-block"
             >
               <i class="fa fa-plus-square-o"></i>
-            </button>
+            </router-link>
           </td>
         </tr>
       </table>
     </div>
 
-    <GroupFrom
-      v-if="showGroupForm" :cm="cm"
-      :discipline="discipline" :group="groupId"
-      @saved="onGroupSaved" @deleted="onGroupDeleted"
-    />
-
-    <CategoryFrom
-      v-if="showCategoryForm" :cm="cm"
-      :discipline="discipline" :group="groupId" :category="categoryId"
-      @saved="onCategorySaved" @deleted="onCategoryDeleted"
-    />
+    <router-view></router-view>
   </div>
 </template>
