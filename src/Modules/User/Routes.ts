@@ -24,25 +24,25 @@ export default [
     ...login,
     component: Login,
     path: "/login",
-  } as RouteConfig,
+  },
   {
     ...profile,
     component: profileVue,
     path: "/profile/:id?",
-  } as RouteConfig,
+  },
   {
     ...signUp,
     component: SignUp,
     path: "/sign-up",
-  } as RouteConfig,
+  },
   {
     ...forgotPassword,
     component: forgotPasswordVue,
     path: "/auth/password/email",
-  } as RouteConfig,
+  },
   {
     ...resetPassword,
     component: resetPasswordVue,
     path: "/auth/password/reset/:token",
-  } as RouteConfig,
-]
+  },
+] as RouteConfig[]

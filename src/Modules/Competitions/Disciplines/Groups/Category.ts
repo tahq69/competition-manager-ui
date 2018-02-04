@@ -3,14 +3,17 @@ import { Location } from "vue-router"
 import { Entity } from "@/Helpers/Entity"
 import { Id } from "@/types"
 
-import { getCompetitionDisciplineGroups } from "../Routes"
-
-
+import { getGroups } from "../Routes"
 
 export enum DisplayType {
   Min = "MIN",
   Max = "MAX",
   Both = "BOTH",
+}
+
+export enum DimensionType {
+  Weight = "WEIGHT",
+  Age = "AGE",
 }
 
 export class Category extends Entity {
@@ -28,7 +31,7 @@ export class Category extends Entity {
   public order: number
   public short: string
   public title: string
-  public type: string
+  public type: DimensionType
 
   public createUrl = "competitions/{competition_id}/disciplines/{discipline_id}" +
     "/groups/{category_group_id}/categories"
@@ -46,7 +49,21 @@ export class Category extends Entity {
     const group = this.category_group_id
 
     return {
-      groups: getCompetitionDisciplineGroups(cm, discipline),
+      groups: getGroups({ cm, discipline }),
+    }
+  }
+
+  public get shortText() {
+    const typeText = this.type === DimensionType.Age ? "y" : "Kg"
+    switch (this.display_type) {
+      case DisplayType.Min:
+        return `${this.min} + ${typeText}`
+
+      case DisplayType.Max:
+        return `- ${this.max} ${typeText}`
+
+      default:
+        return `${this.min}-${this.max} ${typeText}`
     }
   }
 

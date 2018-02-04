@@ -5,11 +5,7 @@ import { createCompetition, manageCompetitionDetails } from "@/Router/Routes"
 import { Id } from "@/types"
 
 import { getManageCompetitionDetails } from "./Details/Routes"
-import {
-  getCompetitionAreas,
-  getCompetitionDetails,
-  getCompetitionDisciplines,
-} from "./Routes"
+import { getAreas, getCompetitionDetails, getDisciplines } from "./Routes"
 
 export class Competition extends Entity {
   public ambulance: string
@@ -36,10 +32,10 @@ export class Competition extends Entity {
 
   public get routes() {
     return {
-      details: getCompetitionDetails(this.id),
-      editDetails: getManageCompetitionDetails(this.id),
-      disciplines: getCompetitionDisciplines(this.id),
-      areas: getCompetitionAreas(this.id),
+      details: getCompetitionDetails({ cm: this.id }),
+      editDetails: getManageCompetitionDetails({ cm: this.id }),
+      disciplines: getDisciplines({ cm: this.id }),
+      areas: getAreas({ cm: this.id }),
     }
   }
 

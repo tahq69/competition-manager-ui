@@ -8,6 +8,8 @@ export interface IDictionary<T> {
   [key: string]: T
 }
 
+export interface IRouteParams extends IDictionary<Id> {}
+
 export type Next<VM extends Vue = Vue> = (
   to?: RawLocation | false | ((vm: VM) => any) | void,
 ) => void

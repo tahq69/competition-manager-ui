@@ -31,36 +31,36 @@ export default [
     component: manageTeamVue,
     meta,
     path: "/teams/new",
-  } as RouteConfig,
+  },
   {
     ...manageTeam,
     component: manageTeamVue,
     meta,
     path: "/teams/edit/:id(\\d+)",
-  } as RouteConfig,
+  },
   {
     ...manageTeams,
     component: manageTeamsVue,
     meta,
     path: "/teams/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
-  } as RouteConfig,
+  },
   {
     ...createTeamMember,
     component: manageMemberVue,
     meta,
     path: "/teams/:team(\\d+)/members/new",
-  } as RouteConfig,
+  },
   {
     ...manageTeamMember,
     component: manageMemberVue,
     meta,
     path: "/teams/:team(\\d+)/members/edit/:id(\\d+)",
-  } as RouteConfig,
+  },
   {
     ...manageTeamMembers,
     component: manageMembersVue,
     meta,
     path:
       "/teams/:team(\\d+)/members/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
-  } as RouteConfig,
-]
+  },
+] as RouteConfig[]

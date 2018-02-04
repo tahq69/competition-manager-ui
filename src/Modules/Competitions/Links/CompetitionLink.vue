@@ -19,7 +19,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return getCompetitionDetails(this.cm)
+      return getCompetitionDetails({ cm: this.cm })
     },
   },
 })

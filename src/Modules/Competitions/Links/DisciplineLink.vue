@@ -4,7 +4,7 @@ import { Location } from "vue-router"
 
 import CardAction from "@/Components/Cards/CardAction.vue"
 
-import { getCompetitionDiscipline } from "../Routes"
+import { getDiscipline } from "../Routes"
 
 export default Vue.extend({
   name: "DisciplineLink",
@@ -20,7 +20,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return getCompetitionDiscipline(this.cm, this.discipline)
+      return getDiscipline({ cm: this.cm, discipline: this.discipline })
     },
   },
 })

@@ -1,6 +1,7 @@
 <script lang="ts">
 import Vue from "vue"
 
+import Events from "@/Helpers/Events"
 import { Id, Next } from "@/types"
 
 import { Category } from "./Category"
@@ -43,6 +44,23 @@ export default Vue.extend({
   methods: {
     async setGroups(groups: Group[]): Promise<void> {
       this.groups = groups
+
+      const pool = groups.reduce<Array<Promise<void>>>((acc, group) => {
+        acc.push(this.fetchCategories(group))
+        return acc
+      }, [])
+
+      await Promise.all(pool)
+    },
+
+    async fetchCategories(group: Group): Promise<void> {
+      const categories = await groupService.fetchCategories({
+        competition_id: group.competition_id,
+        discipline_id: group.discipline_id,
+        category_group_id: group.id,
+      })
+
+      group.categories = categories
     },
 
     createGroup() {
@@ -86,7 +104,7 @@ export default Vue.extend({
       }
 
       // If exists, update it's value.
-      Object.assign(existing[0], group)
+      Object.assign(existing[0], group, { categories: existing[0].categories })
     },
 
     onGroupDeleted(id: Id) {
@@ -131,52 +149,77 @@ export default Vue.extend({
       return this.groups.filter(g => g.id.toString() === id.toString())[0]
     },
   },
+
+  created() {
+    Events.$on("cm:category:deleted", this.onCategoryDeleted)
+    Events.$on("cm:category:saved", this.onCategorySaved)
+    Events.$on("cm:group:deleted", this.onGroupDeleted)
+    Events.$on("cm:group:saved", this.onGroupSaved)
+  },
 })
 </script>
 
 <template>
-  <CRow>
-    <CCol :xs="12" :lg="8">
-      <table class="table table-bordered">
+  <div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm">
         <tr v-for="group in groups" :key="group.id">
           <td>
-            <button @click="editGroup(group.id)" class="btn btn-light">
-              <GroupText :group="group" :short="true" />
+            <button
+              @click="editGroup(group.id)"
+              class="btn btn-light btn-sm btn-block"
+            >
+              <GroupText
+                :group="group"
+                :short="true"
+              />
             </button>
           </td>
-          <td v-for="category in group.categories" :key="category.id">
-            <button @click="editCategory(group.id, category.id)" class="btn btn-light">
+
+          <td
+            v-for="category in group.categories"
+            :key="category.id"
+          >
+            <button
+              @click="editCategory(group.id, category.id)"
+              class="btn btn-light btn-sm btn-block"
+            >
               {{ category.shortText }}
             </button>
           </td>
+
           <td>
-            <button @click="createCategory(group)" class="btn btn-light">
-              + Category
+            <button
+              @click="createCategory(group)"
+              class="btn btn-light btn-sm btn-block"
+            >
+              <i class="fa fa-plus-square-o"></i>
             </button>
           </td>
         </tr>
         <tr>
           <td>
-            <button @click="createGroup()" class="btn btn-light">
-              + Group
+            <button
+              @click="createGroup"
+              class="btn btn-light btn-sm btn-block"
+            >
+              <i class="fa fa-plus-square-o"></i>
             </button>
           </td>
         </tr>
       </table>
-    </CCol>
+    </div>
 
-    <CCol :xs="12" :lg="4">
-      <GroupFrom
-        v-if="showGroupForm" :cm="cm"
-        :discipline="discipline" :group="groupId"
-        @saved="onGroupSaved" @deleted="onGroupDeleted"
-      />
+    <GroupFrom
+      v-if="showGroupForm" :cm="cm"
+      :discipline="discipline" :group="groupId"
+      @saved="onGroupSaved" @deleted="onGroupDeleted"
+    />
 
-      <CategoryFrom
-        v-if="showCategoryForm" :cm="cm"
-        :discipline="discipline" :group="groupId" :category="categoryId"
-        @saved="onCategorySaved" @deleted="onCategoryDeleted"
-      />
-    </CCol>
-  </CRow>
+    <CategoryFrom
+      v-if="showCategoryForm" :cm="cm"
+      :discipline="discipline" :group="groupId" :category="categoryId"
+      @saved="onCategorySaved" @deleted="onCategoryDeleted"
+    />
+  </div>
 </template>

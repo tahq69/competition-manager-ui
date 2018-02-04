@@ -1,6 +1,10 @@
 import * as roles from "@/Components/Auth/Roles"
-import { competitionDetails, manageCompetitionDetails } from "@/Router/Routes"
-import { Id } from "@/types"
+import {
+  competitionDetails,
+  convertParams,
+  manageCompetitionDetails,
+} from "@/Router/Routes"
+import { Id, IRouteParams } from "@/types"
 
 /** Public routes */
 const detailsView = () =>
@@ -29,9 +33,9 @@ export const details = [
   },
 ]
 
-export const getManageCompetitionDetails = (cmId: Id) => {
+export const getManageCompetitionDetails = (p: { cm: Id }) => {
   return {
     ...manageCompetitionDetails,
-    params: { cm: cmId.toString() },
+    params: convertParams(p),
   }
 }

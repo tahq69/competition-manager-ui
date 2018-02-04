@@ -7,10 +7,11 @@ import {
   competitionDiscipline,
   competitionDisciplines,
   competitions,
+  convertParams,
   createCompetition,
   manageCompetitions,
 } from "@/Router/Routes"
-import { Id } from "@/types"
+import { Id, IRouteParams } from "@/types"
 
 import areas from "./Areas/Routes"
 import { details, root as detailsRoot } from "./Details/Routes"
@@ -57,30 +58,30 @@ export const root: RouteConfig[] = [
   ...disciplinesRoot,
 ]
 
-export const getCompetitionDetails = (cmId: Id) => {
+export const getCompetitionDetails = (p: { cm: Id }) => {
   return {
     ...competitionDetails,
-    params: { cm: cmId.toString() },
+    params: convertParams(p),
   }
 }
 
-export const getCompetitionDisciplines = (cmId: Id) => {
+export const getDisciplines = (p: { cm: Id }) => {
   return {
     ...competitionDisciplines,
-    params: { cm: cmId.toString() },
+    params: convertParams(p),
   }
 }
 
-export const getCompetitionAreas = (cmId: Id) => {
+export const getAreas = (p: { cm: Id }) => {
   return {
     ...competitionAreas,
-    params: { cm: cmId.toString() },
+    params: convertParams(p),
   }
 }
 
-export const getCompetitionDiscipline = (cmId: Id, disciplineId: Id) => {
+export const getDiscipline = (p: { cm: Id, discipline: Id }) => {
   return {
     ...competitionDiscipline,
-    params: { cm: cmId.toString(), discipline: disciplineId.toString() },
+    params: convertParams(p),
   }
 }

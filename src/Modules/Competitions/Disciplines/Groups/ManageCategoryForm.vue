@@ -184,7 +184,7 @@ export default Vue.extend({
 
       <button
         v-if="form.data.id > 0" type="button"
-        @click="destroy" class="btn btn-warning btn-sm"
+        @click="destroy" class="btn btn-danger btn-sm"
       >
         Delete
       </button>

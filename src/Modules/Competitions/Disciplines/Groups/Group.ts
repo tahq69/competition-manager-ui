@@ -4,7 +4,7 @@ import { Entity } from "@/Helpers/Entity"
 import { competitionDisciplineGroups } from "@/Router/Routes"
 import { Id } from "@/types"
 
-import { getCompetitionDisciplineGroups } from "../Routes"
+import { getGroups } from "../Routes"
 import { Category } from "./Category"
 
 export class Group extends Entity {
@@ -36,7 +36,7 @@ export class Group extends Entity {
     const discipline = this.discipline_id
 
     return {
-      groups: getCompetitionDisciplineGroups(cm, discipline),
+      groups: getGroups({ cm, discipline }),
     }
   }
 

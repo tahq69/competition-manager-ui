@@ -110,97 +110,61 @@ export default Vue.extend({
 <template>
   <form @submit.prevent="submit">
     <!-- #title -->
-    <CFormGroup
-      for="title" :form="form" label="Full title"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="title" :form="form" label="Full title">
       <input
         type="text" id="title" name="title"
         v-model="form.data.title"
-        :class="[
-          {'is-invalid': form.errors.title},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.title}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #short -->
-    <CFormGroup
-      for="short" :form="form" label="Short title"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="short" :form="form" label="Short title">
       <input
         type="text" id="short" name="short"
         v-model="form.data.short"
-        :class="[
-          {'is-invalid': form.errors.short},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.short}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #rounds -->
-    <CFormGroup
-      for="rounds" :form="form" label="Rounds"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="rounds" :form="form" label="Rounds">
       <input
         type="number" id="rounds" name="rounds"
         v-model="form.data.rounds"
-        :class="[
-          {'is-invalid': form.errors.rounds},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.rounds}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #time -->
-    <CFormGroup
-      for="time" :form="form" label="Round time"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="time" :form="form" label="Round time">
       <input
         type="number" id="time" name="time"
         v-model="form.data.time"
-        :class="[
-          {'is-invalid': form.errors.time},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.time}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #min -->
-    <CFormGroup
-      for="min" :form="form" label="Minimum value"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="min" :form="form" label="Minimum value">
       <input
         type="number" id="min" name="min"
         v-model="form.data.min"
-        :class="[
-          {'is-invalid': form.errors.min},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.min}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #max -->
-    <CFormGroup
-      for="max" :form="form" label="Maximum value"
-      :xs="12" :sm="12" :md="12" :compact="true"
-    >
+    <CFormGroup for="max" :form="form" label="Maximum value">
       <input
         type="number" id="max" name="max"
         v-model="form.data.max"
-        :class="[
-          {'is-invalid': form.errors.max},
-          'form-control', 'form-control-sm'
-        ]"
+        :class="[{'is-invalid': form.errors.max}, 'form-control']"
       >
     </CFormGroup>
 
     <!-- #submit -->
-    <CFormGroup :xs="12" :sm="12" :md="12">
+    <CFormGroup>
       <button
         id="submit" type="submit"
         class="btn btn-primary btn-sm"
@@ -210,7 +174,7 @@ export default Vue.extend({
 
       <button
         v-if="form.data.id > 0" type="button"
-        @click="destroy" class="btn btn-warning btn-sm"
+        @click="destroy" class="btn btn-danger btn-sm"
       >
         Delete
       </button>

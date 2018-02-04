@@ -5,6 +5,7 @@ import {
   competitionDiscipline,
   competitionDisciplineGroups,
   competitionDisciplines,
+  convertParams,
   createCompetitionDiscipline,
   manageCompetitionDiscipline,
 } from "@/Router/Routes"
@@ -16,7 +17,7 @@ import { groups } from "./Groups/Routes"
 const disciplinesView = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./CompetitionDisciplines.vue")
 
-const discipline = () =>
+const disciplineView = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./Discipline.vue")
 
 const disciplineDetails = () =>
@@ -51,7 +52,7 @@ export const root: RouteConfig[] = [
     props: true,
   },
   {
-    component: discipline,
+    component: disciplineView,
     path: "/competition/:cm(\\d+)/discipline/:discipline(\\d+)",
     props: true,
     children: [
@@ -66,16 +67,16 @@ export const root: RouteConfig[] = [
   },
 ]
 
-export const getManageCompetitionDiscipline = (cmId: Id, disciplineId: Id) => {
+export const getManageDiscipline = (p: { cm: Id, discipline: Id }) => {
   return {
     ...manageCompetitionDiscipline,
-    params: { cm: cmId.toString(), discipline: disciplineId.toString() },
+    params: convertParams(p),
   }
 }
 
-export const getCompetitionDisciplineGroups = (cmId: Id, disciplineId: Id) => {
+export const getGroups = (p: { cm: Id, discipline: Id }) => {
   return {
     ...competitionDisciplineGroups,
-    params: { cm: cmId.toString(), discipline: disciplineId.toString() },
+    params: convertParams(p),
   }
 }

@@ -1,5 +1,13 @@
 import { Location } from "vue-router"
 
+import { IRouteParams } from "@/types"
+
+export function convertParams(params: IRouteParams) {
+  const result = {} as { [key: string]: string }
+  Object.keys(params).forEach(key => (result[key] = params[key].toString()))
+  return result
+}
+
 export const home = { name: "home" }
 
 export const login = { name: "login" }
@@ -36,6 +44,10 @@ export const competitionDisciplines = { name: "competitionDisciplines" }
 export const competitionDiscipline = { name: "competitionDiscipline" }
 export const competitionDisciplineGroups = { name: "competitionDisciplineGroups" }
 export const manageCompetitionDisciplineGroups = { name: "manageCompetitionDisciplineGroups" }
+export const createCompetitionDisciplineGroup = { name: "createCompetitionDisciplineGroup" }
+export const manageCompetitionDisciplineGroup = { name: "manageCompetitionDisciplineGroup" }
+export const createCompetitionDisciplineCategory = { name: "createCompetitionDisciplineCategory" }
+export const manageCompetitionDisciplineCategory = { name: "manageCompetitionDisciplineCategory" }
 export const competitionAreas = { name: "competitionAreas" }
 export const competitionArea = { name: "competitionArea" }
 

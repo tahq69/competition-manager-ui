@@ -2,15 +2,8 @@ import { Location } from "vue-router"
 
 import { Entity } from "@/Helpers/Entity"
 
-import {
-  getCompetitionDetails,
-  getCompetitionDiscipline,
-  getCompetitionDisciplines,
-} from "../Routes"
-import {
-  getCompetitionDisciplineGroups,
-  getManageCompetitionDiscipline,
-} from "./Routes"
+import { getCompetitionDetails, getDiscipline, getDisciplines } from "../Routes"
+import { getGroups, getManageDiscipline } from "./Routes"
 
 export class Discipline extends Entity {
   public category_group_type: string
@@ -32,12 +25,13 @@ export class Discipline extends Entity {
 
   public get routes() {
     const cm = this.competition_id
+    const discipline = this.id
     return {
-      edit: getManageCompetitionDiscipline(cm, this.id),
-      show: getCompetitionDiscipline(cm, this.id),
-      groups: getCompetitionDisciplineGroups(cm, this.id),
-      competition: getCompetitionDetails(cm),
-      disciplines: getCompetitionDisciplines(cm),
+      edit: getManageDiscipline({ cm, discipline }),
+      show: getDiscipline({ cm, discipline }),
+      groups: getGroups({ cm, discipline }),
+      competition: getCompetitionDetails({ cm }),
+      disciplines: getDisciplines({ cm }),
     }
   }
 
