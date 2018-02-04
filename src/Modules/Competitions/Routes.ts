@@ -2,10 +2,6 @@ import { RouteConfig } from "vue-router"
 
 import * as roles from "@/Components/Auth/Roles"
 import {
-  competitionAreas,
-  competitionDetails,
-  competitionDiscipline,
-  competitionDisciplines,
   competitions,
   convertParams,
   createCompetition,
@@ -13,7 +9,7 @@ import {
 } from "@/Router/Routes"
 import { Id, IRouteParams } from "@/types"
 
-import areas from "./Areas/Routes"
+import { areas } from "./Areas/Routes"
 import { details, root as detailsRoot } from "./Details/Routes"
 import { disciplines, root as disciplinesRoot } from "./Disciplines/Routes"
 
@@ -57,31 +53,3 @@ export const root: RouteConfig[] = [
   ...detailsRoot,
   ...disciplinesRoot,
 ]
-
-export const getCompetitionDetails = (p: { cm: Id }) => {
-  return {
-    ...competitionDetails,
-    params: convertParams(p),
-  }
-}
-
-export const getDisciplines = (p: { cm: Id }) => {
-  return {
-    ...competitionDisciplines,
-    params: convertParams(p),
-  }
-}
-
-export const getAreas = (p: { cm: Id }) => {
-  return {
-    ...competitionAreas,
-    params: convertParams(p),
-  }
-}
-
-export const getDiscipline = (p: { cm: Id, discipline: Id }) => {
-  return {
-    ...competitionDiscipline,
-    params: convertParams(p),
-  }
-}

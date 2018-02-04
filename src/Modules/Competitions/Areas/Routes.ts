@@ -4,45 +4,52 @@ import * as roles from "@/Components/Auth/Roles"
 import {
   competitionArea,
   competitionAreas,
+  convertParams,
   createCompetitionArea,
   manageCompetitionArea,
 } from "@/Router/Routes"
+import { Id } from "@/types"
 
 /** Public routes */
-const areas = () => import(/* webpackChunkName: "cm-areas" */ "./Areas.vue")
-const area = () => import(/* webpackChunkName: "cm-areas" */ "./Area.vue")
+const areasView = () => import(/* webpackChunkName: "cm-areas" */ "./Areas.vue")
+const areaView = () => import(/* webpackChunkName: "cm-areas" */ "./Area.vue")
 
 /** Management routes */
-const manageArea = () =>
+const manageAreaView = () =>
   import(/* webpackChunkName: "cm-areas" */ "./ManageArea.vue")
 
-const routes: RouteConfig[] = [
+export const areas: RouteConfig[] = [
   {
     ...competitionAreas,
     path: "areas",
-    component: areas,
+    component: areasView,
     props: true,
   },
   {
     ...competitionArea,
     path: "areas/:area(\\d+)",
-    component: area,
+    component: areaView,
     props: true,
   },
   {
     ...createCompetitionArea,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_AREAS] },
     path: "areas/new",
-    component: manageArea,
+    component: manageAreaView,
     props: true,
   },
   {
     ...manageCompetitionArea,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_AREAS] },
     path: "areas/:area(\\d+)/edit",
-    component: manageArea,
+    component: manageAreaView,
     props: true,
   },
 ]
 
-export default routes
+export const getAreas = (p: { cm: Id }) => {
+  return {
+    ...competitionAreas,
+    params: convertParams(p),
+  }
+}

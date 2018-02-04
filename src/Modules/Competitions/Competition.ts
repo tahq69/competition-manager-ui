@@ -4,8 +4,12 @@ import { Entity } from "@/Helpers/Entity"
 import { createCompetition, manageCompetitionDetails } from "@/Router/Routes"
 import { Id } from "@/types"
 
-import { getManageCompetitionDetails } from "./Details/Routes"
-import { getAreas, getCompetitionDetails, getDisciplines } from "./Routes"
+import { getAreas } from "./Areas/Routes"
+import {
+  getCompetitionDetails,
+  getManageCompetitionDetails,
+} from "./Details/Routes"
+import { getDisciplines } from "./Disciplines/Routes"
 
 export class Competition extends Entity {
   public ambulance: string

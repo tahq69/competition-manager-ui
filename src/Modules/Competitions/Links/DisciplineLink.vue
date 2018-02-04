@@ -4,7 +4,7 @@ import { Location } from "vue-router"
 
 import CardAction from "@/Components/Cards/CardAction.vue"
 
-import { getDiscipline } from "../Routes"
+import { getDiscipline } from "../Disciplines/Routes"
 
 export default Vue.extend({
   name: "DisciplineLink",

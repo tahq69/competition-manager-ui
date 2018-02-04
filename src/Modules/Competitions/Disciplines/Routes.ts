@@ -67,6 +67,20 @@ export const root: RouteConfig[] = [
   },
 ]
 
+export const getDisciplines = (p: { cm: Id }) => {
+  return {
+    ...competitionDisciplines,
+    params: convertParams(p),
+  }
+}
+
+export const getDiscipline = (p: { cm: Id, discipline: Id }) => {
+  return {
+    ...competitionDiscipline,
+    params: convertParams(p),
+  }
+}
+
 export const getManageDiscipline = (p: { cm: Id, discipline: Id }) => {
   return {
     ...manageCompetitionDiscipline,

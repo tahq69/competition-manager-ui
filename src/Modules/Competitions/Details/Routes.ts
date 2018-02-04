@@ -33,6 +33,13 @@ export const details = [
   },
 ]
 
+export const getCompetitionDetails = (p: { cm: Id }) => {
+  return {
+    ...competitionDetails,
+    params: convertParams(p),
+  }
+}
+
 export const getManageCompetitionDetails = (p: { cm: Id }) => {
   return {
     ...manageCompetitionDetails,
