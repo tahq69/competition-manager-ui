@@ -2,8 +2,9 @@ import { Location } from "vue-router"
 
 import { Entity } from "@/Helpers/Entity"
 
+import { getGroups } from "../Groups/Routes"
 import { getCompetitionDetails, getDiscipline, getDisciplines } from "../Routes"
-import { getGroups, getManageDiscipline } from "./Routes"
+import { getManageDiscipline } from "./Routes"
 
 export class Discipline extends Entity {
   public category_group_type: string

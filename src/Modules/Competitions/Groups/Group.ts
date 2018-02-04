@@ -4,8 +4,8 @@ import { Entity } from "@/Helpers/Entity"
 import { competitionDisciplineGroups } from "@/Router/Routes"
 import { Id } from "@/types"
 
-import { getGroups } from "../Routes"
 import { Category } from "./Category"
+import { getGroups } from "./Routes"
 
 export class Group extends Entity {
   public competition_id: Id

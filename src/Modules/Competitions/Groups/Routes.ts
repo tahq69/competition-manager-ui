@@ -68,6 +68,13 @@ export const groups: RouteConfig[] = [
   },
 ]
 
+export const getGroups = (p: { cm: Id, discipline: Id }) => {
+  return {
+    ...competitionDisciplineGroups,
+    params: convertParams(p),
+  }
+}
+
 export const getCreateGroup = (p: { cm: Id, discipline: Id }) => {
   return {
     ...createCompetitionDisciplineGroup,

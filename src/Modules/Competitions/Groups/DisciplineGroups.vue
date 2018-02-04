@@ -95,7 +95,7 @@ export default Vue.extend({
 
     <table class="table">
       <tr v-for="group in groups" :key="group.id">
-        <td v-for="orderNr in categories" :key="orderNr">
+        <td v-for="orderNr in categories" :key="group.id">
           <div v-if="group.hasCategory(orderNr)">
             {{ group.getCategory(orderNr) }}
           </div>

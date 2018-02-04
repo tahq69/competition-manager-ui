@@ -11,7 +11,7 @@ import {
 } from "@/Router/Routes"
 import { Id } from "@/types"
 
-import { groups } from "./Groups/Routes"
+import { groups } from "../Groups/Routes"
 
 /** Public routes */
 const disciplinesView = () =>
@@ -70,13 +70,6 @@ export const root: RouteConfig[] = [
 export const getManageDiscipline = (p: { cm: Id, discipline: Id }) => {
   return {
     ...manageCompetitionDiscipline,
-    params: convertParams(p),
-  }
-}
-
-export const getGroups = (p: { cm: Id, discipline: Id }) => {
-  return {
-    ...competitionDisciplineGroups,
     params: convertParams(p),
   }
 }

@@ -4,7 +4,7 @@ import { Location } from "vue-router"
 
 import CardAction from "@/Components/Cards/CardAction.vue"
 
-import { getGroups } from "../Disciplines/Routes"
+import { getGroups } from "../Groups/Routes"
 
 export default Vue.extend({
   name: "GroupsLink",

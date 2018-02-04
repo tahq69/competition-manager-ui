@@ -3,7 +3,7 @@ import { Location } from "vue-router"
 import { Entity } from "@/Helpers/Entity"
 import { Id } from "@/types"
 
-import { getGroups } from "../Routes"
+import { getGroups } from "../Groups/Routes"
 
 export enum DisplayType {
   Min = "MIN",
