@@ -1,5 +1,6 @@
 <script lang="ts">
 import { Form } from "crip-vue-bootstrap"
+import CripSelect from "crip-vue-select"
 import Vue from "vue"
 import { Route } from "vue-router"
 
@@ -72,6 +73,14 @@ export default Vue.extend({
           title: "",
         }),
       ),
+
+      displayTypeSelect: new CripSelect({
+        options: [
+          { key: "1", text: "Maximum", value: DisplayType.Max },
+          { key: "2", text: "Minimum", value: DisplayType.Min },
+          { key: "3", text: "Both", value: DisplayType.Both },
+        ],
+      }),
     }
   },
 
@@ -137,6 +146,15 @@ export default Vue.extend({
         v-model="form.data.short"
         :class="[{'is-invalid': form.errors.short}, 'form-control']"
       >
+    </CFormGroup>
+
+    <CFormGroup for="display-type" :form="form" label="Display type">
+      <crip-select
+        id="display-type"
+        :settings="displayTypeSelect"
+        v-model="form.data.display_type"
+        :class="{'is-invalid': form.errors.display_type}"
+      />
     </CFormGroup>
 
     <!-- #min -->
