@@ -8,6 +8,9 @@ import Events from "@/Helpers/Events"
 import { createCompetitionDisciplineCategory as createRoute } from "@/Router/Routes"
 import { Id, Next } from "@/types"
 
+import { Area } from "../Areas/Area"
+import areaService from "../Areas/Service"
+
 import { Category, DisplayType } from "./Category"
 import { Group } from "./Group"
 import groupService from "./Service"
@@ -28,7 +31,7 @@ export default Vue.extend({
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
     group: { type: [String, Number], required: true },
-    category: { type: [String, Number], required: true },
+    category: { type: [String, Number], required: false },
   },
 
   beforeRouteEnter(to, from, next: Next<any>) {
@@ -62,6 +65,7 @@ export default Vue.extend({
     return {
       form: new Form(
         new Category({
+          area_id: 0,
           category_group_id: this.group,
           competition_id: this.cm,
           discipline_id: this.discipline,
@@ -73,6 +77,20 @@ export default Vue.extend({
           title: "",
         }),
       ),
+
+      areaSelect: new CripSelect({
+        onInit: (select, updateOptions) => {
+          areaService.fetchAreas({ competition_id: this.cm }).then(areas => {
+            updateOptions(
+              areas.map(area => ({
+                key: area.id.toString(),
+                value: area.id,
+                text: area.title,
+              })),
+            )
+          })
+        }
+      }),
 
       displayTypeSelect: new CripSelect({
         options: [
@@ -113,15 +131,16 @@ export default Vue.extend({
     },
 
     update(category: Category) {
+      this.form.data.area_id = category.area_id
       this.form.data.category_group_id = category.category_group_id
       this.form.data.competition_id = category.competition_id
       this.form.data.discipline_id = category.discipline_id
+      this.form.data.display_type = category.display_type
+      this.form.data.id = category.id
       this.form.data.max = category.max
       this.form.data.min = category.min
       this.form.data.short = category.short
       this.form.data.title = category.title
-      this.form.data.display_type = category.display_type
-      this.form.data.id = category.id
     },
   },
 })
@@ -146,6 +165,15 @@ export default Vue.extend({
         v-model="form.data.short"
         :class="[{'is-invalid': form.errors.short}, 'form-control']"
       >
+    </CFormGroup>
+
+    <CFormGroup for="area" :form="form" label="Area">
+      <crip-select
+        id="area"
+        :settings="areaSelect"
+        v-model="form.data.area_id"
+        :class="{'is-invalid': form.errors.area_id}"
+      />
     </CFormGroup>
 
     <CFormGroup for="display-type" :form="form" label="Display type">
