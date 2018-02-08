@@ -5,13 +5,13 @@ import { Api } from "@/Helpers/Api"
 import { Entity } from "@/Helpers/Entity"
 import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 
-import Team from "./Team"
+import { Team } from "./Team"
 
 interface IUser {
   name: string
 }
 
-export default class TeamMember extends Entity {
+export class TeamMember extends Entity {
   public membership_type: string
   public name: string
   public team?: Team
@@ -38,9 +38,9 @@ export default class TeamMember extends Entity {
         ...manageTeamMember,
         params,
       },
-      members: {
+      manageMembers: {
         ...manageTeamMembers,
-        params: { team: this.team_id },
+        params: { team: params.team },
       },
     }
   }

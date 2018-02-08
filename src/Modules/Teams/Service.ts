@@ -3,8 +3,8 @@ import { Paging } from "crip-vue-bootstrap"
 import { Pagination, Service } from "@/Helpers"
 import { Id } from "@/types"
 
-import Team from "./Team"
-import TeamMember from "./TeamMember"
+import { Team } from "./Team"
+import { TeamMember } from "./TeamMember"
 
 interface IFetchTeam {
   id: Id

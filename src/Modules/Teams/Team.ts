@@ -8,7 +8,7 @@ import {
   teamDetails,
 } from "@/Router/Routes"
 
-export default class Team extends Entity {
+export class Team extends Entity {
   public logo: string
   public short: string
   public name: string

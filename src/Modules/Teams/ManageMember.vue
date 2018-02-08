@@ -8,8 +8,8 @@ import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
 import { MemberBase } from "@/types"
 
 import teamService from "./Service"
-import Team from "./Team"
-import TeamMember from "./TeamMember"
+import { Team } from "./Team"
+import { TeamMember } from "./TeamMember"
 
 interface IData {
   form: Form<{ user_id: number | string; name: string; id: number | string }>

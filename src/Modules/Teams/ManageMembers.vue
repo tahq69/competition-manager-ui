@@ -6,8 +6,8 @@ import { Location } from "vue-router"
 import { createTeamMember, manageTeam, manageTeamMembers } from "@/Router/Routes"
 
 import teamService from "./Service"
-import Team from "./Team"
-import TeamMember from "./TeamMember"
+import { Team } from "./Team"
+import { TeamMember } from "./TeamMember"
 
 export default Vue.extend({
   name: "ManageMembers",

@@ -7,7 +7,7 @@ import NotFound from "@/Components/NotFound.vue"
 
 import { root as competitions } from "@/Modules/Competitions/Routes"
 import { home, posts } from "@/Modules/Posts/Routes"
-import teams from "@/Modules/Teams/Routes"
+import { teams } from "@/Modules/Teams/Routes"
 import user from "@/Modules/User/Routes"
 
 const routes = [
