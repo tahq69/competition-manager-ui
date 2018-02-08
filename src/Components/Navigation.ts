@@ -26,6 +26,7 @@ const canManage = () => auth.hasAnyRole(manageRoles)
 export const leftNav = () => {
   const publicNav = [
     Nav.item({ text: t("competitions"), route: routes.competitions }),
+    Nav.item({ text: t("teams"), route: routes.teams }),
   ]
 
   if (!auth.isAuthenticated() || !canManage()) {

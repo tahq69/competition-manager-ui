@@ -6,11 +6,12 @@ import EditBtn from "@/Components/EditBtn.vue"
 
 import { TeamAuth } from "./Auth"
 import { Team } from "./Team"
+import TeamLink from "./TeamLink.vue"
 
 export default Vue.extend({
   name: "TeamCard",
 
-  components: { EditBtn },
+  components: { EditBtn, TeamLink },
 
   mixins: [Card],
 
@@ -37,12 +38,12 @@ export default Vue.extend({
     :style="{height: elHeight}"
   >
     <div class="card-body">
-      <h5 class="card-title">{{ team.title }}</h5>
+      <h5 class="card-title">{{ team.name }}</h5>
       <div class="card-text">
-        TODO: Card with image
+        <!-- TODO: Card with image -->
       </div>
 
-      <TeamLink :cm="team.id" class="btn btn-primary">
+      <TeamLink :team="team.id" class="btn btn-primary">
         {{ team.short }}
       </TeamLink>
 

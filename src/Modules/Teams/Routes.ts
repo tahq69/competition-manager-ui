@@ -10,11 +10,13 @@ import {
   manageTeamMembers,
   manageTeams,
   teamDetails,
+  teams as teamsRoute,
 } from "@/Router/Routes"
 import { Id, IRouteParams } from "@/types"
 
 /** Public routes */
 const teamsView = () => import(/* webpackChunkName: "teams" */ "./Teams.vue")
+const teamView = () => import(/* webpackChunkName: "teams" */ "./Team.vue")
 
 /** Management routes */
 const manageMemberView = () =>
@@ -33,6 +35,11 @@ const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] }
 
 export const teams = [
   {
+    ...teamsRoute,
+    component: teamsView,
+    path: "/teams/:page(\\d+)?/:sort?/:direction?",
+  },
+  {
     ...createTeam,
     component: manageTeamView,
     meta,
@@ -40,8 +47,7 @@ export const teams = [
   },
   {
     ...teamDetails,
-    component: teamsView,
-    meta,
+    component: teamView,
     path: "/teams/:team(\\d+)",
     props: true,
   },
