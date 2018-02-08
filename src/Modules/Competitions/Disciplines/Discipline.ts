@@ -3,12 +3,13 @@ import { Location } from "vue-router"
 import { Entity } from "@/Helpers/Entity"
 
 import { getCompetitionDetails } from "../Details/Routes"
+import { DimensionType } from "../Groups/Category"
 import { getGroups } from "../Groups/Routes"
 import { getDiscipline, getDisciplines, getManageDiscipline } from "./Routes"
 
 export class Discipline extends Entity {
-  public category_group_type: string
-  public category_type: string
+  public category_group_type: DimensionType
+  public category_type: DimensionType
   public competition_id: number
   public description: string
   public game_type: string

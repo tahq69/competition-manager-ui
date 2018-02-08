@@ -4,7 +4,7 @@ import { Entity } from "@/Helpers/Entity"
 import { competitionDisciplineGroups } from "@/Router/Routes"
 import { Id } from "@/types"
 
-import { Category } from "./Category"
+import { Category, DimensionType } from "./Category"
 import { getGroups } from "./Routes"
 
 export class Group extends Entity {
@@ -19,7 +19,7 @@ export class Group extends Entity {
   public short: string
   public time: number
   public title: string
-  public type: string
+  public type: DimensionType
 
   public categories: Category[]
 
@@ -41,7 +41,7 @@ export class Group extends Entity {
   }
 
   public get typeText() {
-    if (this.type === "AGE") return "years"
+    if (this.type === DimensionType.Age) return "years"
     return "Kg"
   }
 
@@ -82,16 +82,5 @@ export class Group extends Entity {
 
   public setCategories(categories: Category[]) {
     this.categories = categories
-  }
-
-  public hasCategory(orderNr: number): boolean {
-    return !!this.categories.filter(c => c.order === orderNr)
-  }
-
-  public getCategory(orderNr: number): string {
-    const category = this.categories.filter(c => c.order === orderNr)[0]
-    if (!category) return ""
-
-    return category.title
   }
 }

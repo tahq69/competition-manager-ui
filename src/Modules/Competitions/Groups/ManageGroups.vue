@@ -116,8 +116,8 @@ export default Vue.extend({
       }
     },
 
-    onCategorySaved(groupId: Id, category: Category) {
-      const group = this.findGroup(groupId)
+    onCategorySaved(category: Category) {
+      const group = this.findGroup(category.category_group_id)
 
       const existing = group.categories.filter(
         c => c.id.toString() === category.id.toString(),

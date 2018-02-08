@@ -17,9 +17,7 @@ export default Vue.extend({
       competition_id: to.params.cm,
       discipline_id: to.params.discipline,
     }
-    groupService
-      .fetchGroups(payload)
-      .then(groups => next(vm => vm.setGroups(groups)))
+    groupService.fetchGroups(payload).then(groups => next(vm => vm.setGroups(groups)))
   },
 
   props: {
@@ -31,7 +29,7 @@ export default Vue.extend({
     return {
       canCreate: false,
       groups: [] as Group[],
-      categories: [] as number[],
+      categories: [] as string[],
       maxCategoryLength: 0,
     }
   },
@@ -75,8 +73,7 @@ export default Vue.extend({
 
       if (categories.length > this.maxCategoryLength) {
         this.maxCategoryLength = categories.length
-        this.categories = []
-        categories.map(category => this.categories.push(category.order))
+        this.categories = categories.map(category => category.id.toString())
       }
     },
   },
@@ -84,20 +81,24 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CCol id="discipline-groups"
-        :class="`discipline discipline-${discipline}`">
-    <router-link v-if="canEdit"
-                 :to="manageGroupsRoute"
-                 class="btn btn-link btn-edit btn-sm">
-      <i class="fa fa-pencil-square-o"></i>
-      Edit
+  <CCol
+    id="discipline-groups"
+    :class="`discipline discipline-${discipline}`"
+  >
+    <router-link
+      v-if="canEdit"
+      :to="manageGroupsRoute"
+      class="btn btn-link btn-edit btn-sm"
+    >
+      <i class="fa fa-pencil-square-o"></i> Edit
     </router-link>
 
     <table class="table">
-      <tr v-for="group in groups" :key="group.id">
-        <td v-for="orderNr in categories" :key="group.id">
-          <div v-if="group.hasCategory(orderNr)">
-            {{ group.getCategory(orderNr) }}
+      <tr v-for="group in groups" :key="group.id * 100">
+        <td v-html="group.shortText"></td>
+        <td v-for="(id, index) in categories" :key="(group.id * 100) + 1 + index">
+          <div v-if="group.categories[index]">
+            {{ group.categories[index].shortText }}
           </div>
         </td>
       </tr>
