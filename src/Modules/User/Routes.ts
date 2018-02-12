@@ -1,6 +1,7 @@
 import { Location, RouteConfig } from "vue-router"
 
 import {
+  authProfile,
   forgotPassword,
   login,
   profile,
@@ -26,9 +27,15 @@ export default [
     path: "/login",
   },
   {
+    ...authProfile,
+    component: profileVue,
+    path: "/profile",
+    meta: { auth: true },
+  },
+  {
     ...profile,
     component: profileVue,
-    path: "/profile/:id?",
+    path: "/profile/:id(\\d+)",
   },
   {
     ...signUp,

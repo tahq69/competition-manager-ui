@@ -13,6 +13,7 @@ export const home = { name: "home" }
 export const login = { name: "login" }
 export const signUp = { name: "signUp" }
 export const profile = { name: "profile" }
+export const authProfile = { name: "authProfile" }
 export const forgotPassword = { name: "forgotPassword" }
 export const resetPassword = { name: "resetPassword" }
 

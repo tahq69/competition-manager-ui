@@ -88,7 +88,7 @@ export const rightNav = () => {
     Nav.group(store.state.auth.user.name, [
       // TODO: add profile menu item
       // TODO: add messages menu item
-      Nav.item({ text: t("profile"), route: routes.profile }),
+      Nav.item({ text: t("profile"), route: routes.authProfile }),
       Nav.item({ text: t("logout"), click: Auth.logout }),
     ]),
   )
