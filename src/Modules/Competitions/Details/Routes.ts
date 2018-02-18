@@ -8,11 +8,11 @@ import { Id, IRouteParams } from "@/types"
 
 /** Public routes */
 const detailsView = () =>
-  import(/* webpackChunkName: "cm-details" */ "./Details.vue")
+  import(/* webpackChunkName: "cm-details" */ "./views/Details.vue")
 
 /** Management routes */
 const manageDetailsView = () =>
-  import(/* webpackChunkName: "cm-details" */ "./ManageDetails.vue")
+  import(/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue")
 
 export const root = [
   {

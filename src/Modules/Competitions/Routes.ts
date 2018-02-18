@@ -1,6 +1,6 @@
 import { RouteConfig } from "vue-router"
 
-import * as roles from "@/Components/Auth/Roles"
+import * as roles from "@/components/auth/roles"
 import {
   competitions,
   convertParams,
@@ -9,20 +9,20 @@ import {
 } from "@/Router/Routes"
 import { Id, IRouteParams } from "@/types"
 
-import { areas } from "./Areas/Routes"
-import { details, root as detailsRoot } from "./Details/Routes"
-import { disciplines, root as disciplinesRoot } from "./Disciplines/Routes"
+import { areas } from "./areas/routes"
+import { details, root as detailsRoot } from "./details/routes"
+import { disciplines, root as disciplinesRoot } from "./disciplines/routes"
 
 /** Public routes */
 const competitionsView = () =>
-  import(/* webpackChunkName: "cm" */ "./Competitions.vue")
+  import(/* webpackChunkName: "cm" */ "./views/Competitions.vue")
 
 const competition = () =>
-  import(/* webpackChunkName: "cm" */ "./Competition.vue")
+  import(/* webpackChunkName: "cm" */ "./views/Competition.vue")
 
 /** Management routes */
 const manageCms = () =>
-  import(/* webpackChunkName: "cm" */ "./ManageCompetitions.vue")
+  import(/* webpackChunkName: "cm" */ "./views/ManageCompetitions.vue")
 
 export const root: RouteConfig[] = [
   {
