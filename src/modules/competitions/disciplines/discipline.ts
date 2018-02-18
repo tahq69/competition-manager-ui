@@ -3,7 +3,7 @@ import { Location } from "vue-router"
 import { Entity } from "@/helpers/entity"
 
 import { getCompetitionDetails } from "../details/routes"
-import { DimensionType } from "../Groups/category"
+import { DimensionType } from "../groups/category"
 import { getGroups } from "../groups/routes"
 import { getDiscipline, getDisciplines, getManageDiscipline } from "./routes"
 
