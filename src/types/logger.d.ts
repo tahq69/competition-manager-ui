@@ -1,5 +1,5 @@
+import { ILogger } from "@/helpers/logger"
 import Vue from "vue"
-import { ILogger } from "@/Helpers/Logger"
 
 declare module "vue/types/vue" {
   interface Vue {
