@@ -2,9 +2,9 @@
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import CardAction from "@/Components/Cards/CardAction.vue"
+import CardAction from "@/components/cards/CardAction.vue"
 
-import { getAreas } from "../Areas/Routes"
+import { getAreas } from "../areas/routes"
 
 export default Vue.extend({
   name: "AreasLink",

@@ -1,8 +1,8 @@
 import Vue from "vue"
 
-import config from "./../Config"
-import ILoggerOptions from "./../Config/LoggerOptions"
-import Utils from "./Utils"
+import config from "./../config"
+import ILoggerOptions from "./../config/logger-options"
+import Utils from "./utils"
 
 export type LogType = "log" | "info" | "warn" | "debug" | "error"
 

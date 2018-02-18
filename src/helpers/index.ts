@@ -1,10 +1,10 @@
-import { i18n } from "@/Lang"
-import utils from "./Utils"
+import { i18n } from "@/lang"
+import utils from "./utils"
 
-export { Api } from "./Api"
-export { Entity } from "./Entity"
-export { Service } from "./Service"
-export { Pagination } from "./Pagination"
+export { Api } from "./api"
+export { Entity } from "./entity"
+export { Service } from "./service"
+export { Pagination } from "./pagination"
 
 export const Utils = utils
 

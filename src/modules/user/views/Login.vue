@@ -3,8 +3,8 @@ import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import Auth, { middleware as auth } from "@/Components/Auth"
-import { forgotPassword, home } from "@/Router/Routes"
+import Auth, { middleware as auth } from "@/components/auth"
+import { forgotPassword, home } from "@/router/routes"
 
 export default Vue.extend({
   name: "Login",

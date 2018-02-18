@@ -2,9 +2,9 @@
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import CardAction from "@/Components/Cards/CardAction.vue"
+import CardAction from "@/components/cards/CardAction.vue"
 
-import { getCompetitionDetails } from "../Details/Routes"
+import { getCompetitionDetails } from "../details/routes"
 
 export default Vue.extend({
   name: "CompetitionLink",

@@ -1,6 +1,6 @@
-import config from "@/Config"
-import LocalStorage from "@/Helpers/LocalStorage"
-import { LocaleType } from "@/Lang/Contract"
+import config from "@/config"
+import LocalStorage from "@/helpers/local-storage"
+import { LocaleType } from "@/lang/types"
 
 const storageKey = "crip-cm-locale"
 

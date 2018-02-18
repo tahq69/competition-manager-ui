@@ -1,25 +1,25 @@
 import { Location, RouteConfig } from "vue-router"
 
-import * as roles from "@/Components/Auth/Roles"
+import * as roles from "@/components/auth/roles"
 import {
   createPost,
   home as homeRoute,
   managePost,
   managePosts,
   readPost,
-} from "@/Router/Routes"
+} from "@/router/routes"
 
 const managePostVue = () =>
-  import(/* webpackChunkName: "posts" */ "./ManagePost.vue")
+  import(/* webpackChunkName: "posts" */ "./views/ManagePost.vue")
 
 const managePostsVue = () =>
-  import(/* webpackChunkName: "posts" */ "./ManagePosts.vue")
+  import(/* webpackChunkName: "posts" */ "./views/ManagePosts.vue")
 
 const postListVue = () =>
-  import(/* webpackChunkName: "posts" */ "./PostList.vue")
+  import(/* webpackChunkName: "posts" */ "./views/PostList.vue")
 
 const postViewVue = () =>
-  import(/* webpackChunkName: "posts" */ "./PostView.vue")
+  import(/* webpackChunkName: "posts" */ "./views/PostView.vue")
 
 export const home: RouteConfig = {
   ...homeRoute,

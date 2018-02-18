@@ -1,4 +1,4 @@
-import ILoggerOptions from "./LoggerOptions"
+import ILoggerOptions from "./logger-options"
 import settings from "./settings.json"
 
 interface IConfig {

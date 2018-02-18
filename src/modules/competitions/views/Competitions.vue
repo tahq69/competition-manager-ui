@@ -2,11 +2,12 @@
 import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import CardWrapper from "@/Components/Cards/CardWrapper"
+import CardWrapper from "@/components/cards/card-wrapper"
 
-import { Competition } from "./Competition"
+import { Competition } from "../competition"
+import cmService from "../service"
+
 import CompetitionCard from "./CompetitionCard.vue"
-import cmService from "./Service"
 
 const { mixin, paging: competitions } = createPaging<Competition>(paging => {
   paging.perPage = 9

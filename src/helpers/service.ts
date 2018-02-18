@@ -1,9 +1,9 @@
 import http, { AxiosStatic as Axios } from "axios"
 import Vue from "vue"
 
-import { User } from "@/Components/Auth/User"
-import { Api } from "@/Helpers/Api"
-import { Entity } from "@/Helpers/Entity"
+import { User } from "@/components/auth/user"
+import { Api } from "@/helpers/api"
+import { Entity } from "@/helpers/entity"
 
 export type ContextAction<T> = (http: Axios, api: typeof Api) => T
 

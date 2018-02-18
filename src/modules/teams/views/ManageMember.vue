@@ -4,12 +4,12 @@ import CripSelect, { SelectOption, UpdateOptions } from "crip-vue-select"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
+import { manageTeamMember, manageTeamMembers } from "@/router/routes"
 import { MemberBase } from "@/types"
 
-import teamService from "./Service"
-import { Team } from "./Team"
-import { TeamMember } from "./TeamMember"
+import teamService from "../service"
+import { Team } from "../team"
+import { TeamMember } from "../team-member"
 
 interface IData {
   form: Form<{ user_id: number | string; name: string; id: number | string }>

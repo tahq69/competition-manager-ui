@@ -7,11 +7,11 @@ import { Location } from "vue-router"
 import {
   createCompetitionDiscipline,
   manageCompetitionDiscipline,
-} from "@/Router/Routes"
+} from "@/router/routes"
 import { Next } from "@/types"
 
-import { Discipline } from "./Discipline"
-import disciplineService from "./Service"
+import { Discipline } from "../discipline"
+import disciplineService from "../service"
 
 const editRoute = manageCompetitionDiscipline
 const createRoute = createCompetitionDiscipline

@@ -1,7 +1,7 @@
-import { Service } from "@/Helpers/Service"
+import { Service } from "@/helpers/service"
 import { Id } from "@/types"
 
-import { Area } from "./Area"
+import { Area } from "./area"
 
 interface IFetchAreas {
   competition_id: Id

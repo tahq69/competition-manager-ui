@@ -1,11 +1,11 @@
 import http from "axios"
 import { Location } from "vue-router"
 
-import { Api } from "@/Helpers/Api"
-import { Entity } from "@/Helpers/Entity"
-import { manageTeamMember, manageTeamMembers } from "@/Router/Routes"
+import { Api } from "@/helpers/api"
+import { Entity } from "@/helpers/entity"
+import { manageTeamMember, manageTeamMembers } from "@/router/routes"
 
-import { Team } from "./Team"
+import { Team } from "./team"
 
 interface IUser {
   name: string

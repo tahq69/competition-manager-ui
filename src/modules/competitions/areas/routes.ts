@@ -1,22 +1,24 @@
 import { Location, Route, RouteConfig } from "vue-router"
 
-import * as roles from "@/Components/Auth/Roles"
+import * as roles from "@/components/auth/roles"
 import {
   competitionArea,
   competitionAreas,
   convertParams,
   createCompetitionArea,
   manageCompetitionArea,
-} from "@/Router/Routes"
+} from "@/router/routes"
 import { Id } from "@/types"
 
 /** Public routes */
-const areasView = () => import(/* webpackChunkName: "cm-areas" */ "./Areas.vue")
-const areaView = () => import(/* webpackChunkName: "cm-areas" */ "./Area.vue")
+const areasView = () =>
+  import (/* webpackChunkName: "cm-areas" */ "./views/Areas.vue")
+const areaView = () =>
+  import (/* webpackChunkName: "cm-areas" */ "./views/Area.vue")
 
 /** Management routes */
 const manageAreaView = () =>
-  import(/* webpackChunkName: "cm-areas" */ "./ManageArea.vue")
+  import (/* webpackChunkName: "cm-areas" */ "./views/ManageArea.vue")
 
 export const areas: RouteConfig[] = [
   {

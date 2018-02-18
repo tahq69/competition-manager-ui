@@ -1,15 +1,15 @@
 import { Location } from "vue-router"
 
-import { Entity } from "@/Helpers/Entity"
-import { createCompetition, manageCompetitionDetails } from "@/Router/Routes"
+import { Entity } from "@/helpers/entity"
+import { createCompetition, manageCompetitionDetails } from "@/router/routes"
 import { Id } from "@/types"
 
-import { getAreas } from "./Areas/Routes"
+import { getAreas } from "./areas/routes"
 import {
   getCompetitionDetails,
   getManageCompetitionDetails,
-} from "./Details/Routes"
-import { getDisciplines } from "./Disciplines/Routes"
+} from "./details/routes"
+import { getDisciplines } from "./disciplines/routes"
 
 export class Competition extends Entity {
   public ambulance!: string

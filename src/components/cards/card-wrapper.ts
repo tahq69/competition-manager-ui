@@ -1,6 +1,6 @@
 import Vue from "vue"
 
-import { Utils } from "@/Helpers"
+import { Utils } from "@/helpers"
 
 export default {
   beforeRouteUpdate(this: any, to: any, from: any, next: any) {

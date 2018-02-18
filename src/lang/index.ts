@@ -1,8 +1,8 @@
 import Vue from "vue"
 import VueI18n from "vue-i18n"
 
-import { loadLocale, saveLocale } from "@/Config/Locale"
-import { LocaleType } from "@/Lang/Contract"
+import { loadLocale, saveLocale } from "@/config/locale"
+import { LocaleType } from "@/lang/types"
 
 import en from "./en"
 import lv from "./lv"
@@ -11,7 +11,7 @@ Vue.use(VueI18n)
 
 const translations = { en, lv }
 
-export { LocaleType } from "@/Lang/Contract"
+export { LocaleType } from "@/lang/types"
 
 export interface ILocale {
   key: LocaleType

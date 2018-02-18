@@ -3,10 +3,10 @@ import { NavElement } from "crip-vue-bootstrap"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import Auth from "@/Components/Auth"
-import { home } from "@/Router/Routes"
+import Auth from "@/components/auth"
+import { home } from "@/router/routes"
 
-import { leftNav, rightNav } from "./Components/Navigation"
+import { leftNav, rightNav } from "./components/navigation"
 
 export default Vue.extend({
   name: "app",

@@ -1,18 +1,18 @@
-import * as roles from "@/Components/Auth/Roles"
+import * as roles from "@/components/auth/roles"
 import {
   competitionDetails,
   convertParams,
   manageCompetitionDetails,
-} from "@/Router/Routes"
+} from "@/router/routes"
 import { Id, IRouteParams } from "@/types"
 
 /** Public routes */
 const detailsView = () =>
-  import(/* webpackChunkName: "cm-details" */ "./views/Details.vue")
+  import (/* webpackChunkName: "cm-details" */ "./views/Details.vue")
 
 /** Management routes */
 const manageDetailsView = () =>
-  import(/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue")
+  import (/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue")
 
 export const root = [
   {

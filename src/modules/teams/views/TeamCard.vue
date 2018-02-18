@@ -1,11 +1,12 @@
 <script lang="ts">
 import Vue from "vue"
 
-import Card from "@/Components/Cards/Card"
-import EditBtn from "@/Components/EditBtn.vue"
+import Card from "@/components/cards/card"
+import EditBtn from "@/components/EditBtn.vue"
 
-import { TeamAuth } from "./Auth"
-import { Team } from "./Team"
+import { TeamAuth } from "../auth"
+import { Team } from "../team"
+
 import TeamLink from "./TeamLink.vue"
 
 export default Vue.extend({

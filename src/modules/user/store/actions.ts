@@ -1,8 +1,8 @@
 import http from "axios"
 import { ActionContext, Store } from "vuex"
 
-import { Api } from "@/Helpers/Api"
-import { IState as RootState } from "@/Store/types"
+import { Api } from "@/helpers/api"
+import { IState as RootState } from "@/store/types"
 
 import {
   IEmailPasswordReset,

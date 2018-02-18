@@ -1,11 +1,11 @@
 import { Module } from "vuex"
 
-import { IState as RootState } from "@/Store/types"
+import { IState as RootState } from "@/store/types"
 
-import actions from "./Actions"
-import getters from "./Getters"
-import mutations from "./Mutations"
-import state from "./State"
+import actions from "./actions"
+import getters from "./getters"
+import mutations from "./mutations"
+import state from "./state"
 import { IState } from "./types"
 
 export const store: Module<IState, RootState> = {

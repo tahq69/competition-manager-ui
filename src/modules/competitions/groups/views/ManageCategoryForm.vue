@@ -4,16 +4,16 @@ import CripSelect from "crip-vue-select"
 import Vue from "vue"
 import { Route } from "vue-router"
 
-import Events from "@/Helpers/Events"
-import { createCompetitionDisciplineCategory as createRoute } from "@/Router/Routes"
+import Events from "@/helpers/events"
+import { createCompetitionDisciplineCategory as createRoute } from "@/router/routes"
 import { Id, Next } from "@/types"
 
-import { Area } from "../Areas/Area"
-import areaService from "../Areas/Service"
+import { Area } from "../../areas/area"
+import areaService from "../../areas/service"
 
-import { Category, DisplayType } from "./Category"
-import { Group } from "./Group"
-import groupService from "./Service"
+import { Category, DisplayType } from "../category"
+import { Group } from "../group"
+import groupService from "../service"
 
 function createPayload(route: Route) {
   return {

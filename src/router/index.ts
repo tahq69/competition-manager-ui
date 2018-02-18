@@ -3,12 +3,12 @@ import Router, { RouteConfig } from "vue-router"
 
 Vue.use(Router)
 
-import NotFound from "@/Components/NotFound.vue"
+import NotFound from "@/components/NotFound.vue"
 
-import { root as competitions } from "@/Modules/Competitions/Routes"
-import { home, posts } from "@/Modules/Posts/Routes"
-import { teams } from "@/Modules/Teams/Routes"
-import user from "@/Modules/User/Routes"
+import { root as competitions } from "@/modules/competitions/routes"
+import { home, posts } from "@/modules/posts/routes"
+import { teams } from "@/modules/teams/routes"
+import user from "@/modules/user/routes"
 
 const routes = [
   home,

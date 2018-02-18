@@ -1,4 +1,4 @@
-import { middleware, roles } from "@/Components/Auth"
+import { middleware, roles } from "@/components/auth"
 import { Id } from "@/types"
 
 export class DisciplineAuth {

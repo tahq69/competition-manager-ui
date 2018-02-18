@@ -1,11 +1,11 @@
 import { Location } from "vue-router"
 
-import { Entity } from "@/Helpers/Entity"
+import { Entity } from "@/helpers/entity"
 
-import { getCompetitionDetails } from "../Details/Routes"
-import { DimensionType } from "../Groups/Category"
-import { getGroups } from "../Groups/Routes"
-import { getDiscipline, getDisciplines, getManageDiscipline } from "./Routes"
+import { getCompetitionDetails } from "../details/routes"
+import { DimensionType } from "../Groups/category"
+import { getGroups } from "../groups/routes"
+import { getDiscipline, getDisciplines, getManageDiscipline } from "./routes"
 
 export class Discipline extends Entity {
   public category_group_type!: DimensionType

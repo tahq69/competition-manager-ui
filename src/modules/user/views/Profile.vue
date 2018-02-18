@@ -1,12 +1,12 @@
 <script lang="ts">
 import Vue from "vue"
 
-import { User } from "@/Components/Auth/User"
+import { User } from "@/components/auth/user"
 import { Next } from "@/types"
 
-import { IFetchProfile, IProfile } from "./Store/types"
+import { IFetchProfile, IProfile } from "../store/types"
 
-import userService from "./Service"
+import userService from "../service"
 
 export default Vue.extend({
   name: "Profile",

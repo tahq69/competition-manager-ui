@@ -2,10 +2,11 @@
 import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import CardWrapper from "@/Components/Cards/CardWrapper"
+import CardWrapper from "@/components/cards/card-wrapper"
 
-import teamService from "./Service"
-import { Team } from "./Team"
+import teamService from "../service"
+import { Team } from "../team"
+
 import TeamCard from "./TeamCard.vue"
 
 const { mixin, paging: teams } = createPaging<Team>(paging => {

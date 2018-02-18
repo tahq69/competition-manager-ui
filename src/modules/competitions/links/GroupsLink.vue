@@ -2,9 +2,9 @@
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import CardAction from "@/Components/Cards/CardAction.vue"
+import CardAction from "@/components/cards/CardAction.vue"
 
-import { getGroups } from "../Groups/Routes"
+import { getGroups } from "../groups/routes"
 
 export default Vue.extend({
   name: "GroupsLink",

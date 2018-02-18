@@ -2,12 +2,12 @@
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import { manageCompetitionDisciplineGroups } from "@/Router/Routes"
+import { manageCompetitionDisciplineGroups } from "@/router/routes"
 import { Id, Next } from "@/types"
 
-import { Category } from "./Category"
-import { Group } from "./Group"
-import groupService from "./Service"
+import { Category } from "../category"
+import { Group } from "../group"
+import groupService from "../service"
 
 export default Vue.extend({
   name: "DisciplineGroups",

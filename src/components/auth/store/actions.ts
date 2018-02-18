@@ -1,9 +1,9 @@
 import http from "axios"
 import { ActionContext, Store } from "vuex"
 
-import authService from "@/Components/Auth/Service"
-import { Api } from "@/Helpers/Api"
-import { IState as RootState } from "@/Store/types"
+import authService from "@/components/auth/service"
+import { Api } from "@/helpers/api"
+import { IState as RootState } from "@/store/types"
 
 import {
   IAddCompetitionPayload,

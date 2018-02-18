@@ -3,11 +3,11 @@ import Vuex from "vuex"
 
 Vue.use(Vuex)
 
-import { Getters as AuthGetters, store as auth } from "@/Components/Auth/Store"
-import { store as user } from "@/Modules/User/Store"
+import { Getters as AuthGetters, store as auth } from "@/components/auth/store"
+import { store as user } from "@/modules/user/store"
 
-import actions from "./Actions"
-import state from "./State"
+import actions from "./actions"
+import state from "./state"
 
 export type Getters = AuthGetters & {}
 

@@ -1,6 +1,6 @@
 import { Location, RouteConfig } from "vue-router"
 
-import * as roles from "@/Components/Auth/Roles"
+import * as roles from "@/components/auth/roles"
 import {
   convertParams,
   createTeam,
@@ -11,29 +11,38 @@ import {
   manageTeams,
   teamDetails,
   teams as teamsRoute,
-} from "@/Router/Routes"
+} from "@/router/routes"
 import { Id, IRouteParams } from "@/types"
 
 /** Public routes */
-const teamsView = () => import(/* webpackChunkName: "teams" */ "./Teams.vue")
-const teamView = () => import(/* webpackChunkName: "teams" */ "./Team.vue")
+const teamsView = () =>
+  import(/* webpackChunkName: "teams" */ "./views/Teams.vue")
+
+const teamView = () =>
+  import(/* webpackChunkName: "teams" */ "./views/Team.vue")
 
 /** Management routes */
 const manageMemberView = () =>
-  import(/* webpackChunkName: "teams" */ "./ManageMember.vue")
+  import(/* webpackChunkName: "teams" */ "./views/ManageMember.vue")
 
 const manageMembersView = () =>
-  import(/* webpackChunkName: "teams" */ "./ManageMembers.vue")
+  import(/* webpackChunkName: "teams" */ "./views/ManageMembers.vue")
 
 const manageTeamView = () =>
-  import(/* webpackChunkName: "teams" */ "./ManageTeam.vue")
+  import(/* webpackChunkName: "teams" */ "./views/ManageTeam.vue")
 
 const manageTeamsView = () =>
-  import(/* webpackChunkName: "teams" */ "./ManageTeams.vue")
+  import(/* webpackChunkName: "teams" */ "./views/ManageTeams.vue")
 
 const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] }
 
 export const teams = [
+  {
+    ...teamDetails,
+    component: teamView,
+    path: "/teams/:team(\\d+)",
+    props: true,
+  },
   {
     ...teamsRoute,
     component: teamsView,
@@ -44,12 +53,6 @@ export const teams = [
     component: manageTeamView,
     meta,
     path: "/teams/new",
-  },
-  {
-    ...teamDetails,
-    component: teamView,
-    path: "/teams/:team(\\d+)",
-    props: true,
   },
   {
     ...manageTeam,

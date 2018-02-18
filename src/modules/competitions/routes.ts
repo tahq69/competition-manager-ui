@@ -6,7 +6,7 @@ import {
   convertParams,
   createCompetition,
   manageCompetitions,
-} from "@/Router/Routes"
+} from "@/router/routes"
 import { Id, IRouteParams } from "@/types"
 
 import { areas } from "./areas/routes"

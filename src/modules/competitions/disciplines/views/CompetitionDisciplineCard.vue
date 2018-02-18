@@ -2,15 +2,15 @@
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import Card from "@/Components/Cards/Card"
-import EditBtn from "@/Components/EditBtn.vue"
-import { createCompetitionDiscipline } from "@/Router/Routes"
+import Card from "@/components/cards/card"
+import EditBtn from "@/components/EditBtn.vue"
+import { createCompetitionDiscipline } from "@/router/routes"
 import { Id, Next } from "@/types"
 
-import DisciplineLink from "../Links/DisciplineLink.vue"
+import DisciplineLink from "../../links/DisciplineLink.vue"
 
-import { DisciplineAuth } from "./Auth"
-import { Discipline } from "./Discipline"
+import { DisciplineAuth } from "../auth"
+import { Discipline } from "../discipline"
 
 export default Vue.extend({
   name: "CompetitionDisciplineCard",

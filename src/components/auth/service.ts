@@ -1,8 +1,8 @@
-import { Service } from "@/Helpers/Service"
+import { Service } from "@/helpers/service"
 
 import { Id } from "@/types"
 
-import { User } from "./User"
+import { User } from "./user"
 
 interface IUserRole {
   key: string

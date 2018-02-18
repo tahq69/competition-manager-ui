@@ -7,12 +7,12 @@ import {
   locales as AppLocales,
   LocaleType,
   SetLocale,
-} from "@/Lang"
+} from "@/lang"
 
-import * as routes from "@/Router/Routes"
-import { store } from "@/Store"
+import * as routes from "@/router/routes"
+import { store } from "@/store"
 
-import Auth, { middleware as auth, roles } from "./Auth"
+import Auth, { middleware as auth, roles } from "./auth"
 
 const manageRoles = [
   roles.CREATE_POST,

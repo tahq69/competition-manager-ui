@@ -3,10 +3,10 @@ import { Paging } from "crip-vue-bootstrap"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import { createCompetition, manageCompetitions } from "@/Router/Routes"
+import { createCompetition, manageCompetitions } from "@/router/routes"
 
-import { Competition } from "./Competition"
-import competitionService from "./Service"
+import { Competition } from "../competition"
+import competitionService from "../service"
 
 export default Vue.extend({
   name: "ManageCompetitions",

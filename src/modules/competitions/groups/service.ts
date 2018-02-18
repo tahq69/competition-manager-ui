@@ -1,8 +1,8 @@
-import { Service } from "@/Helpers/Service"
+import { Service } from "@/helpers/service"
 import { Id } from "@/types"
 
-import { Category, DisplayType } from "./Category"
-import { Group } from "./Group"
+import { Category, DisplayType } from "./category"
+import { Group } from "./group"
 
 interface IFetchGroups {
   competition_id: Id

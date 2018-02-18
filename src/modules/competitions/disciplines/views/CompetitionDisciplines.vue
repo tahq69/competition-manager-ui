@@ -1,12 +1,12 @@
 <script lang="ts">
 import Vue from "vue"
 
-import CardWrapper from "@/Components/Cards/CardWrapper"
+import CardWrapper from "@/components/cards/card-wrapper"
 import { Next } from "@/types"
 
-import { DisciplineAuth } from "./Auth"
-import { Discipline } from "./Discipline"
-import disciplineService from "./Service"
+import { DisciplineAuth } from "../auth"
+import { Discipline } from "../discipline"
+import disciplineService from "../service"
 
 import DisciplineCard from "./CompetitionDisciplineCard.vue"
 

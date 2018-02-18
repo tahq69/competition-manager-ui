@@ -1,6 +1,6 @@
 import { Location } from "vue-router"
 
-import { Entity } from "@/Helpers/Entity"
+import { Entity } from "@/helpers/entity"
 import { Id } from "@/types"
 
 export enum AreaType {

@@ -1,12 +1,12 @@
 import { Location } from "vue-router"
 
-import { Entity } from "@/Helpers/Entity"
+import { Entity } from "@/helpers/entity"
 import {
   createTeamMember,
   manageTeam,
   manageTeamMembers,
   teamDetails,
-} from "@/Router/Routes"
+} from "@/router/routes"
 
 export class Team extends Entity {
   public logo!: string

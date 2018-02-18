@@ -1,11 +1,11 @@
 import { Location } from "vue-router"
 
-import { Entity } from "@/Helpers/Entity"
-import { competitionDisciplineGroups } from "@/Router/Routes"
+import { Entity } from "@/helpers/entity"
+import { competitionDisciplineGroups } from "@/router/routes"
 import { Id } from "@/types"
 
-import { Category, DimensionType } from "./Category"
-import { getGroups } from "./Routes"
+import { Category, DimensionType } from "./category"
+import { getGroups } from "./routes"
 
 export class Group extends Entity {
   public competition_id!: Id

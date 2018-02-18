@@ -1,18 +1,18 @@
 import http from "axios"
 
-import authService from "@/Components/Auth/Service"
-import config from "@/Config"
-import Storage from "@/Helpers/LocalStorage"
-import { i18n } from "@/Lang"
-import { store } from "@/Store"
+import authService from "@/components/auth/service"
+import config from "@/config"
+import Storage from "@/helpers/local-storage"
+import { i18n } from "@/lang"
+import { store } from "@/store"
 
-import { Middleware } from "./Middleware"
-import * as Roles from "./Roles"
+import { Middleware } from "./middleware"
+import * as Roles from "./roles"
 import {
   IFetchAuthUser,
   ILogoutPayload,
   ITokenResponse,
-} from "./Store/types"
+} from "./store/types"
 
 export const middleware = Middleware
 export const roles = Roles

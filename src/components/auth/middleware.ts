@@ -1,9 +1,9 @@
 import Vue from "vue"
 
-import { Getters, store } from "@/Store"
+import { Getters, store } from "@/store"
 import { Id } from "@/types"
-import * as sysRoles from "./Roles"
-import { ICompetition, IFetchCompetition } from "./Store/types"
+import * as sysRoles from "./roles"
+import { ICompetition, IFetchCompetition } from "./store/types"
 
 const getters: Getters = store.getters
 const log = Vue.logger.group("auth.middleware")

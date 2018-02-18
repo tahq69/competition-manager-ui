@@ -2,12 +2,12 @@ import { AxiosResponse } from "axios"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import Auth from "@/Components/Auth"
-import config from "@/Config"
-import { t, Utils } from "@/Helpers"
-import router from "@/Router"
-import { login } from "@/Router/Routes"
-import { store } from "@/Store"
+import Auth from "@/components/auth"
+import config from "@/config"
+import { t, Utils } from "@/helpers"
+import router from "@/router"
+import { login } from "@/router/routes"
+import { store } from "@/store"
 import { IDictionary } from "@/types"
 
 interface IUrlParams {

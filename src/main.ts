@@ -17,7 +17,7 @@ import CripBootstrap, { IBootstrapOptions } from "crip-vue-bootstrap"
 import axios from "axios"
 
 import { sync } from "vuex-router-sync"
-import "./Helpers/Logger"
+import "./helpers/logger"
 
 Vue.use<CripSelectOptions>(CripSelect)
 Vue.use<IBootstrapOptions>(CripBootstrap, { prefix: "C" })
@@ -25,12 +25,12 @@ Vue.use<INoticesOptions>(CripNotice, { duration: 4, styles: { top: "73px", right
 Vue.use<ILoadingOptions>(CripLoading, { axios, color: "rgba(255,255,255,1)", verbose: false })
 
 import App from "./App.vue"
-import Lang, { i18n } from "./Lang"
-import Router from "./Router"
-import Guard from "./Router/Guard"
-import { store } from "./Store"
+import Lang, { i18n } from "./lang"
+import Router from "./router"
+import Guard from "./router/guard"
+import { store } from "./store"
 
-import "./Helpers/Filters"
+import "./helpers/filters"
 
 // Vue.use<ILoggerOptions>(Logger, config.logs)
 sync(store, Router)

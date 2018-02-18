@@ -1,8 +1,8 @@
 import { Paging } from "crip-vue-bootstrap"
 
-import { Pagination, Service } from "@/Helpers"
-import { store } from "@/Store"
-import { Competition } from "./Competition"
+import { Pagination, Service } from "@/helpers"
+import { store } from "@/store"
+import { Competition } from "./competition"
 
 interface IFetchCompetitions {
   paging: Paging<Competition>

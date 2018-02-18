@@ -7,18 +7,19 @@ import {
   profile,
   resetPassword,
   signUp,
-} from "@/Router/Routes"
+} from "@/router/routes"
 
-import Login from "./Login.vue"
-import SignUp from "./SignUp.vue"
+import Login from "./views/Login.vue"
+import SignUp from "./views/SignUp.vue"
 
 const resetPasswordVue = () =>
-  import(/* webpackChunkName: "user" */ "./ResetPassword.vue")
+  import(/* webpackChunkName: "user" */ "./views/ResetPassword.vue")
 
 const forgotPasswordVue = () =>
-  import(/* webpackChunkName: "user" */ "./ForgotPassword.vue")
+  import(/* webpackChunkName: "user" */ "./views/ForgotPassword.vue")
 
-const profileVue = () => import(/* webpackChunkName: "user" */ "./Profile.vue")
+const profileVue = () =>
+  import(/* webpackChunkName: "user" */ "./views/Profile.vue")
 
 export default [
   {

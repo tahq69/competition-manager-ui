@@ -2,10 +2,10 @@
 import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import { login } from "@/Router/Routes"
-import { store } from "@/Store"
+import { login } from "@/router/routes"
+import { store } from "@/store"
 
-import { IEmailPasswordReset } from "./Store/types"
+import { IEmailPasswordReset } from "../store/types"
 
 export default Vue.extend({
   name: "ForgotPassword",

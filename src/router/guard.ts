@@ -1,9 +1,9 @@
 import Vue from "vue"
 import Router, { Location, RawLocation, Route, RouteRecord } from "vue-router"
 
-import { middleware as auth } from "@/Components/Auth"
+import { middleware as auth } from "@/components/auth"
 import { Next } from "@/types"
-import { home, login } from "./Routes"
+import { home, login } from "./routes"
 
 export default function(router: Router) {
   // Route may require user authorization.

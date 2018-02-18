@@ -3,10 +3,10 @@ import Vue from "vue"
 
 import { Next } from "@/types"
 
-import { Discipline } from "./Discipline"
-import disciplineService from "./Service"
+import { Discipline } from "../discipline"
+import disciplineService from "../service"
 
-import { DisciplineAuth } from "./Auth"
+import { DisciplineAuth } from "../auth"
 
 export default Vue.extend({
   name: "DisciplineDetails",

@@ -1,4 +1,4 @@
-import { middleware as auth, roles } from "@/Components/Auth"
+import { middleware as auth, roles } from "@/components/auth"
 import { Id } from "@/types"
 
 interface IEdit {

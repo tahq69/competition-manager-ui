@@ -1,15 +1,15 @@
 <script lang="ts">
 import Vue from "vue"
 
-import CardActions from "@/Components/Cards/CardActions.vue"
+import CardActions from "@/components/cards/CardActions.vue"
 import { Next } from "@/types"
 
-import CompetitionLink from "../Links/CompetitionLink.vue"
-import DisciplineLink from "../Links/DisciplineLink.vue"
-import DisciplinesLink from "../Links/DisciplinesLink.vue"
-import GroupsLink from "../Links/GroupsLink.vue"
+import CompetitionLink from "../../links/CompetitionLink.vue"
+import DisciplineLink from "../../links/DisciplineLink.vue"
+import DisciplinesLink from "../../links/DisciplinesLink.vue"
+import GroupsLink from "../../links/GroupsLink.vue"
 
-import { Discipline } from "./Discipline"
+import { Discipline } from "../discipline"
 
 export default Vue.extend({
   name: "Discipline",

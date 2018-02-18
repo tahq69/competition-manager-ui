@@ -2,11 +2,11 @@
 import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import Auth, { middleware as auth } from "@/Components/Auth"
-import { home } from "@/Router/Routes"
-import { store } from "@/Store"
+import Auth, { middleware as auth } from "@/components/auth"
+import { home } from "@/router/routes"
+import { store } from "@/store"
 
-import { IRegister } from "./Store/types"
+import { IRegister } from "../store/types"
 
 export default Vue.extend({
   name: "SignUp",

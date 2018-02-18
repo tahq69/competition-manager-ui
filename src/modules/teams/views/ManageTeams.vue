@@ -3,10 +3,10 @@ import { Paging } from "crip-vue-bootstrap"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import { createTeam, manageTeams } from "@/Router/Routes"
+import { createTeam, manageTeams } from "@/router/routes"
 
-import teamService from "./Service"
-import { Team } from "./Team"
+import teamService from "../service"
+import { Team } from "../team"
 
 export default Vue.extend({
   name: "ManageTeams",

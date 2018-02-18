@@ -1,10 +1,10 @@
 <script lang="ts">
 import Vue from "vue"
 
-import { Competition } from "./Competition"
-import AreasLink from "./Links/AreasLink.vue"
-import CompetitionLink from "./Links/CompetitionLink.vue"
-import DisciplinesLink from "./Links/DisciplinesLink.vue"
+import { Competition } from "../competition"
+import AreasLink from "../links/AreasLink.vue"
+import CompetitionLink from "../links/CompetitionLink.vue"
+import DisciplinesLink from "../links/DisciplinesLink.vue"
 
 export default Vue.extend({
   name: "Competition",

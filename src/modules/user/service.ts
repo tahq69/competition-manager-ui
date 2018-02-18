@@ -1,6 +1,6 @@
-import { User } from "@/Components/Auth/User"
-import { Api, Service } from "@/Helpers"
-import { getters } from "@/Store"
+import { User } from "@/components/auth/user"
+import { Api, Service } from "@/helpers"
+import { getters } from "@/store"
 
 import { IFetchUser } from "./types"
 

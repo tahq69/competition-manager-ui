@@ -1,13 +1,13 @@
 <script lang="ts">
 import Vue from "vue"
 
-import Card from "@/Components/Cards/Card"
-import EditBtn from "@/Components/EditBtn.vue"
+import Card from "@/components/cards/card"
+import EditBtn from "@/components/EditBtn.vue"
 
-import CompetitionLink from "./Links/CompetitionLink.vue"
+import CompetitionLink from "../links/CompetitionLink.vue"
 
-import { CompetitionAuth } from "./Auth"
-import { Competition } from "./Competition"
+import { CompetitionAuth } from "../auth"
+import { Competition } from "../competition"
 
 export default Vue.extend({
   name: "CompetitionCard",

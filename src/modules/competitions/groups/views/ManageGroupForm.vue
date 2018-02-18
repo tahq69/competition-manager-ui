@@ -3,12 +3,12 @@ import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 import { Route } from "vue-router"
 
-import Events from "@/Helpers/Events"
-import { createCompetitionDisciplineGroup as createRoute } from "@/Router/Routes"
+import Events from "@/helpers/events"
+import { createCompetitionDisciplineGroup as createRoute } from "@/router/routes"
 import { Id, Next } from "@/types"
 
-import { Group } from "./Group"
-import groupService from "./Service"
+import { Group } from "../group"
+import groupService from "../service"
 
 function createPayload(route: Route) {
   return {

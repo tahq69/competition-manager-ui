@@ -1,7 +1,7 @@
 import { Location } from "vue-router"
 
-import { Entity } from "@/Helpers/Entity"
-import { profile } from "@/Router/Routes"
+import { Entity } from "@/helpers/entity"
+import { profile } from "@/router/routes"
 
 export class User extends Entity {
   public name!: string

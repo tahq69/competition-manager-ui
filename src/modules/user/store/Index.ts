@@ -1,7 +1,7 @@
-import actions from "./Actions"
-import getters from "./Getters"
-import mutations from "./Mutations"
-import state from "./State"
+import actions from "./actions"
+import getters from "./getters"
+import mutations from "./mutations"
+import state from "./state"
 
 export const store = {
   state,

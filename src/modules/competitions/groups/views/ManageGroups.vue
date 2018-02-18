@@ -1,18 +1,18 @@
 <script lang="ts">
 import Vue from "vue"
 
-import Events from "@/Helpers/Events"
+import Events from "@/helpers/events"
 import { Id, Next } from "@/types"
 
-import { Category } from "./Category"
-import { Group } from "./Group"
+import { Category } from "../category"
+import { Group } from "../group"
 import {
   getCreateCategory,
   getCreateGroup,
   getManageCategory,
   getManageGroup,
-} from "./Routes"
-import groupService from "./Service"
+} from "../routes"
+import groupService from "../service"
 
 export default Vue.extend({
   name: "ManageGroups",
