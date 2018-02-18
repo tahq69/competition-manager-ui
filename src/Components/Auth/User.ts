@@ -4,11 +4,11 @@ import { Entity } from "@/Helpers/Entity"
 import { profile } from "@/Router/Routes"
 
 export class User extends Entity {
-  public name: string
+  public name!: string
 
-  public key: string
-  public text: string
-  public value: { id: number; user_id: number; name: string }
+  public key!: string
+  public text!: string
+  public value!: { id: number; user_id: number; name: string }
 
   constructor(data: any) {
     super()

@@ -43,5 +43,6 @@ export class Pagination<T> {
     this.prevPageUrl = data.prev_page_url
 
     this.items = []
+    this.loading = false
   }
 }

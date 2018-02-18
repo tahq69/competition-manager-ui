@@ -8,14 +8,14 @@ import { getGroups } from "../Groups/Routes"
 import { getDiscipline, getDisciplines, getManageDiscipline } from "./Routes"
 
 export class Discipline extends Entity {
-  public category_group_type: DimensionType
-  public category_type: DimensionType
-  public competition_id: number
-  public description: string
-  public game_type: string
-  public short: string
-  public title: string
-  public type: string
+  public category_group_type!: DimensionType
+  public category_type!: DimensionType
+  public competition_id!: number
+  public description!: string
+  public game_type!: string
+  public short!: string
+  public title!: string
+  public type!: string
 
   public createUrl = "competitions/{competition_id}/disciplines"
   public updateUrl = "competitions/{competition_id}/disciplines/{id}"

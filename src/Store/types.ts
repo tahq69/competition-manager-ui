@@ -6,4 +6,6 @@ export interface IState {
   teams: TeamsState
 }
 
-export interface ICommonState {}
+export interface ICommonState {
+  test: null
+}

@@ -12,17 +12,17 @@ import {
 import { getDisciplines } from "./Disciplines/Routes"
 
 export class Competition extends Entity {
-  public ambulance: string
-  public cooperation: string
-  public equipment: string
-  public invitation: string
-  public price: string
-  public prizes: string
-  public program: string
-  public rules: string
-  public subtitle: string
-  public team_id: Id
-  public title: string
+  public ambulance!: string
+  public cooperation!: string
+  public equipment!: string
+  public invitation!: string
+  public price!: string
+  public prizes!: string
+  public program!: string
+  public rules!: string
+  public subtitle!: string
+  public team_id!: Id
+  public title!: string
 
   public judge_id?: number
   public judge_name?: string

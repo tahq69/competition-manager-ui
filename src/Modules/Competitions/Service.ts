@@ -17,7 +17,10 @@ class CompetitionService extends Service {
   public async fetchCompetitions(payload: IFetchCompetitions) {
     return await this.safeContext(async (http, api) => {
       const url = api.url("competitions", {
-        params: { ...payload.paging.urlParams, owned: !!payload.owned },
+        params: {
+          ...payload.paging.urlParams,
+          owned: (!!payload.owned).toString(),
+        },
       })
 
       const response = await http.get(url)
