@@ -1,30 +1,29 @@
 <script lang="ts">
 import Vue from "vue"
 
-import { store } from "@/Store"
+import { User } from "@/Components/Auth/User"
+import { Next } from "@/types"
 
 import { IFetchProfile, IProfile } from "./Store/types"
+
+import userService from "./Service"
 
 export default Vue.extend({
   name: "Profile",
 
-  async created() {
-    this.profile = await store.dispatch<IFetchProfile>({
-      type: "fetchProfile",
-      userId: this.userId,
-    })
+  beforeRouteEnter(to, from, next: Next<any>) {
+    userService.fetchUser({ id: to.params.id }).then(user => next(vm => vm.setUser(user)))
   },
 
   data() {
-    const profile: IProfile | null = null
     return {
-      profile,
+      user: {} as User,
     }
   },
 
-  computed: {
-    userId(): number {
-      return parseInt((this.$route.params.id || store.state.auth.user.id).toString(), 10)
+  methods: {
+    setUser(user: User) {
+      this.user = user
     },
   },
 })

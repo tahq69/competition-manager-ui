@@ -18,3 +18,5 @@ export const store = new Vuex.Store({
     user,
   },
 })
+
+export const getters: Getters = store.getters
