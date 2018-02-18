@@ -12,8 +12,8 @@ interface IUser {
 }
 
 export class TeamMember extends Entity {
-  public membership_type!: string
-  public name!: string
+  public membership_type: string
+  public name: string
   public team?: Team
   public team_id?: number
   public user?: IUser

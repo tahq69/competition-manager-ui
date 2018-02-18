@@ -112,76 +112,86 @@ export default Vue.extend({
 })
 </script>
 
-
 <template>
-  <form @submit.prevent="submit">
+  <form submitprevent="submit">
     <!-- #title -->
-    <CFormGroup for="title" :form="form" label="Full title">
-      <input
-        type="text" id="title" name="title"
-        v-model="form.data.title"
-        :class="[{'is-invalid': form.errors.title}, 'form-control']"
-      >
+    <CFormGroup for="title"
+                :form="form"
+                label="Full title">
+      <input type="text"
+             id="title"
+             name="title"
+             v-model="form.data.title"
+             :class="[{'is-invalid': form.errors.title}, 'form-control']">
     </CFormGroup>
 
     <!-- #short -->
-    <CFormGroup for="short" :form="form" label="Short title">
-      <input
-        type="text" id="short" name="short"
-        v-model="form.data.short"
-        :class="[{'is-invalid': form.errors.short}, 'form-control']"
-      >
+    <CFormGroup for="short"
+                :form="form"
+                label="Short title">
+      <input type="text"
+             id="short"
+             name="short"
+             v-model="form.data.short"
+             :class="[{'is-invalid': form.errors.short}, 'form-control']">
     </CFormGroup>
 
     <!-- #rounds -->
-    <CFormGroup for="rounds" :form="form" label="Rounds">
-      <input
-        type="number" id="rounds" name="rounds"
-        v-model="form.data.rounds"
-        :class="[{'is-invalid': form.errors.rounds}, 'form-control']"
-      >
+    <CFormGroup for="rounds"
+                :form="form"
+                label="Rounds">
+      <input type="number"
+             id="rounds"
+             name="rounds"
+             v-model="form.data.rounds"
+             :class="[{'is-invalid': form.errors.rounds}, 'form-control']">
     </CFormGroup>
 
     <!-- #time -->
-    <CFormGroup for="time" :form="form" label="Round time">
-      <input
-        type="number" id="time" name="time"
-        v-model="form.data.time"
-        :class="[{'is-invalid': form.errors.time}, 'form-control']"
-      >
+    <CFormGroup for="time"
+                :form="form"
+                label="Round time">
+      <input type="number"
+             id="time"
+             name="time"
+             v-model="form.data.time"
+             :class="[{'is-invalid': form.errors.time}, 'form-control']">
     </CFormGroup>
 
     <!-- #min -->
-    <CFormGroup for="min" :form="form" label="Minimum value">
-      <input
-        type="number" id="min" name="min"
-        v-model="form.data.min"
-        :class="[{'is-invalid': form.errors.min}, 'form-control']"
-      >
+    <CFormGroup for="min"
+                :form="form"
+                label="Minimum value">
+      <input type="number"
+             id="min"
+             name="min"
+             v-model="form.data.min"
+             :class="[{'is-invalid': form.errors.min}, 'form-control']">
     </CFormGroup>
 
     <!-- #max -->
-    <CFormGroup for="max" :form="form" label="Maximum value">
-      <input
-        type="number" id="max" name="max"
-        v-model="form.data.max"
-        :class="[{'is-invalid': form.errors.max}, 'form-control']"
-      >
+    <CFormGroup for="max"
+                :form="form"
+                label="Maximum value">
+      <input type="number"
+             id="max"
+             name="max"
+             v-model="form.data.max"
+             :class="[{'is-invalid': form.errors.max}, 'form-control']">
     </CFormGroup>
 
     <!-- #submit -->
     <CFormGroup>
-      <button
-        id="submit" type="submit"
-        class="btn btn-primary"
-      >
+      <button id="submit"
+              type="submit"
+              class="btn btn-primary">
         Save
       </button>
 
-      <button
-        v-if="form.data.id > 0" type="button"
-        @click="destroy" class="btn btn-danger"
-      >
+      <button v-if="form.data.id > 0"
+              type="button"
+              @click="destroy"
+              class="btn btn-danger">
         Delete
       </button>
     </CFormGroup>

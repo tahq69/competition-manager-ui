@@ -9,9 +9,9 @@ import {
 } from "@/router/routes"
 
 export class Team extends Entity {
-  public logo!: string
-  public short!: string
-  public name!: string
+  public logo: string
+  public short: string
+  public name: string
 
   constructor(data: any) {
     super()
