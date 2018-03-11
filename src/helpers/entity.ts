@@ -1,17 +1,29 @@
 import { Id } from "@/types"
 
 export interface IAudit {
-  at: Date
-  by: number
-  name: string
+  at?: Date
+  by?: number
+  name?: string
 }
 
 export interface ICreatedAudit extends IAudit {
-  creator: any
+  creator?: any
 }
 
 export interface IModifiedAudit extends IAudit {
-  modifier: any
+  modifier?: any
+}
+
+export interface IEntity {
+  id?: Id
+  created_at?: Date
+  created_by?: number
+  created_by_name?: string
+  creator?: any
+  updated_at?: Date
+  updated_by?: number
+  updated_by_name?: string
+  modifier?: any
 }
 
 export class Entity {
@@ -26,8 +38,8 @@ export class Entity {
    * Update current instance base properties.
    * @param data
    */
-  public updateProps(data: any) {
-    this.id = data.id
+  public updateProps(data: IEntity) {
+    this.id = data.id || 0
 
     this.created = {
       at: data.created_at,

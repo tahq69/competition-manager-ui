@@ -36,7 +36,7 @@ export class Api {
    * Handle application error.
    * @param error
    */
-  public static handle(error: any): Error {
+  public static handle(error: any): string {
     if (error && error.response) {
       return Api.handleHttpError(error.response)
     }
@@ -45,7 +45,7 @@ export class Api {
 
     Vue.notice.error({ title: t("app.api_unexpectedError") })
 
-    return new Error(t("app.api_unexpectedError"))
+    return t("app.api_unexpectedError")
   }
 
   /**
@@ -92,7 +92,7 @@ export class Api {
    * Handle http error and throw details.
    * @param {AxiosResponse} response
    */
-  private static handleHttpError(response: AxiosResponse): Error {
+  private static handleHttpError(response: AxiosResponse): string {
     if (response.status !== 422) {
       return Api.handleUnexpectedHttpError(response)
     }
@@ -109,10 +109,10 @@ export class Api {
 
   /**
    * Handle unexpected http error and handle its details.
-   * @param {AxiosResponse} response
-   * @returns {Error}
+   * @param   {AxiosResponse} response
+   * @returns {string} Error message.
    */
-  private static handleUnexpectedHttpError(response: AxiosResponse): Error {
+  private static handleUnexpectedHttpError(response: AxiosResponse): string {
     switch (response.status) {
       case 401:
         Vue.logger.error("Api.http -> unauthorized", response.data)
@@ -127,10 +127,10 @@ export class Api {
           query: { redirect: router.currentRoute.fullPath },
         })
 
-        return new Error(t("app.unauthorized"))
+        return t("app.unauthorized")
       case 404:
         Vue.notice.error({ title: t("app.api_actionNotFound") })
-        return new Error(t("app.api_actionNotFound"))
+        return t("app.api_actionNotFound")
       case 403:
       case 405:
         Vue.notice.warning({ title: t("app.api_actionNotAllowed") })
@@ -138,13 +138,13 @@ export class Api {
         // TODO: send this as email to admin to be able detect users who is
         // trying hack app or some places has not enough protection and simple
         // user can open it and create not allowed requests.
-        return new Error(t("app.api_actionNotAllowed"))
+        return t("app.api_actionNotAllowed")
       default:
         Vue.logger.log("Api.http -> unknown", response)
         Vue.notice.warning({ title: t("app.api_unknownHttpError") })
         // TODO: send this as email to admin to be able detect unexpected http
         // errors.
-        return new Error(t("app.api_unknownHttpError"))
+        return t("app.api_unknownHttpError")
     }
   }
 }
