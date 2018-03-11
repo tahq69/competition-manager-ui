@@ -12,6 +12,14 @@ interface IFetchTeam {
 
 interface IFetchTeams {
   paging: Paging<Team>
+  managed?: boolean
+}
+
+interface ISaveTeam {
+  id?: Id
+  name: string
+  short: string
+  logo: string
 }
 
 interface ISaveTeamMember {
@@ -34,7 +42,7 @@ interface IFetchMembers {
 class TeamsService extends Service {
   /**
    * Fetch single team instance from server api.
-   * @param {IFetchTeam} payload
+   * @param   {IFetchTeam} payload
    * @returns {Team}
    */
   public async fetchTeam(payload: IFetchTeam) {
@@ -50,14 +58,16 @@ class TeamsService extends Service {
 
   /**
    * Fetch teams list from server api endpoint as pagination object.
-   * @param {IFetchTeams} payload
+   * @param   {IFetchTeams} payload
    * @returns {Promise<Pagination<Team>>}
    */
   public async fetchTeams(payload: IFetchTeams) {
     return await this.safeContext(async (http, api) => {
-      const url = api.url("teams", {
-        params: payload.paging.urlParams,
+      const params = Object.assign({}, payload.paging.urlParams, {
+        managed: payload.managed ? 1 : 0
       })
+
+      const url = api.url("teams", { params })
 
       const response = await http.get(url)
       const pagination = Pagination.create<Team>(response, r => new Team(r))
@@ -66,8 +76,20 @@ class TeamsService extends Service {
   }
 
   /**
+   * Save team instance in server api.
+   * @param   {ISaveTeam} payload Save record payload.
+   * @returns {Promise<Team>} Saved record entity.
+   */
+  public async saveTeam(payload: ISaveTeam) {
+    return await this.safeContext(async (http, api) => {
+      const entity = new Team(payload)
+      return this.save(entity)
+    })
+  }
+
+  /**
    * Save team member instance in server api.
-   * @param {IFetchTeam} payload
+   * @param   {IFetchTeam} payload
    * @returns {Promise<TeamMember>}
    */
   public async saveTeamMember(payload: ISaveTeamMember): Promise<TeamMember> {
@@ -93,7 +115,7 @@ class TeamsService extends Service {
 
   /**
    * Fetch team members list from server api endpoint as pagination object.
-   * @param {IFetchTeamMembers} payload
+   * @param   {IFetchTeamMembers} payload
    * @returns {Promise<Pagination<TeamMember>>}
    */
   public async fetchTeamMembers(payload: IFetchMembers) {

@@ -28,6 +28,7 @@ export default Vue.extend({
     async fetchPage() {
       const pagination = await teamService.fetchTeams({
         paging: this.paging,
+        managed: true,
       })
 
       this.paging.update(pagination)

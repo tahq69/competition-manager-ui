@@ -38,6 +38,24 @@ const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] }
 
 export const teams = [
   {
+    ...manageTeam,
+    component: manageTeamView,
+    meta,
+    path: "/teams/edit/:team(\\d+)",
+  },
+  {
+    ...createTeam,
+    component: manageTeamView,
+    meta,
+    path: "/teams/new",
+  },
+  {
+    ...manageTeams,
+    component: manageTeamsView,
+    meta,
+    path: "/teams/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+  },
+  {
     ...teamDetails,
     component: teamView,
     path: "/teams/:team(\\d+)",
@@ -47,24 +65,6 @@ export const teams = [
     ...teamsRoute,
     component: teamsView,
     path: "/teams/:page(\\d+)?/:sort?/:direction?",
-  },
-  {
-    ...createTeam,
-    component: manageTeamView,
-    meta,
-    path: "/teams/new",
-  },
-  {
-    ...manageTeam,
-    component: manageTeamView,
-    meta,
-    path: "/teams/edit/:id(\\d+)",
-  },
-  {
-    ...manageTeams,
-    component: manageTeamsView,
-    meta,
-    path: "/teams/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   },
   {
     ...createTeamMember,

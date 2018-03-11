@@ -80,6 +80,12 @@ export default Vue.extend({
                        :title="$t('teams.manage_members_grid_head_name_title')">
             {{ $t('teams.manage_members_grid_head_name_text') }}
           </CGridHeader>
+
+          <CGridHeader :paging="paging"
+                       column="membership_type"
+                       :title="$t('teams.manage_members_grid_head_membership_type_title')">
+            {{ $t('teams.manage_members_grid_head_membership_type_text') }}
+          </CGridHeader>
         </tr>
       </thead>
       <tbody>
@@ -96,6 +102,7 @@ export default Vue.extend({
                 {{ $t('teams.manage_members_grid_btn_edit_text') }}
               </router-link>
             </td>
+            <td>{{ member.membership_type }}</td>
           </tr>
         </template>
       </tbody>
