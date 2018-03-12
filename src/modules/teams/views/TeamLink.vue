@@ -4,7 +4,7 @@ import { Location } from "vue-router"
 
 import CardAction from "@/components/cards/CardAction.vue"
 
-import { getTeamDetails } from "../routes"
+import { getTeamMembers } from "../members/routes"
 
 export default Vue.extend({
   name: "TeamLink",
@@ -19,19 +19,18 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return getTeamDetails({ team: this.team })
+      const team = this.team
+      return getTeamMembers({ team })
     },
   },
 })
 </script>
 
 <template>
-  <CardAction
-    :to="to"
-    :isArrow="action"
-    :isBtn="action"
-    :direction="direction"
-  >
+  <CardAction :to="to"
+              :isArrow="action"
+              :isBtn="action"
+              :direction="direction">
     <slot>Team</slot>
   </CardAction>
 </template>

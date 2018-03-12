@@ -5,7 +5,7 @@ import {
   createTeamMember,
   manageTeam,
   manageTeamMembers,
-  teamDetails,
+  teamMembers,
 } from "@/router/routes"
 
 export interface ITeam extends IEntity {
@@ -34,9 +34,9 @@ export class Team extends Entity {
         ...createTeamMember,
         params: { team },
       },
-      details: {
-        ...teamDetails,
-        params: { tab: "members", team },
+      members: {
+        ...teamMembers,
+        params: { team },
       },
       edit: {
         ...manageTeam,

@@ -35,6 +35,7 @@ export const createTeamMember = { name: "createTeamMember" }
 export const manageTeamMember = { name: "manageTeamMember" }
 
 export const teams = { name: "teams" }
+export const teamMembers = { name: "teamMembers" }
 export const teamDetails = { name: "teamDetails", params: { tab: "members" } }
 
 export const competitions = { name: "competitions" }

@@ -9,10 +9,11 @@ import {
   manageTeamMember,
   manageTeamMembers,
   manageTeams,
-  teamDetails,
   teams as teamsRoute,
 } from "@/router/routes"
 import { Id, IRouteParams } from "@/types"
+
+import { members } from "./members/routes"
 
 /** Public routes */
 const teamsView = () =>
@@ -56,10 +57,10 @@ export const teams = [
     path: "/teams/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   },
   {
-    ...teamDetails,
     component: teamView,
     path: "/teams/:team(\\d+)",
     props: true,
+    children: [...members]
   },
   {
     ...teamsRoute,
@@ -86,10 +87,3 @@ export const teams = [
       "/teams/:team(\\d+)/members/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   },
 ] as RouteConfig[]
-
-export function getTeamDetails(p: { team: Id }) {
-  return {
-    ...teamDetails,
-    params: convertParams(p),
-  }
-}
