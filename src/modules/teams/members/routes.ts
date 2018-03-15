@@ -13,7 +13,7 @@ const teamMembersView = () =>
 export const members = [
   {
     ...teamMembers,
-    path: "",
+    path: ":page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
     component: teamMembersView,
     props: true
   }

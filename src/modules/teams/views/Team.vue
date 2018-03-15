@@ -66,11 +66,9 @@ export default Vue.extend({
             </li>
           </ul>
         </div>
-
         <!-- /.card-header -->
-        <div class="card-body">
-          <router-view></router-view>
-        </div>
+
+        <router-view></router-view>
       </div>
     </CCol>
   </CRow>

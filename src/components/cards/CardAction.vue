@@ -6,13 +6,13 @@ export default Vue.extend({
 
   props: {
     to: { type: [Object, String], required: true },
+    exact: { type: Boolean, default: true },
     isBtn: { type: Boolean, default: true },
     isArrow: { type: Boolean, default: true },
     direction: {
       type: String,
       default: "left",
-      validator: (val: string) =>
-        ["left", "right", "up", "down", ""].indexOf(val) > -1,
+      validator: (val: string) => ["left", "right", "up", "down", ""].indexOf(val) > -1,
     },
   },
 
@@ -30,11 +30,12 @@ export default Vue.extend({
 
 
 <template>
-  <router-link
-    exact
-    :to="to"
-    :class="classes"
-  >
-    &nbsp;<slot><!-- default slot --></slot>&nbsp;
+  <router-link :exact="exact"
+               :to="to"
+               :class="classes">
+    &nbsp;
+    <slot>
+      <!-- default slot -->
+    </slot>&nbsp;
   </router-link>
 </template>

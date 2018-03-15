@@ -13,6 +13,7 @@ export default Vue.extend({
 
   props: {
     team: { type: [String, Number], required: true },
+    exact: { type: Boolean, default: false },
     action: { type: Boolean, default: false },
     direction: { type: String, default: "left" },
   },
@@ -30,6 +31,7 @@ export default Vue.extend({
   <CardAction :to="to"
               :isArrow="action"
               :isBtn="action"
+              :exact="exact"
               :direction="direction">
     <slot>Team</slot>
   </CardAction>
