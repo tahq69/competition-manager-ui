@@ -29,21 +29,20 @@ export const root: RouteConfig[] = [
     ...manageCompetitions,
     component: manageCms,
     meta: { auth: true, roles: [roles.SUPER_ADMIN] },
-    path:
-      "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+    path: "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
   },
   {
     ...competitions,
     component: competitionsView,
     path: "/competitions/:page(\\d+)?",
   },
-  {
+  /*{
     ...createCompetition,
     component: competition,
     meta: { auth: true, teamRoles: [roles.CREATE_COMPETITIONS] },
     path: "/competition/new/:team(\\d+)",
     props: true,
-  },
+  },*/
   {
     component: competition,
     path: "/competition/:cm(\\d+)",

@@ -59,14 +59,14 @@ export default Vue.extend({
     <CNavbar :left="leftNav"
              :right="rightNav"
              :containered="true"
-             class="navbar-default navbar-static-top">
+             class="navbar-default fixed-top">
       <router-link :to="home"
                    class="navbar-brand">
         {{ $t('app.title') }}
       </router-link>
     </CNavbar>
 
-    <div class="container mt-3">
+    <div class="container app-container mt-3">
       <router-view />
     </div>
   </div>

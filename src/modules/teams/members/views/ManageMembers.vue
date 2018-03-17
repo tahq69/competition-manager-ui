@@ -1,59 +1,51 @@
 <script lang="ts">
-import { Paging } from "crip-vue-bootstrap"
+import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import { createTeamMember, manageTeam, manageTeamMembers } from "@/router/routes"
+import { createTeamMember, manageTeam } from "@/router/routes"
 
-import teamService from "../service"
-import { Team } from "../team"
-import { TeamMember } from "../team-member"
+import { TeamMember } from "../../team-member"
+import memberService from "../service"
+
+const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
+  return memberService.fetchTeamMembers({ paging, team_id: to.params.team })
+})
 
 export default Vue.extend({
   name: "ManageMembers",
 
+  props: {
+    team: { type: [String, Number], required: true },
+  },
+
+  mixins: [mixin],
+
   data() {
-    const vm = this
     return {
-      paging: new Paging<TeamMember>({ vm, route: manageTeamMembers }),
+      members,
     }
+  },
+
+  computed: {
+    manageTeamRoute(): Location {
+      return { ...manageTeam, params: { id: this.team.toString() } }
+    },
+
+    createTeamMemberRoute(): Location {
+      return { ...createTeamMember, params: { id: this.team.toString() } }
+    },
   },
 
   created() {
     this.$logger.component(this)
-    this.paging.init(this.fetchPage)
-  },
-
-  computed: {
-    teamId(): number {
-      return parseInt(this.$route.params.team, 10)
-    },
-
-    manageTeamRoute(): Location {
-      return { ...manageTeam, params: { id: this.teamId.toString() } }
-    },
-
-    createTeamMemberRoute(): Location {
-      return { ...createTeamMember, params: { id: this.teamId.toString() } }
-    },
-  },
-
-  methods: {
-    async fetchPage() {
-      const pagination = await teamService.fetchTeamMembers({
-        paging: this.paging,
-        team_id: this.teamId,
-      })
-
-      this.paging.update(pagination)
-    },
   },
 })
 </script>
 
 <template>
   <CGrid id="manage-members"
-         :paging="paging">
+         :paging="members">
     <span slot="title">{{ $t('teams.manage_members_grid_title') }}</span>
 
     <span slot="actions">
@@ -69,19 +61,19 @@ export default Vue.extend({
     <table class="table table-hover">
       <thead>
         <tr>
-          <CGridHeader :paging="paging"
+          <CGridHeader :paging="members"
                        column="id"
                        :title="$t('teams.manage_members_grid_head_id_title')">
             {{ $t('teams.manage_members_grid_head_id_text') }}
           </CGridHeader>
 
-          <CGridHeader :paging="paging"
+          <CGridHeader :paging="members"
                        column="name"
                        :title="$t('teams.manage_members_grid_head_name_title')">
             {{ $t('teams.manage_members_grid_head_name_text') }}
           </CGridHeader>
 
-          <CGridHeader :paging="paging"
+          <CGridHeader :paging="members"
                        column="membership_type"
                        :title="$t('teams.manage_members_grid_head_membership_type_title')">
             {{ $t('teams.manage_members_grid_head_membership_type_text') }}
@@ -89,9 +81,9 @@ export default Vue.extend({
         </tr>
       </thead>
       <tbody>
-        <template v-for="member in paging.items">
-          <tr @click="paging.select(member)"
-              :class="paging.classes(member)"
+        <template v-for="member in members.items">
+          <tr @click="members.select(member)"
+              :class="members.classes(member)"
               :key="member.id">
             <td>{{ member.id }}</td>
             <td>{{ member.name }} &nbsp;

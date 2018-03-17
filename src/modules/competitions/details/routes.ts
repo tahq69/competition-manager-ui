@@ -18,7 +18,7 @@ export const root = [
   {
     ...manageCompetitionDetails,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITIONS] },
-    path: "/competition/:cm(\\d+)/edit",
+    path: "/competition/manage/:cm(\\d+)",
     component: manageDetailsView,
     props: true,
   },
@@ -27,7 +27,7 @@ export const root = [
 export const details = [
   {
     ...competitionDetails,
-    path: "",
+    path: "/competition/:cm(\\d+)",
     component: detailsView,
     props: true,
   },

@@ -7,9 +7,10 @@ import { Location } from "vue-router"
 import { manageTeamMember, manageTeamMembers } from "@/router/routes"
 import { MemberBase } from "@/types"
 
-import teamService from "../service"
-import { Team } from "../team"
-import { TeamMember } from "../team-member"
+import teamService from "../../service"
+import { Team } from "../../team"
+import { TeamMember } from "../../team-member"
+import memberService from "../service"
 
 interface IData {
   form: Form<{ user_id: number | string; name: string; id: number | string }>
@@ -76,7 +77,7 @@ export default Vue.extend({
     async fetchTeamMember(select: SelectOption<MemberBase>): Promise<void> {
       if (!this.isEdit) return
 
-      const member = await teamService.fetchTeamMember({
+      const member = await memberService.fetchTeamMember({
         id: this.id,
         team_id: this.teamId,
       })
@@ -137,7 +138,7 @@ export default Vue.extend({
       this.log("saveMember", { data: this.form.data })
       this.form.clearErrors()
       try {
-        const member = await teamService.saveTeamMember({
+        const member = await memberService.saveTeamMember({
           id: this.form.data.id,
           name: this.form.data.name,
           team_id: this.teamId,

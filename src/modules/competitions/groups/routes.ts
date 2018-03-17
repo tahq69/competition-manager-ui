@@ -28,12 +28,6 @@ const manageCategory = () =>
 
 export const groups: RouteConfig[] = [
   {
-    ...competitionDisciplineGroups,
-    component: groupsView,
-    path: "groups",
-    props: true,
-  },
-  {
     ...manageCompetitionDisciplineGroups,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
     component: manageGroups,
@@ -48,27 +42,33 @@ export const groups: RouteConfig[] = [
         props: true,
       },
       {
-        ...manageCompetitionDisciplineGroup,
-        meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-        component: manageGroup,
-        path: ":group(\\d+)/edit",
-        props: true,
-      },
-      {
         ...createCompetitionDisciplineCategory,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
         component: manageCategory,
-        path: ":group(\\d+)/category/new",
+        path: ":group(\\d+)/category/manage/new",
         props: true,
       },
       {
         ...manageCompetitionDisciplineCategory,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
         component: manageCategory,
-        path: ":group(\\d+)/category/:category(\\d+)/edit",
+        path: ":group(\\d+)/category/manage/:category(\\d+)",
+        props: true,
+      },
+      {
+        ...manageCompetitionDisciplineGroup,
+        meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
+        component: manageGroup,
+        path: ":group(\\d+)",
         props: true,
       },
     ],
+  },
+  {
+    ...competitionDisciplineGroups,
+    component: groupsView,
+    path: "groups",
+    props: true,
   },
 ]
 

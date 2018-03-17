@@ -38,17 +38,17 @@ export const disciplines = [
 
 export const root: RouteConfig[] = [
   {
-    ...manageCompetitionDiscipline,
-    component: manageDiscipline,
-    meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-    path: "/competition/:cm(\\d+)/discipline/:discipline(\\d+)/edit",
-    props: true,
-  },
-  {
     ...createCompetitionDiscipline,
     component: manageDiscipline,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-    path: "/competition/:cm(\\d+)/discipline/new",
+    path: "/competition/:cm(\\d+)/discipline/manage/new",
+    props: true,
+  },
+  {
+    ...manageCompetitionDiscipline,
+    component: manageDiscipline,
+    meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
+    path: "/competition/:cm(\\d+)/discipline/manage/:discipline(\\d+)",
     props: true,
   },
   {

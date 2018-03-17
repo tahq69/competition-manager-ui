@@ -50,10 +50,10 @@ export const leftNav = () => {
   }
 
   if (auth.hasRole(roles.SUPER_ADMIN)) {
-    nav.create({
+    /*nav.create({
       text: t("create_competition"),
       route: routes.createCompetition,
-    })
+    })*/
 
     nav.create({
       text: t("manage_competitions"),

@@ -22,23 +22,6 @@ interface ISaveTeam {
   logo: string
 }
 
-interface ISaveTeamMember {
-  id?: Id
-  name: string
-  team_id: Id
-  user_id?: Id
-}
-
-interface IFetchMember {
-  id: Id
-  team_id: Id
-}
-
-interface IFetchMembers {
-  paging: Paging<TeamMember>
-  team_id: Id
-}
-
 class TeamsService extends Service {
   /**
    * Fetch single team instance from server api.
@@ -84,53 +67,6 @@ class TeamsService extends Service {
     return await this.safeContext(async (http, api) => {
       const entity = new Team(payload)
       return this.save(entity)
-    })
-  }
-
-  /**
-   * Save team member instance in server api.
-   * @param   {IFetchTeam} payload
-   * @returns {Promise<TeamMember>}
-   */
-  public async saveTeamMember(payload: ISaveTeamMember): Promise<TeamMember> {
-    return await this.safeContext(async (http, api) => {
-      const entity = new TeamMember(payload)
-      return this.save(entity)
-    })
-  }
-
-  public async fetchTeamMember(payload: IFetchMember) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("teams/{team}/members/{id}", {
-        urlReplace: {
-          id: payload.id.toString(),
-          team: payload.team_id.toString(),
-        },
-      })
-
-      const response = await http.get(url)
-      return new TeamMember(response.data)
-    })
-  }
-
-  /**
-   * Fetch team members list from server api endpoint as pagination object.
-   * @param   {IFetchTeamMembers} payload
-   * @returns {Promise<Pagination<TeamMember>>}
-   */
-  public async fetchTeamMembers(payload: IFetchMembers) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("teams/{team}/members", {
-        params: payload.paging.urlParams,
-        urlReplace: { team: payload.team_id.toString() },
-      })
-
-      const response = await http.get(url)
-      const pagination = Pagination.create<TeamMember>(
-        response,
-        r => new TeamMember(r),
-      )
-      return pagination
     })
   }
 }
