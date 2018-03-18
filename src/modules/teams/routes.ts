@@ -10,6 +10,7 @@ import {
 } from "@/router/routes"
 import { Id, IRouteParams } from "@/types"
 
+import { competitions, root as competitionsRoot } from "./competitions/routes"
 import { members, root as membersRoot } from "./members/routes"
 
 /** Public routes */
@@ -51,7 +52,10 @@ export const teams = [
     component: teamView,
     path: "/team/:team(\\d+)",
     props: true,
-    children: [...members]
+    children: [
+      ...members,
+      ...competitions
+    ]
   },
   {
     ...teamsRoute,
@@ -59,4 +63,5 @@ export const teams = [
     path: "/teams/:page(\\d+)?/:sort?/:direction?",
   },
   ...membersRoot,
+  ...competitionsRoot,
 ] as RouteConfig[]

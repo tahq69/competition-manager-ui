@@ -7,7 +7,7 @@ import EditBtn from "@/components/EditBtn.vue"
 import { TeamAuth } from "../auth"
 import { Team } from "../team"
 
-import TeamLink from "./TeamLink.vue"
+import TeamLink from "../links/TeamLink.vue"
 
 export default Vue.extend({
   name: "TeamCard",

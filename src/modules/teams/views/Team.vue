@@ -6,12 +6,16 @@ import { Next } from "@/types"
 import teamService from "../service"
 import { Team } from "../team"
 
-import TeamLink from "./TeamLink.vue"
+import TeamCompetitionsLink from "../links/TeamCompetitionsLink.vue"
+import TeamLink from "../links/TeamLink.vue"
 
 export default Vue.extend({
   name: "Team",
 
-  components: { TeamLink },
+  components: {
+    TeamCompetitionsLink,
+    TeamLink,
+  },
 
   props: {
     team: { type: [Number, String], required: true },
@@ -56,13 +60,12 @@ export default Vue.extend({
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
               <TeamLink :team="team"
-                        class="nav-link">
-                Members
-              </TeamLink>
+                        class="nav-link" />
             </li>
 
             <li class="nav-item">
-              <a class="nav-link">Competitions</a>
+              <TeamCompetitionsLink :team="team"
+                                    class="nav-link" />
             </li>
           </ul>
         </div>

@@ -33,6 +33,6 @@ export default Vue.extend({
               :isBtn="action"
               :exact="exact"
               :direction="direction">
-    <slot>Team</slot>
+    <slot>Members</slot>
   </CardAction>
 </template>

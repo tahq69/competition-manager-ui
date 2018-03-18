@@ -38,7 +38,7 @@ export default Vue.extend({
   },
 
   created() {
-    this.$logger.component(this)
+    this.log = this.$logger.component(this)
   },
 })
 </script>
