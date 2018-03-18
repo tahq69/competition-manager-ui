@@ -26,11 +26,7 @@ export default Vue.extend({
     teamService.fetchTeam(payload).then(team => next(vm => vm.setTeam(team)))
   },
 
-  data() {
-    return {
-      details: new Team({}),
-    }
-  },
+  data: () => ({ details: new Team({}) }),
 
   methods: {
     setTeam(team: Team) {

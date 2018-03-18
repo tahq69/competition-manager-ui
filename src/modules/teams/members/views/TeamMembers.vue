@@ -18,22 +18,22 @@ export default Vue.extend({
 
   mixins: [mixin],
 
-  data() {
-    return {
-      members,
-    }
-  },
+  data: () => ({ members }),
 
   computed: {
     hasMembers(): boolean {
       return this.members.items.length > 0
     },
   },
+
+  mounted() {
+    this.log = this.$logger.component(this)
+  },
 })
 </script>
 
 <template>
-  <div>
+  <div id="team-members">
     <div class="card-body py-0">
       <CRow>
         <table v-if="hasMembers"
