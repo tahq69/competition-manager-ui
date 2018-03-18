@@ -17,7 +17,7 @@ class CompetitionService extends Service {
       const url = api.url("competitions", {
         params: {
           ...payload.paging.urlParams,
-          owned: (!!payload.owned).toString(),
+          owned: (!!payload.owned ? 1 : 0).toString(),
         },
       })
 
