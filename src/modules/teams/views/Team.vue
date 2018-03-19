@@ -45,7 +45,15 @@ export default Vue.extend({
     <CCol :sm="6"
           :md="4"
           :lg="3">
-      Team logo name and short will go here
+      <div class="card">
+        <img class="card-img-top img-fluid"
+             :src="details.logo"
+             alt="Team logo">
+        <div class="card-body">
+          <h5 class="card-title">{{ details.name }}</h5>
+          <p class="card-text">{{ details.short }}</p>
+        </div>
+      </div>
     </CCol>
 
     <CCol :sm="6"
