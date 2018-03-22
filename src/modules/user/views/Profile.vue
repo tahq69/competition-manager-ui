@@ -4,26 +4,25 @@ import Vue from "vue"
 import { User } from "@/components/auth/user"
 import { Next } from "@/types"
 
-import { IFetchProfile, IProfile } from "../store/types"
-
+import { Profile } from "../models/profile"
 import userService from "../service"
 
 export default Vue.extend({
   name: "Profile",
 
   beforeRouteEnter(to, from, next: Next<any>) {
-    userService.fetchUser({ id: to.params.id }).then(user => next(vm => vm.setUser(user)))
+    userService.fetchUserProfile({ id: to.params.id }).then(user => next(vm => vm.setUser(user)))
   },
 
   data() {
     return {
-      user: {} as User,
+      profile: {} as Profile,
     }
   },
 
   methods: {
-    setUser(user: User) {
-      this.user = user
+    setUser(profile: Profile) {
+      this.profile = profile
     },
   },
 })

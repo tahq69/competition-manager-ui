@@ -1,5 +1,5 @@
 import { Id } from "@/types"
 
-export interface IFetchUser {
+export interface IFetchUserProfile {
   id?: Id
 }

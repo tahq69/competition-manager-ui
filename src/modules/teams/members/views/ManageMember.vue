@@ -5,7 +5,7 @@ import Vue from "vue"
 import { Location } from "vue-router"
 
 import { manageTeamMember, manageTeamMembers } from "@/router/routes"
-import { MemberBase } from "@/types"
+import { Id, MemberBase } from "@/types"
 
 import teamService from "../../service"
 import { Team } from "../../team"
@@ -13,7 +13,7 @@ import { TeamMember } from "../../team-member"
 import memberService from "../service"
 
 interface IData {
-  form: Form<{ user_id: number | string; name: string; id: number | string }>
+  form: Form<{ user_id: Id; name: string; id: Id }>
   team: Team | boolean
   userSelect: CripSelect<MemberBase>
   initialUserId: number
@@ -172,7 +172,7 @@ export default Vue.extend({
         return {
           description: this.$t(
             "teams.manage_member_invitation_sent_body",
-            this.invitation,
+            this.invitation
           ).toString(),
           title: this.$t("teams.manage_member_invitation_sent_title").toString(),
         }

@@ -21,16 +21,15 @@ export class Service {
     this.http = http
   }
 
-  public async searchUser(payload: ISearchUser) {
-    return await this.safeContext(async (http1, api) => {
-      const url = Api.url("users/search?term={name}&id={id}", {
+  public async searchUser(payload: ISearchUser): Promise<User[]> {
+    return await this.safeContext(async () => {
+      const url = this.api.url("users/search?term={name}&id={id}", {
         urlReplace: { id: (payload.id || 0).toString(), name: payload.name },
       })
 
-      const response = await http1.get(url)
-      const users = response.data.data.map(
-        (data: any) => new User(data),
-      ) as User[]
+      const response = await this.http.get(url)
+      const users = response.data.data.map((data: any) => new User(data))
+
       return users
     })
   }
