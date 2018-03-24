@@ -14,6 +14,13 @@ class UserService extends Service {
       return new Profile(response.data)
     })
   }
+
+  public async emailPasswordReset(payload: { email: string }) {
+    return await this.safeContext(async (http, api) => {
+      const url = api.url("password/email")
+      await http.post(url, { email: payload.email })
+    })
+  }
 }
 
 export default new UserService()
