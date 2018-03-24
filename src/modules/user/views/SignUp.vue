@@ -6,7 +6,6 @@ import Auth, { middleware } from "@/components/auth"
 import { home } from "@/router/routes"
 
 import { SignUp } from "./../models/sign-up"
-import userService from "./../service"
 
 export default Vue.extend({
   name: "SignUp",
@@ -17,12 +16,7 @@ export default Vue.extend({
     async signUp() {
       this.form.clearErrors()
       try {
-        await userService.register(this.form.data)
-
-        await Auth.login({
-          password: this.form.data.password,
-          username: this.form.data.email,
-        })
+        await Auth.register(this.form.data)
 
         this.$router.push(home)
       } catch (errors) {
@@ -108,8 +102,8 @@ export default Vue.extend({
       <input type="password"
              id="password_confirmation"
              name="password_confirmation"
-             class="form-control"
              autocomplete="new-password"
+             class="form-control"
              :placeholder="$t('user.signUp_password_confirmation_placeholder')"
              v-model="form.data.password_confirmation"
              required>

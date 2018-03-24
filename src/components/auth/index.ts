@@ -13,7 +13,7 @@ import {
   ILogoutPayload,
   ITokenResponse,
 } from "./store/types"
-import { ICredentials } from "./types"
+import { ICredentials, IRegister } from "./types"
 
 export const middleware = Middleware
 export const roles = Roles
@@ -68,6 +68,14 @@ export default class Auth {
     Storage.remove("access_token")
     Storage.remove("refresh_token")
     await store.commit<ILogoutPayload>({ type: "logout" })
+  }
+
+  public static async register(credentials: IRegister) {
+    await authService.register(credentials)
+    await Auth.login({
+      username: credentials.email,
+      password: credentials.password
+    })
   }
 
   private static storeSession(secrets: ITokenResponse) {

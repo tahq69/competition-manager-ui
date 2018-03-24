@@ -21,6 +21,13 @@ export interface ILogin {
   scope: "*"
 }
 
+export interface IRegister {
+  email: string
+  name: string
+  password: string
+  password_confirmation: string
+}
+
 export interface ICredentials {
   username: string
   password: string
