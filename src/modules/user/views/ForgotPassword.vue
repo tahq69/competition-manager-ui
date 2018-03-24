@@ -3,9 +3,8 @@ import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 
 import { login } from "@/router/routes"
-import { store } from "@/store"
 
-import { IEmailPasswordReset } from "../store/types"
+import userService from "./../service"
 
 export default Vue.extend({
   name: "ForgotPassword",
@@ -29,10 +28,7 @@ export default Vue.extend({
       this.$logger.log("sendResetEmail", this.form)
 
       try {
-        await store.dispatch<IEmailPasswordReset>({
-          email: this.form.data.email,
-          type: "emailPasswordReset",
-        })
+        await userService.emailPasswordReset(this.form.data)
 
         // TODO: add notification for user about email has been sent.
 
