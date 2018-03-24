@@ -1,9 +1,6 @@
 import { Service } from "@/helpers/service"
 
-import { Id } from "@/types"
-
-import { UserBase } from "./models/user-base"
-import { IAuthUser, IFetchUserBase, ILogin, IUserRole } from "./types"
+import { IAuthUser, ILogin } from "./types"
 
 class UserService extends Service {
   public async fetchAuthenticatedUser(): Promise<IAuthUser> {

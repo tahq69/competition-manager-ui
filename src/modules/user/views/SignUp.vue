@@ -2,42 +2,22 @@
 import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import Auth, { middleware as auth } from "@/components/auth"
+import Auth, { middleware } from "@/components/auth"
 import { home } from "@/router/routes"
-import { store } from "@/store"
 
-import { IRegister } from "../store/types"
+import { SignUp } from "./../models/sign-up"
+import userService from "./../service"
 
 export default Vue.extend({
   name: "SignUp",
 
-  mounted() {
-    this.$logger.component(this)
-
-    if (auth.isAuthenticated()) {
-      this.$router.push(home)
-    }
-  },
-
-  data() {
-    return {
-      form: new Form({
-        email: "",
-        name: "",
-        password: "",
-        password_confirmation: "",
-      }),
-    }
-  },
+  data: () => ({ form: new Form(new SignUp()) }),
 
   methods: {
     async signUp() {
       this.form.clearErrors()
       try {
-        await store.dispatch<IRegister>({
-          type: "register",
-          ...this.form.data,
-        })
+        await userService.register(this.form.data)
 
         await Auth.login({
           password: this.form.data.password,
@@ -49,6 +29,15 @@ export default Vue.extend({
         this.form.addErrors(errors)
       }
     },
+  },
+
+  created() {
+    this.log = this.$logger.component(this)
+
+    if (middleware.isAuthenticated()) {
+      this.log("User already authentificated. Redirecting to home page.")
+      this.$router.push(home)
+    }
   },
 })
 </script>
@@ -70,6 +59,7 @@ export default Vue.extend({
       <input type="text"
              id="name"
              name="name"
+             autocomplete="name"
              class="form-control"
              :placeholder="$t('user.signUp_name_placeholder')"
              v-model="form.data.name"
@@ -86,6 +76,7 @@ export default Vue.extend({
       <input type="email"
              id="email"
              name="email"
+             autocomplete="email"
              class="form-control"
              :placeholder="$t('user.signUp_email_placeholder')"
              v-model="form.data.email"
@@ -101,6 +92,7 @@ export default Vue.extend({
       <input type="password"
              id="password"
              name="password"
+             autocomplete="new-password"
              class="form-control"
              :placeholder="$t('user.signUp_password_placeholder')"
              v-model="form.data.password"
@@ -117,6 +109,7 @@ export default Vue.extend({
              id="password_confirmation"
              name="password_confirmation"
              class="form-control"
+             autocomplete="new-password"
              :placeholder="$t('user.signUp_password_confirmation_placeholder')"
              v-model="form.data.password_confirmation"
              required>

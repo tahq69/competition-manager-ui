@@ -8,22 +8,12 @@ import {
   IEmailPasswordReset,
   IFetchProfile,
   IProfile,
-  IRegister,
   IState,
 } from "./types"
 
 type Action = ActionContext<IState, RootState>
 
 export default {
-  async register(action: Action, payload: IRegister): Promise<void> {
-    const url = Api.url("users")
-    try {
-      await http.post(url, payload)
-    } catch (error) {
-      Api.handle(error)
-    }
-  },
-
   async fetchProfile(
     action: Action,
     payload: IFetchProfile,

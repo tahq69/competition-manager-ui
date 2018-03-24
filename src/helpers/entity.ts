@@ -27,12 +27,12 @@ export interface IEntity {
 }
 
 export class Entity {
-  public id: Id
-  public created: ICreatedAudit
-  public updated: IModifiedAudit
+  public id: Id = 0
+  public created: ICreatedAudit = {}
+  public updated: IModifiedAudit = {}
 
-  public createUrl: string
-  public updateUrl: string
+  public createUrl: string = ""
+  public updateUrl: string = ""
 
   /**
    * Update current instance base properties.

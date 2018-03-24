@@ -4,7 +4,6 @@ import Vue from "vue"
 import { Next } from "@/types"
 
 import { Profile } from "../models/profile"
-import { User } from "../models/user"
 import userService from "../service"
 
 export default Vue.extend({
@@ -15,17 +14,15 @@ export default Vue.extend({
   },
 
   beforeRouteEnter(to, from, next: Next<any>) {
-    userService.fetchUserProfile({ id: to.params.user }).then(user => next(vm => vm.setUser(user)))
+    userService
+      .fetchUserProfile({ id: to.params.user })
+      .then(profile => next(vm => vm.setProfile(profile)))
   },
 
-  data() {
-    return {
-      profile: {} as Profile,
-    }
-  },
+  data: () => ({ profile: new Profile({}) }),
 
   methods: {
-    setUser(profile: Profile) {
+    setProfile(profile: Profile) {
       this.profile = profile
     },
   },

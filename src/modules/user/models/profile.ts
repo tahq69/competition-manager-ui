@@ -1,18 +1,25 @@
 import { Entity } from "@/helpers"
 
 import { ProfileTeam } from "./profile-team"
-import { User } from "./user"
 
-export class Profile extends User {
+export class Profile extends Entity {
+  public md5: string = ""
+  public name: string = ""
   public teams: ProfileTeam[] = []
 
   constructor(data: any) {
-    super(data)
+    super()
     this.updateProps(data)
   }
 
   public updateProps(data: any) {
-    if (data.teams)
-      this.teams = data.teams.map((t: any) => new ProfileTeam(t))
+    this.md5 = data.md5
+    this.name = data.name
+
+    if (data.teams) {
+      this.teams = data.teams.map((t: any) => {
+        return new ProfileTeam(t)
+      })
+    }
   }
 }

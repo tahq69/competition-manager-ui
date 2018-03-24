@@ -14,14 +14,6 @@ export interface IState {
 
 /* ACTIONS */
 
-export interface IRegister extends IPayload {
-  type: "register"
-  name: string
-  email: string
-  password: string
-  password_confirmation: string
-}
-
 export interface IFetchProfile extends IPayload {
   type: "fetchProfile"
   userId: Id

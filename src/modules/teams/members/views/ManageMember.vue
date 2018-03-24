@@ -6,7 +6,7 @@ import { Location } from "vue-router"
 
 import { UserBase } from "@/components/auth/models/user-base"
 import { manageTeamMember, manageTeamMembers } from "@/router/routes"
-import { Id, Next } from "@/types"
+import { Next } from "@/types"
 
 import teamService from "../../service"
 import { Team } from "../../team"

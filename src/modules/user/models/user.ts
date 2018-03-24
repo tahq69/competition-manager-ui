@@ -1,12 +1,14 @@
 import { Location } from "vue-router"
 
-import { UserBase } from "@/components/auth/models/user-base"
 import { Entity } from "@/helpers/entity"
 import { profile } from "@/router/routes"
 
-export class User extends UserBase {
+export class User extends Entity {
+  public md5: string = ""
+  public name: string = ""
+
   constructor(data: any) {
-    super(data)
+    super()
     this.updateProps(data)
   }
 
@@ -17,6 +19,9 @@ export class User extends UserBase {
   }
 
   public updateProps(data: any) {
-    // this.name = data.name
+    super.updateProps(data)
+
+    this.md5 = data.md5
+    this.name = data.name
   }
 }

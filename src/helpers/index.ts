@@ -2,7 +2,7 @@ import { i18n } from "@/lang"
 import utils from "./utils"
 
 export { Api } from "./api"
-export { Entity } from "./entity"
+export { Entity, IEntity } from "./entity"
 export { Service } from "./service"
 export { Pagination } from "./pagination"
 
