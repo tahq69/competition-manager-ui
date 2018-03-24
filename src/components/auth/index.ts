@@ -13,14 +13,10 @@ import {
   ILogoutPayload,
   ITokenResponse,
 } from "./store/types"
+import { ICredentials } from "./types"
 
 export const middleware = Middleware
 export const roles = Roles
-
-interface ICredentials {
-  username: string
-  password: string
-}
 
 export default class Auth {
   /**

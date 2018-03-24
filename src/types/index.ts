@@ -14,12 +14,6 @@ export type Next<VM extends Vue = Vue> = (
   to?: RawLocation | false | ((vm: VM) => any) | void,
 ) => void
 
-export interface MemberBase {
-  id: Id
-  user_id: Id
-  name: string
-}
-
 export interface IPayload {
   type: string
 }

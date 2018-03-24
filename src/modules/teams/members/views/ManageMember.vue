@@ -4,15 +4,22 @@ import CripSelect from "crip-vue-select"
 import Vue from "vue"
 import { Location } from "vue-router"
 
+import { UserBase } from "@/components/auth/models/user-base"
 import { manageTeamMember, manageTeamMembers } from "@/router/routes"
-import { Id, MemberBase, Next } from "@/types"
+import { Id, Next } from "@/types"
 
 import teamService from "../../service"
 import { Team } from "../../team"
 import { TeamMember } from "../../team-member"
 import memberService from "../service"
 
-import { Member } from "./../models/member"
+function toUserOption(user: UserBase) {
+  return {
+    key: user.id,
+    text: user.name,
+    value: user,
+  }
+}
 
 export default Vue.extend({
   name: "ManageMember",
@@ -42,12 +49,15 @@ export default Vue.extend({
 
   data() {
     return {
-      form: new Form<Member>({} as Member),
+      form: new Form<TeamMember>(new TeamMember({})),
       initialUserId: 0,
-      memberTeam: {} as Team,
-      userSelect: new CripSelect<MemberBase>({
+      memberTeam: new Team({}),
+      userSelect: new CripSelect<UserBase>({
         onCriteriaChange: (criteria, setOptions, id) => {
-          teamService.searchUser({ name: criteria }).then(users => setOptions(users, id))
+          teamService.searchUser({ name: criteria }).then(users => {
+            const options = users.map(user => toUserOption(user))
+            setOptions(options, id)
+          })
         },
       }),
     }
@@ -66,7 +76,7 @@ export default Vue.extend({
 
     isInvitationVisible(): boolean {
       this.log(this.form.data.user_id, this.initialUserId)
-      return this.form.data.user_id > 0 && this.form.data.user_id !== this.initialUserId
+      return !!this.form.data.user_id && this.form.data.user_id !== this.initialUserId
     },
 
     invitation(): any {
@@ -85,14 +95,11 @@ export default Vue.extend({
       this.initialUserId = userId
 
       // Add member option to select option list and make it selected.
+      const { name } = member
       const option = {
         key: userId,
-        text: member.name,
-        value: {
-          id: member.id,
-          name: member.name,
-          user_id: userId,
-        },
+        text: name,
+        value: new UserBase({ id: userId, name }),
       }
 
       this.userSelect.addOption(option)
@@ -100,11 +107,11 @@ export default Vue.extend({
 
       // Fil up form with member information from API.
       this.form.data.user_id = userId
-      this.form.data.name = member.name
+      this.form.data.name = name
       this.form.data.id = member.id
     },
 
-    async associatedMember(user: MemberBase | string | null) {
+    async associatedMember(user: UserBase | string | null) {
       this.log("associatedMember", { user })
 
       if (typeof user === "string") {
@@ -119,8 +126,8 @@ export default Vue.extend({
         return
       }
 
-      Vue.set(this.form.data, "user_id", user.user_id)
-      Vue.set(this.form.data, "name", user.name)
+      this.form.data.user_id = parseInt(user.id.toString(), 10)
+      this.form.data.name = user.name
     },
 
     newMember(name: string) {
@@ -193,9 +200,8 @@ export default Vue.extend({
              @submit="saveMember"
              class="col-xs-12">
     <CCardAction slot="actions"
-                 v-if="team.id"
-                 :to="team.routes.manageMembers">
-      {{ $t('teams.manage_member_action_back', { team: team.short }) }}
+                 :to="memberTeam.routes.manageMembers">
+      {{ $t('teams.manage_member_action_back', { team: memberTeam.short }) }}
     </CCardAction>
 
     <!-- #name -->

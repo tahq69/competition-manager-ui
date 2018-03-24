@@ -1,7 +1,7 @@
 import http, { AxiosStatic as Axios } from "axios"
 import Vue from "vue"
 
-import { User } from "@/components/auth/user"
+import { UserBase } from "@/components/auth/models/user-base"
 import { Api } from "@/helpers/api"
 import { Entity } from "@/helpers/entity"
 
@@ -21,14 +21,14 @@ export class Service {
     this.http = http
   }
 
-  public async searchUser(payload: ISearchUser): Promise<User[]> {
+  public async searchUser(payload: ISearchUser): Promise<UserBase[]> {
     return await this.safeContext(async () => {
       const url = this.api.url("users/search?term={name}&id={id}", {
         urlReplace: { id: (payload.id || 0).toString(), name: payload.name },
       })
 
       const response = await this.http.get(url)
-      const users = response.data.data.map((data: any) => new User(data))
+      const users = response.data.data.map((data: any) => new UserBase(data))
 
       return users
     })

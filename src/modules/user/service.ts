@@ -1,4 +1,3 @@
-import { User } from "@/components/auth/user"
 import { Api, Service } from "@/helpers"
 import { getters } from "@/store"
 
