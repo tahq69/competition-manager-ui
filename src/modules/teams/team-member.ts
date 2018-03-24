@@ -12,8 +12,8 @@ interface IUser {
 }
 
 export class TeamMember extends Entity {
-  public membership_type: string
-  public name: string
+  public membership_type: string = ""
+  public name: string = ""
   public team?: Team
   public team_id?: number
   public user?: IUser
@@ -29,19 +29,13 @@ export class TeamMember extends Entity {
 
   public get routes() {
     const params = {
-      id: this.id.toString(),
+      member: this.id.toString(),
       team: this.team_id ? this.team_id.toString() : "",
     }
 
     return {
-      edit: {
-        ...manageTeamMember,
-        params,
-      },
-      manageMembers: {
-        ...manageTeamMembers,
-        params: { team: params.team },
-      },
+      edit: { ...manageTeamMember, params, },
+      manageMembers: { ...manageTeamMembers, params: { team: params.team }, },
     }
   }
 

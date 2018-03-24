@@ -1,52 +1,59 @@
 <script lang="ts">
 import { Form } from "crip-vue-bootstrap"
-import CripSelect, { SelectOption, UpdateOptions } from "crip-vue-select"
+import CripSelect from "crip-vue-select"
 import Vue from "vue"
 import { Location } from "vue-router"
 
 import { manageTeamMember, manageTeamMembers } from "@/router/routes"
-import { Id, MemberBase } from "@/types"
+import { Id, MemberBase, Next } from "@/types"
 
 import teamService from "../../service"
 import { Team } from "../../team"
 import { TeamMember } from "../../team-member"
 import memberService from "../service"
 
-interface IData {
-  form: Form<{ user_id: Id; name: string; id: Id }>
-  team: Team | boolean
-  userSelect: CripSelect<MemberBase>
-  initialUserId: number
-}
+import { Member } from "./../models/member"
 
 export default Vue.extend({
   name: "ManageMember",
 
-  data(): IData {
+  props: {
+    team: { type: [String, Number], required: true },
+    member: { type: [String, Number], required: false },
+  },
+
+  async beforeRouteEnter(to, from, next: Next<any>) {
+    const team = await teamService.fetchTeam({ id: to.params.team })
+    if (to.params.member) {
+      // If it is edit route, we need fetch member details from api and
+      // initialize them on select.
+      const payload = { id: to.params.member, team_id: to.params.team }
+      const member = await memberService.fetchTeamMember(payload)
+
+      return next(vm => {
+        vm.setTeam(team)
+        vm.setMember(member)
+      })
+    }
+
+    // This is create route and we can simply show a empty form.
+    next(vm => vm.setTeam(team))
+  },
+
+  data() {
     return {
-      form: new Form({ user_id: 0, name: "", id: 0 }),
+      form: new Form<Member>({} as Member),
       initialUserId: 0,
-      team: false,
-      userSelect: new CripSelect({ async: true }),
+      memberTeam: {} as Team,
+      userSelect: new CripSelect<MemberBase>({
+        onCriteriaChange: (criteria, setOptions, id) => {
+          teamService.searchUser({ name: criteria }).then(users => setOptions(users, id))
+        },
+      }),
     }
   },
 
-  created() {
-    this.log = this.$logger.component(this)
-    this.fetchTeam()
-    this.userSelect.onUpdate(this.searchUser)
-    this.userSelect.onInit(this.fetchTeamMember)
-  },
-
   computed: {
-    teamId(): number {
-      return parseInt(this.$route.params.team, 10)
-    },
-
-    id(): number {
-      return parseInt(this.$route.params.id, 10)
-    },
-
     isEdit(): boolean {
       return this.$route.name === manageTeamMember.name
     },
@@ -58,40 +65,27 @@ export default Vue.extend({
     },
 
     isInvitationVisible(): boolean {
-      return !!this.form.data.user_id && this.form.data.user_id !== this.initialUserId
+      this.log(this.form.data.user_id, this.initialUserId)
+      return this.form.data.user_id > 0 && this.form.data.user_id !== this.initialUserId
     },
 
-    invitation(): Location | {} {
-      if (typeof this.team === "boolean") return {}
-      return { name: this.form.data.name, team: this.team.short }
+    invitation(): any {
+      return { name: this.form.data.name, team: this.memberTeam.short }
     },
   },
 
   methods: {
-    async fetchTeam() {
-      const team = await teamService.fetchTeam({ id: this.teamId })
-
-      this.team = team
+    setTeam(team: Team) {
+      this.memberTeam = team
     },
 
-    async fetchTeamMember(select: SelectOption<MemberBase>): Promise<void> {
-      if (!this.isEdit) return
-
-      const member = await memberService.fetchTeamMember({
-        id: this.id,
-        team_id: this.teamId,
-      })
-
+    setMember(member: TeamMember) {
+      this.log("setMember(member)", { member })
       const userId = member.user_id || 0
       this.initialUserId = userId
 
-      // Fil up form with member information from API.
-      this.form.data.name = member.name
-      this.form.data.user_id = userId
-      this.form.data.id = member.id
-
-      // Select member for dropdown component.
-      select({
+      // Add member option to select option list and make it selected.
+      const option = {
         key: userId,
         text: member.name,
         value: {
@@ -99,14 +93,15 @@ export default Vue.extend({
           name: member.name,
           user_id: userId,
         },
-      })
-    },
+      }
 
-    async searchUser(criteria: string, update: UpdateOptions<MemberBase>) {
-      // Search users on server by entered text in input.
-      const options = await teamService.searchUser({ name })
+      this.userSelect.addOption(option)
+      this.userSelect.selectOption(option)
 
-      update(options)
+      // Fil up form with member information from API.
+      this.form.data.user_id = userId
+      this.form.data.name = member.name
+      this.form.data.id = member.id
     },
 
     async associatedMember(user: MemberBase | string | null) {
@@ -124,8 +119,8 @@ export default Vue.extend({
         return
       }
 
-      this.form.data.user_id = user.user_id
-      this.form.data.name = user.name
+      Vue.set(this.form.data, "user_id", user.user_id)
+      Vue.set(this.form.data, "name", user.name)
     },
 
     newMember(name: string) {
@@ -141,7 +136,7 @@ export default Vue.extend({
         const member = await memberService.saveTeamMember({
           id: this.form.data.id,
           name: this.form.data.name,
-          team_id: this.teamId,
+          team_id: this.team.toString(),
           user_id: this.form.data.user_id,
         })
 
@@ -184,6 +179,10 @@ export default Vue.extend({
       }
     },
   },
+
+  created() {
+    this.log = this.$logger.component(this)
+  },
 })
 </script>
 
@@ -204,11 +203,14 @@ export default Vue.extend({
                 :form="form"
                 :label="$t('teams.manage_member_name_label')"
                 :sm="8">
-
-      <crip-select :settings="userSelect"
-                   :clear="true"
-                   :tags="true"
-                   @input="associatedMember" />
+      <CripSelect :settings="userSelect"
+                  :input-class="[{'is-invalid': form.errors.name}]"
+                  @input="associatedMember"
+                  id="member"
+                  tags>
+        <CFormErrors slot="feedback"
+                     :errors="form.errors.name" />
+      </CripSelect>
     </CFormGroup>
 
     <!-- #invitation -->

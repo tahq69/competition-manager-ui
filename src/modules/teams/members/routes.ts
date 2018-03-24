@@ -46,7 +46,7 @@ export const root = [
     component: manageMemberView,
     props: true,
     meta,
-    path: "/team/:team(\\d+)/member/manage/:id(\\d+)",
+    path: "/team/:team(\\d+)/member/manage/:member(\\d+)",
   },
   {
     ...manageTeamMembers,

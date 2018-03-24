@@ -21,19 +21,19 @@ export default Vue.extend({
 
   mixins: [mixin],
 
-  data() {
-    return {
-      members,
-    }
-  },
+  data: () => ({ members }),
 
   computed: {
+    teamId(): string {
+      return this.team.toString()
+    },
+
     manageTeamRoute(): Location {
-      return { ...manageTeam, params: { id: this.team.toString() } }
+      return { ...manageTeam, params: { team: this.teamId } }
     },
 
     createTeamMemberRoute(): Location {
-      return { ...createTeamMember, params: { id: this.team.toString() } }
+      return { ...createTeamMember, params: { team: this.teamId } }
     },
   },
 

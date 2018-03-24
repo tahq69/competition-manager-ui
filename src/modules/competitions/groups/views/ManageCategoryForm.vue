@@ -34,19 +34,28 @@ export default Vue.extend({
     category: { type: [String, Number], required: false },
   },
 
-  beforeRouteEnter(to, from, next: Next<any>) {
+  async beforeRouteEnter(to, from, next: Next<any>) {
+    const areas = await areaService.fetchAreas({ competition_id: to.params.cm })
+    const opt = areas.map(area => ({ key: area.id, text: area.title, value: area.id }))
+
     // If we open create route, we have no data to load from API.
-    if (to.name === createRoute.name) return next(vm => vm.reset())
+    if (to.name === createRoute.name)
+      return next(vm => {
+        vm.setAreas(opt)
+        vm.reset()
+      })
 
     // If we open edit route, we have to load data from API.
     const payload = createPayload(to)
+    const category = await groupService.fetchCategory(payload)
 
-    groupService
-      .fetchCategory(payload)
-      .then(category => next(vm => vm.update(category)))
+    next(vm => {
+      vm.setAreas(opt)
+      vm.setCategory(category)
+    })
   },
 
-  beforeRouteUpdate(to, from, next: Next<any>) {
+  async beforeRouteUpdate(to, from, next) {
     // User may have option to change route in runtime. In this case we should
     // update form data.
     if (to.name === createRoute.name) {
@@ -55,10 +64,9 @@ export default Vue.extend({
     }
 
     const payload = createPayload(to)
-    groupService.fetchCategory(payload).then(category => {
-      this.update(category)
-      next()
-    })
+    const category = await groupService.fetchCategory(payload)
+    this.setCategory(category)
+    next()
   },
 
   data() {
@@ -75,30 +83,16 @@ export default Vue.extend({
           min: 0,
           short: "",
           title: "",
-        }),
+        })
       ),
 
-      areaSelect: new CripSelect({
-        onInit: (select, updateOptions) => {
-          areaService.fetchAreas({ competition_id: this.cm }).then(areas => {
-            updateOptions(
-              areas.map(area => ({
-                key: area.id.toString(),
-                value: area.id,
-                text: area.title,
-              })),
-            )
-          })
-        }
-      }),
+      areaSelect: new CripSelect({}),
 
-      displayTypeSelect: new CripSelect({
-        options: [
-          { key: "1", text: "Maximum", value: DisplayType.Max },
-          { key: "2", text: "Minimum", value: DisplayType.Min },
-          { key: "3", text: "Both", value: DisplayType.Both },
-        ],
-      }),
+      displayTypeSelect: new CripSelect([
+        { key: "1", text: "Maximum", value: DisplayType.Max },
+        { key: "2", text: "Minimum", value: DisplayType.Min },
+        { key: "3", text: "Both", value: DisplayType.Both },
+      ]),
     }
   },
 
@@ -119,6 +113,7 @@ export default Vue.extend({
     },
 
     reset() {
+      this.form.data.area_id = 0
       this.form.data.category_group_id = this.group
       this.form.data.competition_id = this.cm
       this.form.data.discipline_id = this.discipline
@@ -130,7 +125,7 @@ export default Vue.extend({
       this.form.data.title = ""
     },
 
-    update(category: Category) {
+    setCategory(category: Category) {
       this.form.data.area_id = category.area_id
       this.form.data.category_group_id = category.category_group_id
       this.form.data.competition_id = category.competition_id
@@ -142,6 +137,14 @@ export default Vue.extend({
       this.form.data.short = category.short
       this.form.data.title = category.title
     },
+
+    setAreas(options: any[]) {
+      this.areaSelect.addOption(options)
+    },
+  },
+
+  created() {
+    this.log = this.$logger.component(this)
   },
 })
 </script>
@@ -150,72 +153,79 @@ export default Vue.extend({
 <template>
   <form @submit.prevent="submit">
     <!-- #title -->
-    <CFormGroup for="title" :form="form" label="Full title">
-      <input
-        type="text" id="title" name="title"
-        v-model="form.data.title"
-        :class="[{'is-invalid': form.errors.title}, 'form-control']"
-      >
+    <CFormGroup for="title"
+                :form="form"
+                label="Full title">
+      <input type="text"
+             id="title"
+             name="title"
+             v-model="form.data.title"
+             :class="[{'is-invalid': form.errors.title}, 'form-control']">
     </CFormGroup>
 
     <!-- #short -->
-    <CFormGroup for="short" :form="form" label="Short title">
-      <input
-        type="text" id="short" name="short"
-        v-model="form.data.short"
-        :class="[{'is-invalid': form.errors.short}, 'form-control']"
-      >
+    <CFormGroup for="short"
+                :form="form"
+                label="Short title">
+      <input type="text"
+             id="short"
+             name="short"
+             v-model="form.data.short"
+             :class="[{'is-invalid': form.errors.short}, 'form-control']">
     </CFormGroup>
 
-    <CFormGroup for="area" :form="form" label="Area">
-      <crip-select
-        id="area"
-        :settings="areaSelect"
-        v-model="form.data.area_id"
-        :class="{'is-invalid': form.errors.area_id}"
-      />
+    <CFormGroup for="area"
+                :form="form"
+                label="Area">
+      <crip-select id="area"
+                   :settings="areaSelect"
+                   v-model="form.data.area_id"
+                   :class="{'is-invalid': form.errors.area_id}" />
     </CFormGroup>
 
-    <CFormGroup for="display-type" :form="form" label="Display type">
-      <crip-select
-        id="display-type"
-        :settings="displayTypeSelect"
-        v-model="form.data.display_type"
-        :class="{'is-invalid': form.errors.display_type}"
-      />
+    <CFormGroup for="display-type"
+                :form="form"
+                label="Display type">
+      <crip-select id="display-type"
+                   :settings="displayTypeSelect"
+                   v-model="form.data.display_type"
+                   :class="{'is-invalid': form.errors.display_type}" />
     </CFormGroup>
 
     <!-- #min -->
-    <CFormGroup for="min" :form="form" label="Minimum value">
-      <input
-        type="number" id="min" name="min"
-        v-model="form.data.min"
-        :class="[{'is-invalid': form.errors.min}, 'form-control']"
-      >
+    <CFormGroup for="min"
+                :form="form"
+                label="Minimum value">
+      <input type="number"
+             id="min"
+             name="min"
+             v-model="form.data.min"
+             :class="[{'is-invalid': form.errors.min}, 'form-control']">
     </CFormGroup>
 
     <!-- #max -->
-    <CFormGroup for="max" :form="form" label="Maximum value">
-      <input
-        type="number" id="max" name="max"
-        v-model="form.data.max"
-        :class="[{'is-invalid': form.errors.max}, 'form-control']"
-      >
+    <CFormGroup for="max"
+                :form="form"
+                label="Maximum value">
+      <input type="number"
+             id="max"
+             name="max"
+             v-model="form.data.max"
+             :class="[{'is-invalid': form.errors.max}, 'form-control']">
     </CFormGroup>
 
     <!-- #submit -->
     <CFormGroup>
-      <button
-        id="submit" type="submit"
-        class="btn btn-primary"
-      >
+      <button id="submit"
+              type="submit"
+              class="btn btn-primary">
         Save
       </button>
 
-      <button
-        v-if="form.data.id > 0" type="button"
-        @click="destroy" class="btn btn-danger"
-      >
+      <button v-if="form.data.id > 0"
+              type="button"
+              @click="destroy"
+              class="btn btn-danger">
         Delete
       </button>
     </CFormGroup>
