@@ -1,4 +1,5 @@
 import { Entity } from "@/helpers"
+import { teamMembers, } from "@/router/routes"
 
 export class ProfileTeam extends Entity {
   public name = ""
@@ -8,6 +9,14 @@ export class ProfileTeam extends Entity {
   constructor(data: any) {
     super()
     this.updateProps(data)
+  }
+
+  public get routes() {
+    const team = this.id.toString()
+
+    return {
+      members: { ...teamMembers, params: { team }, },
+    }
   }
 
   public updateProps(data: any) {

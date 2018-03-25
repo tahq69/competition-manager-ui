@@ -88,7 +88,7 @@ export default Vue.extend({
             <td>{{ member.id }}</td>
             <td>{{ member.name }} &nbsp;
               <router-link :to="member.routes.edit"
-                           class="label label-info actions"
+                           class="badge badge-light actions"
                            :title="$t('teams.manage_members_grid_btn_edit_title')">
                 <i class="fa fa-pencil-square-o"></i>
                 {{ $t('teams.manage_members_grid_btn_edit_text') }}

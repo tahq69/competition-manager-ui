@@ -74,16 +74,16 @@ export default Vue.extend({
               :class="paging.classes(team)"
               :key="team.id">
             <td>{{ team.id }}</td>
-            <td>{{ team.name }} &nbsp;
+            <td>
+              {{ team.name }} &nbsp;
               <router-link :to="team.routes.edit"
-                           class="label label-info actions"
+                           class="badge badge-light actions"
                            :title="$t('teams.manage_teams_grid_btn_edit_title')">
                 <i class="fa fa-pencil-square-o"></i>
                 {{ $t('teams.manage_teams_grid_btn_edit_text') }}
               </router-link>
-              &nbsp;
               <router-link :to="team.routes.manageMembers"
-                           class="label label-info actions"
+                           class="badge badge-light actions"
                            :title="$t('teams.manage_teams_grid_btn_members_title')">
                 {{ $t('teams.manage_teams_grid_btn_members_text') }}
               </router-link>

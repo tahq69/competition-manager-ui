@@ -21,3 +21,14 @@
 .app-container {
   padding-top: 56px;
 }
+
+.crip-table-row {
+  .actions {
+    visibility: hidden;
+  }
+
+  &:hover .actions,
+  &.active .actions {
+    visibility: visible;
+  }
+}

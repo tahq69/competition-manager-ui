@@ -36,7 +36,7 @@ export default [
   {
     ...profile,
     component: profileVue,
-    path: "/profile/:id(\\d+)",
+    path: "/profile/:user(\\d+)",
   },
   {
     ...signUp,

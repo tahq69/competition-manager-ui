@@ -26,6 +26,12 @@ export default Vue.extend({
     },
   },
 
+  methods: {
+    hasProfile(member: TeamMember) {
+      return (member.user_id || 0) > 0
+    },
+  },
+
   mounted() {
     this.log = this.$logger.component(this)
   },
@@ -37,7 +43,7 @@ export default Vue.extend({
     <div class="card-body py-0">
       <CRow>
         <table v-if="hasMembers"
-               class="table mb-0">
+               class="table mb-0 table-hover">
           <thead>
             <tr>
               <CGridHeader :paging="members"
@@ -55,8 +61,17 @@ export default Vue.extend({
           </thead>
           <tbody>
             <tr v-for="member in members.items"
-                :key="member.id">
-              <td>{{ member.name }}</td>
+                :key="member.id"
+                class="crip-table-row">
+              <td>
+                {{ member.name }} &nbsp;
+                <router-link :to="member.routes.profile"
+                             v-if="hasProfile(member)"
+                             class="badge badge-light actions"
+                             title="Member profile">
+                  Profile
+                </router-link>
+              </td>
               <td>{{ member.membership_type }}</td>
             </tr>
           </tbody>
