@@ -10,7 +10,7 @@ import { Team } from "../team"
 import TeamCard from "./TeamCard.vue"
 
 const { mixin, paging: teams } = createPaging<Team>(paging => teamService.fetchTeams({ paging }), {
-  perPage: 9,
+  perPage: 16,
 })
 
 export default Vue.extend({
@@ -33,8 +33,8 @@ export default Vue.extend({
     <CRow>
       <CCol v-for="team in teams.items"
             :key="team.id"
-            :md="4"
-            :sm="6">
+            :md="3"
+            :sm="4">
         <TeamCard :team="team"
                   :height="maxHeight"
                   @dimensions="setupHeight" />

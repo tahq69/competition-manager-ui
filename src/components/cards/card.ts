@@ -5,11 +5,7 @@ export default {
     height: { type: Number, required: false },
   },
 
-  data() {
-    return {
-      isMounted: false,
-    }
-  },
+  data: () => ({ isMounted: false }),
 
   computed: {
     elHeight(this: any): string {
@@ -18,8 +14,21 @@ export default {
   },
 
   mounted(this: any) {
-    this.$emit("dimensions", { height: this.$el.offsetHeight })
-    this.isMounted = true
+    const images = this.$el.getElementsByTagName("img")
+    if (images.length > 0) {
+      // If a card has an image, we need wait until it loads and only then
+      // calculate real height of card to ensure full image fits in each tile.
+
+      const img = images[0] as HTMLImageElement
+      img.onload = () => {
+        this.isMounted = true
+        this.$emit("dimensions", { height: this.$el.offsetHeight })
+      }
+    } else {
+      // Otherwyse we can imediatly after data load calculate that height.
+      this.isMounted = true
+      this.$emit("dimensions", { height: this.$el.offsetHeight })
+    }
   },
 
   watch: {
