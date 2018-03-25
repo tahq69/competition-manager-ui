@@ -9,9 +9,8 @@ import { Team } from "../team"
 
 import TeamCard from "./TeamCard.vue"
 
-const { mixin, paging: teams } = createPaging<Team>(paging => {
-  paging.perPage = 9
-  return teamService.fetchTeams({ paging })
+const { mixin, paging: teams } = createPaging<Team>(paging => teamService.fetchTeams({ paging }), {
+  perPage: 9,
 })
 
 export default Vue.extend({
@@ -32,16 +31,13 @@ export default Vue.extend({
 <template>
   <div id="teams">
     <CRow>
-      <CCol
-        v-for="team in teams.items"
-        :key="team.id"
-        :md="4" :sm="6"
-      >
-        <TeamCard
-          :team="team"
-          :height="maxHeight"
-          @dimensions="setupHeight"
-        />
+      <CCol v-for="team in teams.items"
+            :key="team.id"
+            :md="4"
+            :sm="6">
+        <TeamCard :team="team"
+                  :height="maxHeight"
+                  @dimensions="setupHeight" />
       </CCol>
     </CRow>
     <CRow>

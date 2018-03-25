@@ -9,11 +9,7 @@ export default {
     next()
   },
 
-  data() {
-    return {
-      maxHeight: 0,
-    }
-  },
+  data: () => ({ maxHeight: 0 }),
 
   methods: {
     setupHeight(this: any, options: { height: number }) {

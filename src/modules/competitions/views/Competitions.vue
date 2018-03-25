@@ -9,11 +9,10 @@ import cmService from "../service"
 
 import CompetitionCard from "./CompetitionCard.vue"
 
-const { mixin, paging: competitions } = createPaging<Competition>(paging => {
-  paging.perPage = 9
-  paging.sort = "organization_date"
-  return cmService.fetchCompetitions({ paging })
-})
+const { mixin, paging: competitions } = createPaging<Competition>(
+  paging => cmService.fetchCompetitions({ paging }),
+  { perPage: 9, sortBy: "organization_date" }
+)
 
 export default Vue.extend({
   name: "Competitions",
@@ -33,16 +32,13 @@ export default Vue.extend({
 <template>
   <div id="competitions">
     <CRow>
-      <CCol
-        v-for="competition in competitions.items"
-        :key="competition.id"
-        :md="4" :sm="6"
-      >
-        <CompetitionCard
-          :competition="competition"
-          :height="maxHeight"
-          @dimensions="setupHeight"
-        />
+      <CCol v-for="competition in competitions.items"
+            :key="competition.id"
+            :md="4"
+            :sm="6">
+        <CompetitionCard :competition="competition"
+                         :height="maxHeight"
+                         @dimensions="setupHeight" />
       </CCol>
     </CRow>
     <CRow>

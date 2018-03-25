@@ -19,8 +19,8 @@ import axios from "axios"
 import { sync } from "vuex-router-sync"
 import "./helpers/logger"
 
-Vue.use<CripSelectOptions>(CripSelect, { logLevel: "debug" })
-Vue.use<IBootstrapOptions>(CripBootstrap, { prefix: "C" })
+Vue.use<CripSelectOptions>(CripSelect, { logLevel: "error" })
+Vue.use<IBootstrapOptions>(CripBootstrap, { prefix: "C", logLevel: "error" })
 Vue.use<INoticesOptions>(CripNotice, { duration: 4, styles: { top: "73px", right: "15px" } })
 Vue.use<ILoadingOptions>(CripLoading, { axios, color: "rgba(255,255,255,1)", verbose: false })
 
