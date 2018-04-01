@@ -57,19 +57,22 @@ export const root = [
   },
 ]
 
-export const getTeamMembers = (p: { team: Id }) => {
-  return {
-    ...teamMembers,
-    params: convertParams(p),
-  }
-}
+export const getTeamMembers = (p: { team: Id }) => ({
+  ...teamMembers,
+  params: convertParams(p),
+})
 
 export const manageTeamMembersRoute = (p: { team: Id }) => ({
   ...manageTeamMembers,
-   params: convertParams(p)
+  params: convertParams(p),
 })
 
 export const createTeamMemberRoute = (p: { team: Id }) => ({
   ...createTeamMember,
-   params: convertParams(p)
+  params: convertParams(p),
+})
+
+export const manageTeamMemberRoute = (p: { team: Id, member: Id }) => ({
+  ...manageTeamMember,
+  params: convertParams(p),
 })

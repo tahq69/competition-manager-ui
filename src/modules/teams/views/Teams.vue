@@ -4,8 +4,8 @@ import Vue from "vue"
 
 import CardWrapper from "@/components/cards/card-wrapper"
 
+import { Team } from "../models/team"
 import teamService from "../service"
-import { Team } from "../team"
 
 import TeamCard from "./TeamCard.vue"
 
@@ -20,11 +20,7 @@ export default Vue.extend({
 
   mixins: [mixin, CardWrapper],
 
-  data() {
-    return {
-      teams,
-    }
-  },
+  data: () => ({ teams }),
 })
 </script>
 

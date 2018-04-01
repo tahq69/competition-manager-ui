@@ -3,8 +3,8 @@ import Vue from "vue"
 
 import { Next } from "@/types"
 
+import { Team } from "../models/team"
 import teamService from "../service"
-import { Team } from "../team"
 
 import TeamCompetitionsLink from "../links/TeamCompetitionsLink.vue"
 import TeamLink from "../links/TeamLink.vue"

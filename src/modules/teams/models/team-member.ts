@@ -3,7 +3,7 @@ import { Location } from "vue-router"
 
 import { Api } from "@/helpers/api"
 import { Entity } from "@/helpers/entity"
-import { manageTeamMember, manageTeamMembers, profile } from "@/router/routes"
+import { Id } from "@/types"
 
 import { Team } from "./team"
 
@@ -14,8 +14,8 @@ interface IUser {
 export class TeamMember extends Entity {
   public membership_type: string = ""
   public name: string = ""
+  public team_id: Id = 0
   public team?: Team
-  public team_id?: number
   public user?: IUser
   public user_id?: number
 
@@ -25,20 +25,6 @@ export class TeamMember extends Entity {
   constructor(data: any) {
     super()
     this.updateProps(data)
-  }
-
-  public get routes() {
-    const user = (this.user_id || 0).toString()
-    const params = {
-      member: this.id.toString(),
-      team: this.team_id ? this.team_id.toString() : "",
-    }
-
-    return {
-      edit: { ...manageTeamMember, params, },
-      profile: { ...profile, params: { user } },
-      manageMembers: { ...manageTeamMembers, params: { team: params.team }, },
-    }
   }
 
   /**

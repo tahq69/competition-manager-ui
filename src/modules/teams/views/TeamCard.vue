@@ -5,7 +5,7 @@ import Card from "@/components/cards/card"
 import EditBtn from "@/components/EditBtn.vue"
 
 import { TeamAuth } from "../auth"
-import { Team } from "../team"
+import { Team } from "../models/team"
 
 import TeamLink from "../links/TeamLink.vue"
 

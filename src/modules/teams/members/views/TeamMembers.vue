@@ -2,7 +2,9 @@
 import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import { TeamMember } from "../../team-member"
+import { userProfileRoute } from "@/modules/user/routes"
+
+import { TeamMember } from "../../models/team-member"
 import membersService from "../service"
 
 const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
@@ -29,6 +31,10 @@ export default Vue.extend({
   methods: {
     hasProfile(member: TeamMember) {
       return (member.user_id || 0) > 0
+    },
+
+    userProfileRoute(member: TeamMember) {
+      return userProfileRoute({ user: member.user_id || 0 })
     },
   },
 
@@ -65,7 +71,7 @@ export default Vue.extend({
                 class="crip-table-row">
               <td>
                 {{ member.name }} &nbsp;
-                <router-link :to="member.routes.profile"
+                <router-link :to="userProfileRoute(member)"
                              v-if="hasProfile(member)"
                              class="badge badge-light actions"
                              title="Member profile">

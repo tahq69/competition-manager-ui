@@ -6,9 +6,9 @@ import { Location } from "vue-router"
 import { Id } from "@/types"
 
 import { manageTeamMembersRoute } from "../members/routes"
+import { Team } from "../models/team"
 import { createTeamRoute, manageTeamRoute } from "../routes"
 import teamService from "../service"
-import { Team } from "../team"
 
 const { mixin, paging: teams } = createPaging<Team>(paging => teamService.fetchTeams({ paging }))
 
@@ -21,8 +21,8 @@ export default Vue.extend({
 
   methods: {
     createTeamRoute: () => createTeamRoute(),
-    manageTeamRoute: (id: Id) => manageTeamRoute({ team: id }),
-    manageTeamMembersRoute: (id: Id) => manageTeamMembersRoute({ team: id }),
+    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id }),
+    manageTeamMembersRoute: (team: Team) => manageTeamMembersRoute({ team: team.id }),
   },
 
   created() {
@@ -70,13 +70,13 @@ export default Vue.extend({
             <td>{{ team.id }}</td>
             <td>
               {{ team.name }} &nbsp;
-              <router-link :to="manageTeamRoute(team.id)"
+              <router-link :to="manageTeamRoute(team)"
                            class="badge badge-light actions"
                            :title="$t('teams.manage_teams_grid_btn_edit_title')">
                 <i class="fa fa-pencil-square-o"></i>
                 {{ $t('teams.manage_teams_grid_btn_edit_text') }}
               </router-link>
-              <router-link :to="manageTeamMembersRoute(team.id)"
+              <router-link :to="manageTeamMembersRoute(team)"
                            class="badge badge-light actions"
                            :title="$t('teams.manage_teams_grid_btn_members_title')">
                 {{ $t('teams.manage_teams_grid_btn_members_text') }}

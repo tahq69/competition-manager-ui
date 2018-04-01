@@ -2,12 +2,14 @@ import { Location, RouteConfig } from "vue-router"
 
 import {
   authProfile,
+  convertParams,
   forgotPassword,
   login,
   profile,
   resetPassword,
-  signUp,
+  signUp
 } from "@/router/routes"
+import { Id } from "@/types"
 
 import Login from "./views/Login.vue"
 import SignUp from "./views/SignUp.vue"
@@ -54,3 +56,8 @@ export default [
     path: "/auth/password/reset/:token",
   },
 ] as RouteConfig[]
+
+export const userProfileRoute = (p: { user: Id }) => ({
+  ...profile,
+  params: convertParams(p),
+})

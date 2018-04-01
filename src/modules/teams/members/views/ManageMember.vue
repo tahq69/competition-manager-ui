@@ -5,13 +5,16 @@ import Vue from "vue"
 import { Location } from "vue-router"
 
 import { UserBase } from "@/components/auth/models/user-base"
-import { manageTeamMember, manageTeamMembers } from "@/router/routes"
+import { manageTeamMember } from "@/router/routes"
 import { Next } from "@/types"
 
+import { Team } from "../../models/team"
+import { TeamMember } from "../../models/team-member"
+
 import teamService from "../../service"
-import { Team } from "../../team"
-import { TeamMember } from "../../team-member"
 import memberService from "../service"
+
+import { manageTeamMemberRoute, manageTeamMembersRoute } from "../routes"
 
 function toUserOption(user: UserBase) {
   return {
@@ -150,7 +153,9 @@ export default Vue.extend({
         this.$notice.success(this.notificationDetails())
 
         this.initialUserId = member.user_id || 0
-        this.$router.push(member.routes.edit)
+        const params = { team: this.team, member: member.id }
+        const manageRoute = manageTeamMemberRoute(params)
+        this.$router.push(manageRoute)
       } catch (error) {
         const errors = this.concatErrors(error)
         this.form.addErrors(errors)
@@ -185,6 +190,10 @@ export default Vue.extend({
         title: this.$t("teams.manage_member_saved_title").toString(),
       }
     },
+
+    manageTeamMembersRoute() {
+      return manageTeamMembersRoute({ team: this.memberTeam.id })
+    },
   },
 
   created() {
@@ -200,7 +209,7 @@ export default Vue.extend({
              @submit="saveMember"
              class="col-xs-12">
     <CCardAction slot="actions"
-                 :to="memberTeam.routes.manageMembers">
+                 :to="manageTeamMembersRoute()">
       {{ $t('teams.manage_member_action_back', { team: memberTeam.short }) }}
     </CCardAction>
 

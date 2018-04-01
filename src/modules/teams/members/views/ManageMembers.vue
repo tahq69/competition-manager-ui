@@ -3,10 +3,11 @@ import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import { createTeamMember, manageTeam } from "@/router/routes"
-
-import { TeamMember } from "../../team-member"
+import { TeamMember } from "../../models/team-member"
 import memberService from "../service"
+
+import { manageTeamRoute } from "../../routes"
+import { createTeamMemberRoute, manageTeamMemberRoute } from "../routes"
 
 const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
   return memberService.fetchTeamMembers({ paging, team_id: to.params.team })
@@ -27,14 +28,19 @@ export default Vue.extend({
     teamId(): string {
       return this.team.toString()
     },
+  },
 
+  methods: {
     manageTeamRoute(): Location {
-      return { ...manageTeam, params: { team: this.teamId } }
+      return manageTeamRoute({ team: this.teamId })
     },
 
     createTeamMemberRoute(): Location {
-      return { ...createTeamMember, params: { team: this.teamId } }
+      return createTeamMemberRoute({ team: this.teamId })
     },
+
+    manageTeamMemberRoute: (member: TeamMember): Location =>
+      manageTeamMemberRoute({ team: member.team_id, member: member.id }),
   },
 
   created() {
@@ -49,11 +55,11 @@ export default Vue.extend({
     <span slot="title">{{ $t('teams.manage_members_grid_title') }}</span>
 
     <span slot="actions">
-      <CCardAction :to="manageTeamRoute">
+      <CCardAction :to="manageTeamRoute()">
         {{ $t('teams.manage_members_grid_head_manage_team') }}
       </CCardAction>
 
-      <CCardAction :to="createTeamMemberRoute">
+      <CCardAction :to="createTeamMemberRoute()">
         {{ $t('teams.manage_members_grid_head_create_member') }}
       </CCardAction>
     </span>
@@ -87,7 +93,7 @@ export default Vue.extend({
               :key="member.id">
             <td>{{ member.id }}</td>
             <td>{{ member.name }} &nbsp;
-              <router-link :to="member.routes.edit"
+              <router-link :to="manageTeamMemberRoute(member)"
                            class="badge badge-light actions"
                            :title="$t('teams.manage_members_grid_btn_edit_title')">
                 <i class="fa fa-pencil-square-o"></i>

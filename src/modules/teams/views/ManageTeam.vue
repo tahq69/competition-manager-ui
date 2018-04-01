@@ -8,9 +8,9 @@ import { manageTeam } from "@/router/routes"
 import { Next } from "@/types"
 
 import { createTeamMemberRoute, manageTeamMembersRoute } from "../members/routes"
-import { manageTeamsRoute } from "../routes"
+import { Team } from "../models/team"
+import { manageTeamRoute, manageTeamsRoute } from "../routes"
 import teamService from "../service"
-import { Team } from "../team"
 
 export default Vue.extend({
   name: "ManageTeam",
@@ -70,7 +70,7 @@ export default Vue.extend({
       try {
         const team = await teamService.saveTeam(this.form.data)
         this.$notice.success({ title: "Team saved" })
-        this.$router.push(team.routes.edit)
+        this.$router.push(manageTeamRoute({ team: team.id }))
       } catch (errors) {
         this.form.addErrors(errors)
       }
