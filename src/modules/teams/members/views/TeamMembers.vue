@@ -2,10 +2,12 @@
 import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import { userProfileRoute } from "@/modules/user/routes"
-
 import { TeamMember } from "../../models/team-member"
+import { TeamMemberAuth } from "../auth"
 import membersService from "../service"
+
+import { userProfileRoute } from "@/modules/user/routes"
+import { manageTeamMemberRoute } from "../routes"
 
 const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
   return membersService.fetchTeamMembers({ paging, team_id: to.params.team })
@@ -20,7 +22,7 @@ export default Vue.extend({
 
   mixins: [mixin],
 
-  data: () => ({ members }),
+  data: () => ({ members, canEdit: false }),
 
   computed: {
     hasMembers(): boolean {
@@ -36,10 +38,15 @@ export default Vue.extend({
     userProfileRoute(member: TeamMember) {
       return userProfileRoute({ user: member.user_id || 0 })
     },
+
+    manageTeamMemberRoute(member: TeamMember) {
+      return manageTeamMemberRoute({ team: member.team_id, member: member.id })
+    },
   },
 
-  mounted() {
+  async created() {
     this.log = this.$logger.component(this)
+    this.canEdit = await TeamMemberAuth.canEdit({ team: this.team })
   },
 })
 </script>
@@ -71,11 +78,19 @@ export default Vue.extend({
                 class="crip-table-row">
               <td>
                 {{ member.name }} &nbsp;
+                <router-link :to="manageTeamMemberRoute(member)"
+                             v-if="canEdit"
+                             class="badge badge-light actions"
+                             title="Member profile">
+                  <i class="fa fa-pencil-square-o"></i>
+                  <span>Edit</span>
+                </router-link>
+
                 <router-link :to="userProfileRoute(member)"
                              v-if="hasProfile(member)"
                              class="badge badge-light actions"
                              title="Member profile">
-                  Profile
+                  <span>Profile</span>
                 </router-link>
               </td>
               <td>{{ member.membership_type }}</td>
