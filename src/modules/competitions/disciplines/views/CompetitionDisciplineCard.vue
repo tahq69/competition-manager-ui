@@ -8,8 +8,8 @@ import { Id, Next } from "@/types"
 
 import DisciplineLink from "../../links/DisciplineLink.vue"
 
+import { Discipline } from "../../models/discipline"
 import { DisciplineAuth } from "../auth"
-import { Discipline } from "../discipline"
 
 import { createCmDisciplineRoute, manageCmDisciplineRoute } from "../routes"
 

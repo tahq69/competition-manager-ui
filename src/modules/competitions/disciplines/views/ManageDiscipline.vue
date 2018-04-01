@@ -7,7 +7,7 @@ import { Location } from "vue-router"
 import { createCompetitionDiscipline, manageCompetitionDiscipline } from "@/router/routes"
 import { Next } from "@/types"
 
-import { Discipline } from "../discipline"
+import { Discipline } from "../../models/discipline"
 import disciplineService from "../service"
 
 import { cmDisciplineRoute } from "../routes"

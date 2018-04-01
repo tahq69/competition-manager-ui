@@ -4,8 +4,8 @@ import { Location } from "vue-router"
 
 import { Id, Next } from "@/types"
 
-import { Category } from "../category"
-import { Group } from "../group"
+import { Category } from "../../models/category"
+import { Group } from "../../models/group"
 import groupService from "../service"
 
 import { manageCmGroupsRoute } from "../routes"

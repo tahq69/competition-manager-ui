@@ -9,7 +9,7 @@ import DisciplineLink from "../../links/DisciplineLink.vue"
 import DisciplinesLink from "../../links/DisciplinesLink.vue"
 import GroupsLink from "../../links/GroupsLink.vue"
 
-import { Discipline } from "../discipline"
+import { Discipline } from "../../models/discipline"
 
 export default Vue.extend({
   name: "Discipline",

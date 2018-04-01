@@ -1,7 +1,7 @@
 import { Service } from "@/helpers/service"
 import { Id } from "@/types"
 
-import { Discipline } from "./discipline"
+import { Discipline } from "../models/discipline"
 
 interface IFetchDisciplines {
   competition_id: Id

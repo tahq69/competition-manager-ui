@@ -4,8 +4,8 @@ import Vue from "vue"
 import Events from "@/helpers/events"
 import { Id, Next } from "@/types"
 
-import { Category } from "../category"
-import { Group } from "../group"
+import { Category } from "../../models/category"
+import { Group } from "../../models/group"
 import {
   createCategoryRoute,
   createCmGroup,

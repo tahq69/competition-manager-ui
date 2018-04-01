@@ -7,7 +7,7 @@ import Events from "@/helpers/events"
 import { createCompetitionDisciplineGroup as createRoute } from "@/router/routes"
 import { Id, Next } from "@/types"
 
-import { Group } from "../group"
+import { Group } from "../../models/group"
 import groupService from "../service"
 
 function createPayload(route: Route) {

@@ -4,8 +4,8 @@ import Vue from "vue"
 import CardWrapper from "@/components/cards/card-wrapper"
 import { Next } from "@/types"
 
+import { Discipline } from "../../models/discipline"
 import { DisciplineAuth } from "../auth"
-import { Discipline } from "../discipline"
 import disciplineService from "../service"
 
 import DisciplineCard from "./CompetitionDisciplineCard.vue"

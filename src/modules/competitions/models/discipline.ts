@@ -2,8 +2,8 @@ import { Location } from "vue-router"
 
 import { Entity } from "@/helpers/entity"
 
-import { DimensionType } from "../groups/category"
 import { cmGroups } from "../groups/routes"
+import { DimensionType } from "../models/category"
 
 export class Discipline extends Entity {
   public category_group_type: DimensionType

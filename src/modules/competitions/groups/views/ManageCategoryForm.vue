@@ -8,11 +8,11 @@ import Events from "@/helpers/events"
 import { createCompetitionDisciplineCategory as createRoute } from "@/router/routes"
 import { Id, Next } from "@/types"
 
-import { Area } from "../../areas/area"
 import areaService from "../../areas/service"
+import { Area } from "../../models/area"
 
-import { Category, DisplayType } from "../category"
-import { Group } from "../group"
+import { Category, DisplayType } from "../../models/category"
+import { Group } from "../../models/group"
 import groupService from "../service"
 
 function createPayload(route: Route) {
