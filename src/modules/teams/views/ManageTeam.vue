@@ -7,6 +7,8 @@ import Storage from "@/helpers/local-storage"
 import { manageTeam } from "@/router/routes"
 import { Next } from "@/types"
 
+import { createTeamMemberRoute, manageTeamMembersRoute } from "../members/routes"
+import { manageTeamsRoute } from "../routes"
 import teamService from "../service"
 import { Team } from "../team"
 
@@ -27,16 +29,10 @@ export default Vue.extend({
     teamService.fetchTeam(payload).then(team => open(team))
   },
 
-  data() {
-    const baseUrl = "http://competition-manager.oo/packages/filemanager"
-    const token = Storage.get("access_token")
-
-    return {
-      form: new Form(new Team({})),
-      teamName: "",
-      fileBrowserUrl: `${baseUrl}?token=${token}`,
-    }
-  },
+  data: () => ({
+    form: new Form(new Team({})),
+    teamName: "",
+  }),
 
   computed: {
     isEdit(): boolean {
@@ -46,6 +42,18 @@ export default Vue.extend({
     title(): string {
       if (this.isEdit) return `Manage team: ${this.teamName}`
       return "Create new team"
+    },
+
+    manageTeamsRoute(): any {
+      return manageTeamsRoute()
+    },
+
+    manageTeamMembersRoute(): any {
+      return manageTeamMembersRoute({ team: this.form.data.id })
+    },
+
+    createTeamMemberRoute(): any {
+      return createTeamMemberRoute({ team: this.form.data.id })
     },
   },
 
@@ -81,10 +89,21 @@ export default Vue.extend({
              id="manage-team"
              @submit="save">
 
-    <!-- #logo-preview -->
-    <CFormGroup v-if="form.data.logo">
-      <img :src="form.data.logo">
-    </CFormGroup>
+    <span slot="actions">
+      <CCardAction :to="manageTeamsRoute">
+        Teams
+      </CCardAction>
+
+      <CCardAction v-if="isEdit"
+                   :to="manageTeamMembersRoute">
+        Manage members
+      </CCardAction>
+
+      <CCardAction v-if="isEdit"
+                   :to="createTeamMemberRoute">
+        Add member
+      </CCardAction>
+    </span>
 
     <!-- #name -->
     <CFormGroup for="name"
@@ -119,6 +138,11 @@ export default Vue.extend({
                  v-model="form.data.logo"
                  :form="form"
                  :input-class="[{'is-invalid': form.errors.logo}, 'form-control']" />
+    </CFormGroup>
+
+    <!-- #logo-preview -->
+    <CFormGroup v-if="form.data.logo">
+      <img :src="form.data.logo">
     </CFormGroup>
 
     <!-- #submit -->

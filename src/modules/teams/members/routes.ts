@@ -63,3 +63,13 @@ export const getTeamMembers = (p: { team: Id }) => {
     params: convertParams(p),
   }
 }
+
+export const manageTeamMembersRoute = (p: { team: Id }) => ({
+  ...manageTeamMembers,
+   params: convertParams(p)
+})
+
+export const createTeamMemberRoute = (p: { team: Id }) => ({
+  ...createTeamMember,
+   params: convertParams(p)
+})

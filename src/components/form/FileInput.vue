@@ -28,6 +28,12 @@ export default Vue.extend({
 
 <template>
   <div class="input-group crip-file-input">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary"
+              @click="isManagerVisible = !isManagerVisible"
+              type="button">Select file</button>
+    </div>
+
     <input type="text"
            disabled="disabled"
            :value="value"
@@ -35,12 +41,6 @@ export default Vue.extend({
            :id="id"
            :name="name"
            :class="inputClass">
-
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary"
-              @click="isManagerVisible = !isManagerVisible"
-              type="button">Select file</button>
-    </div>
 
     <CFormErrors slot="feedback"
                  :errors="form.errors[name]" />

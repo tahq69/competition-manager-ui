@@ -6,6 +6,7 @@ import {
   createTeam,
   manageTeam,
   manageTeams,
+  teamMembers,
   teams as teamsRoute,
 } from "@/router/routes"
 import { Id, IRouteParams } from "@/types"
@@ -65,3 +66,19 @@ export const teams = [
   ...membersRoot,
   ...competitionsRoot,
 ] as RouteConfig[]
+
+export const manageTeamsRoute = () => {
+  return { ...manageTeams }
+}
+
+export const createTeamRoute = () => {
+  return { ...createTeam }
+}
+
+export const manageTeamRoute = (p: { team: Id }) => {
+  return { ...manageTeam, params: convertParams(p) }
+}
+
+export const teamRoute = (p: { team: Id }) => {
+  return { ...teamMembers, params: convertParams(p) }
+}

@@ -16,6 +16,10 @@ module.exports = {
         changeOrigin: true,
         target: serverUrl,
       },
+      "/oauth": {
+        changeOrigin: true,
+        target: serverUrl,
+      },
       "/storage": {
         changeOrigin: true,
         target: serverUrl,
