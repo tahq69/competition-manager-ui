@@ -153,6 +153,7 @@ export default Vue.extend({
         this.$notice.success(this.notificationDetails())
 
         this.initialUserId = member.user_id || 0
+
         const params = { team: this.team, member: member.id }
         const manageRoute = manageTeamMemberRoute(params)
         this.$router.push(manageRoute)
