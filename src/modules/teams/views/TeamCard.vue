@@ -9,6 +9,8 @@ import { Team } from "../models/team"
 
 import TeamLink from "../links/TeamLink.vue"
 
+import { manageTeamRoute } from "../routes"
+
 export default Vue.extend({
   name: "TeamCard",
 
@@ -21,6 +23,10 @@ export default Vue.extend({
   },
 
   data: () => ({ canEdit: false }),
+
+  methods: {
+    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id }),
+  },
 
   async created() {
     this.log = this.$logger.component(this)
@@ -49,7 +55,7 @@ export default Vue.extend({
       </TeamLink>
 
       <EditBtn v-if="canEdit"
-               :to="team.routes.edit" />
+               :to="manageTeamRoute(team)" />
     </div>
   </div>
 </template>
