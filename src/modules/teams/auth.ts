@@ -1,4 +1,4 @@
-import { middleware as auth, roles } from "@/components/auth"
+import { middleware, roles } from "@/components/auth"
 import { Id } from "@/types"
 
 interface IEdit {
@@ -7,11 +7,19 @@ interface IEdit {
 
 export class TeamAuth {
   public static async canEdit(opt: IEdit): Promise<boolean> {
-    const requiredRoles = [roles.CREATE_TEAMS, roles.MANAGE_TEAMS]
-    return await auth.hasAnyRole(requiredRoles)
+    // Global CREATE_TEAMS role allows edit any team details.
+    if (middleware.hasRole(roles.CREATE_TEAMS)) return true
+
+    // Checks the current user manager of the team and have role to manage it.
+    const canManageTeam = await middleware.hasTeamRole(
+      { team: opt.team },
+      roles.MANAGE_TEAMS
+    )
+
+    return canManageTeam
   }
 
-  public static async canCreate(): Promise<boolean> {
-    return await auth.hasRole(roles.CREATE_TEAMS)
+  public static canCreate(): boolean {
+    return middleware.hasRole(roles.CREATE_TEAMS)
   }
 }

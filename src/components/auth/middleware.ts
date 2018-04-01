@@ -27,10 +27,7 @@ export class Middleware {
     return getters.hasRole(role)
   }
 
-  public static async hasTeamRole(
-    { cm, team }: ITeamOption,
-    role: string,
-  ): Promise<boolean> {
+  public static async hasTeamRole({ cm, team }: ITeamOption, role: string): Promise<boolean> {
     log("hasTeamRole()", { opt: { cm, team }, role })
 
     if (!this.isAuthenticated()) return false
