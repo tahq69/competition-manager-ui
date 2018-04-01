@@ -4,7 +4,6 @@ import Vue from "vue"
 import { Location } from "vue-router"
 
 import { Id } from "@/types"
-import { createTeam, manageTeams } from "@/router/routes"
 
 import { manageTeamMembersRoute } from "../members/routes"
 import { createTeamRoute, manageTeamRoute } from "../routes"
@@ -20,13 +19,8 @@ export default Vue.extend({
 
   data: () => ({ teams }),
 
-  computed: {
-    createTeamRoute(): any {
-      return createTeamRoute()
-    },
-  },
-
   methods: {
+    createTeamRoute: () => createTeamRoute(),
     manageTeamRoute: (id: Id) => manageTeamRoute({ team: id }),
     manageTeamMembersRoute: (id: Id) => manageTeamMembersRoute({ team: id }),
   },
@@ -42,7 +36,7 @@ export default Vue.extend({
          :paging="teams">
     <span slot="title">{{ $t('teams.manage_teams_grid_title') }}</span>
     <CCardAction slot="actions"
-                 :to="createTeamRoute">
+                 :to="createTeamRoute()">
       {{ $t('teams.manage_teams_grid_head_create_new') }}
     </CCardAction>
 
