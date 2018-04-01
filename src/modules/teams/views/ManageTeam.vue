@@ -81,6 +81,11 @@ export default Vue.extend({
              id="manage-team"
              @submit="save">
 
+    <!-- #logo-preview -->
+    <CFormGroup v-if="form.data.logo">
+      <img :src="form.data.logo">
+    </CFormGroup>
+
     <!-- #name -->
     <CFormGroup for="name"
                 :form="form"
@@ -109,6 +114,8 @@ export default Vue.extend({
                 label="Team logo">
       <FileInput id="logo"
                  name="logo"
+                 size="sm"
+                 type="image"
                  v-model="form.data.logo"
                  :form="form"
                  :input-class="[{'is-invalid': form.errors.logo}, 'form-control']" />

@@ -9,17 +9,40 @@ import filesys from "./filesys"
 export default Vue.extend({
   name: "FilesysIframe",
 
-  created() {
-    this.log = this.$logger.component(this)
+  props: {
+    size: {
+      type: String,
+      required: false,
+      validator: (value: string) => ["thumb", "xs", "sm", "md", "lg"].indexOf(value) > -1,
+    },
+    type: {
+      type: String,
+      required: false,
+      validator: (value: string) => ["document", "image", "media", "file"].indexOf(value) > -1,
+    },
   },
 
   data() {
     const id = Utils.newGuid()
-    const baseUrl = "/packages/filemanager"
     const token = Storage.get("access_token")
-    const url = `${baseUrl}?target=callback&id=${id}`
 
-    return { url, id, token }
+    return { id, token }
+  },
+
+  computed: {
+    url(): string {
+      const baseUrl = "/packages/filemanager"
+      let url = `${baseUrl}?target=callback&id=${this.id}`
+
+      if (this.type) url += `&type=${this.type}`
+      if (this.size) url += `&select=${this.size}`
+
+      return url
+    },
+  },
+
+  created() {
+    this.log = this.$logger.component(this)
   },
 
   mounted() {

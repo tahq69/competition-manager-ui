@@ -13,6 +13,8 @@ export default Vue.extend({
     value: { type: String, required: true },
     form: { type: Object, required: true },
     id: { type: String, required: false },
+    size: { type: String, required: false },
+    type: { type: String, required: false },
     inputClass: { type: [String, Array, Object], required: false },
   },
 
@@ -43,6 +45,8 @@ export default Vue.extend({
                  :errors="form.errors[name]" />
 
     <FilesysIframe v-if="isManagerVisible"
+                   :size="size"
+                   :type="type"
                    @input="$emit('input', $event), isManagerVisible = false" />
   </div>
 </template>
