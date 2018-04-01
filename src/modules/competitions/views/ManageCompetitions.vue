@@ -5,7 +5,7 @@ import { Location } from "vue-router"
 
 import { createCompetition, manageCompetitions } from "@/router/routes"
 
-import { Competition } from "../competition"
+import { Competition } from "../models/competition"
 import competitionService from "../service"
 
 import { manageCmDetailsRoute } from "../details/routes"

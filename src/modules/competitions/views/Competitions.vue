@@ -4,7 +4,7 @@ import Vue from "vue"
 
 import CardWrapper from "@/components/cards/card-wrapper"
 
-import { Competition } from "../competition"
+import { Competition } from "../models/competition"
 import cmService from "../service"
 
 import CompetitionCard from "./CompetitionCard.vue"

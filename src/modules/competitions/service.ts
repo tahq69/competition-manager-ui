@@ -5,7 +5,7 @@ import { Pagination, Service } from "@/helpers"
 import { store } from "@/store"
 import { Id } from "@/types"
 
-import { Competition } from "./competition"
+import { Competition } from "./models/competition"
 
 interface IFetchCompetitions { paging: Paging<Competition>; owned?: boolean }
 interface IFetchTeamCompetitions { paging: Paging<Competition>; team_id: Id }

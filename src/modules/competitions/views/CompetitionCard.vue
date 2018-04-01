@@ -7,7 +7,7 @@ import EditBtn from "@/components/EditBtn.vue"
 import CompetitionLink from "../links/CompetitionLink.vue"
 
 import { CompetitionAuth } from "../auth"
-import { Competition } from "../competition"
+import { Competition } from "../models/competition"
 
 import { manageCmDetailsRoute } from "../details/routes"
 

@@ -2,8 +2,8 @@
 import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
-import { Competition } from "@/modules/competitions/competition"
 import { cmDetailsRoute } from "@/modules/competitions/details/routes"
+import { Competition } from "@/modules/competitions/models/competition"
 import cmService from "@/modules/competitions/service"
 
 const { mixin, paging: competitions } = createPaging<Competition>((paging, to) => {
