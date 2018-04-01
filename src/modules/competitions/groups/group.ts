@@ -1,11 +1,9 @@
 import { Location } from "vue-router"
 
 import { Entity } from "@/helpers/entity"
-import { competitionDisciplineGroups } from "@/router/routes"
 import { Id } from "@/types"
 
 import { Category, DimensionType } from "./category"
-import { getGroups } from "./routes"
 
 export class Group extends Entity {
   public competition_id: Id
@@ -29,15 +27,6 @@ export class Group extends Entity {
   constructor(data: any) {
     super()
     this.updateProps(data)
-  }
-
-  public get routes() {
-    const cm = this.competition_id
-    const discipline = this.discipline_id
-
-    return {
-      groups: getGroups({ cm, discipline }),
-    }
   }
 
   public get typeText() {

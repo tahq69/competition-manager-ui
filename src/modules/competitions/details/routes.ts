@@ -8,11 +8,11 @@ import { Id, IRouteParams } from "@/types"
 
 /** Public routes */
 const detailsView = () =>
-  import (/* webpackChunkName: "cm-details" */ "./views/Details.vue")
+  import(/* webpackChunkName: "cm-details" */ "./views/Details.vue")
 
 /** Management routes */
 const manageDetailsView = () =>
-  import (/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue")
+  import(/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue")
 
 export const root = [
   {
@@ -33,16 +33,12 @@ export const details = [
   },
 ]
 
-export const getCompetitionDetails = (p: { cm: Id }) => {
-  return {
-    ...competitionDetails,
-    params: convertParams(p),
-  }
-}
+export const cmDetailsRoute = (p: { cm: Id }) => ({
+  ...competitionDetails,
+  params: convertParams(p),
+})
 
-export const getManageCompetitionDetails = (p: { cm: Id }) => {
-  return {
-    ...manageCompetitionDetails,
-    params: convertParams(p),
-  }
-}
+export const manageCmDetailsRoute = (p: { cm: Id }) => ({
+  ...manageCompetitionDetails,
+  params: convertParams(p),
+})

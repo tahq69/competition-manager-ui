@@ -22,10 +22,6 @@ export class Area extends Entity {
     this.updateProps(data)
   }
 
-  public get routes() {
-    return {}
-  }
-
   public updateProps(data: any) {
     super.updateProps(data)
 

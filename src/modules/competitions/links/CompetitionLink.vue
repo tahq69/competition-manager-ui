@@ -4,7 +4,7 @@ import { Location } from "vue-router"
 
 import CardAction from "@/components/cards/CardAction.vue"
 
-import { getCompetitionDetails } from "../details/routes"
+import { cmDetailsRoute } from "../details/routes"
 
 export default Vue.extend({
   name: "CompetitionLink",
@@ -19,7 +19,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return getCompetitionDetails({ cm: this.cm })
+      return cmDetailsRoute({ cm: this.cm })
     },
   },
 })

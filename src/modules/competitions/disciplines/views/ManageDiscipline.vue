@@ -4,14 +4,13 @@ import CripSelect from "crip-vue-select"
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import {
-  createCompetitionDiscipline,
-  manageCompetitionDiscipline,
-} from "@/router/routes"
+import { createCompetitionDiscipline, manageCompetitionDiscipline } from "@/router/routes"
 import { Next } from "@/types"
 
 import { Discipline } from "../discipline"
 import disciplineService from "../service"
+
+import { cmDisciplineRoute } from "../routes"
 
 const editRoute = manageCompetitionDiscipline
 const createRoute = createCompetitionDiscipline
@@ -47,7 +46,7 @@ export default Vue.extend({
           type: "",
           game_type: "",
           description: "",
-        }),
+        })
       ),
       typeSelect: new CripSelect({
         options: [
@@ -84,11 +83,11 @@ export default Vue.extend({
     async save() {
       this.log("save()", this.form.data)
       try {
-        const discipline = await disciplineService.saveDiscipline(
-          this.form.data,
-        )
+        const discipline = await disciplineService.saveDiscipline(this.form.data)
         this.$notice.success({ title: "Discipline saved" })
-        this.$router.push(discipline.routes.show)
+
+        const route = cmDisciplineRoute({ cm: this.cm, discipline: this.discipline })
+        this.$router.push(route)
       } catch (errors) {
         this.form.addErrors(errors)
       }

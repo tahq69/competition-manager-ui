@@ -11,14 +11,11 @@ import {
 import { Id } from "@/types"
 
 /** Public routes */
-const areasView = () =>
-  import (/* webpackChunkName: "cm-areas" */ "./views/Areas.vue")
-const areaView = () =>
-  import (/* webpackChunkName: "cm-areas" */ "./views/Area.vue")
+const areasView = () => import(/* webpackChunkName: "cm-areas" */ "./views/Areas.vue")
+const areaView = () => import(/* webpackChunkName: "cm-areas" */ "./views/Area.vue")
 
 /** Management routes */
-const manageAreaView = () =>
-  import (/* webpackChunkName: "cm-areas" */ "./views/ManageArea.vue")
+const manageAreaView = () => import(/* webpackChunkName: "cm-areas" */ "./views/ManageArea.vue")
 
 export const areas: RouteConfig[] = [
   {
@@ -49,9 +46,7 @@ export const areas: RouteConfig[] = [
   },
 ]
 
-export const getAreas = (p: { cm: Id }) => {
-  return {
-    ...competitionAreas,
-    params: convertParams(p),
-  }
-}
+export const competitionAreasRoute = (p: { cm: Id }) => ({
+  ...competitionAreas,
+  params: convertParams(p),
+})

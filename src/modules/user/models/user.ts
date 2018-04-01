@@ -1,7 +1,6 @@
 import { Location } from "vue-router"
 
 import { Entity } from "@/helpers/entity"
-import { profile } from "@/router/routes"
 
 export class User extends Entity {
   public md5: string = ""
@@ -10,12 +9,6 @@ export class User extends Entity {
   constructor(data: any) {
     super()
     this.updateProps(data)
-  }
-
-  public get routes() {
-    return {
-      profile: { ...profile, params: { user: this.id } },
-    }
   }
 
   public updateProps(data: any) {

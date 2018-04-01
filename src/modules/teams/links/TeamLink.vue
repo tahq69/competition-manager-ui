@@ -4,7 +4,7 @@ import { Location } from "vue-router"
 
 import CardAction from "@/components/cards/CardAction.vue"
 
-import { getTeamMembers } from "../members/routes"
+import { teamMembersRoute } from "../members/routes"
 
 export default Vue.extend({
   name: "TeamLink",
@@ -21,7 +21,7 @@ export default Vue.extend({
   computed: {
     to(): Location {
       const team = this.team
-      return getTeamMembers({ team })
+      return teamMembersRoute({ team })
     },
   },
 })

@@ -23,7 +23,7 @@ export const competitions = [
 
 export const root = []
 
-export const getTeamCompetitions = (p: { team: Id }) => {
+export const teamCompetitionsRoute = (p: { team: Id }) => {
   return {
     ...teamCompetitions,
     params: convertParams(p),

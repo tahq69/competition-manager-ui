@@ -2,10 +2,8 @@ import { Location } from "vue-router"
 
 import { Entity } from "@/helpers/entity"
 
-import { getCompetitionDetails } from "../details/routes"
 import { DimensionType } from "../groups/category"
-import { getGroups } from "../groups/routes"
-import { getDiscipline, getDisciplines, getManageDiscipline } from "./routes"
+import { cmGroups } from "../groups/routes"
 
 export class Discipline extends Entity {
   public category_group_type: DimensionType
@@ -23,18 +21,6 @@ export class Discipline extends Entity {
   constructor(data: any) {
     super()
     this.updateProps(data)
-  }
-
-  public get routes() {
-    const cm = this.competition_id
-    const discipline = this.id
-    return {
-      edit: getManageDiscipline({ cm, discipline }),
-      show: getDiscipline({ cm, discipline }),
-      groups: getGroups({ cm, discipline }),
-      competition: getCompetitionDetails({ cm }),
-      disciplines: getDisciplines({ cm }),
-    }
   }
 
   public updateProps(data: any) {

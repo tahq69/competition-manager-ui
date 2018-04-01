@@ -3,8 +3,6 @@ import { Location } from "vue-router"
 import { Entity } from "@/helpers/entity"
 import { Id } from "@/types"
 
-import { getGroups } from "../groups/routes"
-
 export enum DisplayType {
   Min = "MIN",
   Max = "MAX",
@@ -41,16 +39,6 @@ export class Category extends Entity {
   constructor(data: any) {
     super()
     this.updateProps(data)
-  }
-
-  public get routes() {
-    const cm = this.competition_id
-    const discipline = this.discipline_id
-    const group = this.category_group_id
-
-    return {
-      groups: getGroups({ cm, discipline }),
-    }
   }
 
   public get shortText() {

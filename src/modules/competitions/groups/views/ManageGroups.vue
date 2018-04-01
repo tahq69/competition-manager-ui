@@ -7,10 +7,10 @@ import { Id, Next } from "@/types"
 import { Category } from "../category"
 import { Group } from "../group"
 import {
-  getCreateCategory,
-  getCreateGroup,
-  getManageCategory,
-  getManageGroup,
+  createCategoryRoute,
+  createCmGroup,
+  manageCategoryRoute,
+  manageCmGroupRoute,
 } from "../routes"
 import groupService from "../service"
 
@@ -41,14 +41,14 @@ export default Vue.extend({
 
   methods: {
     createGroupRoute() {
-      return getCreateGroup({
+      return createCmGroup({
         cm: this.cm,
         discipline: this.discipline,
       })
     },
 
     editGroupRoute(group: Group) {
-      return getManageGroup({
+      return manageCmGroupRoute({
         cm: this.cm,
         discipline: this.discipline,
         group: group.id,
@@ -56,7 +56,7 @@ export default Vue.extend({
     },
 
     createCategoryRoute(group: Group) {
-      return getCreateCategory({
+      return createCategoryRoute({
         cm: this.cm,
         discipline: this.discipline,
         group: group.id,
@@ -64,7 +64,7 @@ export default Vue.extend({
     },
 
     editCategoryRoute(group: Group, category: Category) {
-      return getManageCategory({
+      return manageCategoryRoute({
         cm: this.cm,
         discipline: this.discipline,
         group: group.id,

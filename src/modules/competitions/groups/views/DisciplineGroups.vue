@@ -2,12 +2,13 @@
 import Vue from "vue"
 import { Location } from "vue-router"
 
-import { manageCompetitionDisciplineGroups } from "@/router/routes"
 import { Id, Next } from "@/types"
 
 import { Category } from "../category"
 import { Group } from "../group"
 import groupService from "../service"
+
+import { manageCmGroupsRoute } from "../routes"
 
 export default Vue.extend({
   name: "DisciplineGroups",
@@ -39,14 +40,8 @@ export default Vue.extend({
       return true
     },
 
-    manageGroupsRoute(): Location {
-      const cm = this.cm.toString()
-      const discipline = this.discipline.toString()
-
-      return {
-        ...manageCompetitionDisciplineGroups,
-        params: { cm, discipline },
-      }
+    manageCmGroupsRoute(): Location {
+      return manageCmGroupsRoute({ cm: this.cm, discipline: this.discipline })
     },
   },
 
@@ -81,22 +76,20 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CCol
-    id="discipline-groups"
-    :class="`discipline discipline-${discipline}`"
-  >
-    <router-link
-      v-if="canEdit"
-      :to="manageGroupsRoute"
-      class="btn btn-link btn-edit btn-sm"
-    >
+  <CCol id="discipline-groups"
+        :class="`discipline discipline-${discipline}`">
+    <router-link v-if="canEdit"
+                 :to="manageCmGroupsRoute"
+                 class="btn btn-link btn-edit btn-sm">
       <i class="fa fa-pencil-square-o"></i> Edit
     </router-link>
 
     <table class="table">
-      <tr v-for="group in groups" :key="group.id * 100">
+      <tr v-for="group in groups"
+          :key="group.id * 100">
         <td v-html="group.shortText"></td>
-        <td v-for="(id, index) in categories" :key="(group.id * 100) + 1 + index">
+        <td v-for="(id, index) in categories"
+            :key="(group.id * 100) + 1 + index">
           <div v-if="group.categories[index]">
             {{ group.categories[index].shortText }}
           </div>

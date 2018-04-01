@@ -14,15 +14,12 @@ import { details, root as detailsRoot } from "./details/routes"
 import { disciplines, root as disciplinesRoot } from "./disciplines/routes"
 
 /** Public routes */
-const competitionsView = () =>
-  import(/* webpackChunkName: "cm" */ "./views/Competitions.vue")
+const competitionsView = () => import(/* webpackChunkName: "cm" */ "./views/Competitions.vue")
+const competition = () => import(/* webpackChunkName: "cm" */ "./views/Competition.vue")
 
-const competition = () =>
-  import(/* webpackChunkName: "cm" */ "./views/Competition.vue")
 
 /** Management routes */
-const manageCms = () =>
-  import(/* webpackChunkName: "cm" */ "./views/ManageCompetitions.vue")
+const manageCms = () => import(/* webpackChunkName: "cm" */ "./views/ManageCompetitions.vue")
 
 export const root: RouteConfig[] = [
   {
@@ -52,3 +49,7 @@ export const root: RouteConfig[] = [
   ...detailsRoot,
   ...disciplinesRoot,
 ]
+
+export const competitionsRoute = () => (competitions)
+
+export const manageCompetitionsRoute = () => (manageCompetitions)

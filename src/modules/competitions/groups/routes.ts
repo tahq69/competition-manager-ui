@@ -72,44 +72,32 @@ export const groups: RouteConfig[] = [
   },
 ]
 
-export const getGroups = (p: { cm: Id; discipline: Id }) => {
-  return {
-    ...competitionDisciplineGroups,
-    params: convertParams(p),
-  }
-}
+export const cmGroups = (p: { cm: Id; discipline: Id }) => ({
+  ...competitionDisciplineGroups,
+  params: convertParams(p),
+})
 
-export const getCreateGroup = (p: { cm: Id; discipline: Id }) => {
-  return {
-    ...createCompetitionDisciplineGroup,
-    params: convertParams(p),
-  }
-}
+export const manageCmGroupsRoute = (p: { cm: Id; discipline: Id }) => ({
+  ...manageCompetitionDisciplineGroups,
+  params: convertParams(p),
+})
 
-export const getManageGroup = (p: { cm: Id; discipline: Id; group: Id }) => {
-  return {
-    ...manageCompetitionDisciplineGroup,
-    params: convertParams(p),
-  }
-}
+export const createCmGroup = (p: { cm: Id; discipline: Id }) => ({
+  ...createCompetitionDisciplineGroup,
+  params: convertParams(p),
+})
 
-export const getCreateCategory = (p: { cm: Id; discipline: Id; group: Id }) => {
-  return {
-    ...createCompetitionDisciplineCategory,
-    params: convertParams(p),
-  }
-}
+export const manageCmGroupRoute = (p: { cm: Id; discipline: Id; group: Id }) => ({
+  ...manageCompetitionDisciplineGroup,
+  params: convertParams(p),
+})
 
-interface ICategoryParams extends IRouteParams {
-  cm: Id
-  discipline: Id
-  group: Id
-  category: Id
-}
+export const createCategoryRoute = (p: { cm: Id; discipline: Id; group: Id }) => ({
+  ...createCompetitionDisciplineCategory,
+  params: convertParams(p),
+})
 
-export const getManageCategory = (p: ICategoryParams) => {
-  return {
-    ...manageCompetitionDisciplineCategory,
-    params: convertParams(p),
-  }
-}
+export const manageCategoryRoute = (p: { cm: Id; discipline: Id; group: Id; category: Id }) => ({
+  ...manageCompetitionDisciplineCategory,
+  params: convertParams(p),
+})

@@ -8,6 +8,8 @@ import { createCompetition, manageCompetitions } from "@/router/routes"
 import { Competition } from "../competition"
 import competitionService from "../service"
 
+import { manageCmDetailsRoute } from "../details/routes"
+
 export default Vue.extend({
   name: "ManageCompetitions",
 
@@ -28,6 +30,10 @@ export default Vue.extend({
 
       this.paging.update(pagination)
     },
+
+    manageCmDetailsRoute(cm: Competition) {
+      return manageCmDetailsRoute({ cm: cm.id })
+    },
   },
 
   created() {
@@ -46,7 +52,7 @@ export default Vue.extend({
            :paging="paging">
       <span slot="title">{{ $t('competitions.manage_competitions_grid_title') }}</span>
       <CCardAction slot="actions"
-                    :to="createRoute">
+                   :to="createRoute">
         {{ $t('competitions.manage_competitions_grid_head_create_new') }}
       </CCardAction>
 
@@ -85,7 +91,7 @@ export default Vue.extend({
                 :key="competition.id">
               <td>{{ competition.id }}</td>
               <td>{{ competition.title }} &nbsp;
-                <router-link :to="competition.routes.editDetails"
+                <router-link :to="manageCmDetailsRoute(competition)"
                              class="badge badge-light actions"
                              :title="$t('competitions.manage_competitions_grid_btn_edit_title')">
                   <i class="fa fa-pencil-square-o"></i>

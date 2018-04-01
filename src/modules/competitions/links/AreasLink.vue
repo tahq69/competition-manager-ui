@@ -4,7 +4,7 @@ import { Location } from "vue-router"
 
 import CardAction from "@/components/cards/CardAction.vue"
 
-import { getAreas } from "../areas/routes"
+import { competitionAreasRoute } from "../areas/routes"
 
 export default Vue.extend({
   name: "AreasLink",
@@ -19,7 +19,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return getAreas({ cm: this.cm })
+      return competitionAreasRoute({ cm: this.cm })
     },
   },
 })

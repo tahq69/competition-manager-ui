@@ -4,13 +4,14 @@ import { Location } from "vue-router"
 
 import Card from "@/components/cards/card"
 import EditBtn from "@/components/EditBtn.vue"
-import { createCompetitionDiscipline } from "@/router/routes"
 import { Id, Next } from "@/types"
 
 import DisciplineLink from "../../links/DisciplineLink.vue"
 
 import { DisciplineAuth } from "../auth"
 import { Discipline } from "../discipline"
+
+import { createCmDisciplineRoute, manageCmDisciplineRoute } from "../routes"
 
 export default Vue.extend({
   name: "CompetitionDisciplineCard",
@@ -25,18 +26,15 @@ export default Vue.extend({
     discipline: { type: Discipline },
   },
 
-  data() {
-    return {
-      canEdit: false,
-    }
-  },
+  data: () => ({ canEdit: false }),
 
   computed: {
     newDiscipline(): Location {
-      return {
-        ...createCompetitionDiscipline,
-        params: { cm: this.cm.toString() },
-      }
+      return createCmDisciplineRoute({ cm: this.cm })
+    },
+
+    manageCmDisciplineRoute(): Location {
+      return manageCmDisciplineRoute({ cm: this.cm, discipline: this.discipline.id })
     },
   },
 
@@ -49,26 +47,29 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div class="discipline-card card mt-3 mb-3" :style="{height: elHeight}">
+  <div class="discipline-card card mt-3 mb-3"
+       :style="{height: elHeight}">
 
     <div class="card-body">
-      <h5 v-if="!create" class="card-title">{{ discipline.title }}</h5>
-      <h6 v-if="!create" class="card-subtitle mb-2 text-muted">{{ discipline.short }}</h6>
+      <h5 v-if="!create"
+          class="card-title">{{ discipline.title }}</h5>
+      <h6 v-if="!create"
+          class="card-subtitle mb-2 text-muted">{{ discipline.short }}</h6>
 
-      <router-link
-        v-else
-        :to="newDiscipline"
-        title="Add new discipline"
-        class="btn btn-lg btn-block"
-      ><i class="fa fa-plus-square-o fa-2x"></i></router-link>
+      <router-link v-else
+                   :to="newDiscipline"
+                   title="Add new discipline"
+                   class="btn btn-lg btn-block">
+        <i class="fa fa-plus-square-o fa-2x"></i>
+      </router-link>
 
-      <DisciplineLink
-        v-if="!create"
-        :cm="cm" :discipline="discipline.id"
-        class="btn btn-primary"
-      />
+      <DisciplineLink v-if="!create"
+                      :cm="cm"
+                      :discipline="discipline.id"
+                      class="btn btn-primary" />
 
-      <EditBtn v-if="canEdit && !create" :to="discipline.routes.edit" />
+      <EditBtn v-if="canEdit && !create"
+               :to="manageCmDisciplineRoute" />
     </div>
   </div>
 </template>

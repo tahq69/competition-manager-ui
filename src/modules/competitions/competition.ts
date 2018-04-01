@@ -1,28 +1,20 @@
 import { Location } from "vue-router"
 
 import { Entity } from "@/helpers/entity"
-import { createCompetition, manageCompetitionDetails } from "@/router/routes"
 import { Id } from "@/types"
 
-import { getAreas } from "./areas/routes"
-import {
-  getCompetitionDetails,
-  getManageCompetitionDetails,
-} from "./details/routes"
-import { getDisciplines } from "./disciplines/routes"
-
 export class Competition extends Entity {
-  public ambulance: string
-  public cooperation: string
-  public equipment: string
-  public invitation: string
-  public price: string
-  public prizes: string
-  public program: string
-  public rules: string
-  public subtitle: string
-  public team_id: Id
-  public title: string
+  public ambulance: string = ""
+  public cooperation: string = ""
+  public equipment: string = ""
+  public invitation: string = ""
+  public price: string = ""
+  public prizes: string = ""
+  public program: string = ""
+  public rules: string = ""
+  public subtitle: string = ""
+  public team_id: Id = 0
+  public title: string = ""
 
   public judge_id?: number
   public judge_name?: string
@@ -32,15 +24,6 @@ export class Competition extends Entity {
   constructor(data: any) {
     super()
     this.updateProps(data)
-  }
-
-  public get routes() {
-    return {
-      details: getCompetitionDetails({ cm: this.id }),
-      editDetails: getManageCompetitionDetails({ cm: this.id }),
-      disciplines: getDisciplines({ cm: this.id }),
-      areas: getAreas({ cm: this.id }),
-    }
   }
 
   public updateProps(data: any) {

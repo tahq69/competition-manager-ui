@@ -16,12 +16,11 @@ import { groups } from "../groups/routes"
 /** Public routes */
 const disciplinesView = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./views/CompetitionDisciplines.vue")
-
 const disciplineView = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./views/Discipline.vue")
-
 const disciplineDetails = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./views/DisciplineDetails.vue")
+
 
 /** Management routes */
 const manageDiscipline = () =>
@@ -67,23 +66,22 @@ export const root: RouteConfig[] = [
   },
 ]
 
-export const getDisciplines = (p: { cm: Id }) => {
-  return {
-    ...competitionDisciplines,
-    params: convertParams(p),
-  }
-}
+export const cmDisciplinesRoute = (p: { cm: Id }) => ({
+  ...competitionDisciplines,
+  params: convertParams(p),
+})
 
-export const getDiscipline = (p: { cm: Id; discipline: Id }) => {
-  return {
-    ...competitionDiscipline,
-    params: convertParams(p),
-  }
-}
+export const cmDisciplineRoute = (p: { cm: Id; discipline: Id }) => ({
+  ...competitionDiscipline,
+  params: convertParams(p),
+})
 
-export const getManageDiscipline = (p: { cm: Id; discipline: Id }) => {
-  return {
-    ...manageCompetitionDiscipline,
-    params: convertParams(p),
-  }
-}
+export const createCmDisciplineRoute = (p: { cm: Id }) => ({
+  ...createCompetitionDiscipline,
+  params: convertParams(p),
+})
+
+export const manageCmDisciplineRoute = (p: { cm: Id; discipline: Id }) => ({
+  ...manageCompetitionDiscipline,
+  params: convertParams(p),
+})

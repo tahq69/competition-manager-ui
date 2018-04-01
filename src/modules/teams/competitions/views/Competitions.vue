@@ -3,7 +3,7 @@ import { createPaging } from "crip-vue-bootstrap"
 import Vue from "vue"
 
 import { Competition } from "@/modules/competitions/competition"
-import { getCompetitionDetails } from "@/modules/competitions/details/routes"
+import { cmDetailsRoute } from "@/modules/competitions/details/routes"
 import cmService from "@/modules/competitions/service"
 
 const { mixin, paging: competitions } = createPaging<Competition>((paging, to) => {
@@ -28,8 +28,8 @@ export default Vue.extend({
   },
 
   methods: {
-    competitionslink(cm: number) {
-      return getCompetitionDetails({ cm })
+    competitionDetailsRoute(cm: Competition) {
+      return cmDetailsRoute({ cm: cm.id })
     },
   },
 
@@ -70,7 +70,7 @@ export default Vue.extend({
             <router-link v-for="cm in competitions.items"
                          :key="cm.id"
                          tag="tr"
-                         :to="competitionslink(cm.id)"
+                         :to="competitionDetailsRoute(cm)"
                          class="c-pointer">
               <td>{{ cm.title }}</td>
               <td>{{ cm.judge_name }}</td>

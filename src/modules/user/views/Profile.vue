@@ -4,7 +4,10 @@ import Vue from "vue"
 import { Next } from "@/types"
 
 import { Profile } from "../models/profile"
+import { ProfileTeam } from "../models/profile-team"
 import userService from "../service"
+
+import { teamRoute } from "@/modules/teams/routes"
 
 export default Vue.extend({
   name: "Profile",
@@ -39,8 +42,15 @@ export default Vue.extend({
 
   methods: {
     setProfile(profile: Profile) {
+      this.log("setProfile(profile)", { profile })
       this.profile = profile
     },
+
+    teamRoute: (team: ProfileTeam) => teamRoute({ team: team.id }),
+  },
+
+  created() {
+    this.log = this.$logger.component(this)
   },
 })
 </script>
@@ -61,7 +71,7 @@ export default Vue.extend({
             <router-link tag="li"
                          v-for="team in profile.teams"
                          :key="team.id"
-                         :to="team.routes.members"
+                         :to="teamRoute(team)"
                          :title="team.name"
                          class="team img-thumbnail">
               <img :src="team.logo || teamDefault"
