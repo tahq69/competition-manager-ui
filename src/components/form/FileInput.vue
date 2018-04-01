@@ -1,0 +1,48 @@
+<script lang="ts">
+import Vue from "vue"
+
+import FilesysIframe from "./FilesysIframe.vue"
+
+export default Vue.extend({
+  name: "FileInput",
+
+  components: { FilesysIframe },
+
+  props: {
+    name: { type: String, required: true },
+    value: { type: String, required: true },
+    form: { type: Object, required: true },
+    id: { type: String, required: false },
+    inputClass: { type: [String, Array, Object], required: false },
+  },
+
+  data: () => ({ isManagerVisible: false }),
+
+  created() {
+    this.log = this.$logger.component(this)
+  },
+})
+</script>
+
+<template>
+  <div class="input-group">
+    <input type="text"
+           :value="value"
+           @input="$emit('input', $event.target.value)"
+           :id="id"
+           :name="name"
+           :class="inputClass">
+
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary"
+              @click="isManagerVisible = !isManagerVisible"
+              type="button">Select file</button>
+    </div>
+
+    <CFormErrors slot="feedback"
+                 :errors="form.errors[name]" />
+
+    <FilesysIframe v-if="isManagerVisible"
+                   @input="$emit('input', $event), isManagerVisible = false" />
+  </div>
+</template>

@@ -2,6 +2,8 @@
 import { Form } from "crip-vue-bootstrap"
 import Vue from "vue"
 
+import FileInput from "@/components/form/FileInput.vue"
+import Storage from "@/helpers/local-storage"
 import { manageTeam } from "@/router/routes"
 import { Next } from "@/types"
 
@@ -10,6 +12,8 @@ import { Team } from "../team"
 
 export default Vue.extend({
   name: "ManageTeam",
+
+  components: { FileInput },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     const open = (team: Team) => next(vm => vm.setTeam(team))
@@ -24,9 +28,13 @@ export default Vue.extend({
   },
 
   data() {
+    const baseUrl = "http://competition-manager.oo/packages/filemanager"
+    const token = Storage.get("access_token")
+
     return {
       form: new Form(new Team({})),
       teamName: "",
+      fileBrowserUrl: `${baseUrl}?token=${token}`,
     }
   },
 
@@ -56,7 +64,6 @@ export default Vue.extend({
         this.$notice.success({ title: "Team saved" })
         this.$router.push(team.routes.edit)
       } catch (errors) {
-        this.log(errors)
         this.form.addErrors(errors)
       }
     },
@@ -100,11 +107,11 @@ export default Vue.extend({
     <CFormGroup for="logo"
                 :form="form"
                 label="Team logo">
-      <input type="text"
-             id="logo"
-             v-model="form.data.logo"
-             name="logo"
-             :class="[{'is-invalid': form.errors.logo}, 'form-control']">
+      <FileInput id="logo"
+                 name="logo"
+                 v-model="form.data.logo"
+                 :form="form"
+                 :input-class="[{'is-invalid': form.errors.logo}, 'form-control']" />
     </CFormGroup>
 
     <!-- #submit -->
