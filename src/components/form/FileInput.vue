@@ -27,8 +27,9 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div class="input-group">
+  <div class="input-group crip-file-input">
     <input type="text"
+           disabled="disabled"
            :value="value"
            @input="$emit('input', $event.target.value)"
            :id="id"
@@ -44,9 +45,19 @@ export default Vue.extend({
     <CFormErrors slot="feedback"
                  :errors="form.errors[name]" />
 
-    <FilesysIframe v-if="isManagerVisible"
-                   :size="size"
-                   :type="type"
-                   @input="$emit('input', $event), isManagerVisible = false" />
+    <CModal :is-visible.sync="isManagerVisible"
+            size="lg">
+      <FilesysIframe :size="size"
+                     :type="type"
+                     @input="$emit('input', $event), isManagerVisible = false" />
+    </CModal>
+
   </div>
 </template>
+
+<style lang="scss">
+.crip-file-input .modal-body {
+  padding: 0;
+}
+</style>
+
