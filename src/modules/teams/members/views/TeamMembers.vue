@@ -22,7 +22,7 @@ export default Vue.extend({
 
   mixins: [mixin],
 
-  data: () => ({ members, canEdit: false }),
+  data: () => ({ members, canEdit: false, canEditMembers: false }),
 
   computed: {
     hasMembers(): boolean {
@@ -47,6 +47,7 @@ export default Vue.extend({
   async created() {
     this.log = this.$logger.component(this)
     this.canEdit = await TeamMemberAuth.canEdit({ team: this.team })
+    this.canEditMembers = await TeamMemberAuth.canEditMembers({ team: this.team })
   },
 })
 </script>
@@ -79,7 +80,7 @@ export default Vue.extend({
               <td>
                 {{ member.name }} &nbsp;
                 <router-link :to="manageTeamMemberRoute(member)"
-                             v-if="canEdit"
+                             v-if="canEditMembers"
                              class="badge badge-light actions"
                              title="Member profile">
                   <i class="fa fa-pencil-square-o"></i>
