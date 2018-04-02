@@ -12,9 +12,12 @@ import { Team } from "../../models/team"
 import { TeamMember } from "../../models/team-member"
 
 import teamService from "../../service"
+import { TeamMemberAuth } from "../auth"
 import memberService from "../service"
 
 import { manageTeamMemberRoute, manageTeamMembersRoute } from "../routes"
+
+import MemberRoleControl from "./MemberRoleControl.vue"
 
 function toUserOption(user: UserBase) {
   return {
@@ -26,6 +29,8 @@ function toUserOption(user: UserBase) {
 
 export default Vue.extend({
   name: "ManageMember",
+
+  components: { MemberRoleControl },
 
   props: {
     team: { type: [String, Number], required: true },
@@ -52,6 +57,7 @@ export default Vue.extend({
 
   data() {
     return {
+      canEditRoles: false,
       form: new Form<TeamMember>(new TeamMember({})),
       initialUserId: 0,
       memberTeam: new Team({}),
@@ -150,6 +156,14 @@ export default Vue.extend({
           user_id: this.form.data.user_id,
         })
 
+        if (this.isEdit && this.canEditRoles) {
+          await memberService.saveMemberRoles({
+            team: this.team,
+            member: this.form.data.id,
+            roles: this.form.data.roles,
+          })
+        }
+
         this.$notice.success(this.notificationDetails())
 
         this.initialUserId = member.user_id || 0
@@ -197,8 +211,9 @@ export default Vue.extend({
     },
   },
 
-  created() {
+  async created() {
     this.log = this.$logger.component(this)
+    this.canEditRoles = await TeamMemberAuth.canEditRoles({ team: this.memberTeam.id })
   },
 })
 </script>
@@ -213,6 +228,15 @@ export default Vue.extend({
                  :to="manageTeamMembersRoute()">
       {{ $t('teams.manage_member_action_back', { team: memberTeam.short }) }}
     </CCardAction>
+
+    <CFormGroup label="Member roles"
+                for="member-roles"
+                :sm="8">
+      <MemberRoleControl v-if="isEdit && canEditRoles"
+                         v-model="form.data.roles"
+                         :member="form.data.id"
+                         :team="memberTeam.id" />
+    </CFormGroup>
 
     <!-- #name -->
     <CFormGroup for="name"

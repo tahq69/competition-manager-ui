@@ -75,6 +75,33 @@ class MembersService extends Service {
       return pagination
     })
   }
+
+  /**
+   * Fetch team members roles list from server api endpoint.
+   * @param   {{team: Id, member: Id}} payload
+   * @returns {Promise<string[]>}
+   */
+  public async fetchRoles(payload: { team: Id, member: Id }): Promise<string[]> {
+    return await this.safeContext(async (http, api) => {
+      const url = api.url("teams/{team}/members/{member}/roles", { urlReplace: payload })
+
+      const response = await http.get(url)
+      return response.data
+    })
+  }
+
+  /**
+   * Save team member roles in server api.
+   * @param   {{team: Id, member: Id, roles: string[]}} payload
+   * @returns {Promise<void>}
+   */
+  public async saveMemberRoles(payload: { team: Id, member: Id, roles: string[] }) {
+    return await this.safeContext(async (http, api) => {
+      const url = api.url("teams/{team}/members/{member}/roles", { urlReplace: payload })
+
+      await http.post(url, { roles: payload.roles })
+    })
+  }
 }
 
 export default new MembersService()

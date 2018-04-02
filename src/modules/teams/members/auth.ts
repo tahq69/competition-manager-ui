@@ -19,4 +19,18 @@ export class TeamMemberAuth {
 
     return canManageTeamMembers
   }
+
+  public static async canEditRoles(opt: IEdit): Promise<boolean> {
+    // Global CREATE_TEAMS role allows edit any team details.
+    if (middleware.hasRole(roles.CREATE_TEAMS)) return true
+
+    // Checks the current user manager of the team and have role to manage
+    // other member roles.
+    const canManageTeamMemberRoles = await middleware.hasTeamRole(
+      { team: opt.team },
+      roles.MANAGE_MEMBER_ROLES
+    )
+
+    return canManageTeamMemberRoles
+  }
 }

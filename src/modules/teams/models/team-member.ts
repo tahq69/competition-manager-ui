@@ -15,6 +15,7 @@ export class TeamMember extends Entity {
   public membership_type: string = ""
   public name: string = ""
   public team_id: Id = 0
+  public roles: string[] = []
   public team?: Team
   public user?: IUser
   public user_id?: number
