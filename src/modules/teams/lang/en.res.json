@@ -29,7 +29,7 @@
   "manage_member_invitation_sent_title": "Invitation sent",
   "manage_member_invitation_sent_body": "{name} has received invitation to join {team} team.",
   "manage_member_saved_title": "Member saved",
-  "manage_member_saved_body": "New member was added to team {team}",
+  "manage_member_saved_body": "Member was saved in a team {team}",
   "manage_member_submit_btn": "Save",
   "title": "Teams"
 }
