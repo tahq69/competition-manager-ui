@@ -1,6 +1,6 @@
 import * as roles from "@/components/auth/roles";
 import { convertParams, teamCompetitions } from "@/router/routes";
-import { Id, IRouteParams } from "@/types";
+import { Id, IRouteParams } from "@/typings";
 
 /** Public routes */
 const cimpetitionsView = () =>

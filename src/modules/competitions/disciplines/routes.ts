@@ -9,7 +9,7 @@ import {
   createCompetitionDiscipline,
   manageCompetitionDiscipline
 } from "@/router/routes";
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 import { groups } from "../groups/routes";
 

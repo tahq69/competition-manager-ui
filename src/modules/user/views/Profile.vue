@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { Next } from "@/types";
+import { Next } from "@/typings";
 
 import { Profile } from "../models/profile";
 import { ProfileTeam } from "../models/profile-team";

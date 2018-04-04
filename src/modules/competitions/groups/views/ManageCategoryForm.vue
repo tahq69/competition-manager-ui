@@ -6,7 +6,7 @@ import { Route } from "vue-router";
 
 import Events from "@/helpers/events";
 import { createCompetitionDisciplineCategory as createRoute } from "@/router/routes";
-import { Id, Next } from "@/types";
+import { Id, Next } from "@/typings";
 
 import areaService from "../../areas/service";
 import { Area } from "../../models/area";

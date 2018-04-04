@@ -3,7 +3,7 @@ import { createPaging } from "crip-vue-bootstrap";
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 import { manageTeamMembersRoute } from "../members/routes";
 import { Team } from "../models/team";

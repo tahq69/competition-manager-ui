@@ -8,7 +8,7 @@ import {
   createCompetitionDiscipline,
   manageCompetitionDiscipline
 } from "@/router/routes";
-import { Next } from "@/types";
+import { Next } from "@/typings";
 
 import { Discipline } from "../../models/discipline";
 import disciplineService from "../service";

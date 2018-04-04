@@ -1,4 +1,4 @@
-import { Id } from "@/types";
+import { Id } from "@/typings";
 import { IState, IUser } from "./types";
 
 export default {

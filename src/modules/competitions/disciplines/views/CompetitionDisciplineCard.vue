@@ -4,7 +4,7 @@ import { Location } from "vue-router";
 
 import Card from "@/components/cards/card";
 import EditBtn from "@/components/EditBtn.vue";
-import { Id, Next } from "@/types";
+import { Id, Next } from "@/typings";
 
 import DisciplineLink from "../../links/DisciplineLink.vue";
 

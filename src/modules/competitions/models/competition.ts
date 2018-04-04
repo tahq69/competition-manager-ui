@@ -1,7 +1,7 @@
 import { Location } from "vue-router";
 
 import { Entity } from "@/helpers/entity";
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 export class Competition extends Entity {
   public ambulance: string = "";

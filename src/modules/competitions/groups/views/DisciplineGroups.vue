@@ -2,7 +2,7 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import { Id, Next } from "@/types";
+import { Id, Next } from "@/typings";
 
 import { Category } from "../../models/category";
 import { Group } from "../../models/group";

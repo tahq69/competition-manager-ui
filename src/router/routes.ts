@@ -1,6 +1,6 @@
 import { Location } from "vue-router";
 
-import { IRouteParams } from "@/types";
+import { IRouteParams } from "@/typings";
 
 export function convertParams(params: IRouteParams) {
   const result = {} as { [key: string]: string };

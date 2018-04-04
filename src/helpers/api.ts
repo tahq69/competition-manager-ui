@@ -8,7 +8,7 @@ import { t, Utils } from "@/helpers";
 import router from "@/router";
 import { login } from "@/router/routes";
 import { store } from "@/store";
-import { IDictionary } from "@/types";
+import { IDictionary } from "@/typings";
 
 interface IUrlParams {
   params?: IDictionary<string>;

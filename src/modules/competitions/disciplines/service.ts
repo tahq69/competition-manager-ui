@@ -1,5 +1,5 @@
 import { Service } from "@/helpers/service";
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 import { Discipline } from "../models/discipline";
 

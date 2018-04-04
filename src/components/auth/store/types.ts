@@ -1,4 +1,4 @@
-import { Id, IPayload } from "@/types";
+import { Id, IPayload } from "@/typings";
 
 export interface ITokenResponse {
   token_type: string;

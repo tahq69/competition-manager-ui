@@ -2,7 +2,7 @@
 import Vue from "vue";
 
 import CardActions from "@/components/cards/CardActions.vue";
-import { Next } from "@/types";
+import { Next } from "@/typings";
 
 import CompetitionLink from "../../links/CompetitionLink.vue";
 import DisciplineLink from "../../links/DisciplineLink.vue";

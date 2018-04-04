@@ -1,4 +1,4 @@
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 export interface IUserRole {
   key: string;

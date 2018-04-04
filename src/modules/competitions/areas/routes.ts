@@ -8,7 +8,7 @@ import {
   createCompetitionArea,
   manageCompetitionArea
 } from "@/router/routes";
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 /** Public routes */
 const areasView = () =>

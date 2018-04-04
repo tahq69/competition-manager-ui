@@ -5,7 +5,7 @@ import { Route } from "vue-router";
 
 import Events from "@/helpers/events";
 import { createCompetitionDisciplineGroup as createRoute } from "@/router/routes";
-import { Id, Next } from "@/types";
+import { Id, Next } from "@/typings";
 
 import { Group } from "../../models/group";
 import groupService from "../service";

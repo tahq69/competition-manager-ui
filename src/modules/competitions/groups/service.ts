@@ -1,5 +1,5 @@
 import { Service } from "@/helpers/service";
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 import { Category, DisplayType } from "../models/category";
 import { Group } from "../models/group";

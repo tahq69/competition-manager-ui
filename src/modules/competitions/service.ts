@@ -3,7 +3,7 @@ import { Paging } from "crip-vue-bootstrap";
 
 import { Pagination, Service } from "@/helpers";
 import { store } from "@/store";
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 import { Competition } from "./models/competition";
 

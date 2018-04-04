@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { Next } from "@/types";
+import { Next } from "@/typings";
 
 import { TeamAuth } from "../auth";
 import { Team } from "../models/team";

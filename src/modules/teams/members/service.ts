@@ -1,7 +1,7 @@
 import { Paging } from "crip-vue-bootstrap";
 
 import { Pagination, Service } from "@/helpers";
-import { Id } from "@/types";
+import { Id } from "@/typings";
 
 import { Team } from "../models/team";
 import { TeamMember } from "../models/team-member";

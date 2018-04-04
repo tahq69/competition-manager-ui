@@ -4,7 +4,7 @@ import {
   convertParams,
   manageCompetitionDetails
 } from "@/router/routes";
-import { Id, IRouteParams } from "@/types";
+import { Id, IRouteParams } from "@/typings";
 
 /** Public routes */
 const detailsView = () =>

@@ -7,7 +7,7 @@ import {
   createCompetition,
   manageCompetitions
 } from "@/router/routes";
-import { Id, IRouteParams } from "@/types";
+import { Id, IRouteParams } from "@/typings";
 
 import { areas } from "./areas/routes";
 import { details, root as detailsRoot } from "./details/routes";

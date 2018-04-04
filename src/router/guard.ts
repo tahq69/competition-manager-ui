@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router, { Location, RawLocation, Route, RouteRecord } from "vue-router";
 
 import { middleware as auth } from "@/components/auth";
-import { Next } from "@/types";
+import { Next } from "@/typings";
 import { home, login } from "./routes";
 
 export default function(router: Router) {

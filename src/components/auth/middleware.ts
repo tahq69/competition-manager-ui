@@ -1,7 +1,7 @@
 import Vue from "vue";
 
 import { Getters, store } from "@/store";
-import { Id } from "@/types";
+import { Id } from "@/typings";
 import * as sysRoles from "./roles";
 import { ICompetition, IFetchCompetition } from "./store/types";
 

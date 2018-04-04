@@ -5,7 +5,7 @@ import Vue from "vue";
 import FileInput from "@/components/form/FileInput.vue";
 import Storage from "@/helpers/local-storage";
 import { manageTeam } from "@/router/routes";
-import { Next } from "@/types";
+import { Next } from "@/typings";
 
 import {
   createTeamMemberRoute,
