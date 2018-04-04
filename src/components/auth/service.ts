@@ -1,6 +1,6 @@
 import { Service } from "@/helpers/service";
 
-import { IAuthUser, ILogin, IRegister } from "./types";
+import { IAuthUser, ILogin, IRegister } from "./typings";
 
 class UserService extends Service {
   public async fetchAuthenticatedUser(): Promise<IAuthUser> {

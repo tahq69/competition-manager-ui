@@ -3,7 +3,7 @@ import Vue from "vue";
 import { Getters, store } from "@/store";
 import { Id } from "@/typings";
 import * as sysRoles from "./roles";
-import { ICompetition, IFetchCompetition } from "./store/types";
+import { ICompetition, IFetchCompetition } from "./store/typings";
 
 const getters: Getters = store.getters;
 const log = Vue.logger.group("auth.middleware");

@@ -2,7 +2,7 @@ import { Service } from "@/helpers";
 import { getters } from "@/store";
 
 import { Profile } from "./models/profile";
-import { IFetchUserProfile } from "./types";
+import { IFetchUserProfile } from "./typings";
 
 class UserService extends Service {
   public async fetchUserProfile(payload: IFetchUserProfile): Promise<Profile> {

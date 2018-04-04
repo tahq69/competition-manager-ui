@@ -3,7 +3,7 @@ import { ActionContext, Store } from "vuex";
 
 import authService from "@/components/auth/service";
 import { Api } from "@/helpers/api";
-import { IState as RootState } from "@/store/types";
+import { IState as RootState } from "@/store/typings";
 
 import {
   IAddCompetitionPayload,
@@ -12,7 +12,7 @@ import {
   IFetchCompetition,
   IState,
   IUpdateUserDetailsPayload
-} from "./types";
+} from "./typings";
 
 type Action = ActionContext<IState, RootState>;
 

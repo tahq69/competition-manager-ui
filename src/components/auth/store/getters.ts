@@ -1,5 +1,5 @@
 import { Id } from "@/typings";
-import { IState, IUser } from "./types";
+import { IState, IUser } from "./typings";
 
 export default {
   user(state: IState): IUser {

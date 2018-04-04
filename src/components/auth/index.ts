@@ -8,8 +8,12 @@ import { store } from "@/store";
 
 import { Middleware } from "./middleware";
 import * as Roles from "./roles";
-import { IFetchAuthUser, ILogoutPayload, ITokenResponse } from "./store/types";
-import { ICredentials, IRegister } from "./types";
+import {
+  IFetchAuthUser,
+  ILogoutPayload,
+  ITokenResponse
+} from "./store/typings";
+import { ICredentials, IRegister } from "./typings";
 
 export const middleware = Middleware;
 export const roles = Roles;

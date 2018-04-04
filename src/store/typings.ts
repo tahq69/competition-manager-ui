@@ -1,4 +1,4 @@
-import { IState as AuthState } from "@/components/auth/store/types";
+import { IState as AuthState } from "@/components/auth/store/typings";
 
 export interface IState {
   auth: AuthState;

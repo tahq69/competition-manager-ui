@@ -1,12 +1,12 @@
 import { Module } from "vuex";
 
-import { IState as RootState } from "@/store/types";
+import { IState as RootState } from "@/store/typings";
 
 import actions from "./actions";
 import getters from "./getters";
 import mutations from "./mutations";
 import state from "./state";
-import { IState } from "./types";
+import { IState } from "./typings";
 
 export const store: Module<IState, RootState> = {
   state,
@@ -15,4 +15,4 @@ export const store: Module<IState, RootState> = {
   actions
 };
 
-export { Getters } from "./types";
+export { Getters } from "./typings";
