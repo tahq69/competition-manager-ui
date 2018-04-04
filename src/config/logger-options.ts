@@ -5,11 +5,11 @@ export default interface ILoggerOptions {
    * 'db'      - send logs to database
    * false     - disables all logs
    */
-  target: string | boolean
+  target: string | boolean;
 
   /**
    * List of enabled log sections.
    * To disable logs for some section, remove it from this list.
    */
-  sections: string[]
-}
+  sections: string[];
+};

@@ -1,13 +1,13 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import { Next } from "@/types"
+import { Next } from "@/types";
 
-import { Profile } from "../models/profile"
-import { ProfileTeam } from "../models/profile-team"
-import userService from "../service"
+import { Profile } from "../models/profile";
+import { ProfileTeam } from "../models/profile-team";
+import userService from "../service";
 
-import { teamRoute } from "@/modules/teams/routes"
+import { teamRoute } from "@/modules/teams/routes";
 
 export default Vue.extend({
   name: "Profile",
@@ -16,43 +16,45 @@ export default Vue.extend({
     user: { type: String, required: false },
     default: { type: String, default: "mm" },
     domain: { type: String, default: "http://www.gravatar.com" },
-    size: { type: Number, default: 255 },
+    size: { type: Number, default: 255 }
   },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     userService
       .fetchUserProfile({ id: to.params.user })
-      .then(profile => next(vm => vm.setProfile(profile)))
+      .then(profile => next(vm => vm.setProfile(profile)));
   },
 
   data: () => ({ profile: new Profile({ md5: "" }) }),
 
   computed: {
     imageUrl(): string {
-      let picture = `&d=${this.default}`
-      if (this.default === "gravatar") picture = ""
+      let picture = `&d=${this.default}`;
+      if (this.default === "gravatar") picture = "";
 
-      return `${this.domain}/avatar/${this.profile.md5}?s=${this.size}${picture}`
+      return `${this.domain}/avatar/${this.profile.md5}?s=${
+        this.size
+      }${picture}`;
     },
 
     teamDefault(): string {
-      return `${this.domain}/avatar?s=80`
-    },
+      return `${this.domain}/avatar?s=80`;
+    }
   },
 
   methods: {
     setProfile(profile: Profile) {
-      this.log("setProfile(profile)", { profile })
-      this.profile = profile
+      this.log("setProfile(profile)", { profile });
+      this.profile = profile;
     },
 
-    teamRoute: (team: ProfileTeam) => teamRoute({ team: team.id }),
+    teamRoute: (team: ProfileTeam) => teamRoute({ team: team.id })
   },
 
   created() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>
@@ -135,4 +137,3 @@ export default Vue.extend({
   }
 }
 </style>
-

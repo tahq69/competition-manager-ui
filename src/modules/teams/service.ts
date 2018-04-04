@@ -1,25 +1,25 @@
-import { Paging } from "crip-vue-bootstrap"
+import { Paging } from "crip-vue-bootstrap";
 
-import { Pagination, Service } from "@/helpers"
-import { Id } from "@/types"
+import { Pagination, Service } from "@/helpers";
+import { Id } from "@/types";
 
-import { Team } from "./models/team"
-import { TeamMember } from "./models/team-member"
+import { Team } from "./models/team";
+import { TeamMember } from "./models/team-member";
 
 interface IFetchTeam {
-  id: Id
+  id: Id;
 }
 
 interface IFetchTeams {
-  paging: Paging<Team>
-  managed?: boolean
+  paging: Paging<Team>;
+  managed?: boolean;
 }
 
 interface ISaveTeam {
-  id?: Id
-  name: string
-  short: string
-  logo: string
+  id?: Id;
+  name: string;
+  short: string;
+  logo: string;
 }
 
 class TeamsService extends Service {
@@ -31,12 +31,12 @@ class TeamsService extends Service {
   public async fetchTeam(payload: IFetchTeam) {
     return await this.safeContext(async (http, api) => {
       const url = api.url("teams/{id}", {
-        urlReplace: { id: payload.id.toString() },
-      })
+        urlReplace: { id: payload.id.toString() }
+      });
 
-      const response = await http.get(url)
-      return new Team(response.data)
-    })
+      const response = await http.get(url);
+      return new Team(response.data);
+    });
   }
 
   /**
@@ -48,14 +48,14 @@ class TeamsService extends Service {
     return await this.safeContext(async (http, api) => {
       const params = Object.assign({}, payload.paging.urlParams, {
         managed: payload.managed ? 1 : 0
-      })
+      });
 
-      const url = api.url("teams", { params })
+      const url = api.url("teams", { params });
 
-      const response = await http.get(url)
-      const pagination = Pagination.create<Team>(response, r => new Team(r))
-      return pagination
-    })
+      const response = await http.get(url);
+      const pagination = Pagination.create<Team>(response, r => new Team(r));
+      return pagination;
+    });
   }
 
   /**
@@ -65,10 +65,10 @@ class TeamsService extends Service {
    */
   public async saveTeam(payload: ISaveTeam) {
     return await this.safeContext(async (http, api) => {
-      const entity = new Team(payload)
-      return this.save(entity)
-    })
+      const entity = new Team(payload);
+      return this.save(entity);
+    });
   }
 }
 
-export default new TeamsService()
+export default new TeamsService();

@@ -1,16 +1,16 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import { Next } from "@/types"
+import { Next } from "@/types";
 
-import { TeamAuth } from "../auth"
-import { Team } from "../models/team"
-import teamService from "../service"
+import { TeamAuth } from "../auth";
+import { Team } from "../models/team";
+import teamService from "../service";
 
-import TeamCompetitionsLink from "../links/TeamCompetitionsLink.vue"
-import TeamLink from "../links/TeamLink.vue"
+import TeamCompetitionsLink from "../links/TeamCompetitionsLink.vue";
+import TeamLink from "../links/TeamLink.vue";
 
-import { manageTeamRoute } from "../routes"
+import { manageTeamRoute } from "../routes";
 
 export default Vue.extend({
   name: "Team",
@@ -18,29 +18,29 @@ export default Vue.extend({
   components: { TeamCompetitionsLink, TeamLink },
 
   props: {
-    team: { type: [Number, String], required: true },
+    team: { type: [Number, String], required: true }
   },
 
   beforeRouteEnter(to, from, next: Next<any>) {
-    const payload = { id: to.params.team }
-    teamService.fetchTeam(payload).then(team => next(vm => vm.setTeam(team)))
+    const payload = { id: to.params.team };
+    teamService.fetchTeam(payload).then(team => next(vm => vm.setTeam(team)));
   },
 
   data: () => ({ details: new Team({}), canEdit: false }),
 
   methods: {
     async setTeam(team: Team) {
-      this.details = team
-      this.canEdit = await TeamAuth.canEdit({ team: team.id })
+      this.details = team;
+      this.canEdit = await TeamAuth.canEdit({ team: team.id });
     },
 
-    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id }),
+    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id })
   },
 
   mounted() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>

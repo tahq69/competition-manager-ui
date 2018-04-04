@@ -1,10 +1,10 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import AreasLink from "../links/AreasLink.vue"
-import CompetitionLink from "../links/CompetitionLink.vue"
-import DisciplinesLink from "../links/DisciplinesLink.vue"
-import { Competition } from "../models/competition"
+import AreasLink from "../links/AreasLink.vue";
+import CompetitionLink from "../links/CompetitionLink.vue";
+import DisciplinesLink from "../links/DisciplinesLink.vue";
+import { Competition } from "../models/competition";
 
 export default Vue.extend({
   name: "Competition",
@@ -12,19 +12,19 @@ export default Vue.extend({
   components: { AreasLink, DisciplinesLink, CompetitionLink },
 
   props: {
-    cm: { type: [Number, String], required: true },
+    cm: { type: [Number, String], required: true }
   },
 
   computed: {
     competition(): Competition {
-      return new Competition({ id: this.cm })
-    },
+      return new Competition({ id: this.cm });
+    }
   },
 
   mounted() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>

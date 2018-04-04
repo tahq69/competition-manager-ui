@@ -1,34 +1,34 @@
-import { Id } from "@/types"
+import { Id } from "@/types";
 
 export interface IUserRole {
-  key: string
+  key: string;
 }
 
 export interface IAuthUser {
-  id: Id
-  email: string
-  name: string
-  roles: IUserRole[]
-  team_roles: { [key: string]: IUserRole[] }
+  id: Id;
+  email: string;
+  name: string;
+  roles: IUserRole[];
+  team_roles: { [key: string]: IUserRole[] };
 }
 
 export interface ILogin {
-  username: string
-  password: string
-  client_id: number
-  client_secret: string
-  grant_type: "password"
-  scope: "*"
+  username: string;
+  password: string;
+  client_id: number;
+  client_secret: string;
+  grant_type: "password";
+  scope: "*";
 }
 
 export interface IRegister {
-  email: string
-  name: string
-  password: string
-  password_confirmation: string
+  email: string;
+  name: string;
+  password: string;
+  password_confirmation: string;
 }
 
 export interface ICredentials {
-  username: string
-  password: string
+  username: string;
+  password: string;
 }

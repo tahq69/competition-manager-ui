@@ -1,23 +1,23 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap"
-import Vue from "vue"
+import { createPaging } from "crip-vue-bootstrap";
+import Vue from "vue";
 
-import { TeamMember } from "../../models/team-member"
-import { TeamMemberAuth } from "../auth"
-import membersService from "../service"
+import { TeamMember } from "../../models/team-member";
+import { TeamMemberAuth } from "../auth";
+import membersService from "../service";
 
-import { userProfileRoute } from "@/modules/user/routes"
-import { manageTeamMemberRoute } from "../routes"
+import { userProfileRoute } from "@/modules/user/routes";
+import { manageTeamMemberRoute } from "../routes";
 
 const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
-  return membersService.fetchTeamMembers({ paging, team_id: to.params.team })
-})
+  return membersService.fetchTeamMembers({ paging, team_id: to.params.team });
+});
 
 export default Vue.extend({
   name: "TeamMembers",
 
   props: {
-    team: { type: [String, Number], required: true },
+    team: { type: [String, Number], required: true }
   },
 
   mixins: [mixin],
@@ -26,30 +26,32 @@ export default Vue.extend({
 
   computed: {
     hasMembers(): boolean {
-      return this.members.items.length > 0
-    },
+      return this.members.items.length > 0;
+    }
   },
 
   methods: {
     hasProfile(member: TeamMember) {
-      return (member.user_id || 0) > 0
+      return (member.user_id || 0) > 0;
     },
 
     userProfileRoute(member: TeamMember) {
-      return userProfileRoute({ user: member.user_id || 0 })
+      return userProfileRoute({ user: member.user_id || 0 });
     },
 
     manageTeamMemberRoute(member: TeamMember) {
-      return manageTeamMemberRoute({ team: member.team_id, member: member.id })
-    },
+      return manageTeamMemberRoute({ team: member.team_id, member: member.id });
+    }
   },
 
   async created() {
-    this.log = this.$logger.component(this)
-    this.canEdit = await TeamMemberAuth.canEdit({ team: this.team })
-    this.canEditMembers = await TeamMemberAuth.canEditMembers({ team: this.team })
-  },
-})
+    this.log = this.$logger.component(this);
+    this.canEdit = await TeamMemberAuth.canEdit({ team: this.team });
+    this.canEditMembers = await TeamMemberAuth.canEditMembers({
+      team: this.team
+    });
+  }
+});
 </script>
 
 <template>

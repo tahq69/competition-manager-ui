@@ -1,15 +1,15 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import Card from "@/components/cards/card"
-import EditBtn from "@/components/EditBtn.vue"
+import Card from "@/components/cards/card";
+import EditBtn from "@/components/EditBtn.vue";
 
-import { TeamAuth } from "../auth"
-import { Team } from "../models/team"
+import { TeamAuth } from "../auth";
+import { Team } from "../models/team";
 
-import TeamLink from "../links/TeamLink.vue"
+import TeamLink from "../links/TeamLink.vue";
 
-import { manageTeamRoute } from "../routes"
+import { manageTeamRoute } from "../routes";
 
 export default Vue.extend({
   name: "TeamCard",
@@ -19,20 +19,20 @@ export default Vue.extend({
   mixins: [Card],
 
   props: {
-    team: { type: Team, required: true },
+    team: { type: Team, required: true }
   },
 
   data: () => ({ canEdit: false }),
 
   methods: {
-    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id }),
+    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id })
   },
 
   async created() {
-    this.log = this.$logger.component(this)
-    this.canEdit = await TeamAuth.canEdit({ team: this.team.id })
-  },
-})
+    this.log = this.$logger.component(this);
+    this.canEdit = await TeamAuth.canEdit({ team: this.team.id });
+  }
+});
 </script>
 
 <template>

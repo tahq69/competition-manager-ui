@@ -1,13 +1,13 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
 export default Vue.extend({
   name: "CompetitionDetails",
 
   props: {
-    cm: { type: [Number, String], required: true },
-  },
-})
+    cm: { type: [Number, String], required: true }
+  }
+});
 </script>
 
 <template>

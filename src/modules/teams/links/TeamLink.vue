@@ -1,10 +1,10 @@
 <script lang="ts">
-import Vue from "vue"
-import { Location } from "vue-router"
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import CardAction from "@/components/cards/CardAction.vue"
+import CardAction from "@/components/cards/CardAction.vue";
 
-import { teamMembersRoute } from "../members/routes"
+import { teamMembersRoute } from "../members/routes";
 
 export default Vue.extend({
   name: "TeamLink",
@@ -15,16 +15,16 @@ export default Vue.extend({
     team: { type: [String, Number], required: true },
     exact: { type: Boolean, default: false },
     action: { type: Boolean, default: false },
-    direction: { type: String, default: "left" },
+    direction: { type: String, default: "left" }
   },
 
   computed: {
     to(): Location {
-      const team = this.team
-      return teamMembersRoute({ team })
-    },
-  },
-})
+      const team = this.team;
+      return teamMembersRoute({ team });
+    }
+  }
+});
 </script>
 
 <template>

@@ -1,7 +1,7 @@
-import { ActionContext, Store } from "vuex"
+import { ActionContext, Store } from "vuex";
 
-import { ICommonState as State, IState as Root } from "@/store/types"
+import { ICommonState as State, IState as Root } from "@/store/types";
 
-type A = ActionContext<State, Root>
+type A = ActionContext<State, Root>;
 
-export default {}
+export default {};

@@ -1,16 +1,18 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap"
-import Vue from "vue"
-import { Location } from "vue-router"
+import { createPaging } from "crip-vue-bootstrap";
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import { Id } from "@/types"
+import { Id } from "@/types";
 
-import { manageTeamMembersRoute } from "../members/routes"
-import { Team } from "../models/team"
-import { createTeamRoute, manageTeamRoute } from "../routes"
-import teamService from "../service"
+import { manageTeamMembersRoute } from "../members/routes";
+import { Team } from "../models/team";
+import { createTeamRoute, manageTeamRoute } from "../routes";
+import teamService from "../service";
 
-const { mixin, paging: teams } = createPaging<Team>(paging => teamService.fetchTeams({ paging }))
+const { mixin, paging: teams } = createPaging<Team>(paging =>
+  teamService.fetchTeams({ paging })
+);
 
 export default Vue.extend({
   name: "ManageTeams",
@@ -22,13 +24,14 @@ export default Vue.extend({
   methods: {
     createTeamRoute: () => createTeamRoute(),
     manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id }),
-    manageTeamMembersRoute: (team: Team) => manageTeamMembersRoute({ team: team.id }),
+    manageTeamMembersRoute: (team: Team) =>
+      manageTeamMembersRoute({ team: team.id })
   },
 
   created() {
-    this.$logger.component(this)
-  },
-})
+    this.$logger.component(this);
+  }
+});
 </script>
 
 <template>

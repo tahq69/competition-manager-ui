@@ -1,16 +1,19 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap"
-import Vue from "vue"
+import { Form } from "crip-vue-bootstrap";
+import Vue from "vue";
 
-import FileInput from "@/components/form/FileInput.vue"
-import Storage from "@/helpers/local-storage"
-import { manageTeam } from "@/router/routes"
-import { Next } from "@/types"
+import FileInput from "@/components/form/FileInput.vue";
+import Storage from "@/helpers/local-storage";
+import { manageTeam } from "@/router/routes";
+import { Next } from "@/types";
 
-import { createTeamMemberRoute, manageTeamMembersRoute } from "../members/routes"
-import { Team } from "../models/team"
-import { manageTeamRoute, manageTeamsRoute } from "../routes"
-import teamService from "../service"
+import {
+  createTeamMemberRoute,
+  manageTeamMembersRoute
+} from "../members/routes";
+import { Team } from "../models/team";
+import { manageTeamRoute, manageTeamsRoute } from "../routes";
+import teamService from "../service";
 
 export default Vue.extend({
   name: "ManageTeam",
@@ -18,69 +21,69 @@ export default Vue.extend({
   components: { FileInput },
 
   beforeRouteEnter(to, from, next: Next<any>) {
-    const open = (team: Team) => next(vm => vm.setTeam(team))
+    const open = (team: Team) => next(vm => vm.setTeam(team));
 
     // If we open create route, we have no data to load from API and we can
     // initialize from with emtry data record.
-    if (to.name !== manageTeam.name) return open(new Team({}))
+    if (to.name !== manageTeam.name) return open(new Team({}));
 
     // If we open edit route, we load data from API and show it in a form.
-    const payload = { id: to.params.team }
-    teamService.fetchTeam(payload).then(team => open(team))
+    const payload = { id: to.params.team };
+    teamService.fetchTeam(payload).then(team => open(team));
   },
 
   data: () => ({
     form: new Form(new Team({})),
-    teamName: "",
+    teamName: ""
   }),
 
   computed: {
     isEdit(): boolean {
-      return this.$route.name === manageTeam.name
+      return this.$route.name === manageTeam.name;
     },
 
     title(): string {
-      if (this.isEdit) return `Manage team: ${this.teamName}`
-      return "Create new team"
+      if (this.isEdit) return `Manage team: ${this.teamName}`;
+      return "Create new team";
     },
 
     manageTeamsRoute(): any {
-      return manageTeamsRoute()
+      return manageTeamsRoute();
     },
 
     manageTeamMembersRoute(): any {
-      return manageTeamMembersRoute({ team: this.form.data.id })
+      return manageTeamMembersRoute({ team: this.form.data.id });
     },
 
     createTeamMemberRoute(): any {
-      return createTeamMemberRoute({ team: this.form.data.id })
-    },
+      return createTeamMemberRoute({ team: this.form.data.id });
+    }
   },
 
   methods: {
     setTeam(team: Team) {
-      this.form.data = team
-      this.teamName = team.name
+      this.form.data = team;
+      this.teamName = team.name;
     },
 
     async save() {
-      this.log("save()", this.form.data)
+      this.log("save()", this.form.data);
 
-      this.form.clearErrors()
+      this.form.clearErrors();
       try {
-        const team = await teamService.saveTeam(this.form.data)
-        this.$notice.success({ title: "Team saved" })
-        this.$router.push(manageTeamRoute({ team: team.id }))
+        const team = await teamService.saveTeam(this.form.data);
+        this.$notice.success({ title: "Team saved" });
+        this.$router.push(manageTeamRoute({ team: team.id }));
       } catch (errors) {
-        this.form.addErrors(errors)
+        this.form.addErrors(errors);
       }
-    },
+    }
   },
 
   mounted() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>

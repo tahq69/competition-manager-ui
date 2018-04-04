@@ -1,11 +1,11 @@
-import Vue from "vue"
+import Vue from "vue";
 
-import config from "@/config"
-import ILoggerOptions from "@/config/logger-options"
+import config from "@/config";
+import ILoggerOptions from "@/config/logger-options";
 
-import Utils from "./utils"
+import Utils from "./utils";
 
-export type LogType = "log" | "info" | "warn" | "debug" | "error"
+export type LogType = "log" | "info" | "warn" | "debug" | "error";
 
 export interface ILogger {
   /**
@@ -14,7 +14,7 @@ export interface ILogger {
    * @param {...any[]} args
    * @memberof ILogger
    */
-  log(...args: any[]): void
+  log(...args: any[]): void;
 
   /**
    * Write informational message.
@@ -22,7 +22,7 @@ export interface ILogger {
    * @param {...any[]} args
    * @memberof ILogger
    */
-  info(...args: any[]): void
+  info(...args: any[]): void;
 
   /**
    * Write error message.
@@ -30,7 +30,7 @@ export interface ILogger {
    * @param {...any[]} args
    * @memberof ILogger
    */
-  error(...args: any[]): void
+  error(...args: any[]): void;
 
   /**
    * Group logs to section and get logger method.
@@ -40,7 +40,7 @@ export interface ILogger {
    * @returns {(...args: any[]) => void}
    * @memberof ILogger
    */
-  group(section: string, type?: LogType): (...args: any[]) => void
+  group(section: string, type?: LogType): (...args: any[]) => void;
 
   /**
    * Log Vue component details.
@@ -50,75 +50,75 @@ export interface ILogger {
    * @returns {(...args: any[]) => void}
    * @memberof ILogger
    */
-  component(vm: Vue, ...args: any[]): (...args: any[]) => void
+  component(vm: Vue, ...args: any[]): (...args: any[]) => void;
 }
 
 class WebLogger implements ILogger {
-  private target: string | boolean
-  private sections: string[]
+  private target: string | boolean;
+  private sections: string[];
 
   public constructor({ target, sections }: ILoggerOptions) {
-    this.target = target
-    this.sections = sections
+    this.target = target;
+    this.sections = sections;
   }
 
   public log(...args: any[]) {
-    this.writelog("log", args)
+    this.writelog("log", args);
   }
 
   public info(...args: any[]) {
-    this.writelog("info", args, "info")
+    this.writelog("info", args, "info");
   }
 
   public error(...args: any[]) {
-    this.writelog("error", args, "error")
+    this.writelog("error", args, "error");
   }
 
   public group(section: string, type: LogType = "log") {
     return (...args: any[]) => {
-      args.unshift(section)
-      this.writelog(type, args, section)
-    }
+      args.unshift(section);
+      this.writelog(type, args, section);
+    };
   }
 
   public component(vm: Vue, ...args: any[]) {
-    const component = `component ${vm.$options.name}`
+    const component = `component ${vm.$options.name}`;
 
     if (vm.$route) {
-      const route = { ...vm.$route.params, path: vm.$route.fullPath }
-      this.writelog("debug", [component, { route }, ...args], "component")
+      const route = { ...vm.$route.params, path: vm.$route.fullPath };
+      this.writelog("debug", [component, { route }, ...args], "component");
     } else {
-      this.writelog("debug", [component, ...args], "component")
+      this.writelog("debug", [component, ...args], "component");
     }
 
-    return this.group(vm.$options.name || "unnamed")
+    return this.group(vm.$options.name || "unnamed");
   }
 
   private writelog(type: LogType, args: any[], section = "global") {
-    if (!this.isInAvailableSections(section)) return
+    if (!this.isInAvailableSections(section)) return;
 
     if (this.target === "console") {
-      return this.consoleLog(type, args)
+      return this.consoleLog(type, args);
     }
   }
 
   private consoleLog(type: LogType, args: any[]) {
     if (window.console && console[type]) {
-      console[type].apply(console, args)
+      console[type].apply(console, args);
     }
   }
 
   private isInAvailableSections(section: string): boolean {
-    if (!this.sections || this.sections.length < 1) return true
-    return Utils.isInArray(section, this.sections)
+    if (!this.sections || this.sections.length < 1) return true;
+    return Utils.isInArray(section, this.sections);
   }
 }
 
-const logger = new WebLogger(config.logs)
-const attrs = { get: () => logger }
+const logger = new WebLogger(config.logs);
+const attrs = { get: () => logger };
 
-Object.defineProperty(Vue, "logger", attrs)
-Object.defineProperty(Vue.prototype, "$logger", attrs)
+Object.defineProperty(Vue, "logger", attrs);
+Object.defineProperty(Vue.prototype, "$logger", attrs);
 
 /*
 export default {

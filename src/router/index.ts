@@ -1,14 +1,14 @@
-import Vue from "vue"
-import Router, { RouteConfig } from "vue-router"
+import Vue from "vue";
+import Router, { RouteConfig } from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
-import NotFound from "@/components/NotFound.vue"
+import NotFound from "@/components/NotFound.vue";
 
-import { root as competitions } from "@/modules/competitions/routes"
-import { home, posts } from "@/modules/posts/routes"
-import { teams } from "@/modules/teams/routes"
-import user from "@/modules/user/routes"
+import { root as competitions } from "@/modules/competitions/routes";
+import { home, posts } from "@/modules/posts/routes";
+import { teams } from "@/modules/teams/routes";
+import user from "@/modules/user/routes";
 
 const routes = [
   home,
@@ -20,12 +20,12 @@ const routes = [
   { path: "/password/reset/:token", redirect: "/auth/password/reset/:token" },
   { path: "/", redirect: "/home" },
   { path: "", redirect: "/home" },
-  { path: "*", component: NotFound },
-]
+  { path: "*", component: NotFound }
+];
 
 export default new Router({
   mode: "history",
   routes,
   linkActiveClass: "active",
-  linkExactActiveClass: "active",
-})
+  linkExactActiveClass: "active"
+});

@@ -1,20 +1,22 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap"
-import Vue from "vue"
+import { createPaging } from "crip-vue-bootstrap";
+import Vue from "vue";
 
-import { cmDetailsRoute } from "@/modules/competitions/details/routes"
-import { Competition } from "@/modules/competitions/models/competition"
-import cmService from "@/modules/competitions/service"
+import { cmDetailsRoute } from "@/modules/competitions/details/routes";
+import { Competition } from "@/modules/competitions/models/competition";
+import cmService from "@/modules/competitions/service";
 
-const { mixin, paging: competitions } = createPaging<Competition>((paging, to) => {
-  return cmService.fetchTeamCompetitions({ paging, team_id: to.params.team })
-})
+const { mixin, paging: competitions } = createPaging<Competition>(
+  (paging, to) => {
+    return cmService.fetchTeamCompetitions({ paging, team_id: to.params.team });
+  }
+);
 
 export default Vue.extend({
   name: "TeamCompetitions",
 
   props: {
-    team: { type: [String, Number], required: true },
+    team: { type: [String, Number], required: true }
   },
 
   mixins: [mixin],
@@ -23,20 +25,20 @@ export default Vue.extend({
 
   computed: {
     hasCm(): boolean {
-      return this.competitions.items.length > 0
-    },
+      return this.competitions.items.length > 0;
+    }
   },
 
   methods: {
     competitionDetailsRoute(cm: Competition) {
-      return cmDetailsRoute({ cm: cm.id })
-    },
+      return cmDetailsRoute({ cm: cm.id });
+    }
   },
 
   mounted() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>

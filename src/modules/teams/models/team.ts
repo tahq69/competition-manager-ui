@@ -1,31 +1,31 @@
-import { Location } from "vue-router"
+import { Location } from "vue-router";
 
-import { Entity, IEntity } from "@/helpers/entity"
+import { Entity, IEntity } from "@/helpers/entity";
 
 export interface ITeam extends IEntity {
-  logo?: string
-  short?: string
-  name?: string
+  logo?: string;
+  short?: string;
+  name?: string;
 }
 
 export class Team extends Entity {
-  public logo: string = ""
-  public short: string = ""
-  public name: string = ""
+  public logo: string = "";
+  public short: string = "";
+  public name: string = "";
 
-  public createUrl = "teams"
-  public updateUrl = "teams/{id}"
+  public createUrl = "teams";
+  public updateUrl = "teams/{id}";
 
   constructor(data: ITeam) {
-    super()
-    this.updateProps(data)
+    super();
+    this.updateProps(data);
   }
 
   public updateProps(data: ITeam) {
-    super.updateProps(data)
+    super.updateProps(data);
 
-    this.name = data.name || ""
-    this.short = data.short || ""
-    this.logo = data.logo || ""
+    this.name = data.name || "";
+    this.short = data.short || "";
+    this.logo = data.logo || "";
   }
 }

@@ -1,18 +1,18 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap"
-import Vue from "vue"
+import { createPaging } from "crip-vue-bootstrap";
+import Vue from "vue";
 
-import CardWrapper from "@/components/cards/card-wrapper"
+import CardWrapper from "@/components/cards/card-wrapper";
 
-import { Competition } from "../models/competition"
-import cmService from "../service"
+import { Competition } from "../models/competition";
+import cmService from "../service";
 
-import CompetitionCard from "./CompetitionCard.vue"
+import CompetitionCard from "./CompetitionCard.vue";
 
 const { mixin, paging: competitions } = createPaging<Competition>(
   paging => cmService.fetchCompetitions({ paging }),
   { perPage: 9, sortBy: "organization_date" }
-)
+);
 
 export default Vue.extend({
   name: "Competitions",
@@ -23,10 +23,10 @@ export default Vue.extend({
 
   data() {
     return {
-      competitions,
-    }
-  },
-})
+      competitions
+    };
+  }
+});
 </script>
 
 <template>

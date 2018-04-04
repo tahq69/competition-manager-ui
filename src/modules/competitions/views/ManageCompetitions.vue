@@ -1,49 +1,49 @@
 <script lang="ts">
-import { Paging } from "crip-vue-bootstrap"
-import Vue from "vue"
-import { Location } from "vue-router"
+import { Paging } from "crip-vue-bootstrap";
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import { createCompetition, manageCompetitions } from "@/router/routes"
+import { createCompetition, manageCompetitions } from "@/router/routes";
 
-import { Competition } from "../models/competition"
-import competitionService from "../service"
+import { Competition } from "../models/competition";
+import competitionService from "../service";
 
-import { manageCmDetailsRoute } from "../details/routes"
+import { manageCmDetailsRoute } from "../details/routes";
 
 export default Vue.extend({
   name: "ManageCompetitions",
 
   data() {
-    const vm = this
+    const vm = this;
     return {
       createRoute: createCompetition,
-      paging: new Paging<Competition>({ vm, route: manageCompetitions }),
-    }
+      paging: new Paging<Competition>({ vm, route: manageCompetitions })
+    };
   },
 
   methods: {
     async fetchPage() {
       const pagination = await competitionService.fetchCompetitions({
         paging: this.paging,
-        owned: true,
-      })
+        owned: true
+      });
 
-      this.paging.update(pagination)
+      this.paging.update(pagination);
     },
 
     manageCmDetailsRoute(cm: Competition) {
-      return manageCmDetailsRoute({ cm: cm.id })
-    },
+      return manageCmDetailsRoute({ cm: cm.id });
+    }
   },
 
   created() {
-    this.paging.init(() => this.fetchPage())
+    this.paging.init(() => this.fetchPage());
   },
 
   mounted() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>

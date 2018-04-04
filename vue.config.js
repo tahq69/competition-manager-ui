@@ -1,7 +1,7 @@
 const proxyOpt = {
   changeOrigin: true,
-  target: "http://competition-manager.oo/",
-}
+  target: "http://competition-manager.oo/"
+};
 
 module.exports = {
   lintOnSave: true,
@@ -11,7 +11,7 @@ module.exports = {
       "/packages": proxyOpt,
       "/vendor": proxyOpt,
       "/oauth": proxyOpt,
-      "/storage": proxyOpt,
+      "/storage": proxyOpt
     }
   }
-}
+};

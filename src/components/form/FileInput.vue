@@ -1,7 +1,7 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import FilesysIframe from "./FilesysIframe.vue"
+import FilesysIframe from "./FilesysIframe.vue";
 
 export default Vue.extend({
   name: "FileInput",
@@ -15,15 +15,15 @@ export default Vue.extend({
     id: { type: String, required: false },
     size: { type: String, required: false },
     type: { type: String, required: false },
-    inputClass: { type: [String, Array, Object], required: false },
+    inputClass: { type: [String, Array, Object], required: false }
   },
 
   data: () => ({ isManagerVisible: false }),
 
   created() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>
@@ -60,4 +60,3 @@ export default Vue.extend({
   padding: 0;
 }
 </style>
-

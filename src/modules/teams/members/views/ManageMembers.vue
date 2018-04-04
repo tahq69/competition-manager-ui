@@ -1,23 +1,23 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap"
-import Vue from "vue"
-import { Location } from "vue-router"
+import { createPaging } from "crip-vue-bootstrap";
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import { TeamMember } from "../../models/team-member"
-import memberService from "../service"
+import { TeamMember } from "../../models/team-member";
+import memberService from "../service";
 
-import { manageTeamRoute } from "../../routes"
-import { createTeamMemberRoute, manageTeamMemberRoute } from "../routes"
+import { manageTeamRoute } from "../../routes";
+import { createTeamMemberRoute, manageTeamMemberRoute } from "../routes";
 
 const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
-  return memberService.fetchTeamMembers({ paging, team_id: to.params.team })
-})
+  return memberService.fetchTeamMembers({ paging, team_id: to.params.team });
+});
 
 export default Vue.extend({
   name: "ManageMembers",
 
   props: {
-    team: { type: [String, Number], required: true },
+    team: { type: [String, Number], required: true }
   },
 
   mixins: [mixin],
@@ -26,27 +26,27 @@ export default Vue.extend({
 
   computed: {
     teamId(): string {
-      return this.team.toString()
-    },
+      return this.team.toString();
+    }
   },
 
   methods: {
     manageTeamRoute(): Location {
-      return manageTeamRoute({ team: this.teamId })
+      return manageTeamRoute({ team: this.teamId });
     },
 
     createTeamMemberRoute(): Location {
-      return createTeamMemberRoute({ team: this.teamId })
+      return createTeamMemberRoute({ team: this.teamId });
     },
 
     manageTeamMemberRoute: (member: TeamMember): Location =>
-      manageTeamMemberRoute({ team: member.team_id, member: member.id }),
+      manageTeamMemberRoute({ team: member.team_id, member: member.id })
   },
 
   created() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>

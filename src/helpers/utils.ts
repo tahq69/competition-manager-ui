@@ -9,7 +9,7 @@ export default class Utils {
    * @memberof Utils
    */
   public static isUndefined(value: any): boolean {
-    return typeof value === "undefined"
+    return typeof value === "undefined";
   }
 
   /**
@@ -22,7 +22,7 @@ export default class Utils {
    * @memberof Utils
    */
   public static isDefined(value: any): boolean {
-    return !Utils.isUndefined(value)
+    return !Utils.isUndefined(value);
   }
 
   /**
@@ -34,11 +34,11 @@ export default class Utils {
    * @memberof Utils
    */
   public static isFunction(func: any): boolean {
-    const getType = {}
+    const getType = {};
     return (
       Utils.isDefined(func) &&
       getType.toString.call(func) === "[object Function]"
-    )
+    );
   }
 
   /**
@@ -55,7 +55,7 @@ export default class Utils {
       value === "" ||
       value === null ||
       value !== value
-    )
+    );
   }
 
   /**
@@ -68,33 +68,33 @@ export default class Utils {
    * @memberof Utils
    */
   public static hasValue(value: any): boolean {
-    return !Utils.isEmpty(value)
+    return !Utils.isEmpty(value);
   }
 
   public static hasProperty(object: any, ...properties: string[]): boolean {
-    let target = object
+    let target = object;
     // tslint:disable-next-line:forin
     for (const arg in properties) {
-      const prop = properties[arg]
-      if (!object.hasOwnProperty(prop)) return false
+      const prop = properties[arg];
+      if (!object.hasOwnProperty(prop)) return false;
 
-      target = target[prop]
-      if (Utils.isUndefined(target)) return false
+      target = target[prop];
+      if (Utils.isUndefined(target)) return false;
     }
 
-    return true
+    return true;
   }
 
   public static isInArray<T>(value: T, array: T[]): boolean {
-    return !!~array.indexOf(value)
+    return !!~array.indexOf(value);
   }
 
   public static newGuid(): string {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
-      const r = (Math.random() * 16) | 0
-      const v = c === "x" ? r : (r & 0x3) | 0x8
-      return v.toString(16)
-    })
+      const r = (Math.random() * 16) | 0;
+      const v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 
   /**
@@ -108,11 +108,11 @@ export default class Utils {
    */
   public static supplant(template: string, values: any) {
     return template.replace(/\{([^{}]*)\}/g, (a, b): string => {
-      const r = values[b]
-      const isStrOrNr = typeof r === "string" || typeof r === "number"
+      const r = values[b];
+      const isStrOrNr = typeof r === "string" || typeof r === "number";
 
-      return isStrOrNr ? r.toString() : a
-    })
+      return isStrOrNr ? r.toString() : a;
+    });
   }
 
   /**
@@ -128,42 +128,42 @@ export default class Utils {
   public static debounce<T extends Function>(
     func: T,
     wait = 100,
-    immediate = false,
+    immediate = false
   ): T {
-    let timeout: number | null
-    let args: IArguments | null
-    let context: any
-    let timestamp: number
-    let result: number
+    let timeout: number | null;
+    let args: IArguments | null;
+    let context: any;
+    let timestamp: number;
+    let result: number;
 
     function later() {
-      const last = Date.now() - timestamp
+      const last = Date.now() - timestamp;
 
       if (last < wait && last >= 0) {
-        timeout = window.setTimeout(later, wait - last)
+        timeout = window.setTimeout(later, wait - last);
       } else {
-        timeout = null
+        timeout = null;
         if (!immediate) {
-          result = func.apply(context, args)
-          context = args = null
+          result = func.apply(context, args);
+          context = args = null;
         }
       }
     }
 
     const debounced: any = function(this: any) {
-      context = this
-      args = arguments
-      timestamp = Date.now()
-      const callNow = immediate && !timeout
-      if (!timeout) timeout = window.setTimeout(later, wait)
+      context = this;
+      args = arguments;
+      timestamp = Date.now();
+      const callNow = immediate && !timeout;
+      if (!timeout) timeout = window.setTimeout(later, wait);
       if (callNow) {
-        result = func.apply(context, args)
-        context = args = null
+        result = func.apply(context, args);
+        context = args = null;
       }
 
-      return result
-    }
+      return result;
+    };
 
-    return debounced
+    return debounced;
   }
 }

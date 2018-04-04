@@ -1,10 +1,10 @@
 <script lang="ts">
-import Vue from "vue"
-import { Location } from "vue-router"
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import CardAction from "@/components/cards/CardAction.vue"
+import CardAction from "@/components/cards/CardAction.vue";
 
-import { cmDetailsRoute } from "../details/routes"
+import { cmDetailsRoute } from "../details/routes";
 
 export default Vue.extend({
   name: "CompetitionLink",
@@ -14,15 +14,15 @@ export default Vue.extend({
   props: {
     cm: { type: [String, Number], required: true },
     action: { type: Boolean, default: false },
-    direction: { type: String, default: "left" },
+    direction: { type: String, default: "left" }
   },
 
   computed: {
     to(): Location {
-      return cmDetailsRoute({ cm: this.cm })
-    },
-  },
-})
+      return cmDetailsRoute({ cm: this.cm });
+    }
+  }
+});
 </script>
 
 <template>

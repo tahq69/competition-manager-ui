@@ -1,44 +1,44 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap"
-import Vue from "vue"
+import { Form } from "crip-vue-bootstrap";
+import Vue from "vue";
 
-import { login } from "@/router/routes"
+import { login } from "@/router/routes";
 
-import userService from "./../service"
+import userService from "./../service";
 
 export default Vue.extend({
   name: "ForgotPassword",
 
   mounted() {
-    this.$logger.component(this)
+    this.$logger.component(this);
   },
 
   data() {
     return {
       form: new Form({
-        email: "",
-      }),
-    }
+        email: ""
+      })
+    };
   },
 
   methods: {
     async sendResetEmail() {
-      this.form.clearErrors()
+      this.form.clearErrors();
 
-      this.$logger.log("sendResetEmail", this.form)
+      this.$logger.log("sendResetEmail", this.form);
 
       try {
-        await userService.emailPasswordReset(this.form.data)
+        await userService.emailPasswordReset(this.form.data);
 
         // TODO: add notification for user about email has been sent.
 
-        this.$router.push(login)
+        this.$router.push(login);
       } catch (errors) {
-        this.form.addErrors(errors)
+        this.form.addErrors(errors);
       }
-    },
-  },
-})
+    }
+  }
+});
 </script>
 
 <template>

@@ -1,38 +1,41 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap"
-import CripSelect from "crip-vue-select"
-import Vue from "vue"
-import { Location } from "vue-router"
+import { Form } from "crip-vue-bootstrap";
+import CripSelect from "crip-vue-select";
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import { createCompetitionDiscipline, manageCompetitionDiscipline } from "@/router/routes"
-import { Next } from "@/types"
+import {
+  createCompetitionDiscipline,
+  manageCompetitionDiscipline
+} from "@/router/routes";
+import { Next } from "@/types";
 
-import { Discipline } from "../../models/discipline"
-import disciplineService from "../service"
+import { Discipline } from "../../models/discipline";
+import disciplineService from "../service";
 
-import { cmDisciplineRoute } from "../routes"
+import { cmDisciplineRoute } from "../routes";
 
-const editRoute = manageCompetitionDiscipline
-const createRoute = createCompetitionDiscipline
+const editRoute = manageCompetitionDiscipline;
+const createRoute = createCompetitionDiscipline;
 
 export default Vue.extend({
   name: "ManageDiscipline",
 
   props: {
     cm: { type: [Number, String], required: true },
-    discipline: { type: [Number, String], required: false },
+    discipline: { type: [Number, String], required: false }
   },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     // If we open create route, we have no data to load from API.
-    if (to.name === createRoute.name) return next()
+    if (to.name === createRoute.name) return next();
 
     // If we open edit route, we have to load data from API.
-    const payload = { competition_id: to.params.cm, id: to.params.discipline }
+    const payload = { competition_id: to.params.cm, id: to.params.discipline };
 
     disciplineService
       .fetchDiscipline(payload)
-      .then(discipline => next(vm => vm.setDiscipline(discipline)))
+      .then(discipline => next(vm => vm.setDiscipline(discipline)));
   },
 
   data() {
@@ -45,59 +48,64 @@ export default Vue.extend({
           short: "",
           type: "",
           game_type: "",
-          description: "",
+          description: ""
         })
       ),
       typeSelect: new CripSelect({
         options: [
           { key: "1", text: "Kickboxing", value: "KICKBOXING" },
-          { key: "2", text: "Box", value: "BOXING" },
-        ],
+          { key: "2", text: "Box", value: "BOXING" }
+        ]
       }),
       categoryTypeSelect: new CripSelect({
         options: [
           { key: "1", text: "Age", value: "AGE" },
-          { key: "2", text: "Weight", value: "WEIGHT" },
-        ],
-      }),
-    }
+          { key: "2", text: "Weight", value: "WEIGHT" }
+        ]
+      })
+    };
   },
 
   computed: {
     isEdit(): boolean {
-      return this.$route.name === editRoute.name
+      return this.$route.name === editRoute.name;
     },
 
     title(): string {
-      if (this.isEdit) return `Manage discipline: ${this.disciplineTitle}`
-      return "Create new discipline"
-    },
+      if (this.isEdit) return `Manage discipline: ${this.disciplineTitle}`;
+      return "Create new discipline";
+    }
   },
 
   methods: {
     setDiscipline(discipline: Discipline): void {
-      this.disciplineTitle = discipline.title
-      this.form = new Form(discipline)
+      this.disciplineTitle = discipline.title;
+      this.form = new Form(discipline);
     },
 
     async save() {
-      this.log("save()", this.form.data)
+      this.log("save()", this.form.data);
       try {
-        const discipline = await disciplineService.saveDiscipline(this.form.data)
-        this.$notice.success({ title: "Discipline saved" })
+        const discipline = await disciplineService.saveDiscipline(
+          this.form.data
+        );
+        this.$notice.success({ title: "Discipline saved" });
 
-        const route = cmDisciplineRoute({ cm: this.cm, discipline: this.discipline })
-        this.$router.push(route)
+        const route = cmDisciplineRoute({
+          cm: this.cm,
+          discipline: this.discipline
+        });
+        this.$router.push(route);
       } catch (errors) {
-        this.form.addErrors(errors)
+        this.form.addErrors(errors);
       }
-    },
+    }
   },
 
   mounted() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 <template>

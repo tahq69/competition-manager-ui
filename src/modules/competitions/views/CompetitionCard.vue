@@ -1,15 +1,15 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import Card from "@/components/cards/card"
-import EditBtn from "@/components/EditBtn.vue"
+import Card from "@/components/cards/card";
+import EditBtn from "@/components/EditBtn.vue";
 
-import CompetitionLink from "../links/CompetitionLink.vue"
+import CompetitionLink from "../links/CompetitionLink.vue";
 
-import { CompetitionAuth } from "../auth"
-import { Competition } from "../models/competition"
+import { CompetitionAuth } from "../auth";
+import { Competition } from "../models/competition";
 
-import { manageCmDetailsRoute } from "../details/routes"
+import { manageCmDetailsRoute } from "../details/routes";
 
 export default Vue.extend({
   name: "CompetitionCard",
@@ -19,21 +19,21 @@ export default Vue.extend({
   mixins: [Card],
 
   props: {
-    competition: { type: Competition, required: true },
+    competition: { type: Competition, required: true }
   },
 
   data: () => ({ canEdit: false }),
 
   methods: {
     manageCmDetailsRoute() {
-      return manageCmDetailsRoute({ cm: this.competition.id })
-    },
+      return manageCmDetailsRoute({ cm: this.competition.id });
+    }
   },
 
   async created() {
-    this.canEdit = await CompetitionAuth.canEdit({ cm: this.competition.id })
-  },
-})
+    this.canEdit = await CompetitionAuth.canEdit({ cm: this.competition.id });
+  }
+});
 </script>
 
 <template>

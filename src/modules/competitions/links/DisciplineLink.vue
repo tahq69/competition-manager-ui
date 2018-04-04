@@ -1,10 +1,10 @@
 <script lang="ts">
-import Vue from "vue"
-import { Location } from "vue-router"
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import CardAction from "@/components/cards/CardAction.vue"
+import CardAction from "@/components/cards/CardAction.vue";
 
-import { cmDisciplineRoute } from "../disciplines/routes"
+import { cmDisciplineRoute } from "../disciplines/routes";
 
 export default Vue.extend({
   name: "DisciplineLink",
@@ -15,15 +15,15 @@ export default Vue.extend({
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
     action: { type: Boolean, default: false },
-    direction: { type: String, default: "left" },
+    direction: { type: String, default: "left" }
   },
 
   computed: {
     to(): Location {
-      return cmDisciplineRoute({ cm: this.cm, discipline: this.discipline })
-    },
-  },
-})
+      return cmDisciplineRoute({ cm: this.cm, discipline: this.discipline });
+    }
+  }
+});
 </script>
 
 <template>

@@ -1,27 +1,27 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap"
-import CripSelect from "crip-vue-select"
-import Vue from "vue"
-import { Route } from "vue-router"
+import { Form } from "crip-vue-bootstrap";
+import CripSelect from "crip-vue-select";
+import Vue from "vue";
+import { Route } from "vue-router";
 
-import Events from "@/helpers/events"
-import { createCompetitionDisciplineCategory as createRoute } from "@/router/routes"
-import { Id, Next } from "@/types"
+import Events from "@/helpers/events";
+import { createCompetitionDisciplineCategory as createRoute } from "@/router/routes";
+import { Id, Next } from "@/types";
 
-import areaService from "../../areas/service"
-import { Area } from "../../models/area"
+import areaService from "../../areas/service";
+import { Area } from "../../models/area";
 
-import { Category, DisplayType } from "../../models/category"
-import { Group } from "../../models/group"
-import groupService from "../service"
+import { Category, DisplayType } from "../../models/category";
+import { Group } from "../../models/group";
+import groupService from "../service";
 
 function createPayload(route: Route) {
   return {
     competition_id: route.params.cm,
     discipline_id: route.params.discipline,
     category_group_id: route.params.group,
-    id: route.params.category,
-  }
+    id: route.params.category
+  };
 }
 
 export default Vue.extend({
@@ -31,42 +31,48 @@ export default Vue.extend({
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
     group: { type: [String, Number], required: true },
-    category: { type: [String, Number], required: false },
+    category: { type: [String, Number], required: false }
   },
 
   async beforeRouteEnter(to, from, next: Next<any>) {
-    const areas = await areaService.fetchAreas({ competition_id: to.params.cm })
-    const opt = areas.map(area => ({ key: area.id, text: area.title, value: area.id }))
+    const areas = await areaService.fetchAreas({
+      competition_id: to.params.cm
+    });
+    const opt = areas.map(area => ({
+      key: area.id,
+      text: area.title,
+      value: area.id
+    }));
 
     // If we open create route, we have no data to load from API.
     if (to.name === createRoute.name)
       return next(vm => {
-        vm.setAreas(opt)
-        vm.reset()
-      })
+        vm.setAreas(opt);
+        vm.reset();
+      });
 
     // If we open edit route, we have to load data from API.
-    const payload = createPayload(to)
-    const category = await groupService.fetchCategory(payload)
+    const payload = createPayload(to);
+    const category = await groupService.fetchCategory(payload);
 
     next(vm => {
-      vm.setAreas(opt)
-      vm.setCategory(category)
-    })
+      vm.setAreas(opt);
+      vm.setCategory(category);
+    });
   },
 
   async beforeRouteUpdate(to, from, next) {
     // User may have option to change route in runtime. In this case we should
     // update form data.
     if (to.name === createRoute.name) {
-      this.reset()
-      return next()
+      this.reset();
+      return next();
     }
 
-    const payload = createPayload(to)
-    const category = await groupService.fetchCategory(payload)
-    this.setCategory(category)
-    next()
+    const payload = createPayload(to);
+    const category = await groupService.fetchCategory(payload);
+    this.setCategory(category);
+    next();
   },
 
   data() {
@@ -82,7 +88,7 @@ export default Vue.extend({
           max: 0,
           min: 0,
           short: "",
-          title: "",
+          title: ""
         })
       ),
 
@@ -91,62 +97,62 @@ export default Vue.extend({
       displayTypeSelect: new CripSelect([
         { key: "1", text: "Maximum", value: DisplayType.Max },
         { key: "2", text: "Minimum", value: DisplayType.Min },
-        { key: "3", text: "Both", value: DisplayType.Both },
-      ]),
-    }
+        { key: "3", text: "Both", value: DisplayType.Both }
+      ])
+    };
   },
 
   methods: {
     async submit() {
-      this.form.clearErrors()
+      this.form.clearErrors();
       try {
-        const category = await groupService.saveCategory(this.form.data)
-        Events.$emit("cm:category:saved", category)
+        const category = await groupService.saveCategory(this.form.data);
+        Events.$emit("cm:category:saved", category);
       } catch (errors) {
-        this.form.addErrors(errors)
+        this.form.addErrors(errors);
       }
     },
 
     async destroy() {
-      await groupService.deleteCategory(this.form.data)
-      Events.$emit("cm:category:deleted", this.form.data.id)
+      await groupService.deleteCategory(this.form.data);
+      Events.$emit("cm:category:deleted", this.form.data.id);
     },
 
     reset() {
-      this.form.data.area_id = 0
-      this.form.data.category_group_id = this.group
-      this.form.data.competition_id = this.cm
-      this.form.data.discipline_id = this.discipline
-      this.form.data.display_type = DisplayType.Max
-      this.form.data.id = 0
-      this.form.data.max = 0
-      this.form.data.min = 0
-      this.form.data.short = ""
-      this.form.data.title = ""
+      this.form.data.area_id = 0;
+      this.form.data.category_group_id = this.group;
+      this.form.data.competition_id = this.cm;
+      this.form.data.discipline_id = this.discipline;
+      this.form.data.display_type = DisplayType.Max;
+      this.form.data.id = 0;
+      this.form.data.max = 0;
+      this.form.data.min = 0;
+      this.form.data.short = "";
+      this.form.data.title = "";
     },
 
     setCategory(category: Category) {
-      this.form.data.area_id = category.area_id
-      this.form.data.category_group_id = category.category_group_id
-      this.form.data.competition_id = category.competition_id
-      this.form.data.discipline_id = category.discipline_id
-      this.form.data.display_type = category.display_type
-      this.form.data.id = category.id
-      this.form.data.max = category.max
-      this.form.data.min = category.min
-      this.form.data.short = category.short
-      this.form.data.title = category.title
+      this.form.data.area_id = category.area_id;
+      this.form.data.category_group_id = category.category_group_id;
+      this.form.data.competition_id = category.competition_id;
+      this.form.data.discipline_id = category.discipline_id;
+      this.form.data.display_type = category.display_type;
+      this.form.data.id = category.id;
+      this.form.data.max = category.max;
+      this.form.data.min = category.min;
+      this.form.data.short = category.short;
+      this.form.data.title = category.title;
     },
 
     setAreas(options: any[]) {
-      this.areaSelect.addOption(options)
-    },
+      this.areaSelect.addOption(options);
+    }
   },
 
   created() {
-    this.log = this.$logger.component(this)
-  },
-})
+    this.log = this.$logger.component(this);
+  }
+});
 </script>
 
 

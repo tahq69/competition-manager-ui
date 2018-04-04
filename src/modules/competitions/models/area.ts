@@ -1,34 +1,34 @@
-import { Location } from "vue-router"
+import { Location } from "vue-router";
 
-import { Entity } from "@/helpers/entity"
-import { Id } from "@/types"
+import { Entity } from "@/helpers/entity";
+import { Id } from "@/types";
 
 export enum AreaType {
   Arena = "ARENA",
   Cage = "CAGE",
   Ring = "RING",
-  Tatami = "TATAMI",
+  Tatami = "TATAMI"
 }
 
 export class Area extends Entity {
-  public competition_id: Id
-  public description: string
-  public nr: number
-  public title: string
-  public type: AreaType
+  public competition_id: Id;
+  public description: string;
+  public nr: number;
+  public title: string;
+  public type: AreaType;
 
   constructor(data: any) {
-    super()
-    this.updateProps(data)
+    super();
+    this.updateProps(data);
   }
 
   public updateProps(data: any) {
-    super.updateProps(data)
+    super.updateProps(data);
 
-    this.competition_id = data.competition_id
-    this.description = data.description
-    this.nr = data.nr
-    this.title = data.title
-    this.type = data.type
+    this.competition_id = data.competition_id;
+    this.description = data.description;
+    this.nr = data.nr;
+    this.title = data.title;
+    this.type = data.type;
   }
 }

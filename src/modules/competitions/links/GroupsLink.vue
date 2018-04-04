@@ -1,10 +1,10 @@
 <script lang="ts">
-import Vue from "vue"
-import { Location } from "vue-router"
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import CardAction from "@/components/cards/CardAction.vue"
+import CardAction from "@/components/cards/CardAction.vue";
 
-import { cmGroups } from "../groups/routes"
+import { cmGroups } from "../groups/routes";
 
 export default Vue.extend({
   name: "GroupsLink",
@@ -15,15 +15,15 @@ export default Vue.extend({
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
     action: { type: Boolean, default: false },
-    direction: { type: String, default: "left" },
+    direction: { type: String, default: "left" }
   },
 
   computed: {
     to(): Location {
-      return cmGroups({ cm: this.cm, discipline: this.discipline })
-    },
-  },
-})
+      return cmGroups({ cm: this.cm, discipline: this.discipline });
+    }
+  }
+});
 </script>
 
 <template>

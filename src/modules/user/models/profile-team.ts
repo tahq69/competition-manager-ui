@@ -1,21 +1,21 @@
-import { Entity } from "@/helpers"
-import { teamMembers, } from "@/router/routes"
+import { Entity } from "@/helpers";
+import { teamMembers } from "@/router/routes";
 
 export class ProfileTeam extends Entity {
-  public name = ""
-  public short = ""
-  public logo = ""
+  public name = "";
+  public short = "";
+  public logo = "";
 
   constructor(data: any) {
-    super()
-    this.updateProps(data)
+    super();
+    this.updateProps(data);
   }
 
   public updateProps(data: any) {
-    super.updateProps(data)
+    super.updateProps(data);
 
-    this.name = data.name
-    this.short = data.short
-    this.logo = data.logo
+    this.name = data.name;
+    this.short = data.short;
+    this.logo = data.logo;
   }
 }

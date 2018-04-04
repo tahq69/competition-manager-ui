@@ -1,38 +1,44 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import CardActions from "@/components/cards/CardActions.vue"
-import { Next } from "@/types"
+import CardActions from "@/components/cards/CardActions.vue";
+import { Next } from "@/types";
 
-import CompetitionLink from "../../links/CompetitionLink.vue"
-import DisciplineLink from "../../links/DisciplineLink.vue"
-import DisciplinesLink from "../../links/DisciplinesLink.vue"
-import GroupsLink from "../../links/GroupsLink.vue"
+import CompetitionLink from "../../links/CompetitionLink.vue";
+import DisciplineLink from "../../links/DisciplineLink.vue";
+import DisciplinesLink from "../../links/DisciplinesLink.vue";
+import GroupsLink from "../../links/GroupsLink.vue";
 
-import { Discipline } from "../../models/discipline"
+import { Discipline } from "../../models/discipline";
 
 export default Vue.extend({
   name: "Discipline",
 
-  components: { CardActions, CompetitionLink, DisciplineLink, DisciplinesLink, GroupsLink },
+  components: {
+    CardActions,
+    CompetitionLink,
+    DisciplineLink,
+    DisciplinesLink,
+    GroupsLink
+  },
 
   props: {
     cm: { type: [Number, String], required: true },
-    discipline: { type: [Number, String], required: true },
+    discipline: { type: [Number, String], required: true }
   },
 
   data() {
     // Required only for routes, so we have no need to fetch data from server.
     const details = new Discipline({
       id: this.discipline,
-      competition_id: this.cm,
-    })
+      competition_id: this.cm
+    });
 
     return {
-      details,
-    }
-  },
-})
+      details
+    };
+  }
+});
 </script>
 
 <template>

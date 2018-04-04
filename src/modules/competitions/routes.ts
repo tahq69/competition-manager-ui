@@ -1,37 +1,39 @@
-import { RouteConfig } from "vue-router"
+import { RouteConfig } from "vue-router";
 
-import * as roles from "@/components/auth/roles"
+import * as roles from "@/components/auth/roles";
 import {
   competitions,
   convertParams,
   createCompetition,
-  manageCompetitions,
-} from "@/router/routes"
-import { Id, IRouteParams } from "@/types"
+  manageCompetitions
+} from "@/router/routes";
+import { Id, IRouteParams } from "@/types";
 
-import { areas } from "./areas/routes"
-import { details, root as detailsRoot } from "./details/routes"
-import { disciplines, root as disciplinesRoot } from "./disciplines/routes"
+import { areas } from "./areas/routes";
+import { details, root as detailsRoot } from "./details/routes";
+import { disciplines, root as disciplinesRoot } from "./disciplines/routes";
 
 /** Public routes */
-const competitionsView = () => import(/* webpackChunkName: "cm" */ "./views/Competitions.vue")
-const competition = () => import(/* webpackChunkName: "cm" */ "./views/Competition.vue")
-
+const competitionsView = () =>
+  import(/* webpackChunkName: "cm" */ "./views/Competitions.vue");
+const competition = () =>
+  import(/* webpackChunkName: "cm" */ "./views/Competition.vue");
 
 /** Management routes */
-const manageCms = () => import(/* webpackChunkName: "cm" */ "./views/ManageCompetitions.vue")
+const manageCms = () =>
+  import(/* webpackChunkName: "cm" */ "./views/ManageCompetitions.vue");
 
 export const root: RouteConfig[] = [
   {
     ...manageCompetitions,
     component: manageCms,
     meta: { auth: true, roles: [roles.SUPER_ADMIN] },
-    path: "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+    path: "/competitions/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?"
   },
   {
     ...competitions,
     component: competitionsView,
-    path: "/competitions/:page(\\d+)?",
+    path: "/competitions/:page(\\d+)?"
   },
   /*{
     ...createCompetition,
@@ -44,12 +46,12 @@ export const root: RouteConfig[] = [
     component: competition,
     path: "/competition/:cm(\\d+)",
     props: true,
-    children: [...details, ...disciplines, ...areas],
+    children: [...details, ...disciplines, ...areas]
   },
   ...detailsRoot,
-  ...disciplinesRoot,
-]
+  ...disciplinesRoot
+];
 
-export const competitionsRoute = () => (competitions)
+export const competitionsRoute = () => competitions;
 
-export const manageCompetitionsRoute = () => (manageCompetitions)
+export const manageCompetitionsRoute = () => manageCompetitions;

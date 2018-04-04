@@ -1,18 +1,18 @@
-import * as roles from "@/components/auth/roles"
+import * as roles from "@/components/auth/roles";
 import {
   competitionDetails,
   convertParams,
-  manageCompetitionDetails,
-} from "@/router/routes"
-import { Id, IRouteParams } from "@/types"
+  manageCompetitionDetails
+} from "@/router/routes";
+import { Id, IRouteParams } from "@/types";
 
 /** Public routes */
 const detailsView = () =>
-  import(/* webpackChunkName: "cm-details" */ "./views/Details.vue")
+  import(/* webpackChunkName: "cm-details" */ "./views/Details.vue");
 
 /** Management routes */
 const manageDetailsView = () =>
-  import(/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue")
+  import(/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue");
 
 export const root = [
   {
@@ -20,25 +20,25 @@ export const root = [
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITIONS] },
     path: "/competition/manage/:cm(\\d+)",
     component: manageDetailsView,
-    props: true,
-  },
-]
+    props: true
+  }
+];
 
 export const details = [
   {
     ...competitionDetails,
     path: "/competition/:cm(\\d+)",
     component: detailsView,
-    props: true,
-  },
-]
+    props: true
+  }
+];
 
 export const cmDetailsRoute = (p: { cm: Id }) => ({
   ...competitionDetails,
-  params: convertParams(p),
-})
+  params: convertParams(p)
+});
 
 export const manageCmDetailsRoute = (p: { cm: Id }) => ({
   ...manageCompetitionDetails,
-  params: convertParams(p),
-})
+  params: convertParams(p)
+});

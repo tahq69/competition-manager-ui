@@ -1,9 +1,9 @@
-import { IState as AuthState } from "@/components/auth/store/types"
+import { IState as AuthState } from "@/components/auth/store/types";
 
 export interface IState {
-  auth: AuthState
+  auth: AuthState;
 }
 
 export interface ICommonState {
-  test: null
+  test: null;
 }

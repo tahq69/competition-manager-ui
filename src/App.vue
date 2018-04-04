@@ -1,33 +1,33 @@
 <script lang="ts">
-import { NavElement } from "crip-vue-bootstrap"
-import Vue from "vue"
-import { Location } from "vue-router"
+import { NavElement } from "crip-vue-bootstrap";
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import Auth from "@/components/auth"
-import { home } from "@/router/routes"
+import Auth from "@/components/auth";
+import { home } from "@/router/routes";
 
-import { leftNav, rightNav } from "./components/navigation"
+import { leftNav, rightNav } from "./components/navigation";
 
 export default Vue.extend({
   name: "app",
 
   async mounted() {
-    this.$logger.component(this)
-    await Auth.check()
+    this.$logger.component(this);
+    await Auth.check();
   },
 
   computed: {
     home(): Location {
-      return home
+      return home;
     },
 
     leftNav(): NavElement[] {
-      return leftNav()
+      return leftNav();
     },
 
     rightNav(): NavElement[] {
-      return rightNav()
-    },
+      return rightNav();
+    }
   },
 
   methods: {
@@ -35,10 +35,10 @@ export default Vue.extend({
       // If user has redirected here by guard, redirect him back
       // to guarded route instead of home page.
       if (this.$route.query && this.$route.query["redirect"]) {
-        this.$router.push(this.$route.query["redirect"])
-        return
+        this.$router.push(this.$route.query["redirect"]);
+        return;
       }
-    },
+    }
   },
 
   watch: {
@@ -47,11 +47,11 @@ export default Vue.extend({
       // guard redirects to login and in case we receive them, we can
       // redirect him to requested route.
       if (value) {
-        this.redirectAuthenticated()
+        this.redirectAuthenticated();
       }
-    },
-  },
-})
+    }
+  }
+});
 </script>
 
 <template>

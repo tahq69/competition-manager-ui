@@ -1,19 +1,19 @@
-import config from "@/config"
-import LocalStorage from "@/helpers/local-storage"
-import { LocaleType } from "@/lang/types"
+import config from "@/config";
+import LocalStorage from "@/helpers/local-storage";
+import { LocaleType } from "@/lang/types";
 
-const storageKey = "crip-cm-locale"
+const storageKey = "crip-cm-locale";
 
 export function loadLocale(): LocaleType {
   // TODO: move localStorage to external class as a helper
-  const locale = LocalStorage.get(storageKey)
+  const locale = LocalStorage.get(storageKey);
   if (locale === "lv" || locale === "en") {
-    return locale as LocaleType
+    return locale as LocaleType;
   }
 
-  return config.default_locale as LocaleType
+  return config.default_locale as LocaleType;
 }
 
 export function saveLocale(locale: LocaleType): void {
-  LocalStorage.set(storageKey, locale)
+  LocalStorage.set(storageKey, locale);
 }

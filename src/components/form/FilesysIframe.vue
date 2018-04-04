@@ -1,10 +1,10 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import Storage from "@/helpers/local-storage"
-import Utils from "@/helpers/utils"
+import Storage from "@/helpers/local-storage";
+import Utils from "@/helpers/utils";
 
-import filesys from "./filesys"
+import filesys from "./filesys";
 
 export default Vue.extend({
   name: "FilesysIframe",
@@ -13,61 +13,63 @@ export default Vue.extend({
     size: {
       type: String,
       required: false,
-      validator: (value: string) => ["thumb", "xs", "sm", "md", "lg"].indexOf(value) > -1,
+      validator: (value: string) =>
+        ["thumb", "xs", "sm", "md", "lg"].indexOf(value) > -1
     },
     type: {
       type: String,
       required: false,
-      validator: (value: string) => ["document", "image", "media", "file"].indexOf(value) > -1,
-    },
+      validator: (value: string) =>
+        ["document", "image", "media", "file"].indexOf(value) > -1
+    }
   },
 
   data() {
-    const id = Utils.newGuid()
-    const token = Storage.get("access_token")
+    const id = Utils.newGuid();
+    const token = Storage.get("access_token");
 
-    return { id, token }
+    return { id, token };
   },
 
   computed: {
     url(): string {
-      const baseUrl = "/packages/filemanager"
-      let url = `${baseUrl}?target=callback&id=${this.id}`
+      const baseUrl = "/packages/filemanager";
+      let url = `${baseUrl}?target=callback&id=${this.id}`;
 
-      if (this.type) url += `&type=${this.type}`
-      if (this.size) url += `&select=${this.size}`
+      if (this.type) url += `&type=${this.type}`;
+      if (this.size) url += `&select=${this.size}`;
 
-      return url
-    },
+      return url;
+    }
   },
 
   created() {
-    this.log = this.$logger.component(this)
+    this.log = this.$logger.component(this);
   },
 
   mounted() {
-    filesys.register(this.id, (url: string) => this.$emit("input", url))
+    filesys.register(this.id, (url: string) => this.$emit("input", url));
 
-    const iframe = this.$refs.iframe as HTMLIFrameElement
-    const xhr = new XMLHttpRequest()
+    const iframe = this.$refs.iframe as HTMLIFrameElement;
+    const xhr = new XMLHttpRequest();
 
-    xhr.open("GET", this.url)
-    xhr.onreadystatechange = handler
-    xhr.responseType = "text"
-    xhr.setRequestHeader("Authorization", `Bearer ${this.token}`)
-    xhr.send()
+    xhr.open("GET", this.url);
+    xhr.onreadystatechange = handler;
+    xhr.responseType = "text";
+    xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
+    xhr.send();
 
     function handler(this: XMLHttpRequest, ev: Event) {
       if (this.readyState === this.DONE) {
         if (this.status === 200) {
-          iframe.contentWindow.document.open("text/htmlreplace")
-          iframe.contentWindow.document.write(this.response)
-          iframe.contentWindow.document.close()
-        } else throw new Error("Could not load filemanager content")
+          iframe.contentWindow.document.open("text/htmlreplace");
+          iframe.contentWindow.document.write(this.response);
+          iframe.contentWindow.document.close();
+        } else throw new Error("Could not load filemanager content");
       }
     }
-  },
-})
+  }
+});
 </script>
 
 

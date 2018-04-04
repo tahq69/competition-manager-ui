@@ -1,11 +1,11 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap"
-import Vue from "vue"
+import { Form } from "crip-vue-bootstrap";
+import Vue from "vue";
 
-import Auth, { middleware } from "@/components/auth"
-import { home } from "@/router/routes"
+import Auth, { middleware } from "@/components/auth";
+import { home } from "@/router/routes";
 
-import { SignUp } from "./../models/sign-up"
+import { SignUp } from "./../models/sign-up";
 
 export default Vue.extend({
   name: "SignUp",
@@ -14,26 +14,26 @@ export default Vue.extend({
 
   methods: {
     async signUp() {
-      this.form.clearErrors()
+      this.form.clearErrors();
       try {
-        await Auth.register(this.form.data)
+        await Auth.register(this.form.data);
 
-        this.$router.push(home)
+        this.$router.push(home);
       } catch (errors) {
-        this.form.addErrors(errors)
+        this.form.addErrors(errors);
       }
-    },
+    }
   },
 
   created() {
-    this.log = this.$logger.component(this)
+    this.log = this.$logger.component(this);
 
     if (middleware.isAuthenticated()) {
-      this.log("User already authentificated. Redirecting to home page.")
-      this.$router.push(home)
+      this.log("User already authentificated. Redirecting to home page.");
+      this.$router.push(home);
     }
-  },
-})
+  }
+});
 </script>
 
 <template>

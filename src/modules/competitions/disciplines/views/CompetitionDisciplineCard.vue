@@ -1,17 +1,17 @@
 <script lang="ts">
-import Vue from "vue"
-import { Location } from "vue-router"
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import Card from "@/components/cards/card"
-import EditBtn from "@/components/EditBtn.vue"
-import { Id, Next } from "@/types"
+import Card from "@/components/cards/card";
+import EditBtn from "@/components/EditBtn.vue";
+import { Id, Next } from "@/types";
 
-import DisciplineLink from "../../links/DisciplineLink.vue"
+import DisciplineLink from "../../links/DisciplineLink.vue";
 
-import { Discipline } from "../../models/discipline"
-import { DisciplineAuth } from "../auth"
+import { Discipline } from "../../models/discipline";
+import { DisciplineAuth } from "../auth";
 
-import { createCmDisciplineRoute, manageCmDisciplineRoute } from "../routes"
+import { createCmDisciplineRoute, manageCmDisciplineRoute } from "../routes";
 
 export default Vue.extend({
   name: "CompetitionDisciplineCard",
@@ -23,27 +23,30 @@ export default Vue.extend({
   props: {
     cm: { type: [Number, String], required: true },
     create: { type: Boolean },
-    discipline: { type: Discipline },
+    discipline: { type: Discipline }
   },
 
   data: () => ({ canEdit: false }),
 
   computed: {
     newDiscipline(): Location {
-      return createCmDisciplineRoute({ cm: this.cm })
+      return createCmDisciplineRoute({ cm: this.cm });
     },
 
     manageCmDisciplineRoute(): Location {
-      return manageCmDisciplineRoute({ cm: this.cm, discipline: this.discipline.id })
-    },
+      return manageCmDisciplineRoute({
+        cm: this.cm,
+        discipline: this.discipline.id
+      });
+    }
   },
 
   async created() {
-    this.log = this.$logger.component(this)
-    if (this.create) return
-    this.canEdit = await DisciplineAuth.canEdit(this.discipline.id, this.cm)
-  },
-})
+    this.log = this.$logger.component(this);
+    if (this.create) return;
+    this.canEdit = await DisciplineAuth.canEdit(this.discipline.id, this.cm);
+  }
+});
 </script>
 
 <template>

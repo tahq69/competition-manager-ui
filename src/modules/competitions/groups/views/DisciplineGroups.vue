@@ -1,14 +1,14 @@
 <script lang="ts">
-import Vue from "vue"
-import { Location } from "vue-router"
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import { Id, Next } from "@/types"
+import { Id, Next } from "@/types";
 
-import { Category } from "../../models/category"
-import { Group } from "../../models/group"
-import groupService from "../service"
+import { Category } from "../../models/category";
+import { Group } from "../../models/group";
+import groupService from "../service";
 
-import { manageCmGroupsRoute } from "../routes"
+import { manageCmGroupsRoute } from "../routes";
 
 export default Vue.extend({
   name: "DisciplineGroups",
@@ -16,14 +16,16 @@ export default Vue.extend({
   beforeRouteEnter(to, from, next: Next<any>) {
     const payload = {
       competition_id: to.params.cm,
-      discipline_id: to.params.discipline,
-    }
-    groupService.fetchGroups(payload).then(groups => next(vm => vm.setGroups(groups)))
+      discipline_id: to.params.discipline
+    };
+    groupService
+      .fetchGroups(payload)
+      .then(groups => next(vm => vm.setGroups(groups)));
   },
 
   props: {
     cm: { type: [Number, String], required: true },
-    discipline: { type: [Number, String], required: true },
+    discipline: { type: [Number, String], required: true }
   },
 
   data() {
@@ -31,48 +33,48 @@ export default Vue.extend({
       canCreate: false,
       groups: [] as Group[],
       categories: [] as string[],
-      maxCategoryLength: 0,
-    }
+      maxCategoryLength: 0
+    };
   },
 
   computed: {
     canEdit(): boolean {
-      return true
+      return true;
     },
 
     manageCmGroupsRoute(): Location {
-      return manageCmGroupsRoute({ cm: this.cm, discipline: this.discipline })
-    },
+      return manageCmGroupsRoute({ cm: this.cm, discipline: this.discipline });
+    }
   },
 
   methods: {
     async setGroups(groups: Group[]): Promise<void> {
-      this.groups = groups
+      this.groups = groups;
 
       const pool = groups.reduce<Array<Promise<void>>>((acc, group) => {
-        acc.push(this.fetchCategories(group))
-        return acc
-      }, [])
+        acc.push(this.fetchCategories(group));
+        return acc;
+      }, []);
 
-      await Promise.all(pool)
+      await Promise.all(pool);
     },
 
     async fetchCategories(group: Group): Promise<void> {
       const categories = await groupService.fetchCategories({
         competition_id: group.competition_id,
         discipline_id: group.discipline_id,
-        category_group_id: group.id,
-      })
+        category_group_id: group.id
+      });
 
-      group.setCategories(categories)
+      group.setCategories(categories);
 
       if (categories.length > this.maxCategoryLength) {
-        this.maxCategoryLength = categories.length
-        this.categories = categories.map(category => category.id.toString())
+        this.maxCategoryLength = categories.length;
+        this.categories = categories.map(category => category.id.toString());
       }
-    },
-  },
-})
+    }
+  }
+});
 </script>
 
 <template>

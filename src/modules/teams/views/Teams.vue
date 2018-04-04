@@ -1,17 +1,20 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap"
-import Vue from "vue"
+import { createPaging } from "crip-vue-bootstrap";
+import Vue from "vue";
 
-import CardWrapper from "@/components/cards/card-wrapper"
+import CardWrapper from "@/components/cards/card-wrapper";
 
-import { Team } from "../models/team"
-import teamService from "../service"
+import { Team } from "../models/team";
+import teamService from "../service";
 
-import TeamCard from "./TeamCard.vue"
+import TeamCard from "./TeamCard.vue";
 
-const { mixin, paging: teams } = createPaging<Team>(paging => teamService.fetchTeams({ paging }), {
-  perPage: 16,
-})
+const { mixin, paging: teams } = createPaging<Team>(
+  paging => teamService.fetchTeams({ paging }),
+  {
+    perPage: 16
+  }
+);
 
 export default Vue.extend({
   name: "Teams",
@@ -20,8 +23,8 @@ export default Vue.extend({
 
   mixins: [mixin, CardWrapper],
 
-  data: () => ({ teams }),
-})
+  data: () => ({ teams })
+});
 </script>
 
 <template>

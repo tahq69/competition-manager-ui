@@ -1,13 +1,13 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
 export default Vue.extend({
   name: "EditBtn",
 
   props: {
-    to: { type: [Object, String], required: true },
-  },
-})
+    to: { type: [Object, String], required: true }
+  }
+});
 </script>
 
 

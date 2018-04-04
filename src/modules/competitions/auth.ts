@@ -1,22 +1,25 @@
-import { middleware as auth, roles } from "@/components/auth"
-import { Id } from "@/types"
+import { middleware as auth, roles } from "@/components/auth";
+import { Id } from "@/types";
 
 interface IEdit {
-  cm: Id
-  team?: Id
+  cm: Id;
+  team?: Id;
 }
 
 interface ICreate {
-  team: Id
+  team: Id;
 }
 
 export class CompetitionAuth {
   public static async canEdit(opt: IEdit): Promise<boolean> {
-    const requiredRoles = [roles.CREATE_COMPETITIONS, roles.MANAGE_COMPETITIONS]
-    return await auth.hasAnyTeamRole(opt, requiredRoles)
+    const requiredRoles = [
+      roles.CREATE_COMPETITIONS,
+      roles.MANAGE_COMPETITIONS
+    ];
+    return await auth.hasAnyTeamRole(opt, requiredRoles);
   }
 
   public static async canCreate(opt: ICreate): Promise<boolean> {
-    return await auth.hasTeamRole(opt, roles.CREATE_COMPETITIONS)
+    return await auth.hasTeamRole(opt, roles.CREATE_COMPETITIONS);
   }
 }

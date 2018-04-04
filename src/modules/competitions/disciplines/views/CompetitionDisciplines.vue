@@ -1,14 +1,14 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import CardWrapper from "@/components/cards/card-wrapper"
-import { Next } from "@/types"
+import CardWrapper from "@/components/cards/card-wrapper";
+import { Next } from "@/types";
 
-import { Discipline } from "../../models/discipline"
-import { DisciplineAuth } from "../auth"
-import disciplineService from "../service"
+import { Discipline } from "../../models/discipline";
+import { DisciplineAuth } from "../auth";
+import disciplineService from "../service";
 
-import DisciplineCard from "./CompetitionDisciplineCard.vue"
+import DisciplineCard from "./CompetitionDisciplineCard.vue";
 
 export default Vue.extend({
   name: "CompetitionDisciplines",
@@ -18,34 +18,34 @@ export default Vue.extend({
   components: { DisciplineCard },
 
   beforeRouteEnter(to, from, next: Next<any>) {
-    const payload = { competition_id: to.params.cm }
+    const payload = { competition_id: to.params.cm };
     disciplineService
       .fetchDisciplines(payload)
-      .then(disciplines => next(vm => vm.setDisciplines(disciplines)))
+      .then(disciplines => next(vm => vm.setDisciplines(disciplines)));
   },
 
   props: {
-    cm: { type: [Number, String], required: true },
+    cm: { type: [Number, String], required: true }
   },
 
   data() {
     return {
       canCreate: false,
-      disciplines: [] as Discipline[],
-    }
+      disciplines: [] as Discipline[]
+    };
   },
 
   methods: {
     setDisciplines(disciplines: Discipline[]): void {
-      this.disciplines = disciplines
-    },
+      this.disciplines = disciplines;
+    }
   },
 
   async created() {
-    this.log = this.$logger.component(this)
-    this.canCreate = await DisciplineAuth.canCreate(this.cm)
-  },
-})
+    this.log = this.$logger.component(this);
+    this.canCreate = await DisciplineAuth.canCreate(this.cm);
+  }
+});
 </script>
 
 <template>
@@ -72,4 +72,3 @@ export default Vue.extend({
   margin-bottom: -1rem;
 }
 </style>
-

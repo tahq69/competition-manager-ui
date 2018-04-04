@@ -1,47 +1,53 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
-import { Next } from "@/types"
+import { Next } from "@/types";
 
-import { Discipline } from "../../models/discipline"
-import { DisciplineAuth } from "../auth"
-import disciplineService from "../service"
+import { Discipline } from "../../models/discipline";
+import { DisciplineAuth } from "../auth";
+import disciplineService from "../service";
 
-import { manageCmDisciplineRoute } from "../routes"
+import { manageCmDisciplineRoute } from "../routes";
 
 export default Vue.extend({
   name: "DisciplineDetails",
 
   beforeRouteEnter(to, from, next: Next<any>) {
     disciplineService
-      .fetchDiscipline({ competition_id: to.params.cm, id: to.params.discipline })
-      .then(details => next(vm => vm.setDetails(details)))
+      .fetchDiscipline({
+        competition_id: to.params.cm,
+        id: to.params.discipline
+      })
+      .then(details => next(vm => vm.setDetails(details)));
   },
 
   props: {
     cm: { type: [Number, String], required: true },
-    discipline: { type: [Number, String], required: true },
+    discipline: { type: [Number, String], required: true }
   },
 
   data: () => ({
     details: {} as Discipline,
-    canEdit: false,
+    canEdit: false
   }),
 
   methods: {
     setDetails(details: Discipline) {
-      this.details = details
+      this.details = details;
     },
 
     manageCmDisciplineRoute() {
-      return manageCmDisciplineRoute({ cm: this.cm, discipline: this.discipline })
-    },
+      return manageCmDisciplineRoute({
+        cm: this.cm,
+        discipline: this.discipline
+      });
+    }
   },
 
   async created() {
-    this.canEdit = await DisciplineAuth.canEdit(this.discipline, this.cm)
-  },
-})
+    this.canEdit = await DisciplineAuth.canEdit(this.discipline, this.cm);
+  }
+});
 </script>
 
 <template>

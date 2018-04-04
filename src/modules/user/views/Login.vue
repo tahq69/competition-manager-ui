@@ -1,20 +1,20 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap"
-import Vue from "vue"
-import { Location } from "vue-router"
+import { Form } from "crip-vue-bootstrap";
+import Vue from "vue";
+import { Location } from "vue-router";
 
-import Auth, { middleware as auth } from "@/components/auth"
-import { forgotPassword, home } from "@/router/routes"
+import Auth, { middleware as auth } from "@/components/auth";
+import { forgotPassword, home } from "@/router/routes";
 
 export default Vue.extend({
   name: "Login",
 
   mounted() {
-    this.log = this.$logger.component(this)
+    this.log = this.$logger.component(this);
 
     if (auth.isAuthenticated()) {
-      this.log("User is authenticated. Redirecting to homepage.")
-      this.$router.push(home)
+      this.log("User is authenticated. Redirecting to homepage.");
+      this.$router.push(home);
     }
   },
 
@@ -22,34 +22,34 @@ export default Vue.extend({
     return {
       form: new Form({
         email: "",
-        password: "",
-      }),
-    }
+        password: ""
+      })
+    };
   },
 
   computed: {
     forgotPassword(): Location {
-      return forgotPassword
-    },
+      return forgotPassword;
+    }
   },
 
   methods: {
     async authorize() {
-      this.$logger.info("authorize", this.form)
-      this.form.clearErrors()
+      this.$logger.info("authorize", this.form);
+      this.form.clearErrors();
       try {
         const credentials = {
           password: this.form.data.password,
-          username: this.form.data.email,
-        }
-        await Auth.login(credentials)
-        this.$router.push(home)
+          username: this.form.data.email
+        };
+        await Auth.login(credentials);
+        this.$router.push(home);
       } catch (error) {
-        this.form.addErrors({ email: [error] })
+        this.form.addErrors({ email: [error] });
       }
-    },
-  },
-})
+    }
+  }
+});
 </script>
 
 <template>
