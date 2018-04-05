@@ -3,7 +3,7 @@ import { Location } from "vue-router";
 import { IRouteParams } from "@/typings";
 
 export function convertParams(params: IRouteParams) {
-  const result = {} as { [key: string]: string };
+  const result: { [key: string]: string } = {};
   Object.keys(params).forEach(key => (result[key] = params[key].toString()));
   return result;
 }

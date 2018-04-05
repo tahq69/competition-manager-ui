@@ -6,14 +6,14 @@ import { cmGroups } from "../groups/routes";
 import { DimensionType } from "../models/category";
 
 export class Discipline extends Entity {
-  public category_group_type: DimensionType;
-  public category_type: DimensionType;
-  public competition_id: number;
-  public description: string;
-  public game_type: string;
-  public short: string;
-  public title: string;
-  public type: string;
+  public category_group_type: DimensionType = DimensionType.Age;
+  public category_type: DimensionType = DimensionType.Weight;
+  public competition_id: number = 0;
+  public description: string = "";
+  public game_type: string = "";
+  public short: string = "";
+  public title: string = "";
+  public type: string = "";
 
   public createUrl = "competitions/{competition_id}/disciplines";
   public updateUrl = "competitions/{competition_id}/disciplines/{id}";

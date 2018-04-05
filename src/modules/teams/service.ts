@@ -66,7 +66,7 @@ class TeamsService extends Service {
   public async saveTeam(payload: ISaveTeam) {
     return await this.safeContext(async (http, api) => {
       const entity = new Team(payload);
-      return this.save(entity);
+      return await this.save(entity);
     });
   }
 }

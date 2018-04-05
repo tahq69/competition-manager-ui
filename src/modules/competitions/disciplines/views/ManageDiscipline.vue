@@ -1,22 +1,18 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap";
-import CripSelect from "crip-vue-select";
 import Vue from "vue";
 import { Location } from "vue-router";
+import { Form } from "crip-vue-bootstrap";
+import CripSelect from "crip-vue-select";
 
 import {
-  createCompetitionDiscipline,
-  manageCompetitionDiscipline
+  createCompetitionDiscipline as createRoute,
+  manageCompetitionDiscipline as editRoute
 } from "@/router/routes";
 import { Next } from "@/typings";
 
-import { Discipline } from "../../models/discipline";
-import disciplineService from "../service";
-
-import { cmDisciplineRoute } from "../routes";
-
-const editRoute = manageCompetitionDiscipline;
-const createRoute = createCompetitionDiscipline;
+import { Discipline } from "./../../models/discipline";
+import disciplineService from "./../service";
+import { cmDisciplineRoute } from "./../routes";
 
 export default Vue.extend({
   name: "ManageDiscipline",
@@ -85,18 +81,21 @@ export default Vue.extend({
 
     async save() {
       this.log("save()", this.form.data);
+
       try {
-        const discipline = await disciplineService.saveDiscipline(
-          this.form.data
-        );
+        const saved = await disciplineService.saveDiscipline(this.form.data);
+
         this.$notice.success({ title: "Discipline saved" });
 
-        const route = cmDisciplineRoute({
-          cm: this.cm,
-          discipline: this.discipline
-        });
-        this.$router.push(route);
+        if (!this.isEdit) {
+          // Redirect only when we create new discipline.
+          const payload = { cm: this.cm, discipline: saved.id };
+          const route = cmDisciplineRoute(payload);
+
+          this.$router.push(route);
+        }
       } catch (errors) {
+        this.log("save(errors)", errors);
         this.form.addErrors(errors);
       }
     }

@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 import { Service } from "@/helpers/service";
 import { Id } from "@/typings";
 
@@ -53,7 +55,7 @@ class DisciplineService extends Service {
   public async saveDiscipline(payload: ISaveDiscipline): Promise<Discipline> {
     return await this.safeContext(async (http, api) => {
       const entity = new Discipline(payload);
-      return this.save(entity);
+      return await this.save(entity);
     });
   }
 }
