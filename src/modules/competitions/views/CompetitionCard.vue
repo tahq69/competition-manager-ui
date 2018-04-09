@@ -4,7 +4,7 @@ import Vue from "vue";
 import Card from "@/components/cards/card";
 import EditBtn from "@/components/EditBtn.vue";
 
-import CompetitionLink from "../links/CompetitionLink.vue";
+import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
 
 import { CompetitionAuth } from "../auth";
 import { Competition } from "../models/competition";
@@ -14,7 +14,7 @@ import { manageCmDetailsRoute } from "../details/routes";
 export default Vue.extend({
   name: "CompetitionCard",
 
-  components: { CompetitionLink, EditBtn },
+  components: { CompetitionBtn, EditBtn },
 
   mixins: [Card],
 
@@ -48,10 +48,10 @@ export default Vue.extend({
         <label v-if="competition.judge_id">Judge: {{ competition.judge_name }}</label>
       </div>
 
-      <CompetitionLink :cm="competition.id"
-                       class="btn btn-primary">
+      <CompetitionBtn :cm="competition.id"
+                      class="btn btn-primary">
         Details
-      </CompetitionLink>
+      </CompetitionBtn>
 
       <EditBtn v-if="canEdit"
                :to="manageCmDetailsRoute()" />

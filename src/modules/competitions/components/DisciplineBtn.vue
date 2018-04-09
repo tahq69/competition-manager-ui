@@ -4,10 +4,10 @@ import { Location } from "vue-router";
 
 import CardAction from "@/components/cards/CardAction.vue";
 
-import { cmGroups } from "../groups/routes";
+import { cmDisciplineRoute } from "../disciplines/routes";
 
 export default Vue.extend({
-  name: "GroupsLink",
+  name: "CompetitionDisciplineButton",
 
   components: { CardAction },
 
@@ -20,7 +20,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return cmGroups({ cm: this.cm, discipline: this.discipline });
+      return cmDisciplineRoute({ cm: this.cm, discipline: this.discipline });
     }
   }
 });
@@ -33,6 +33,6 @@ export default Vue.extend({
     :isBtn="action"
     :direction="direction"
   >
-    <slot>Groups</slot>
+    <slot>Details</slot>
   </CardAction>
 </template>

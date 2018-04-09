@@ -1,3 +1,5 @@
+const path = require("path");
+
 const proxyOpt = {
   changeOrigin: true,
   target: "http://competition-manager.oo/"
@@ -13,5 +15,8 @@ module.exports = {
       "/oauth": proxyOpt,
       "/storage": proxyOpt
     }
+  },
+  configureWebpack: config => {
+    config.resolve.alias["#"] = path.resolve(__dirname, "src/modules");
   }
 };

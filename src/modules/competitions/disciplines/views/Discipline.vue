@@ -4,10 +4,10 @@ import Vue from "vue";
 import CardActions from "@/components/cards/CardActions.vue";
 import { Next } from "@/typings";
 
-import CompetitionLink from "../../links/CompetitionLink.vue";
-import DisciplineLink from "../../links/DisciplineLink.vue";
-import DisciplinesLink from "../../links/DisciplinesLink.vue";
-import GroupsLink from "../../links/GroupsLink.vue";
+import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
+import DisciplineBtn from "#/competitions/components/DisciplineBtn.vue";
+import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
+import GroupsBtn from "#/competitions/components/GroupsBtn.vue";
 
 import { Discipline } from "../../models/discipline";
 
@@ -16,10 +16,10 @@ export default Vue.extend({
 
   components: {
     CardActions,
-    CompetitionLink,
-    DisciplineLink,
-    DisciplinesLink,
-    GroupsLink
+    CompetitionBtn,
+    DisciplineBtn,
+    DisciplinesBtn,
+    GroupsBtn
   },
 
   props: {
@@ -49,24 +49,32 @@ export default Vue.extend({
 
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <DisciplineLink :cm="cm" :discipline="discipline" class="nav-link" />
+          <DisciplineBtn :cm="cm"
+                         :discipline="discipline"
+                         class="nav-link" />
         </li>
 
         <li class="nav-item">
-          <GroupsLink :cm="cm" :discipline="discipline" class="nav-link" />
+          <GroupsBtn :cm="cm"
+                     :discipline="discipline"
+                     class="nav-link" />
         </li>
-      </ul><!-- /.card-header-tabs -->
+      </ul>
+      <!-- /.card-header-tabs -->
 
       <CardActions>
-        <CompetitionLink :cm="cm" :action="true" />
-        <DisciplinesLink :cm="cm" :action="true" />
+        <CompetitionBtn :cm="cm"
+                        :action="true" />
+        <DisciplinesBtn :cm="cm"
+                        :action="true" />
       </CardActions>
 
-    </div><!-- /.card-header -->
+    </div>
+    <!-- /.card-header -->
 
-     <div class="card-body">
+    <div class="card-body">
       <router-view></router-view>
-     </div>
+    </div>
 
   </div>
 </template>

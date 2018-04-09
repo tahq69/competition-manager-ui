@@ -4,17 +4,17 @@ import Vue from "vue";
 import Card from "@/components/cards/card";
 import EditBtn from "@/components/EditBtn.vue";
 
+import TeamBtn from "#/teams/components/TeamBtn.vue";
+
 import { TeamAuth } from "../auth";
 import { Team } from "../models/team";
-
-import TeamLink from "../links/TeamLink.vue";
 
 import { manageTeamRoute } from "../routes";
 
 export default Vue.extend({
   name: "TeamCard",
 
-  components: { EditBtn, TeamLink },
+  components: { EditBtn, TeamBtn },
 
   mixins: [Card],
 
@@ -49,10 +49,10 @@ export default Vue.extend({
         <!-- TODO: Card with image -->
       </div>
 
-      <TeamLink :team="team.id"
-                class="btn btn-primary">
+      <TeamBtn :team="team.id"
+               class="btn btn-primary">
         {{ team.short }}
-      </TeamLink>
+      </TeamBtn>
 
       <EditBtn v-if="canEdit"
                :to="manageTeamRoute(team)" />

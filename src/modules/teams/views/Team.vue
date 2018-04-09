@@ -3,19 +3,19 @@ import Vue from "vue";
 
 import { Next } from "@/typings";
 
+import TeamCompetitionsBtn from "#/teams/components/TeamCompetitionsBtn.vue";
+import TeamBtn from "#/teams/components/TeamBtn.vue";
+
 import { TeamAuth } from "../auth";
 import { Team } from "../models/team";
 import teamService from "../service";
-
-import TeamCompetitionsLink from "../links/TeamCompetitionsLink.vue";
-import TeamLink from "../links/TeamLink.vue";
 
 import { manageTeamRoute } from "../routes";
 
 export default Vue.extend({
   name: "Team",
 
-  components: { TeamCompetitionsLink, TeamLink },
+  components: { TeamCompetitionsBtn, TeamBtn },
 
   props: {
     team: { type: [Number, String], required: true }
@@ -74,13 +74,13 @@ export default Vue.extend({
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-              <TeamLink :team="team"
-                        class="nav-link" />
+              <TeamBtn :team="team"
+                       class="nav-link" />
             </li>
 
             <li class="nav-item">
-              <TeamCompetitionsLink :team="team"
-                                    class="nav-link" />
+              <TeamCompetitionsBtn :team="team"
+                                   class="nav-link" />
             </li>
           </ul>
         </div>

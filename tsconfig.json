@@ -10,7 +10,8 @@
     "baseUrl": ".",
     "types": ["node"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "#/*": ["src/modules/*"]
     },
     "lib": ["dom", "es2015"]
   },

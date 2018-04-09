@@ -6,7 +6,7 @@ import Card from "@/components/cards/card";
 import EditBtn from "@/components/EditBtn.vue";
 import { Id, Next } from "@/typings";
 
-import DisciplineLink from "../../links/DisciplineLink.vue";
+import DisciplineBtn from "#/competitions/components/DisciplineBtn.vue";
 
 import { Discipline } from "../../models/discipline";
 import { DisciplineAuth } from "../auth";
@@ -16,7 +16,7 @@ import { createCmDisciplineRoute, manageCmDisciplineRoute } from "../routes";
 export default Vue.extend({
   name: "CompetitionDisciplineCard",
 
-  components: { DisciplineLink, EditBtn },
+  components: { DisciplineBtn, EditBtn },
 
   mixins: [Card],
 
@@ -66,10 +66,10 @@ export default Vue.extend({
         <i class="fa fa-plus-square-o fa-2x"></i>
       </router-link>
 
-      <DisciplineLink v-if="!create"
-                      :cm="cm"
-                      :discipline="discipline.id"
-                      class="btn btn-primary" />
+      <DisciplineBtn v-if="!create"
+                     :cm="cm"
+                     :discipline="discipline.id"
+                     class="btn btn-primary" />
 
       <EditBtn v-if="canEdit && !create"
                :to="manageCmDisciplineRoute" />

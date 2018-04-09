@@ -1,15 +1,16 @@
 <script lang="ts">
 import Vue from "vue";
 
-import AreasLink from "../links/AreasLink.vue";
-import CompetitionLink from "../links/CompetitionLink.vue";
-import DisciplinesLink from "../links/DisciplinesLink.vue";
+import AreasBtn from "#/competitions/components/AreasBtn.vue";
+import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
+import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
+
 import { Competition } from "../models/competition";
 
 export default Vue.extend({
   name: "Competition",
 
-  components: { AreasLink, DisciplinesLink, CompetitionLink },
+  components: { AreasBtn, DisciplinesBtn, CompetitionBtn },
 
   props: {
     cm: { type: [Number, String], required: true }
@@ -42,24 +43,24 @@ export default Vue.extend({
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-              <CompetitionLink :cm="cm"
-                               class="nav-link">
+              <CompetitionBtn :cm="cm"
+                              class="nav-link">
                 {{ $t("competitions.competition_details_tab") }}
-              </CompetitionLink>
+              </CompetitionBtn>
             </li>
 
             <li class="nav-item">
-              <DisciplinesLink :cm="cm"
+              <DisciplinesBtn :cm="cm"
                                class="nav-link">
                 {{ $t("competitions.competition_disciplines_tab") }}
-              </DisciplinesLink>
+              </DisciplinesBtn>
             </li>
 
             <li class="nav-item">
-              <AreasLink :cm="cm"
-                         class="nav-link">
+              <AreasBtn :cm="cm"
+                        class="nav-link">
                 {{ $t("competitions.competition_areas_tab") }}
-              </AreasLink>
+              </AreasBtn>
             </li>
           </ul>
         </div>

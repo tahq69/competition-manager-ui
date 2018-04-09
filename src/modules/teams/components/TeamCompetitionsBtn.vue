@@ -7,7 +7,7 @@ import CardAction from "@/components/cards/CardAction.vue";
 import { teamCompetitionsRoute } from "../competitions/routes";
 
 export default Vue.extend({
-  name: "TeamCompetitionsLink",
+  name: "TeamCompetitionsButton",
 
   components: { CardAction },
 
