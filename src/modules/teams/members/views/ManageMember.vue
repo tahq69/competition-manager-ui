@@ -8,6 +8,9 @@ import { UserBase } from "@/components/auth/models/user-base";
 import { manageTeamMember } from "@/router/routes";
 import { Next } from "@/typings";
 
+import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
+import TeamBtn from "#/teams/components/TeamBtn.vue";
+
 import { Team } from "../../models/team";
 import { TeamMember } from "../../models/team-member";
 
@@ -30,7 +33,7 @@ function toUserOption(user: UserBase) {
 export default Vue.extend({
   name: "ManageMember",
 
-  components: { MemberRoleControl },
+  components: { MemberRoleControl, ManageTeamMembersBtn, TeamBtn },
 
   props: {
     team: { type: [String, Number], required: true },
@@ -235,10 +238,15 @@ export default Vue.extend({
              :title="title"
              @submit="saveMember"
              class="col-xs-12">
-    <CCardAction slot="actions"
-                 :to="manageTeamMembersRoute()">
-      {{ $t('teams.manage_member_action_back', { team: memberTeam.short }) }}
-    </CCardAction>
+
+    <span slot="actions">
+      <ManageTeamMembersBtn :team="team"
+                            action />
+      <TeamBtn :team="team"
+               action>
+        Team
+      </TeamBtn>
+    </span>
 
     <CFormGroup label="Member roles"
                 for="member-roles"

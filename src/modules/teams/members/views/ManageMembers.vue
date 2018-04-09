@@ -3,11 +3,13 @@ import { createPaging } from "crip-vue-bootstrap";
 import Vue from "vue";
 import { Location } from "vue-router";
 
+import ManageTeamMemberBtn from "#/teams/components/ManageTeamMemberBtn.vue";
+
 import { TeamMember } from "../../models/team-member";
 import memberService from "../service";
 
 import { manageTeamRoute } from "../../routes";
-import { createTeamMemberRoute, manageTeamMemberRoute } from "../routes";
+import { createTeamMemberRoute } from "../routes";
 
 const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
   return memberService.fetchTeamMembers({ paging, team_id: to.params.team });
@@ -15,6 +17,8 @@ const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
 
 export default Vue.extend({
   name: "ManageMembers",
+
+  components: { ManageTeamMemberBtn },
 
   props: {
     team: { type: [String, Number], required: true }
@@ -37,10 +41,7 @@ export default Vue.extend({
 
     createTeamMemberRoute(): Location {
       return createTeamMemberRoute({ team: this.teamId });
-    },
-
-    manageTeamMemberRoute: (member: TeamMember): Location =>
-      manageTeamMemberRoute({ team: member.team_id, member: member.id })
+    }
   },
 
   created() {
@@ -93,12 +94,12 @@ export default Vue.extend({
               :key="member.id">
             <td>{{ member.id }}</td>
             <td>{{ member.name }} &nbsp;
-              <router-link :to="manageTeamMemberRoute(member)"
-                           class="badge badge-light actions"
-                           :title="$t('teams.manage_members_grid_btn_edit_title')">
-                <i class="fa fa-pencil-square-o"></i>
+              <ManageTeamMemberBtn :team="member.team_id"
+                                   :member="member.id"
+                                   badge
+                                   :title="$t('teams.manage_members_grid_btn_edit_title')">
                 {{ $t('teams.manage_members_grid_btn_edit_text') }}
-              </router-link>
+              </ManageTeamMemberBtn>
             </td>
             <td>{{ member.membership_type }}</td>
           </tr>
