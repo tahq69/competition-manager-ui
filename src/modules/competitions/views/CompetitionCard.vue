@@ -2,7 +2,7 @@
 import Vue from "vue";
 
 import Card from "@/components/cards/card";
-import EditBtn from "@/components/EditBtn.vue";
+import Btn from "@/components/Btn.vue";
 
 import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
 
@@ -14,7 +14,7 @@ import { manageCmDetailsRoute } from "../details/routes";
 export default Vue.extend({
   name: "CompetitionCard",
 
-  components: { CompetitionBtn, EditBtn },
+  components: { CompetitionBtn, Btn },
 
   mixins: [Card],
 
@@ -53,8 +53,10 @@ export default Vue.extend({
         Details
       </CompetitionBtn>
 
-      <EditBtn v-if="canEdit"
-               :to="manageCmDetailsRoute()" />
+      <Btn v-if="canEdit"
+           :to="manageCmDetailsRoute()"
+           btn="primary"
+           icon="fas fa-edit" />
     </div>
   </div>
 </template>

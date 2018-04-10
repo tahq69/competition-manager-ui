@@ -6,8 +6,13 @@ export default Vue.extend({
 
   props: {
     to: { type: [Object, String], required: true },
+    btn: { type: String },
     badge: { type: Boolean, default: false },
-    link: { type: Boolean, default: false }
+    icon: {
+      type: String,
+      validator: (value: string) =>
+        ["fas fa-edit", "far fa-plus-square", "fas fa-list"].indexOf(value) > -1
+    }
   }
 });
 </script>
@@ -16,10 +21,11 @@ export default Vue.extend({
 <template>
   <router-link :to="to"
                :class="{
-                 'btn btn-sm btn-link': link,
+                 [`btn btn-sm btn-${btn}`]: !!btn,
                  'badge badge-light actions': badge,
                }">
-    <slot>Edit</slot>
-    <i class="fa fa-pencil-square-o"></i>
+    <slot>Edit </slot>
+    <i v-if="icon"
+       :class="icon"></i>
   </router-link>
 </template>

@@ -5,9 +5,11 @@ import { Location } from "vue-router";
 
 import { Id } from "@/typings";
 
+import CreateTeamBtn from "#/teams/components/CreateTeamBtn.vue";
+import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
+
 import { manageTeamMembersRoute } from "../members/routes";
 import { Team } from "../models/team";
-import { createTeamRoute, manageTeamRoute } from "../routes";
 import teamService from "../service";
 
 const { mixin, paging: teams } = createPaging<Team>(paging =>
@@ -17,13 +19,13 @@ const { mixin, paging: teams } = createPaging<Team>(paging =>
 export default Vue.extend({
   name: "ManageTeams",
 
+  components: { CreateTeamBtn, ManageTeamBtn },
+
   mixins: [mixin],
 
   data: () => ({ teams }),
 
   methods: {
-    createTeamRoute: () => createTeamRoute(),
-    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id }),
     manageTeamMembersRoute: (team: Team) =>
       manageTeamMembersRoute({ team: team.id })
   },
@@ -38,10 +40,12 @@ export default Vue.extend({
   <CGrid id="manage-teams"
          :paging="teams">
     <span slot="title">{{ $t('teams.manage_teams_grid_title') }}</span>
-    <CCardAction slot="actions"
-                 :to="createTeamRoute()">
-      {{ $t('teams.manage_teams_grid_head_create_new') }}
-    </CCardAction>
+
+    <span slot="actions">
+      <CreateTeamBtn btn="light">
+        {{ $t('teams.manage_teams_grid_head_create_new') }}
+      </CreateTeamBtn>
+    </span>
 
     <table class="table table-hover">
       <thead>
@@ -73,12 +77,12 @@ export default Vue.extend({
             <td>{{ team.id }}</td>
             <td>
               {{ team.name }} &nbsp;
-              <router-link :to="manageTeamRoute(team)"
-                           class="badge badge-light actions"
-                           :title="$t('teams.manage_teams_grid_btn_edit_title')">
-                <i class="fa fa-pencil-square-o"></i>
+              <ManageTeamBtn :team="team.id"
+                             :title="$t('teams.manage_teams_grid_btn_edit_title')"
+                             badge>
                 {{ $t('teams.manage_teams_grid_btn_edit_text') }}
-              </router-link>
+              </ManageTeamBtn>
+
               <router-link :to="manageTeamMembersRoute(team)"
                            class="badge badge-light actions"
                            :title="$t('teams.manage_teams_grid_btn_members_title')">

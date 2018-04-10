@@ -4,17 +4,16 @@ import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
 
-import { manageTeamMemberRoute } from "#/teams/members/routes";
-import { TeamMemberAuth } from "#/teams/members/auth";
+import { manageCmDetailsRoute } from "#/competitions/details/routes";
+import { CompetitionAuth } from "#/competitions/auth";
 
 export default Vue.extend({
-  name: "ManageTeamMemberButton",
+  name: "ManageCompetitionButton",
 
   components: { Btn },
 
   props: {
-    team: { type: [String, Number], required: true },
-    member: { type: [String, Number], required: true },
+    cm: { type: [String, Number], required: true },
     badge: { type: Boolean, default: false },
     btn: { type: String }
   },
@@ -23,14 +22,13 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      const team = this.team;
-      const member = this.member;
-      return manageTeamMemberRoute({ team, member });
+      const cm = this.cm;
+      return manageCmDetailsRoute({ cm });
     }
   },
 
   async mounted() {
-    this.isVisible = await TeamMemberAuth.canEditMembers({ team: this.team });
+    this.isVisible = await CompetitionAuth.canEdit({ cm: this.cm });
   }
 });
 </script>

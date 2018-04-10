@@ -4,14 +4,16 @@ import { Location } from "vue-router";
 
 import { Id, Next } from "@/typings";
 
+import ManageGroupsBtn from "#/competitions/components/ManageGroupsBtn.vue";
+
 import { Category } from "../../models/category";
 import { Group } from "../../models/group";
 import groupService from "../service";
 
-import { manageCmGroupsRoute } from "../routes";
-
 export default Vue.extend({
   name: "DisciplineGroups",
+
+  components: { ManageGroupsBtn },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     const payload = {
@@ -40,10 +42,6 @@ export default Vue.extend({
   computed: {
     canEdit(): boolean {
       return true;
-    },
-
-    manageCmGroupsRoute(): Location {
-      return manageCmGroupsRoute({ cm: this.cm, discipline: this.discipline });
     }
   },
 
@@ -80,11 +78,6 @@ export default Vue.extend({
 <template>
   <CCol id="discipline-groups"
         :class="`discipline discipline-${discipline}`">
-    <router-link v-if="canEdit"
-                 :to="manageCmGroupsRoute"
-                 class="btn btn-link btn-edit btn-sm">
-      <i class="fa fa-pencil-square-o"></i> Edit
-    </router-link>
 
     <table class="table">
       <tr v-for="group in groups"
@@ -98,6 +91,12 @@ export default Vue.extend({
         </td>
       </tr>
     </table>
+
+    <ManageGroupsBtn :cm="cm"
+                     :discipline="discipline"
+                     btn="primary">
+      Edit
+    </ManageGroupsBtn>
   </CCol>
 </template>
 

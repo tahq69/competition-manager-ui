@@ -3,7 +3,7 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import Card from "@/components/cards/card";
-import EditBtn from "@/components/EditBtn.vue";
+import Btn from "@/components/Btn.vue";
 import { Id, Next } from "@/typings";
 
 import DisciplineBtn from "#/competitions/components/DisciplineBtn.vue";
@@ -16,7 +16,7 @@ import { createCmDisciplineRoute, manageCmDisciplineRoute } from "../routes";
 export default Vue.extend({
   name: "CompetitionDisciplineCard",
 
-  components: { DisciplineBtn, EditBtn },
+  components: { DisciplineBtn, Btn },
 
   mixins: [Card],
 
@@ -71,8 +71,10 @@ export default Vue.extend({
                      :discipline="discipline.id"
                      class="btn btn-primary" />
 
-      <EditBtn v-if="canEdit && !create"
-               :to="manageCmDisciplineRoute" />
+      <Btn v-if="canEdit && !create"
+           :to="manageCmDisciplineRoute"
+           btn="primary"
+           icon="fas fa-edit" />
     </div>
   </div>
 </template>

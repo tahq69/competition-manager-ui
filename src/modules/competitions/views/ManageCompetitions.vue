@@ -5,13 +5,15 @@ import { Location } from "vue-router";
 
 import { createCompetition, manageCompetitions } from "@/router/routes";
 
+import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
+
 import { Competition } from "../models/competition";
 import competitionService from "../service";
 
-import { manageCmDetailsRoute } from "../details/routes";
-
 export default Vue.extend({
   name: "ManageCompetitions",
+
+  components: { ManageCompetitionBtn },
 
   data() {
     const vm = this;
@@ -29,10 +31,6 @@ export default Vue.extend({
       });
 
       this.paging.update(pagination);
-    },
-
-    manageCmDetailsRoute(cm: Competition) {
-      return manageCmDetailsRoute({ cm: cm.id });
     }
   },
 
@@ -91,12 +89,11 @@ export default Vue.extend({
                 :key="competition.id">
               <td>{{ competition.id }}</td>
               <td>{{ competition.title }} &nbsp;
-                <router-link :to="manageCmDetailsRoute(competition)"
-                             class="badge badge-light actions"
-                             :title="$t('competitions.manage_competitions_grid_btn_edit_title')">
-                  <i class="fa fa-pencil-square-o"></i>
+                <ManageCompetitionBtn :cm="competition.id"
+                                      :title="$t('competitions.manage_competitions_grid_btn_edit_title')"
+                                      badge>
                   {{ $t('competitions.manage_competitions_grid_btn_edit_text') }}
-                </router-link>
+                </ManageCompetitionBtn>
               </td>
               <td>{{ competition.judge_name }}</td>
               <td>{{ competition.organization_date }}</td>

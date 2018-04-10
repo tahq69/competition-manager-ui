@@ -2,7 +2,7 @@
 import Vue from "vue";
 
 import Card from "@/components/cards/card";
-import EditBtn from "@/components/EditBtn.vue";
+import Btn from "@/components/Btn.vue";
 
 import TeamBtn from "#/teams/components/TeamBtn.vue";
 
@@ -14,7 +14,7 @@ import { manageTeamRoute } from "../routes";
 export default Vue.extend({
   name: "TeamCard",
 
-  components: { EditBtn, TeamBtn },
+  components: { Btn, TeamBtn },
 
   mixins: [Card],
 
@@ -54,8 +54,10 @@ export default Vue.extend({
         {{ team.short }}
       </TeamBtn>
 
-      <EditBtn v-if="canEdit"
-               :to="manageTeamRoute(team)" />
+      <Btn v-if="canEdit"
+           :to="manageTeamRoute(team)"
+           btn="primary"
+           icon="fas fa-edit" />
     </div>
   </div>
 </template>

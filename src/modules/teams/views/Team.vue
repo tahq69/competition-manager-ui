@@ -5,17 +5,16 @@ import { Next } from "@/typings";
 
 import TeamCompetitionsBtn from "#/teams/components/TeamCompetitionsBtn.vue";
 import TeamBtn from "#/teams/components/TeamBtn.vue";
+import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
 
 import { TeamAuth } from "../auth";
 import { Team } from "../models/team";
 import teamService from "../service";
 
-import { manageTeamRoute } from "../routes";
-
 export default Vue.extend({
   name: "Team",
 
-  components: { TeamCompetitionsBtn, TeamBtn },
+  components: { TeamCompetitionsBtn, TeamBtn, ManageTeamBtn },
 
   props: {
     team: { type: [Number, String], required: true }
@@ -32,9 +31,7 @@ export default Vue.extend({
     async setTeam(team: Team) {
       this.details = team;
       this.canEdit = await TeamAuth.canEdit({ team: team.id });
-    },
-
-    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id })
+    }
   },
 
   mounted() {
@@ -58,11 +55,11 @@ export default Vue.extend({
         </div>
         <div v-if="canEdit"
              class="card-footer">
-          <router-link :to="manageTeamRoute(details)"
-                       class="btn btn-primary">
-            <i class="fa fa-pencil-square-o"></i>
-            <span>Edit</span>
-          </router-link>
+          <ManageTeamBtn :team="details.id"
+                         btn="primary"
+                         icon="fas fa-edit">
+            Edit
+          </ManageTeamBtn>
         </div>
       </div>
     </CCol>

@@ -3,14 +3,16 @@ import Vue from "vue";
 
 import { Next } from "@/typings";
 
+import ManageDisciplineBtn from "#/competitions/components/ManageDisciplineBtn.vue";
+
 import { Discipline } from "../../models/discipline";
 import { DisciplineAuth } from "../auth";
 import disciplineService from "../service";
 
-import { manageCmDisciplineRoute } from "../routes";
-
 export default Vue.extend({
   name: "DisciplineDetails",
+
+  components: { ManageDisciplineBtn },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     disciplineService
@@ -34,13 +36,6 @@ export default Vue.extend({
   methods: {
     setDetails(details: Discipline) {
       this.details = details;
-    },
-
-    manageCmDisciplineRoute() {
-      return manageCmDisciplineRoute({
-        cm: this.cm,
-        discipline: this.discipline
-      });
     }
   },
 
@@ -54,13 +49,6 @@ export default Vue.extend({
   <div id="discipline-details"
        :class="`discipline discipline-${discipline}`">
 
-    <router-link v-if="canEdit"
-                 :to="manageCmDisciplineRoute()"
-                 class="btn btn-link btn-edit btn-sm">
-      <i class="fa fa-pencil-square-o"></i>
-      Edit
-    </router-link>
-
     <h2 class="card-title">{{ details.title }}
       <small class="text-muted">{{ details.short }}</small>
     </h2>
@@ -69,6 +57,12 @@ export default Vue.extend({
     <!--<div><strong>Game type</strong>: <div v-html="details.game_type"></div></div>-->
     <div class="card-text"
          v-html="details.description"></div>
+
+    <ManageDisciplineBtn :cm="cm"
+                         :discipline="discipline"
+                         btn="primary">
+      Edit
+    </ManageDisciplineBtn>
   </div>
 </template>
 
