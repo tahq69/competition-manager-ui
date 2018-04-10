@@ -223,11 +223,12 @@ export default Vue.extend({
     }
   },
 
-  async created() {
+  created() {
     this.log = this.$logger.component(this);
-    this.canEditRoles = await TeamMemberAuth.canEditRoles({
-      team: this.memberTeam.id
-    });
+
+    TeamMemberAuth.canEditRoles({ team: this.memberTeam.id }).then(
+      canEdit => (this.canEditRoles = canEdit)
+    );
   }
 });
 </script>

@@ -11,11 +11,6 @@ import { leftNav, rightNav } from "./components/navigation";
 export default Vue.extend({
   name: "app",
 
-  async mounted() {
-    this.$logger.component(this);
-    await Auth.check();
-  },
-
   computed: {
     home(): Location {
       return home;
@@ -39,6 +34,11 @@ export default Vue.extend({
         return;
       }
     }
+  },
+
+  mounted() {
+    this.$logger.component(this);
+    Auth.check();
   },
 
   watch: {

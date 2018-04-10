@@ -41,27 +41,31 @@ export default Vue.extend({
     }
   },
 
-  async created() {
+  created() {
     this.log = this.$logger.component(this);
-    this.canCreate = await DisciplineAuth.canCreate(this.cm);
+
+    DisciplineAuth.canCreate(this.cm).then(
+      canCreate => (this.canCreate = canCreate)
+    );
   }
 });
 </script>
 
 <template>
   <CRow id="disciplines">
-    <CCol
-      v-for="discipline in disciplines"
-      :key="discipline.id" :sm="6"
-    >
-      <DisciplineCard
-        :cm="cm" :discipline="discipline"
-        :height="maxHeight" @dimensions="setupHeight"
-      />
+    <CCol v-for="discipline in disciplines"
+          :key="discipline.id"
+          :sm="6">
+      <DisciplineCard :cm="cm"
+                      :discipline="discipline"
+                      :height="maxHeight"
+                      @dimensions="setupHeight" />
     </CCol>
 
-    <CCol v-if="canCreate" :sm="6">
-      <DisciplineCard :cm="cm" :create="true" />
+    <CCol v-if="canCreate"
+          :sm="6">
+      <DisciplineCard :cm="cm"
+                      :create="true" />
     </CCol>
   </CRow>
 </template>

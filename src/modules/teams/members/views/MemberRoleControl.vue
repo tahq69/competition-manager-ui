@@ -10,8 +10,8 @@ export default Vue.extend({
   name: "MemberRoleControl",
 
   props: {
-    member: { type: [String, Number], required: true },
-    team: { type: [String, Number], required: true }
+    team: { type: [String, Number], required: true },
+    member: { type: [String, Number], required: true }
   },
 
   data: () => ({
@@ -27,12 +27,12 @@ export default Vue.extend({
     ])
   }),
 
-  async created() {
+  created() {
     this.log = this.$logger.component(this);
-    this.roles = await memberService.fetchRoles({
-      team: this.team,
-      member: this.member
-    });
+
+    memberService
+      .fetchRoles({ team: this.team, member: this.member })
+      .then(roles => (this.roles = roles));
   },
 
   watch: {

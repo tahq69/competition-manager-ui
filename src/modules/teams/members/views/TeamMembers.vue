@@ -43,12 +43,16 @@ export default Vue.extend({
     }
   },
 
-  async created() {
+  created() {
     this.log = this.$logger.component(this);
-    this.canEdit = await TeamMemberAuth.canEdit({ team: this.team });
-    this.canEditMembers = await TeamMemberAuth.canEditMembers({
-      team: this.team
-    });
+
+    TeamMemberAuth.canEdit({ team: this.team }).then(
+      canEdit => (this.canEdit = canEdit)
+    );
+
+    TeamMemberAuth.canEditMembers({ team: this.team }).then(
+      canEdit => (this.canEditMembers = canEdit)
+    );
   }
 });
 </script>

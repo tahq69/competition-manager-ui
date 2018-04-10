@@ -30,8 +30,10 @@ export default Vue.extend({
     }
   },
 
-  async created() {
-    this.canEdit = await CompetitionAuth.canEdit({ cm: this.competition.id });
+  created() {
+    CompetitionAuth.canEdit({ cm: this.competition.id }).then(
+      canEdit => (this.canEdit = canEdit)
+    );
   }
 });
 </script>

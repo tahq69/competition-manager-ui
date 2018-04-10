@@ -41,10 +41,14 @@ export default Vue.extend({
     }
   },
 
-  async created() {
+  created() {
     this.log = this.$logger.component(this);
+
     if (this.create) return;
-    this.canEdit = await DisciplineAuth.canEdit(this.discipline.id, this.cm);
+
+    DisciplineAuth.canEdit(this.discipline.id, this.cm).then(
+      canEdit => (this.canEdit = canEdit)
+    );
   }
 });
 </script>

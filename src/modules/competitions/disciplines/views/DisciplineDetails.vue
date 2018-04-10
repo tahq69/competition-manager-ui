@@ -39,8 +39,10 @@ export default Vue.extend({
     }
   },
 
-  async created() {
-    this.canEdit = await DisciplineAuth.canEdit(this.discipline, this.cm);
+  created() {
+    DisciplineAuth.canEdit(this.discipline, this.cm).then(
+      canEdit => (this.canEdit = canEdit)
+    );
   }
 });
 </script>

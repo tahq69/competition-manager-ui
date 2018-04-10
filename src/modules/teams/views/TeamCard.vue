@@ -28,9 +28,12 @@ export default Vue.extend({
     manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id })
   },
 
-  async created() {
+  created() {
     this.log = this.$logger.component(this);
-    this.canEdit = await TeamAuth.canEdit({ team: this.team.id });
+
+    TeamAuth.canEdit({ team: this.team.id }).then(
+      canEdit => (this.canEdit = canEdit)
+    );
   }
 });
 </script>
