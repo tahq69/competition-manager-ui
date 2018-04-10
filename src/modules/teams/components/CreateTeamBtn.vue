@@ -17,14 +17,10 @@ export default Vue.extend({
     btn: { type: String }
   },
 
-  data: () => ({ isVisible: false }),
+  data: () => ({ isVisible: TeamAuth.canCreate() }),
 
   computed: {
     to: (): Location => createTeamRoute()
-  },
-
-  async mounted() {
-    this.isVisible = await TeamAuth.canCreate();
   }
 });
 </script>

@@ -4,12 +4,12 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import ManageTeamMemberBtn from "#/teams/components/ManageTeamMemberBtn.vue";
+import CreateTeamMemberBtn from "#/teams/components/CreateTeamMemberBtn.vue";
+import TeamBtn from "#/teams/components/TeamBtn.vue";
+import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
 
 import { TeamMember } from "../../models/team-member";
 import memberService from "../service";
-
-import { manageTeamRoute } from "../../routes";
-import { createTeamMemberRoute } from "../routes";
 
 const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
   return memberService.fetchTeamMembers({ paging, team_id: to.params.team });
@@ -18,7 +18,12 @@ const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
 export default Vue.extend({
   name: "ManageMembers",
 
-  components: { ManageTeamMemberBtn },
+  components: {
+    ManageTeamMemberBtn,
+    CreateTeamMemberBtn,
+    TeamBtn,
+    ManageTeamBtn
+  },
 
   props: {
     team: { type: [String, Number], required: true }
@@ -27,22 +32,6 @@ export default Vue.extend({
   mixins: [mixin],
 
   data: () => ({ members }),
-
-  computed: {
-    teamId(): string {
-      return this.team.toString();
-    }
-  },
-
-  methods: {
-    manageTeamRoute(): Location {
-      return manageTeamRoute({ team: this.teamId });
-    },
-
-    createTeamMemberRoute(): Location {
-      return createTeamMemberRoute({ team: this.teamId });
-    }
-  },
 
   created() {
     this.log = this.$logger.component(this);
@@ -56,13 +45,23 @@ export default Vue.extend({
     <span slot="title">{{ $t('teams.manage_members_grid_title') }}</span>
 
     <span slot="actions">
-      <CCardAction :to="manageTeamRoute()">
+      <ManageTeamBtn :team="team"
+                     btn="light"
+                     title="Edit team details">
         {{ $t('teams.manage_members_grid_head_manage_team') }}
-      </CCardAction>
+      </ManageTeamBtn>
 
-      <CCardAction :to="createTeamMemberRoute()">
+      <TeamBtn :team="team"
+               btn="light"
+               title="View team public profile">
+        Team
+      </TeamBtn>
+
+      <CreateTeamMemberBtn :team="team"
+                           btn="light"
+                           title="Create new member in a team">
         {{ $t('teams.manage_members_grid_head_create_member') }}
-      </CCardAction>
+      </CreateTeamMemberBtn>
     </span>
 
     <table class="table table-hover">

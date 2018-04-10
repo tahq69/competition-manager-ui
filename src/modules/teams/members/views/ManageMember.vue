@@ -241,9 +241,12 @@ export default Vue.extend({
 
     <span slot="actions">
       <ManageTeamMembersBtn :team="team"
-                            action />
+                            btn="light">
+        Manage members
+      </ManageTeamMembersBtn>
+
       <TeamBtn :team="team"
-               action>
+               btn="light">
         Team
       </TeamBtn>
     </span>

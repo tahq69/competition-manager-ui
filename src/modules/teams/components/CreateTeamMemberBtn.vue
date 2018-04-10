@@ -4,17 +4,17 @@ import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
 
-import { manageTeamRoute } from "#/teams/routes";
-import { TeamAuth } from "#/teams/auth";
+import { createTeamMemberRoute } from "#/teams/members/routes";
+import { TeamMemberAuth } from "#/teams/members/auth";
 
 export default Vue.extend({
-  name: "ManageTeamButton",
+  name: "CreateTeamMemberButton",
 
   components: { Btn },
 
   props: {
     team: { type: [String, Number], required: true },
-    exact: { type: Boolean, default: true },
+    exact: { type: Boolean, default: false },
     btn: { type: String },
     badge: { type: Boolean, default: false },
     arrow: { type: String, default: "" }
@@ -24,12 +24,12 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return manageTeamRoute({ team: this.team });
+      return createTeamMemberRoute({ team: this.team });
     }
   },
 
   mounted() {
-    TeamAuth.canEdit({ team: this.team }).then(
+    TeamMemberAuth.canEditMembers({ team: this.team }).then(
       canEdit => (this.isVisible = canEdit)
     );
   }
@@ -39,11 +39,9 @@ export default Vue.extend({
 <template>
   <Btn v-if="isVisible"
        :to="to"
-       :exact="exact"
-       :arrow="arrow"
        :badge="badge"
        :btn="btn"
-       icon="fas fa-edit">
+       icon="far fa-plus-square">
     <slot />
   </Btn>
 </template>

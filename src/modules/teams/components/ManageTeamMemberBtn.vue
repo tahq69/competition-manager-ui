@@ -29,8 +29,10 @@ export default Vue.extend({
     }
   },
 
-  async mounted() {
-    this.isVisible = await TeamMemberAuth.canEditMembers({ team: this.team });
+  mounted() {
+    TeamMemberAuth.canEditMembers({ team: this.team }).then(
+      canEdit => (this.isVisible = canEdit)
+    );
   }
 });
 </script>

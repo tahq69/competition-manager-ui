@@ -4,34 +4,25 @@ import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
 
-import { manageTeamRoute } from "#/teams/routes";
+import { manageTeamsRoute } from "#/teams/routes";
 import { TeamAuth } from "#/teams/auth";
 
 export default Vue.extend({
-  name: "ManageTeamButton",
+  name: "ManageTeamsButton",
 
   components: { Btn },
 
   props: {
-    team: { type: [String, Number], required: true },
     exact: { type: Boolean, default: true },
     btn: { type: String },
     badge: { type: Boolean, default: false },
     arrow: { type: String, default: "" }
   },
 
-  data: () => ({ isVisible: false }),
+  data: () => ({ isVisible: TeamAuth.canCreate() }),
 
   computed: {
-    to(): Location {
-      return manageTeamRoute({ team: this.team });
-    }
-  },
-
-  mounted() {
-    TeamAuth.canEdit({ team: this.team }).then(
-      canEdit => (this.isVisible = canEdit)
-    );
+    to: (): Location => manageTeamsRoute()
   }
 });
 </script>
@@ -40,10 +31,12 @@ export default Vue.extend({
   <Btn v-if="isVisible"
        :to="to"
        :exact="exact"
-       :arrow="arrow"
-       :badge="badge"
        :btn="btn"
-       icon="fas fa-edit">
-    <slot />
+       :badge="badge"
+       :arrow="arrow"
+       icon="fas fa-list">
+    <slot>
+      <!-- default slot -->
+    </slot>
   </Btn>
 </template>

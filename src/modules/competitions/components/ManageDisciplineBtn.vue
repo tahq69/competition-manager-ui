@@ -29,8 +29,10 @@ export default Vue.extend({
     }
   },
 
-  async mounted() {
-    this.isVisible = await DisciplineAuth.canEdit(this.discipline, this.cm);
+  mounted() {
+    DisciplineAuth.canEdit(this.discipline, this.cm).then(
+      canEdit => (this.isVisible = canEdit)
+    );
   }
 });
 </script>

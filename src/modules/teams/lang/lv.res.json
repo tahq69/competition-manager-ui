@@ -18,6 +18,8 @@
   "manage_members_grid_head_id_text": "#",
   "manage_members_grid_head_name_title": "Kārtot pēc dalībnieka vārda",
   "manage_members_grid_head_name_text": "Vārds",
+  "manage_members_grid_head_membership_type_title": "Kārtot pēc piederības komandai",
+  "manage_members_grid_head_membership_type_text": "Piederība",
   "manage_members_grid_btn_edit_title": "Labot dalībnieka detaļas",
   "manage_members_grid_btn_edit_text": "Labot",
   "manage_member_edit_title": "Labot dalībnieku",

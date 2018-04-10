@@ -7,18 +7,26 @@ import Storage from "@/helpers/local-storage";
 import { manageTeam } from "@/router/routes";
 import { Next } from "@/typings";
 
-import {
-  createTeamMemberRoute,
-  manageTeamMembersRoute
-} from "../members/routes";
+import TeamBtn from "#/teams/components/TeamBtn.vue";
+import ManageTeamsBtn from "#/teams/components/ManageTeamsBtn.vue";
+import CreateTeamMemberBtn from "#/teams/components/CreateTeamMemberBtn.vue";
+import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
+
+import { createTeamMemberRoute } from "../members/routes";
 import { Team } from "../models/team";
-import { manageTeamRoute, manageTeamsRoute } from "../routes";
+import { manageTeamRoute } from "../routes";
 import teamService from "../service";
 
 export default Vue.extend({
   name: "ManageTeam",
 
-  components: { FileInput },
+  components: {
+    FileInput,
+    TeamBtn,
+    ManageTeamsBtn,
+    CreateTeamMemberBtn,
+    ManageTeamMembersBtn
+  },
 
   beforeRouteEnter(to, from, next: Next<any>) {
     const open = (team: Team) => next(vm => vm.setTeam(team));
@@ -45,14 +53,6 @@ export default Vue.extend({
     title(): string {
       if (this.isEdit) return `Manage team: ${this.teamName}`;
       return "Create new team";
-    },
-
-    manageTeamsRoute(): any {
-      return manageTeamsRoute();
-    },
-
-    manageTeamMembersRoute(): any {
-      return manageTeamMembersRoute({ team: this.form.data.id });
     },
 
     createTeamMemberRoute(): any {
@@ -93,19 +93,28 @@ export default Vue.extend({
              @submit="save">
 
     <span slot="actions">
-      <CCardAction :to="manageTeamsRoute">
-        Teams
-      </CCardAction>
+      <TeamBtn v-if="isEdit"
+               :team="form.data.id"
+               btn="light"
+               title="View team public profile">
+        Team
+      </TeamBtn>
 
-      <CCardAction v-if="isEdit"
-                   :to="manageTeamMembersRoute">
-        Manage members
-      </CCardAction>
+      <ManageTeamsBtn btn="light">
+        All teams
+      </ManageTeamsBtn>
 
-      <CCardAction v-if="isEdit"
-                   :to="createTeamMemberRoute">
+      <ManageTeamMembersBtn v-if="isEdit"
+                            :team="form.data.id"
+                            btn="light">
+        Members
+      </ManageTeamMembersBtn>
+
+      <CreateTeamMemberBtn v-if="isEdit"
+                           :team="form.data.id"
+                           btn="light">
         Add member
-      </CCardAction>
+      </CreateTeamMemberBtn>
     </span>
 
     <!-- #name -->

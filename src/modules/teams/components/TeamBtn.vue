@@ -2,20 +2,21 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import CardAction from "@/components/cards/CardAction.vue";
+import Btn from "@/components/Btn.vue";
 
 import { teamMembersRoute } from "../members/routes";
 
 export default Vue.extend({
   name: "TeamButton",
 
-  components: { CardAction },
+  components: { Btn },
 
   props: {
     team: { type: [String, Number], required: true },
-    exact: { type: Boolean, default: false },
-    action: { type: Boolean, default: false },
-    direction: { type: String, default: "left" }
+    exact: { type: Boolean, default: true },
+    btn: { type: String },
+    badge: { type: Boolean, default: false },
+    arrow: { type: String, default: "" }
   },
 
   computed: {
@@ -28,11 +29,14 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CardAction :to="to"
-              :isArrow="action"
-              :isBtn="action"
-              :exact="exact"
-              :direction="direction">
-    <slot>Members</slot>
-  </CardAction>
+  <Btn :to="to"
+       :exact="exact"
+       :arrow="arrow"
+       :btn="btn"
+       :badge="badge"
+       icon="fas fa-eye">
+    <slot>
+      <!-- default slot -->
+    </slot>
+  </Btn>
 </template>

@@ -27,8 +27,10 @@ export default Vue.extend({
     }
   },
 
-  async mounted() {
-    this.isVisible = await CompetitionAuth.canEdit({ cm: this.cm });
+  mounted() {
+    CompetitionAuth.canEdit({ cm: this.cm }).then(
+      canEdit => (this.isVisible = canEdit)
+    );
   }
 });
 </script>

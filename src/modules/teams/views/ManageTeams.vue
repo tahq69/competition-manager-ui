@@ -7,6 +7,7 @@ import { Id } from "@/typings";
 
 import CreateTeamBtn from "#/teams/components/CreateTeamBtn.vue";
 import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
+import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
 
 import { manageTeamMembersRoute } from "../members/routes";
 import { Team } from "../models/team";
@@ -19,7 +20,7 @@ const { mixin, paging: teams } = createPaging<Team>(paging =>
 export default Vue.extend({
   name: "ManageTeams",
 
-  components: { CreateTeamBtn, ManageTeamBtn },
+  components: { CreateTeamBtn, ManageTeamBtn, ManageTeamMembersBtn },
 
   mixins: [mixin],
 
@@ -76,18 +77,18 @@ export default Vue.extend({
               :key="team.id">
             <td>{{ team.id }}</td>
             <td>
-              {{ team.name }} &nbsp;
+              {{ team.name }}&nbsp;
               <ManageTeamBtn :team="team.id"
                              :title="$t('teams.manage_teams_grid_btn_edit_title')"
                              badge>
                 {{ $t('teams.manage_teams_grid_btn_edit_text') }}
-              </ManageTeamBtn>
+              </ManageTeamBtn>&nbsp;
 
-              <router-link :to="manageTeamMembersRoute(team)"
-                           class="badge badge-light actions"
-                           :title="$t('teams.manage_teams_grid_btn_members_title')">
+              <ManageTeamMembersBtn :team="team.id"
+                                    :title="$t('teams.manage_teams_grid_btn_members_title')"
+                                    badge>
                 {{ $t('teams.manage_teams_grid_btn_members_text') }}
-              </router-link>
+              </ManageTeamMembersBtn>
             </td>
             <td>{{ team.short }}</td>
           </tr>
