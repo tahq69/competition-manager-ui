@@ -2,9 +2,8 @@
 import { createPaging } from "crip-vue-bootstrap";
 import Vue from "vue";
 
-import { userProfileRoute } from "@/modules/user/routes";
-
 import ManageTeamMemberBtn from "#/teams/components/ManageTeamMemberBtn.vue";
+import ProfileBtn from "#/user/components/ProfileBtn.vue";
 
 import { TeamMember } from "../../models/team-member";
 import { TeamMemberAuth } from "../auth";
@@ -17,7 +16,7 @@ const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
 export default Vue.extend({
   name: "TeamMembers",
 
-  components: { ManageTeamMemberBtn },
+  components: { ManageTeamMemberBtn, ProfileBtn },
 
   props: {
     team: { type: [String, Number], required: true }
@@ -36,10 +35,6 @@ export default Vue.extend({
   methods: {
     hasProfile(member: TeamMember) {
       return (member.user_id || 0) > 0;
-    },
-
-    userProfileRoute(member: TeamMember) {
-      return userProfileRoute({ user: member.user_id || 0 });
     }
   },
 
@@ -87,14 +82,16 @@ export default Vue.extend({
 
                 <ManageTeamMemberBtn :team="member.team_id"
                                      :member="member.id"
-                                     badge />&nbsp;
+                                     badge>
+                  Edit
+                </ManageTeamMemberBtn>&nbsp;
 
-                <router-link :to="userProfileRoute(member)"
-                             v-if="hasProfile(member)"
-                             class="badge badge-light actions"
-                             title="Member profile">
+                <ProfileBtn v-if="hasProfile(member)"
+                            :user="member.user_id"
+                            title="Member user profile"
+                            badge>
                   <span>Profile</span>
-                </router-link>
+                </ProfileBtn>
               </td>
               <td>{{ member.membership_type }}</td>
             </tr>

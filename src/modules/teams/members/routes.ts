@@ -9,8 +9,8 @@ import {
 import { Id, IRouteParams } from "@/typings";
 
 /** Public routes */
-const teamMembersView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/TeamMembers.vue");
+const membersView = () =>
+  import(/* webpackChunkName: "teams" */ "./views/Members.vue");
 
 /** Management routes */
 const manageMemberView = () =>
@@ -25,7 +25,7 @@ export const members = [
   {
     ...teamMembers,
     path: "members/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
-    component: teamMembersView,
+    component: membersView,
     props: true
   }
 ];

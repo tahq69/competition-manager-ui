@@ -253,11 +253,11 @@ export default Vue.extend({
       </TeamBtn>
     </span>
 
-    <CFormGroup label="Member roles"
+    <CFormGroup v-if="isEdit && canEditRoles"
+                label="Member roles"
                 for="member-roles"
                 :sm="8">
-      <MemberRoleControl v-if="isEdit && canEditRoles"
-                         v-model="form.data.roles"
+      <MemberRoleControl v-model="form.data.roles"
                          :member="form.data.id"
                          :team="memberTeam.id" />
     </CFormGroup>
