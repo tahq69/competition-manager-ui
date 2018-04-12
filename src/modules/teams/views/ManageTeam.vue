@@ -96,7 +96,8 @@ export default Vue.extend({
       <TeamBtn v-if="isEdit"
                :team="form.data.id"
                btn="light"
-               title="View team public profile">
+               title="View team public profile"
+               with-icon>
         Team
       </TeamBtn>
 

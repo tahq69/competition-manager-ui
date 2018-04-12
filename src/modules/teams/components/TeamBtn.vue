@@ -16,7 +16,8 @@ export default Vue.extend({
     exact: { type: Boolean, default: true },
     btn: { type: String },
     badge: { type: Boolean, default: false },
-    arrow: { type: String, default: "" }
+    arrow: { type: String, default: "" },
+    withIcon: { type: Boolean, default: false }
   },
 
   computed: {
@@ -34,7 +35,7 @@ export default Vue.extend({
        :arrow="arrow"
        :btn="btn"
        :badge="badge"
-       icon="fas fa-eye">
+       :icon="withIcon ? 'fas fa-eye' : ''">
     <slot>
       <!-- default slot -->
     </slot>

@@ -13,6 +13,7 @@ export default Vue.extend({
       type: String,
       validator: (value: string) =>
         [
+          "", // none
           "fas fa-edit", // edit
           "far fa-plus-square", // create
           "fas fa-list", // list

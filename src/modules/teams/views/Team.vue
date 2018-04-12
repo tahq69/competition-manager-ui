@@ -72,7 +72,10 @@ export default Vue.extend({
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
               <TeamBtn :team="team"
-                       class="nav-link" />
+                       :exact="false"
+                       class="nav-link">
+                Members
+              </TeamBtn>
             </li>
 
             <li class="nav-item">
