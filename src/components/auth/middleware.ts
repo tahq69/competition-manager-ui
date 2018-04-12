@@ -60,7 +60,7 @@ export class Middleware {
   }
 
   public static async hasAnyTeamRole(opt: ITeamOption, roles: string[]) {
-    log("hasAnyTeamRole()", { opt, roles });
+    log("hasAnyTeamRole()", { opt, roles, auth: getters.isAuthenticated });
     if (!getters.isAuthenticated) return false;
 
     return await roles.reduce(async (acc, role) => {

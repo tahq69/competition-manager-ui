@@ -1,16 +1,25 @@
 <script lang="ts">
 import Vue from "vue";
 
+import CardActions from "@/components/cards/CardActions.vue";
+
 import AreasBtn from "#/competitions/components/AreasBtn.vue";
 import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
 import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
+import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
 
 import { Competition } from "../models/competition";
 
 export default Vue.extend({
   name: "Competition",
 
-  components: { AreasBtn, DisciplinesBtn, CompetitionBtn },
+  components: {
+    CardActions,
+    AreasBtn,
+    DisciplinesBtn,
+    CompetitionBtn,
+    ManageCompetitionBtn
+  },
 
   props: {
     cm: { type: [Number, String], required: true }
@@ -39,7 +48,7 @@ export default Vue.extend({
     <CCol :sm="6"
           :md="8"
           :lg="9">
-      <div class="card">
+      <div class="card crip-card">
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -51,7 +60,7 @@ export default Vue.extend({
 
             <li class="nav-item">
               <DisciplinesBtn :cm="cm"
-                               class="nav-link">
+                              class="nav-link">
                 {{ $t("competitions.competition_disciplines_tab") }}
               </DisciplinesBtn>
             </li>
@@ -63,6 +72,13 @@ export default Vue.extend({
               </AreasBtn>
             </li>
           </ul>
+
+          <CardActions>
+            <ManageCompetitionBtn :cm="cm"
+                                  btn="light">
+              Edit details
+            </ManageCompetitionBtn>
+          </CardActions>
         </div>
         <!-- /.card-header -->
         <div class="card-body">

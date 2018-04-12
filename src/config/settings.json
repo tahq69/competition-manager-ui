@@ -16,11 +16,10 @@
         "component",
         "error",
         "info",
-        "select2",
-        "Notification",
+        "auth.middleware",
         "ManageMember",
-        "FormSelect",
-        "Profile"
+        "Profile",
+        "ManageCompetitionButton"
       ]
     }
   },

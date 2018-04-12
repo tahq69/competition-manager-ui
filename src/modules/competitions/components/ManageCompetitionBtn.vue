@@ -3,6 +3,7 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
+import { watchIsVisible } from "@/components/auth/mixins";
 
 import { manageCmDetailsRoute } from "#/competitions/details/routes";
 import { CompetitionAuth } from "#/competitions/auth";
@@ -12,13 +13,13 @@ export default Vue.extend({
 
   components: { Btn },
 
+  mixins: [watchIsVisible],
+
   props: {
     cm: { type: [String, Number], required: true },
     badge: { type: Boolean, default: false },
     btn: { type: String }
   },
-
-  data: () => ({ isVisible: false }),
 
   computed: {
     to(): Location {
@@ -27,10 +28,14 @@ export default Vue.extend({
     }
   },
 
-  mounted() {
-    CompetitionAuth.canEdit({ cm: this.cm }).then(
-      canEdit => (this.isVisible = canEdit)
-    );
+  methods: {
+    async checkVisibility() {
+      return await CompetitionAuth.canEdit({ cm: this.cm });
+    }
+  },
+
+  created() {
+    this.log = this.$logger.component(this);
   }
 });
 </script>
