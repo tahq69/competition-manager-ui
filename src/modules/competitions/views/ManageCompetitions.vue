@@ -1,44 +1,27 @@
 <script lang="ts">
-import { Paging } from "crip-vue-bootstrap";
 import Vue from "vue";
 import { Location } from "vue-router";
-
-import { createCompetition, manageCompetitions } from "@/router/routes";
+import { Paging, createPaging } from "crip-vue-bootstrap";
 
 import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
 
 import { Competition } from "../models/competition";
 import competitionService from "../service";
 
+const { mixin, paging: competitions } = createPaging<Competition>(
+  (paging, to) => competitionService.fetchCompetitions({ paging, owned: true })
+);
+
 export default Vue.extend({
   name: "ManageCompetitions",
 
   components: { ManageCompetitionBtn },
 
-  data() {
-    const vm = this;
-    return {
-      createRoute: createCompetition,
-      paging: new Paging<Competition>({ vm, route: manageCompetitions })
-    };
-  },
+  mixins: [mixin],
 
-  methods: {
-    async fetchPage() {
-      const pagination = await competitionService.fetchCompetitions({
-        paging: this.paging,
-        owned: true
-      });
-
-      this.paging.update(pagination);
-    }
-  },
+  data: () => ({ competitions }),
 
   created() {
-    this.paging.init(() => this.fetchPage());
-  },
-
-  mounted() {
     this.log = this.$logger.component(this);
   }
 });
@@ -47,35 +30,31 @@ export default Vue.extend({
 <template>
   <CCol>
     <CGrid id="manage-competitions"
-           :paging="paging">
+           :paging="competitions">
       <span slot="title">{{ $t('competitions.manage_competitions_grid_title') }}</span>
-      <CCardAction slot="actions"
-                   :to="createRoute">
-        {{ $t('competitions.manage_competitions_grid_head_create_new') }}
-      </CCardAction>
 
       <table class="table table-hover">
         <thead>
           <tr>
-            <CGridHeader :paging="paging"
+            <CGridHeader :paging="competitions"
                          column="id"
                          :title="$t('competitions.manage_competitions_grid_head_id_title')">
               {{ $t('competitions.manage_competitions_grid_head_id_text') }}
             </CGridHeader>
 
-            <CGridHeader :paging="paging"
+            <CGridHeader :paging="competitions"
                          column="title"
                          :title="$t('competitions.manage_competitions_grid_head_title_title')">
               {{ $t('competitions.manage_competitions_grid_head_title_text') }}
             </CGridHeader>
 
-            <CGridHeader :paging="paging"
+            <CGridHeader :paging="competitions"
                          column="judge_name"
                          :title="$t('competitions.manage_competitions_grid_head_judge_name_title')">
               {{ $t('competitions.manage_competitions_grid_head_judge_name_text') }}
             </CGridHeader>
 
-            <CGridHeader :paging="paging"
+            <CGridHeader :paging="competitions"
                          column="organization_date"
                          :title="$t('competitions.manage_competitions_grid_head_organization_date_title')">
               {{ $t('competitions.manage_competitions_grid_head_organization_date_text') }}
@@ -83,9 +62,9 @@ export default Vue.extend({
           </tr>
         </thead>
         <tbody>
-          <template v-for="competition in paging.items">
-            <tr @click="paging.select(competition)"
-                :class="paging.classes(competition)"
+          <template v-for="competition in competitions.items">
+            <tr @click="competitions.select(competition)"
+                :class="competitions.classes(competition)"
                 :key="competition.id">
               <td>{{ competition.id }}</td>
               <td>{{ competition.title }} &nbsp;
