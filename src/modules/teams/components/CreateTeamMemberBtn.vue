@@ -3,6 +3,7 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
+import { watchVisibility } from "@/components/auth/mixins";
 
 import { createTeamMemberRoute } from "#/teams/members/routes";
 import { TeamMemberAuth } from "#/teams/members/auth";
@@ -12,6 +13,8 @@ export default Vue.extend({
 
   components: { Btn },
 
+  mixins: [watchVisibility],
+
   props: {
     team: { type: [String, Number], required: true },
     exact: { type: Boolean, default: false },
@@ -20,18 +23,16 @@ export default Vue.extend({
     arrow: { type: String, default: "" }
   },
 
-  data: () => ({ isVisible: false }),
-
   computed: {
     to(): Location {
       return createTeamMemberRoute({ team: this.team });
     }
   },
 
-  mounted() {
-    TeamMemberAuth.canEditMembers({ team: this.team }).then(
-      canEdit => (this.isVisible = canEdit)
-    );
+  methods: {
+    async checkVisibility() {
+      return await TeamMemberAuth.canEditMembers({ team: this.team });
+    }
   }
 });
 </script>

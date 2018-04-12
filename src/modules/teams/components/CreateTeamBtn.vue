@@ -3,6 +3,7 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
+import { watchVisibility } from "@/components/auth/mixins";
 
 import { createTeamRoute } from "#/teams/routes";
 import { TeamAuth } from "#/teams/auth";
@@ -12,15 +13,21 @@ export default Vue.extend({
 
   components: { Btn },
 
+  mixins: [watchVisibility],
+
   props: {
     badge: { type: Boolean, default: false },
     btn: { type: String }
   },
 
-  data: () => ({ isVisible: TeamAuth.canCreate() }),
-
   computed: {
     to: (): Location => createTeamRoute()
+  },
+
+  methods: {
+    async checkVisibility() {
+      return await TeamAuth.canCreate();
+    }
   }
 });
 </script>

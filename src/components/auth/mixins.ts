@@ -1,6 +1,6 @@
 import { IState } from "@/store/typings";
 
-export const watchIsVisible = {
+export const watchVisibility = {
   data: () => ({ isVisible: false }),
 
   created() {

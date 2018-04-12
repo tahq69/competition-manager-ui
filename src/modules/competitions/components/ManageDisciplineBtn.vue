@@ -3,6 +3,7 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
+import { watchVisibility } from "@/components/auth/mixins";
 
 import { manageCmDisciplineRoute } from "#/competitions/disciplines/routes";
 import { DisciplineAuth } from "#/competitions/disciplines/auth";
@@ -12,14 +13,14 @@ export default Vue.extend({
 
   components: { Btn },
 
+  mixins: [watchVisibility],
+
   props: {
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
     badge: { type: Boolean, default: false },
     btn: { type: String }
   },
-
-  data: () => ({ isVisible: false }),
 
   computed: {
     to(): Location {
@@ -29,10 +30,10 @@ export default Vue.extend({
     }
   },
 
-  mounted() {
-    DisciplineAuth.canEdit(this.discipline, this.cm).then(
-      canEdit => (this.isVisible = canEdit)
-    );
+  methods: {
+    async checkVisibility() {
+      return await DisciplineAuth.canEdit(this.discipline, this.cm);
+    }
   }
 });
 </script>
