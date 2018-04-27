@@ -1,6 +1,8 @@
 import { middleware, roles } from "@/components/auth";
 import { Id } from "@/typings";
 
+import { CompetitionAuth } from "#/competitions/auth";
+
 interface IEdit {
   team: Id;
 }
@@ -21,5 +23,9 @@ export class TeamAuth {
 
   public static canCreate(): boolean {
     return middleware.hasRole(roles.CREATE_TEAMS);
+  }
+
+  public static async canCreateCompetition(team: Id) {
+    return await CompetitionAuth.canCreate({ team });
   }
 }

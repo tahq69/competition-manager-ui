@@ -3,9 +3,10 @@ import Vue from "vue";
 
 import { Next } from "@/typings";
 
-import TeamCompetitionsBtn from "#/teams/components/TeamCompetitionsBtn.vue";
-import TeamBtn from "#/teams/components/TeamBtn.vue";
+import CreateCompetitionBtn from "#/competitions/components/CreateCompetitionBtn.vue";
 import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
+import TeamBtn from "#/teams/components/TeamBtn.vue";
+import TeamCompetitionsBtn from "#/teams/components/TeamCompetitionsBtn.vue";
 
 import { TeamAuth } from "../auth";
 import { Team } from "../models/team";
@@ -14,7 +15,12 @@ import teamService from "../service";
 export default Vue.extend({
   name: "Team",
 
-  components: { TeamCompetitionsBtn, TeamBtn, ManageTeamBtn },
+  components: {
+    CreateCompetitionBtn,
+    ManageTeamBtn,
+    TeamBtn,
+    TeamCompetitionsBtn
+  },
 
   props: {
     team: { type: [Number, String], required: true }
@@ -25,12 +31,17 @@ export default Vue.extend({
     teamService.fetchTeam(payload).then(team => next(vm => vm.setTeam(team)));
   },
 
-  data: () => ({ details: new Team({}), canEdit: false }),
+  data: () => ({
+    details: new Team({}),
+    canEdit: false,
+    canCreateCompetition: false
+  }),
 
   methods: {
     async setTeam(team: Team) {
       this.details = team;
       this.canEdit = await TeamAuth.canEdit({ team: team.id });
+      this.canCreateCompetition = await TeamAuth.canCreateCompetition(team.id);
     }
   },
 
@@ -49,17 +60,25 @@ export default Vue.extend({
         <img class="card-img-top img-fluid"
              :src="details.logo"
              alt="Team logo">
+
         <div class="card-body">
           <h5 class="card-title">{{ details.name }}</h5>
           <p class="card-subtitle mb-2 text-muted">{{ details.short }}</p>
         </div>
-        <div v-if="canEdit"
+
+        <div v-if="canEdit || canCreateCompetition"
              class="card-footer">
           <ManageTeamBtn :team="details.id"
                          btn="primary"
                          icon="fas fa-edit">
             Edit
           </ManageTeamBtn>
+          &nbsp;
+          <CreateCompetitionBtn :team="details.id"
+                                btn="primary"
+                                title="Create new competition">
+            Competition
+          </CreateCompetitionBtn>
         </div>
       </div>
     </CCol>

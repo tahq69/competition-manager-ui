@@ -6,11 +6,11 @@ import {
 } from "@/router/routes";
 import { Id, IRouteParams } from "@/typings";
 
-/** Public routes */
+/** Public views */
 const detailsView = () =>
   import(/* webpackChunkName: "cm-details" */ "./views/Details.vue");
 
-/** Management routes */
+/** Management views */
 const manageDetailsView = () =>
   import(/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue");
 

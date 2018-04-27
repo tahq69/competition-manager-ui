@@ -1,30 +1,27 @@
 <script lang="ts">
 import Vue from "vue";
 
+import { arrowTypes, buttonTypes, iconTypes } from "./help";
+
 export default Vue.extend({
   name: "Button",
 
   props: {
     to: { type: [Object, String], required: true },
     exact: { type: Boolean, default: true },
-    btn: { type: String },
     badge: { type: Boolean, default: false },
+    btn: {
+      type: String,
+      validator: (value: string) => buttonTypes.indexOf(value) > -1
+    },
     icon: {
       type: String,
-      validator: (value: string) =>
-        [
-          "", // none
-          "fas fa-edit", // edit
-          "far fa-plus-square", // create
-          "fas fa-list", // list
-          "fas fa-eye" // preview
-        ].indexOf(value) > -1
+      validator: (value: string) => iconTypes.indexOf(value) > -1
     },
     arrow: {
       type: String,
       default: "",
-      validator: (val: string) =>
-        ["left", "right", "up", "down", ""].indexOf(val) > -1
+      validator: (val: string) => arrowTypes.indexOf(val) > -1
     }
   }
 });

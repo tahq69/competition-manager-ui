@@ -4,7 +4,6 @@ import * as roles from "@/components/auth/roles";
 import {
   competitions,
   convertParams,
-  createCompetition,
   manageCompetitions
 } from "@/router/routes";
 import { Id, IRouteParams } from "@/typings";
@@ -35,13 +34,6 @@ export const root: RouteConfig[] = [
     component: competitionsView,
     path: "/competitions/:page(\\d+)?"
   },
-  /*{
-    ...createCompetition,
-    component: competition,
-    meta: { auth: true, teamRoles: [roles.CREATE_COMPETITIONS] },
-    path: "/competition/new/:team(\\d+)",
-    props: true,
-  },*/
   {
     component: competition,
     path: "/competition/:cm(\\d+)",

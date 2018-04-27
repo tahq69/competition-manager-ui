@@ -20,6 +20,9 @@ export class CompetitionAuth {
   }
 
   public static async canCreate(opt: ICreate): Promise<boolean> {
-    return await auth.hasTeamRole(opt, roles.CREATE_COMPETITIONS);
+    const hasRole = await auth.hasTeamRole(opt, roles.CREATE_COMPETITIONS);
+    // TODO: we need validate available credits of the current team to allow
+    // create new competitions for it.
+    return hasRole;
   }
 }
