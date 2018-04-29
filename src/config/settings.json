@@ -1,7 +1,7 @@
 {
   "env": "local",
   "local": {
-    "auth_secret": "qtuEmNtVJvsFuXlz357LhCLSvjsWE4rSUW6tKrJb",
+    "auth_secret": "6LGSL40VMkyF53dSvJi8BVioRErqbtv3rYAUiGJU",
     "auth_token_type": "Bearer",
     "auth_id": 1,
     "url": "",

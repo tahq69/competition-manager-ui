@@ -15,6 +15,9 @@ import CripBootstrap, { IBootstrapOptions } from "crip-vue-bootstrap";
 
 // https://github.com/axios/axios
 import axios from "axios";
+import Datetime from "vue-datetime";
+
+import "vue-datetime/dist/vue-datetime.css";
 
 import { sync } from "vuex-router-sync";
 import "./helpers/logger";
@@ -30,6 +33,7 @@ Vue.use<ILoadingOptions>(CripLoading, {
   color: "rgba(255,255,255,1)",
   verbose: false
 });
+Vue.use(Datetime);
 
 import App from "./App.vue";
 import Lang, { i18n } from "./lang";
