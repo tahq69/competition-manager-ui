@@ -67,7 +67,9 @@ export default Vue.extend({
                 :class="competitions.classes(competition)"
                 :key="competition.id">
               <td>{{ competition.id }}</td>
-              <td>{{ competition.title }} &nbsp;
+              <td>
+                <span>{{ competition.title }}</span>
+                &nbsp;
                 <ManageCompetitionBtn :cm="competition.id"
                                       :title="$t('competitions.manage_competitions_grid_btn_edit_title')"
                                       badge>

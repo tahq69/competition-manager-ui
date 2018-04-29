@@ -2,9 +2,11 @@
 import { createPaging } from "crip-vue-bootstrap";
 import Vue from "vue";
 
-import { cmDetailsRoute } from "@/modules/competitions/details/routes";
-import { Competition } from "@/modules/competitions/models/competition";
-import cmService from "@/modules/competitions/service";
+import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
+
+import cmService from "#/competitions/service";
+import { Competition } from "#/competitions/models/competition";
+import { cmDetailsRoute } from "#/competitions/details/routes";
 
 const { mixin, paging: competitions } = createPaging<Competition>(
   (paging, to) => {
@@ -14,6 +16,8 @@ const { mixin, paging: competitions } = createPaging<Competition>(
 
 export default Vue.extend({
   name: "TeamCompetitions",
+
+  components: { ManageCompetitionBtn },
 
   props: {
     team: { type: [String, Number], required: true }
@@ -74,7 +78,15 @@ export default Vue.extend({
                          tag="tr"
                          :to="competitionDetailsRoute(cm)"
                          class="c-pointer">
-              <td>{{ cm.title }}</td>
+              <td>
+                <span>{{ cm.title }}</span>
+                &nbsp;
+                <ManageCompetitionBtn :cm="cm.id"
+                                      title="Edit competition details"
+                                      badge>
+                  Edit
+                </ManageCompetitionBtn>
+              </td>
               <td>{{ cm.judge_name }}</td>
               <td>{{ cm.organization_date | formatDate }}</td>
             </router-link>

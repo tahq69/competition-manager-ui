@@ -18,6 +18,13 @@ interface IFetchTeamCompetitions {
 interface IFetchCompetition {
   id: Id;
 }
+interface ISaveCompetition {
+  title: string;
+  subtitle: string;
+  registration_till: Date;
+  organization_date: Date;
+  team_id: Id;
+}
 
 class CompetitionService extends Service {
   public async fetchCompetitions(payload: IFetchCompetitions) {
@@ -54,6 +61,13 @@ class CompetitionService extends Service {
 
       const { data } = await http.get(url);
       return new Competition(data);
+    });
+  }
+
+  public async saveCompetition(payload: ISaveCompetition) {
+    return await this.safeContext(async (http, api) => {
+      const entity = new Competition(payload);
+      return await this.save(entity);
     });
   }
 

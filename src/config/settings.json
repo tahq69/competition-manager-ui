@@ -19,7 +19,7 @@
         "auth.middleware",
         "ManageMember",
         "Profile",
-        "ManageCompetitionButton"
+        "CreateTeamCompetitionForm"
       ]
     }
   },

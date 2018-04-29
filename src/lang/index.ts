@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
+import { Settings } from "luxon";
 
 import { loadLocale, saveLocale } from "@/config/locale";
 import { LocaleType } from "@/lang/typings";
@@ -37,4 +38,5 @@ export function SetLocale(locale: LocaleType = "lv") {
 export default function() {
   const locale = loadLocale();
   SetLocale(locale);
+  Settings.defaultLocale = locale;
 }

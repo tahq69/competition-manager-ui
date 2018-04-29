@@ -1,6 +1,6 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap";
 import Vue from "vue";
+import { Form } from "crip-vue-bootstrap";
 
 import FileInput from "@/components/form/FileInput.vue";
 import Storage from "@/helpers/local-storage";

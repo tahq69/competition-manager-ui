@@ -20,7 +20,9 @@ import Datetime from "vue-datetime";
 import "vue-datetime/dist/vue-datetime.css";
 
 import { sync } from "vuex-router-sync";
+import config from "./config";
 import "./helpers/logger";
+Object.defineProperty(Vue.prototype, "_config", { get: () => config });
 
 Vue.use<CripSelectOptions>(CripSelect, { logLevel: "warn" });
 Vue.use<IBootstrapOptions>(CripBootstrap, { prefix: "C", logLevel: "error" });
@@ -58,7 +60,7 @@ const app = new Vue({
 
 // console.log("Vue.options.components", (Vue as any).options.components)
 
-// Initialize user locale after app mount is completed.
+// Initialize user locale after app instance is created.
 Lang();
 
 app.$mount(document.getElementById("app") || undefined);

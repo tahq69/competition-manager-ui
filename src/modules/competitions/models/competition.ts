@@ -15,11 +15,14 @@ export class Competition extends Entity {
   public subtitle: string = "";
   public team_id: Id = 0;
   public title: string = "";
+  public organization_date: Date = new Date();
+  public registration_till: Date = new Date();
 
   public judge_id?: number;
   public judge_name?: string;
-  public organization_date?: string;
-  public registration_till?: string;
+
+  public createUrl = "competitions";
+  public updateUrl = "competitions/{id}";
 
   constructor(data: any) {
     super();
