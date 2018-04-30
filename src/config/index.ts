@@ -18,6 +18,6 @@ export interface IConfig {
 
 const config = settings[settings["env"]] as IConfig;
 config.dateFormat = DateTime.DATE_SHORT;
-config.dateTimeFormat = DateTime.DATETIME_SHORT_WITH_SECONDS;
+config.dateTimeFormat = DateTime.DATETIME_SHORT;
 
 export default config;

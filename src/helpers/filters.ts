@@ -1,36 +1,16 @@
 import Vue from "vue";
+import { DateTime } from "luxon";
 
-function formatDate(date: Date, format = "D MMMM YYYY"): string {
-  // TODO: formats and month should be moved to localization
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
-
-  const day = date.getDate();
-  const monthIndex = date.getMonth();
-  const year = date.getFullYear();
-
-  return format
-    .replace("YYYY", year.toString())
-    .replace("MMMM", monthNames[monthIndex])
-    .replace("MMMM", (monthIndex + 1).toString())
-    .replace("D", day.toString());
-}
+import config from "@/config";
 
 Vue.filter("formatDate", (value: string) => {
   if (value) {
-    const date = new Date(value);
-    return formatDate(date);
+    return DateTime.fromISO(value).toLocaleString(config.dateFormat);
+  }
+});
+
+Vue.filter("formatDateTime", (value: string) => {
+  if (value) {
+    return DateTime.fromISO(value).toLocaleString(config.dateTimeFormat);
   }
 });
