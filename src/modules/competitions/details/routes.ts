@@ -1,3 +1,5 @@
+import { RouteConfig } from "vue-router";
+
 import * as roles from "@/components/auth/roles";
 import {
   competitionDetails,
@@ -14,17 +16,16 @@ const detailsView = () =>
 const manageDetailsView = () =>
   import(/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue");
 
-export const root = [
+export const root: RouteConfig[] = [];
+
+export const details = [
   {
     ...manageCompetitionDetails,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITIONS] },
-    path: "/competition/manage/:cm(\\d+)",
+    path: "/competition/:cm(\\d+)/manage",
     component: manageDetailsView,
     props: true
-  }
-];
-
-export const details = [
+  },
   {
     ...competitionDetails,
     path: "/competition/:cm(\\d+)",

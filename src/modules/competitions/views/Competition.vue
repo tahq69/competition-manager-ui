@@ -39,13 +39,15 @@ export default Vue.extend({
 
 <template>
   <CRow id="manage-competition">
-    <CCol :sm="6"
+    <CCol :xs="12"
+          :sm="12"
           :md="4"
           :lg="3">
       Judge
     </CCol>
 
-    <CCol :sm="6"
+    <CCol :xs="12"
+          :sm="12"
           :md="8"
           :lg="9">
       <div class="card crip-card">

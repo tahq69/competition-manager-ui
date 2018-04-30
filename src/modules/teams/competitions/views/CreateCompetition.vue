@@ -49,7 +49,7 @@ export default Vue.extend({
   <CForm :form="form"
          id="create-team-competition"
          @submit="save"
-         class="mt-3">
+         class="card-body">
 
     <!-- #title -->
     <CFormGroup for="title"

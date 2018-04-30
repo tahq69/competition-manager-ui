@@ -46,7 +46,7 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div id="team-members">
+  <div id="team-competitions">
     <div class="card-body py-0">
       <CRow>
         <table v-if="hasCm"

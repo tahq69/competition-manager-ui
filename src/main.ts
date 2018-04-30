@@ -15,9 +15,13 @@ import CripBootstrap, { IBootstrapOptions } from "crip-vue-bootstrap";
 
 // https://github.com/axios/axios
 import axios from "axios";
-import Datetime from "vue-datetime";
 
+// https://github.com/mariomka/vue-datetime
+import Datetime from "vue-datetime";
 import "vue-datetime/dist/vue-datetime.css";
+
+// https://github.com/moment/luxon
+import luxon from "luxon";
 
 import { sync } from "vuex-router-sync";
 import config from "./config";

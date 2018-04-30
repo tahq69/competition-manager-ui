@@ -2,6 +2,7 @@ import { Location } from "vue-router";
 
 import { Entity } from "@/helpers/entity";
 import { Id } from "@/typings";
+import { d } from "@/helpers";
 
 export class Competition extends Entity {
   public ambulance: string = "";
@@ -15,8 +16,8 @@ export class Competition extends Entity {
   public subtitle: string = "";
   public team_id: Id = 0;
   public title: string = "";
-  public organization_date: Date = new Date();
-  public registration_till: Date = new Date();
+  public organization_date: string = "";
+  public registration_till: string = "";
 
   public judge_id?: number;
   public judge_name?: string;
@@ -25,13 +26,11 @@ export class Competition extends Entity {
   public updateUrl = "competitions/{id}";
 
   constructor(data: any) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
   public updateProps(data: any) {
-    super.updateProps(data);
-
     this.ambulance = data.ambulance;
     this.cooperation = data.cooperation;
     this.equipment = data.equipment;
@@ -46,8 +45,8 @@ export class Competition extends Entity {
 
     this.judge_id = data.judge_id;
     this.judge_name = data.judge_name;
-    this.organization_date = data.organization_date;
-    this.registration_till = data.registration_till;
+    this.organization_date = d(data.organization_date);
+    this.registration_till = d(data.registration_till);
 
     // judge
   }
