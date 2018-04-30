@@ -18,13 +18,11 @@ export class Area extends Entity {
   public type: AreaType;
 
   constructor(data: any) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
   public updateProps(data: any) {
-    super.updateProps(data);
-
     this.competition_id = data.competition_id;
     this.description = data.description;
     this.nr = data.nr;

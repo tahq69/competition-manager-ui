@@ -7,13 +7,11 @@ export class ProfileTeam extends Entity {
   public logo = "";
 
   constructor(data: any) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
   public updateProps(data: any) {
-    super.updateProps(data);
-
     this.name = data.name;
     this.short = data.short;
     this.logo = data.logo;

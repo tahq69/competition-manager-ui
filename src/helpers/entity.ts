@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 import { Id } from "@/typings";
 
 export interface IAudit {
@@ -26,6 +28,8 @@ export interface IEntity {
   modifier?: any;
 }
 
+const log = Vue.logger.group("entity", "debug");
+
 export class Entity {
   public id: Id = 0;
   public created: ICreatedAudit = {};
@@ -35,10 +39,12 @@ export class Entity {
   public updateUrl: string = "";
 
   /**
-   * Update current instance base properties.
-   * @param data
+   * Initialize entity base properties.
+   * @param {IEntity} data
    */
-  public updateProps(data: IEntity) {
+  constructor(data: IEntity) {
+    log({ entity: this, input: data });
+
     this.id = data.id || 0;
 
     this.created = {

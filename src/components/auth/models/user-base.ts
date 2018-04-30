@@ -5,12 +5,11 @@ export class UserBase extends Entity {
   public name: string = "";
 
   constructor(data: any) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
   public updateProps(data: any) {
-    super.updateProps(data);
     this.md5 = data.md5;
     this.name = data.name;
   }

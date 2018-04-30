@@ -32,7 +32,7 @@ class MembersService extends Service {
   public async saveTeamMember(payload: ISaveTeamMember): Promise<TeamMember> {
     return await this.safeContext(async (http, api) => {
       const entity = new TeamMember(payload);
-      return await this.save(entity);
+      return await this.save(entity, TeamMember);
     });
   }
 

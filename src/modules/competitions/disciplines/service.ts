@@ -55,7 +55,7 @@ class DisciplineService extends Service {
   public async saveDiscipline(payload: ISaveDiscipline): Promise<Discipline> {
     return await this.safeContext(async (http, api) => {
       const entity = new Discipline(payload);
-      return await this.save(entity);
+      return await this.save(entity, Discipline);
     });
   }
 }

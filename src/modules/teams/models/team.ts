@@ -17,13 +17,11 @@ export class Team extends Entity {
   public updateUrl = "teams/{id}";
 
   constructor(data: ITeam) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
   public updateProps(data: ITeam) {
-    super.updateProps(data);
-
     this.name = data.name || "";
     this.short = data.short || "";
     this.logo = data.logo || "";

@@ -24,7 +24,7 @@ export class TeamMember extends Entity {
   public updateUrl = "teams/{team_id}/members/{id}";
 
   constructor(data: any) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
@@ -33,8 +33,6 @@ export class TeamMember extends Entity {
    * @param data
    */
   public updateProps(data: any) {
-    super.updateProps(data);
-
     this.user_id = data.user_id;
     if (data.user) {
       this.user = { ...data.user };

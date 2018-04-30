@@ -25,7 +25,7 @@ export class Group extends Entity {
   public updateUrl = "competitions/{competition_id}/disciplines/{discipline_id}/groups/{id}";
 
   constructor(data: any) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
@@ -53,7 +53,6 @@ export class Group extends Entity {
 
   public updateProps(data: any) {
     this.categories = data.categories || [];
-    super.updateProps(data);
 
     this.competition_id = data.competition_id;
     this.discipline_id = data.discipline_id;

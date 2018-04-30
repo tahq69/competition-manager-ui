@@ -37,7 +37,7 @@ export class Category extends Entity {
     "/groups/{category_group_id}/categories/{id}";
 
   constructor(data: any) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
@@ -70,8 +70,6 @@ export class Category extends Entity {
   }
 
   public updateProps(data: any) {
-    super.updateProps(data);
-
     this.area_id = data.area_id;
     this.category_group_id = data.category_group_id;
     this.category_group_short = data.category_group_short;

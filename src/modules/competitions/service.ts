@@ -21,8 +21,8 @@ interface IFetchCompetition {
 interface ISaveCompetition {
   title: string;
   subtitle: string;
-  registration_till: Date;
-  organization_date: Date;
+  registration_till: string;
+  organization_date: string;
   team_id: Id;
 }
 
@@ -67,7 +67,7 @@ class CompetitionService extends Service {
   public async saveCompetition(payload: ISaveCompetition) {
     return await this.safeContext(async (http, api) => {
       const entity = new Competition(payload);
-      return await this.save(entity);
+      return await this.save(entity, Competition);
     });
   }
 

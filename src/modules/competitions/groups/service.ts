@@ -94,14 +94,14 @@ class GroupService extends Service {
   public async saveGroup(payload: ISaveGroup): Promise<Group> {
     return await this.safeContext(async (http, api) => {
       const entity = new Group(payload);
-      return await this.save(entity);
+      return await this.save(entity, Group);
     });
   }
 
   public async saveCategory(payload: ISaveCategory): Promise<Category> {
     return await this.safeContext(async (http, api) => {
       const entity = new Category(payload);
-      return await this.save(entity);
+      return await this.save(entity, Category);
     });
   }
 

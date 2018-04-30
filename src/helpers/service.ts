@@ -34,17 +34,16 @@ export class Service {
     });
   }
 
-  protected async save<T extends Entity>(entity: T): Promise<T> {
+  protected async save<T extends Entity>(entity: T, type: { new(data: any): T ;}): Promise<T> {
     // If entity already exists, send patch request, otherwise - post.
-    const type = entity.id > 0 ? "patch" : "post";
+    const requestType = entity.id > 0 ? "patch" : "post";
     const requestUrl = entity.id > 0 ? entity.updateUrl : entity.createUrl;
 
     const url = Api.url(requestUrl, { urlReplace: entity });
 
-    const { data } = await http[type](url, entity);
-    entity.updateProps(data);
+    const { data } = await http[requestType](url, entity);
 
-    return entity;
+    return new type(data);
   }
 
   protected async delete<T extends Entity>(entity: T): Promise<void> {

@@ -19,13 +19,11 @@ export class Discipline extends Entity {
   public updateUrl = "competitions/{competition_id}/disciplines/{id}";
 
   constructor(data: any) {
-    super();
+    super(data);
     this.updateProps(data);
   }
 
   public updateProps(data: any) {
-    super.updateProps(data);
-
     this.category_group_type = data.category_group_type;
     this.category_type = data.category_type;
     this.competition_id = data.competition_id;
