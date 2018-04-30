@@ -16,5 +16,6 @@ export function t(key: string): string {
 }
 
 export function d(date: any): string {
-  return DateTime.fromSQL(date).toISO();
+  const result = DateTime.fromSQL(date).toISO();
+  return result ? result : date;
 }

@@ -77,11 +77,12 @@ export default Vue.extend({
     <CFormGroup for="registration_till"
                 :form="form"
                 label="Registration till">
-      <datetime v-model="form.data.registration_till"
-                :format="_config.dateFormat"
-                :class="[{'is-invalid': form.errors.registration_till}, 'form-control']"
+      <datetime type="datetime"
                 name="registration_till"
                 id="registration_till"
+                v-model="form.data.registration_till"
+                :format="_config.dateTimeFormat"
+                :class="[{'is-invalid': form.errors.registration_till}, 'form-control']"
                 auto/>
     </CFormGroup>
 
@@ -89,11 +90,12 @@ export default Vue.extend({
     <CFormGroup for="organization_date"
                 :form="form"
                 label="Organization date">
-      <datetime v-model="form.data.organization_date"
-                :format="_config.dateFormat"
-                :class="[{'is-invalid': form.errors.organization_date}, 'form-control']"
+      <datetime type="datetime"
                 name="organization_date"
                 id="organization_date"
+                v-model="form.data.organization_date"
+                :format="_config.dateTimeFormat"
+                :class="[{'is-invalid': form.errors.organization_date}, 'form-control']"
                 auto/>
     </CFormGroup>
 

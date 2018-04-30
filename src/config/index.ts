@@ -13,9 +13,11 @@ export interface IConfig {
   default_locale: string;
   logs: ILoggerOptions;
   dateFormat: DateTimeFormatOptions;
+  dateTimeFormat: DateTimeFormatOptions;
 }
 
 const config = settings[settings["env"]] as IConfig;
 config.dateFormat = DateTime.DATE_SHORT;
+config.dateTimeFormat = DateTime.DATETIME_SHORT_WITH_SECONDS;
 
 export default config;

@@ -30,7 +30,15 @@ export default Vue.extend({
     },
 
     async save() {
-      this.log(this.competition.data);
+      this.log("save()", this.competition.data);
+
+      this.competition.clearErrors();
+      try {
+        const cm = await cmService.saveCompetition(this.competition.data);
+        this.$notice.success({ title: "Competition details updated" });
+      } catch (errors) {
+        this.competition.addErrors(errors);
+      }
     }
   },
 
@@ -74,11 +82,12 @@ export default Vue.extend({
                 :form="competition"
                 label="Registration till"
                 :md="9">
-      <datetime v-model="competition.data.registration_till"
-                :format="_config.dateFormat"
-                :class="[{'is-invalid': competition.errors.registration_till}, 'form-control']"
+      <datetime type="datetime"
                 name="registration_till"
                 id="registration_till"
+                v-model="competition.data.registration_till"
+                :format="_config.dateTimeFormat"
+                :class="[{'is-invalid': competition.errors.registration_till}, 'form-control']"
                 auto/>
     </CFormGroup>
 
@@ -87,12 +96,101 @@ export default Vue.extend({
                 :form="competition"
                 label="Organization date"
                 :md="9">
-      <datetime v-model="competition.data.organization_date"
-                :format="_config.dateFormat"
-                :class="[{'is-invalid': competition.errors.organization_date}, 'form-control']"
+      <datetime type="datetime"
                 name="organization_date"
                 id="organization_date"
+                v-model="competition.data.organization_date"
+                :format="_config.dateTimeFormat"
+                :class="[{'is-invalid': competition.errors.organization_date}, 'form-control']"
                 auto/>
+    </CFormGroup>
+
+    <!-- #cooperation -->
+    <CFormGroup for="cooperation"
+                :form="competition"
+                label="Cooperation"
+                :md="9">
+      <textarea id="cooperation"
+                v-model="competition.data.cooperation"
+                name="cooperation"
+                :class="[{'is-invalid': competition.errors.cooperation}, 'form-control']"></textarea>
+    </CFormGroup>
+
+    <!-- #invitation -->
+    <CFormGroup for="invitation"
+                :form="competition"
+                label="Invitation"
+                :md="9">
+      <textarea id="invitation"
+                v-model="competition.data.invitation"
+                name="invitation"
+                :class="[{'is-invalid': competition.errors.invitation}, 'form-control']"></textarea>
+    </CFormGroup>
+
+    <!-- #program -->
+    <CFormGroup for="program"
+                :form="competition"
+                label="Program"
+                :md="9">
+      <textarea id="program"
+                v-model="competition.data.program"
+                name="program"
+                :class="[{'is-invalid': competition.errors.program}, 'form-control']"></textarea>
+    </CFormGroup>
+
+    <!-- #rules -->
+    <CFormGroup for="rules"
+                :form="competition"
+                label="Rules"
+                :md="9">
+      <textarea id="rules"
+                v-model="competition.data.rules"
+                name="rules"
+                :class="[{'is-invalid': competition.errors.rules}, 'form-control']"></textarea>
+    </CFormGroup>
+
+    <!-- #ambulance -->
+    <CFormGroup for="ambulance"
+                :form="competition"
+                label="Ambulance"
+                :md="9">
+      <textarea id="ambulance"
+                v-model="competition.data.ambulance"
+                name="ambulance"
+                :class="[{'is-invalid': competition.errors.ambulance}, 'form-control']"></textarea>
+    </CFormGroup>
+
+    <!-- #prizes -->
+    <CFormGroup for="prizes"
+                :form="competition"
+                label="Prizes"
+                :md="9">
+      <textarea id="prizes"
+                v-model="competition.data.prizes"
+                name="prizes"
+                :class="[{'is-invalid': competition.errors.prizes}, 'form-control']"></textarea>
+    </CFormGroup>
+
+    <!-- #equipment -->
+    <CFormGroup for="equipment"
+                :form="competition"
+                label="Equipment"
+                :md="9">
+      <textarea id="equipment"
+                v-model="competition.data.equipment"
+                name="equipment"
+                :class="[{'is-invalid': competition.errors.equipment}, 'form-control']"></textarea>
+    </CFormGroup>
+
+    <!-- #price -->
+    <CFormGroup for="price"
+                :form="competition"
+                label="Price"
+                :md="9">
+      <textarea id="price"
+                v-model="competition.data.price"
+                name="price"
+                :class="[{'is-invalid': competition.errors.price}, 'form-control']"></textarea>
     </CFormGroup>
 
     <!-- #submit -->
