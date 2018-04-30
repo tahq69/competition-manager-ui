@@ -17,10 +17,7 @@
         "error",
         "info",
         "entity",
-        "auth.middleware",
-        "ManageMember",
-        "Profile",
-        "CreateTeamCompetitionForm"
+        "auth.middleware"
       ]
     }
   },

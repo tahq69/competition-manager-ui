@@ -5,6 +5,13 @@ import ILoggerOptions from "@/config/logger-options";
 
 import Utils from "./utils";
 
+interface ILogWriterParams {
+  type: LogType;
+  args: any[];
+  section: string;
+  isComponent?: boolean;
+}
+
 export type LogType = "log" | "info" | "warn" | "debug" | "error";
 
 export interface ILogger {
@@ -63,42 +70,49 @@ class WebLogger implements ILogger {
   }
 
   public log(...args: any[]) {
-    this.writelog("log", args);
+    this.writeLog({ type: "log", args, section: "global" });
   }
 
   public info(...args: any[]) {
-    this.writelog("info", args, "info");
+    this.writeLog({ type: "info", args, section: "info" });
   }
 
   public error(...args: any[]) {
-    this.writelog("error", args, "error");
+    this.writeLog({ type: "error", args, section: "error" });
   }
 
-  public group(section: string, type: LogType = "log") {
+  public group(section: string, type: LogType = "log", isComponent = false) {
     return (...args: any[]) => {
       args.unshift(section);
-      this.writelog(type, args, section);
+      this.writeLog({ type, args, section, isComponent });
     };
   }
 
   public component(vm: Vue, ...args: any[]) {
-    const component = `component ${vm.$options.name}`;
+    const component = vm.$options.name;
+    let logArguments = [component, ...args];
 
     if (vm.$route) {
       const route = { ...vm.$route.params, path: vm.$route.fullPath };
-      this.writelog("debug", [component, { route }, ...args], "component");
-    } else {
-      this.writelog("debug", [component, ...args], "component");
+      logArguments = [component, { route }, ...args];
     }
 
-    return this.group(vm.$options.name || "unnamed");
+    this.writeLog({
+      type: "debug",
+      args: logArguments,
+      section: "component",
+      isComponent: true
+    });
+
+    return this.group(vm.$options.name || "unnamed", "log", true);
   }
 
-  private writelog(type: LogType, args: any[], section = "global") {
+  private writeLog(params: ILogWriterParams) {
+    const section = params.isComponent ? "component" : params.section;
     if (!this.isInAvailableSections(section)) return;
 
     if (this.target === "console") {
-      return this.consoleLog(type, args);
+      return this.consoleLog(params.type, params.args);
     }
   }
 
