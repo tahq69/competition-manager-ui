@@ -19,6 +19,7 @@ export default Vue.extend({
     team: { type: [String, Number], required: true },
     exact: { type: Boolean, default: true },
     btn: { type: String },
+    btnOutline: { type: Boolean, default: false },
     badge: { type: Boolean, default: false },
     arrow: { type: String, default: "" }
   },
@@ -44,6 +45,7 @@ export default Vue.extend({
        :arrow="arrow"
        :badge="badge"
        :btn="btn"
+       :btn-outline="btnOutline"
        icon="fas fa-edit">
     <slot />
   </Btn>

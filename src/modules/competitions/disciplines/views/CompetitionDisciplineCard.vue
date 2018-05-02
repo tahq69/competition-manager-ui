@@ -67,7 +67,7 @@ export default Vue.extend({
                    :to="newDiscipline"
                    title="Add new discipline"
                    class="btn btn-lg btn-block">
-        <i class="fa fa-plus-square-o fa-2x"></i>
+        <i class="far fa-plus-square fa-2x"></i>
       </router-link>
 
       <DisciplineBtn v-if="!create"
