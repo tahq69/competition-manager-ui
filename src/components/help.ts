@@ -1,4 +1,4 @@
-export const buttonTypes = [
+export const badgeTypes = [
   "primary",
   "secondary",
   "success",
@@ -6,9 +6,10 @@ export const buttonTypes = [
   "warning",
   "info",
   "light",
-  "dark",
-  "link"
+  "dark"
 ];
+
+export const buttonTypes = [...badgeTypes, "link"];
 
 export const iconTypes = [
   "", // none

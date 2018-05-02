@@ -1,9 +1,9 @@
 import { DateTime } from "luxon";
 
 import { i18n } from "@/lang";
-import utils from "./utils";
-import Vue from "vue";
+import { Validator } from "@/typings";
 
+import utils from "./utils";
 export { Api } from "./api";
 export { Entity, IEntity } from "./entity";
 export { Service } from "./service";
@@ -18,4 +18,8 @@ export function t(key: string): string {
 export function d(date: any): string {
   const result = DateTime.fromSQL(date).toISO();
   return result ? result : date;
+}
+
+export function isInArrayValidator<T>(array: T[]): Validator<T> {
+  return (value: T) => Utils.isInArray(value, array);
 }

@@ -1,7 +1,13 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { arrowTypes, buttonTypes, iconTypes } from "./help";
+import { isInArrayValidator } from "@/helpers";
+import {
+  arrowTypes,
+  badgeTypes,
+  buttonTypes,
+  iconTypes
+} from "@/components/help";
 
 export default Vue.extend({
   name: "Button",
@@ -10,18 +16,30 @@ export default Vue.extend({
     to: { type: [Object, String], required: true },
     exact: { type: Boolean, default: true },
     badge: { type: Boolean, default: false },
+    badgeColor: {
+      type: String,
+      default: "light",
+      validator: isInArrayValidator(badgeTypes)
+    },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
     btn: {
       type: String,
-      validator: (value: string) => buttonTypes.indexOf(value) > -1
+      validator: isInArrayValidator(buttonTypes)
+    },
+    btnSize: {
+      type: String,
+      default: "sm",
+      validator: isInArrayValidator(["sm", "lg", ""])
     },
     icon: {
       type: String,
-      validator: (value: string) => iconTypes.indexOf(value) > -1
+      validator: isInArrayValidator(iconTypes)
     },
     arrow: {
       type: String,
       default: "",
-      validator: (val: string) => arrowTypes.indexOf(val) > -1
+      validator: isInArrayValidator(arrowTypes)
     }
   }
 });
@@ -32,9 +50,12 @@ export default Vue.extend({
   <router-link :to="to"
                :exact="exact"
                :class="{
-                 [`crip-arr ${arrow}`]: !!arrow,
-                 [`btn btn-sm btn-${btn}`]: !!btn,
-                 'badge badge-light actions': badge,
+                 'btn': btn,
+                 [`btn-${btn}`]: btn && !btnOutline,
+                 [`btn-outline-${btn}`]: btn && btnOutline,
+                 [`btn-${btnSize}`]: btn && btnSize,
+                 [`crip-arr ${arrow}`]: arrow,
+                 [`badge badge-${badgeColor} actions`]: badge,
                }">
     <slot>
       <!-- default slot -->
