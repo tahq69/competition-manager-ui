@@ -2,19 +2,23 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import CardAction from "@/components/cards/CardAction.vue";
+import Btn from "@/components/Btn.vue";
 
 import { cmDetailsRoute } from "../details/routes";
 
 export default Vue.extend({
   name: "CompetitionButton",
 
-  components: { CardAction },
+  components: { Btn },
 
   props: {
     cm: { type: [String, Number], required: true },
-    action: { type: Boolean, default: false },
-    direction: { type: String, default: "left" }
+    tag: { type: String, default: "a" },
+    exact: { type: Boolean, default: true },
+    btn: { type: String },
+    badge: { type: Boolean, default: false },
+    arrow: { type: String, default: "" },
+    withIcon: { type: Boolean, default: false }
   },
 
   computed: {
@@ -26,12 +30,15 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CardAction
-    :to="to"
-    :isArrow="action"
-    :isBtn="action"
-    :direction="direction"
-  >
-    <slot>Competition</slot>
-  </CardAction>
+  <Btn :to="to"
+       :tag="tag"
+       :exact="exact"
+       :arrow="arrow"
+       :btn="btn"
+       :badge="badge"
+       :icon="withIcon ? 'fas fa-eye' : ''">
+    <slot>
+      <!-- default slot -->
+    </slot>
+  </Btn>
 </template>

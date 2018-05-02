@@ -17,14 +17,15 @@ export default Vue.extend({
 
   props: {
     cm: { type: [String, Number], required: true },
+    exact: { type: Boolean, default: true },
+    btn: { type: String },
     badge: { type: Boolean, default: false },
-    btn: { type: String }
+    arrow: { type: String, default: "" }
   },
 
   computed: {
     to(): Location {
-      const cm = this.cm;
-      return manageCmDetailsRoute({ cm });
+      return manageCmDetailsRoute({ cm: this.cm });
     }
   },
 
@@ -43,8 +44,10 @@ export default Vue.extend({
 <template>
   <Btn v-if="isVisible"
        :to="to"
-       :badge="badge"
+       :exact="exact"
        :btn="btn"
+       :badge="badge"
+       :arrow="arrow"
        icon="fas fa-edit">
     <slot />
   </Btn>

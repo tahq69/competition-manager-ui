@@ -42,10 +42,9 @@ export default Vue.extend({
   <Btn v-if="isVisible"
        :to="to"
        :exact="exact"
-       :arrow="arrow"
-       :badge="badge"
        :btn="btn"
-       :btn-outline="btnOutline"
+       :badge="badge"
+       :arrow="arrow"
        icon="fas fa-edit">
     <slot />
   </Btn>

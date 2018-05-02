@@ -23,8 +23,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      const team = this.team;
-      return teamMembersRoute({ team });
+      return teamMembersRoute({ team: this.team });
     }
   }
 });

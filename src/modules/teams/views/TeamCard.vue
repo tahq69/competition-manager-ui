@@ -39,7 +39,7 @@ export default Vue.extend({
 
     <div class="card-body">
       <h5 class="card-title">{{ team.name }}</h5>
-      <h6>{{ team.short }}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{ team.short }}</h6>
       <ManageTeamBtn :team="team.id"
                      btn="light"
                      class="btn-edit"
