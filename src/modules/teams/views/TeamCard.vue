@@ -5,16 +5,15 @@ import Card from "@/components/cards/card";
 import Btn from "@/components/Btn.vue";
 
 import TeamBtn from "#/teams/components/TeamBtn.vue";
+import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
 
 import { TeamAuth } from "../auth";
 import { Team } from "../models/team";
 
-import { manageTeamRoute } from "../routes";
-
 export default Vue.extend({
   name: "TeamCard",
 
-  components: { Btn, TeamBtn },
+  components: { Btn, TeamBtn, ManageTeamBtn },
 
   mixins: [Card],
 
@@ -22,55 +21,49 @@ export default Vue.extend({
     team: { type: Team, required: true }
   },
 
-  data: () => ({ canEdit: false }),
-
-  methods: {
-    manageTeamRoute: (team: Team) => manageTeamRoute({ team: team.id })
-  },
-
   created() {
     this.log = this.$logger.component(this);
-
-    TeamAuth.canEdit({ team: this.team.id }).then(
-      canEdit => (this.canEdit = canEdit)
-    );
   }
 });
 </script>
 
 <template>
-  <div :id="`team-${team.id}`"
-       class="card team-card mt-3 mb-3"
-       :style="{height: elHeight}">
+  <TeamBtn :team="team.id"
+           :id="`team-${team.id}`"
+           tag="div"
+           class="card team-card mt-3 mb-3"
+           :style="{height: elHeight}">
     <img :src="team.logo"
          alt="avatar"
          class="card-img-top img-fluid">
 
     <div class="card-body">
       <h5 class="card-title">{{ team.name }}</h5>
-      <div class="card-text">
-        <!-- TODO: Card with image -->
-      </div>
-
-      <TeamBtn :team="team.id"
-               class="btn btn-primary">
-        {{ team.short }}
-      </TeamBtn>
-
-      <Btn v-if="canEdit"
-           :to="manageTeamRoute(team)"
-           btn="primary"
-           icon="fas fa-edit" />
+      <h6>{{ team.short }}</h6>
+      <ManageTeamBtn :team="team.id"
+                     btn="light"
+                     class="btn-edit"
+                     title="Edit team details" />
     </div>
-  </div>
+  </TeamBtn>
 </template>
 
 <style lang="scss">
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
 .team-card {
   position: relative;
 
-  label {
-    display: block;
+  &:hover {
+    background-color: $gray-100;
+    cursor: pointer;
+  }
+
+  .btn-edit {
+    position: absolute;
+    right: $card-spacer-y;
+    top: $card-spacer-x;
   }
 }
 </style>

@@ -14,6 +14,7 @@ export default Vue.extend({
 
   props: {
     to: { type: [Object, String], required: true },
+    tag: { type: String, default: "a" },
     exact: { type: Boolean, default: true },
     badge: { type: Boolean, default: false },
     badgeColor: {
@@ -48,6 +49,7 @@ export default Vue.extend({
 
 <template>
   <router-link :to="to"
+               :tag="tag"
                :exact="exact"
                :class="{
                  'btn': btn,

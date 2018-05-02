@@ -13,6 +13,7 @@ export default Vue.extend({
 
   props: {
     team: { type: [String, Number], required: true },
+    tag: { type: String, default: "a" },
     exact: { type: Boolean, default: true },
     btn: { type: String },
     badge: { type: Boolean, default: false },
@@ -31,6 +32,7 @@ export default Vue.extend({
 
 <template>
   <Btn :to="to"
+       :tag="tag"
        :exact="exact"
        :arrow="arrow"
        :btn="btn"
