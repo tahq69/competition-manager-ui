@@ -6,9 +6,7 @@ import Btn from "@/components/Btn.vue";
 
 import TeamBtn from "#/teams/components/TeamBtn.vue";
 import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
-
-import { TeamAuth } from "../auth";
-import { Team } from "../models/team";
+import { Team } from "#/teams/models/team";
 
 export default Vue.extend({
   name: "TeamCard",

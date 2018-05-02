@@ -6,11 +6,7 @@ import Btn from "@/components/Btn.vue";
 
 import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
 import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
-
-import { CompetitionAuth } from "../auth";
-import { Competition } from "../models/competition";
-
-import { manageCmDetailsRoute } from "../details/routes";
+import { Competition } from "#/competitions/models/competition";
 
 export default Vue.extend({
   name: "CompetitionCard",
@@ -23,18 +19,8 @@ export default Vue.extend({
     competition: { type: Competition, required: true }
   },
 
-  data: () => ({ canEdit: false }),
-
-  methods: {
-    manageCmDetailsRoute() {
-      return manageCmDetailsRoute({ cm: this.competition.id });
-    }
-  },
-
   created() {
-    CompetitionAuth.canEdit({ cm: this.competition.id }).then(
-      canEdit => (this.canEdit = canEdit)
-    );
+    this.log = this.$logger.component(this);
   }
 });
 </script>
@@ -49,10 +35,15 @@ export default Vue.extend({
       <h5 class="card-title">{{ competition.title }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">{{ competition.subtitle }}</h6>
       <div class="card-text">
-        <label>Date: {{ competition.organization_date | formatDate }}</label>
-        <label v-if="competition.judge_id">Judge: {{ competition.judge_name }}</label>
+        <CRow>
+          <CCol :xs="4">Date:</CCol>
+          <CCol :xs="8">{{ competition.organization_date | formatDateTime }}</CCol>
+        </CRow>
+        <CRow v-if="competition.judge_name">
+          <CCol :xs="4">Judge:</CCol>
+          <CCol :xs="8">{{ competition.judge_name }}</CCol>
+        </CRow>
       </div>
-
       <ManageCompetitionBtn :cm="competition.id"
                             btn="light"
                             class="btn-edit"
@@ -71,10 +62,6 @@ export default Vue.extend({
   &:hover {
     background-color: $gray-100;
     cursor: pointer;
-  }
-
-  label {
-    display: block;
   }
 
   .btn-edit {
