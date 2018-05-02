@@ -11,9 +11,7 @@ import TeamCard from "./TeamCard.vue";
 
 const { mixin, paging: teams } = createPaging<Team>(
   paging => teamService.fetchTeams({ paging }),
-  {
-    perPage: 16
-  }
+  { perPage: 16 }
 );
 
 export default Vue.extend({

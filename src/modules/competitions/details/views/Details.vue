@@ -5,8 +5,12 @@ import { Next } from "@/typings";
 import { Competition } from "@/modules/competitions/models/competition";
 import cmService from "@/modules/competitions/service";
 
+import DetailsSection from "./DetailsSection.vue";
+
 export default Vue.extend({
   name: "CompetitionDetails",
+
+  components: { DetailsSection },
 
   props: {
     cm: { type: [Number, String], required: true }
@@ -49,53 +53,28 @@ export default Vue.extend({
       </CRow>
     </li>
 
-    <li class="list-group-item"
-        v-if="competition.cooperation">
-      <h6 class="text-muted">Cooperation</h6>
-      <div>{{ competition.cooperation }}</div>
-    </li>
+    <DetailsSection title="Cooperation"
+                    :content="competition.cooperation" />
 
-    <li class="list-group-item"
-        v-if="competition.invitation">
-      <h6 class="text-muted">Invitation</h6>
-      <div>{{ competition.invitation }}</div>
-    </li>
+    <DetailsSection title="Invitation"
+                    :content="competition.invitation" />
 
-    <li class="list-group-item"
-        v-if="competition.program">
-      <h6 class="text-muted">Program</h6>
-      <div>{{ competition.program }}</div>
-    </li>
+    <DetailsSection title="Program"
+                    :content="competition.program" />
 
-    <li class="list-group-item"
-        v-if="competition.rules">
-      <h6 class="text-muted">Rules</h6>
-      <div>{{ competition.rules }}</div>
-    </li>
+    <DetailsSection title="Rules"
+                    :content="competition.rules" />
 
-    <li class="list-group-item"
-        v-if="competition.ambulance">
-      <h6 class="text-muted">Ambulance</h6>
-      <div>{{ competition.ambulance }}</div>
-    </li>
+    <DetailsSection title="Ambulance"
+                    :content="competition.ambulance" />
 
-    <li class="list-group-item"
-        v-if="competition.prizes">
-      <h6 class="text-muted">Prizes</h6>
-      <div>{{ competition.prizes }}</div>
-    </li>
+    <DetailsSection title="Prizes"
+                    :content="competition.prizes" />
 
-    <li class="list-group-item"
-        v-if="competition.equipment">
-      <h6 class="text-muted">Equipment</h6>
-      <div>{{ competition.equipment }}</div>
-    </li>
+    <DetailsSection title="Equipment"
+                    :content="competition.equipment" />
 
-    <li class="list-group-item"
-        v-if="competition.price">
-      <h6 class="text-muted">Price</h6>
-      <div>{{ competition.price }}</div>
-    </li>
-
+    <DetailsSection title="Price"
+                    :content="competition.price" />
   </ul>
 </template>
