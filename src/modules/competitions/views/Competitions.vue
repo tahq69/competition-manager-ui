@@ -34,8 +34,10 @@ export default Vue.extend({
     <CRow>
       <CCol v-for="competition in competitions.items"
             :key="competition.id"
-            :md="4"
-            :sm="6">
+            :lg="4"
+            :md="6"
+            :sm="6"
+            :xs="12">
         <CompetitionCard :competition="competition"
                          :height="maxHeight"
                          @dimensions="setupHeight" />

@@ -32,8 +32,10 @@ export default Vue.extend({
     <CRow>
       <CCol v-for="team in teams.items"
             :key="team.id"
-            :md="3"
-            :sm="4">
+            :lg="3"
+            :md="4"
+            :sm="6"
+            :xs="12">
         <TeamCard :team="team"
                   :height="maxHeight"
                   @dimensions="setupHeight" />
