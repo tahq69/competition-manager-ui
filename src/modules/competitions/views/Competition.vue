@@ -1,19 +1,15 @@
 <script lang="ts">
 import Vue from "vue";
 
-import CardActions from "@/components/cards/CardActions.vue";
-
+import { Competition } from "#/competitions/models/competition";
 import AreasBtn from "#/competitions/components/AreasBtn.vue";
 import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
 import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
-
-import { Competition } from "../models/competition";
 
 export default Vue.extend({
   name: "Competition",
 
   components: {
-    CardActions,
     AreasBtn,
     DisciplinesBtn,
     CompetitionBtn
