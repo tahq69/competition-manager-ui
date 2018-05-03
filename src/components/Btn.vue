@@ -62,6 +62,7 @@ export default Vue.extend({
     <slot>
       <!-- default slot -->
     </slot>
+    <span v-if="icon && badge">&nbsp;</span>
     <i v-if="icon"
        :class="icon"></i>
   </router-link>

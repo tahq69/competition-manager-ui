@@ -9,6 +9,7 @@ import { manageTeamMember } from "@/router/routes";
 import { Next } from "@/typings";
 
 import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
+import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
 import TeamBtn from "#/teams/components/TeamBtn.vue";
 
 import { Team } from "../../models/team";
@@ -33,7 +34,12 @@ function toUserOption(user: UserBase) {
 export default Vue.extend({
   name: "ManageMember",
 
-  components: { MemberRoleControl, ManageTeamMembersBtn, TeamBtn },
+  components: {
+    ManageTeamBtn,
+    ManageTeamMembersBtn,
+    MemberRoleControl,
+    TeamBtn
+  },
 
   props: {
     team: { type: [String, Number], required: true },
@@ -241,16 +247,27 @@ export default Vue.extend({
              class="col-xs-12">
 
     <span slot="actions">
-      <ManageTeamMembersBtn :team="team"
-                            btn="light">
-        Manage members
-      </ManageTeamMembersBtn>
+      <ManageTeamBtn :team="team"
+                     btn="light"
+                     title="Edit team details"
+                     arrow="left"
+                     icon>
+        Team
+      </ManageTeamBtn>
 
       <TeamBtn :team="team"
                btn="light"
+               arrow="left"
                icon>
         Team
       </TeamBtn>
+
+      <ManageTeamMembersBtn :team="team"
+                            btn="light"
+                            arrow="left"
+                            icon>
+        Members
+      </ManageTeamMembersBtn>
     </span>
 
     <CFormGroup v-if="isEdit && canEditRoles"

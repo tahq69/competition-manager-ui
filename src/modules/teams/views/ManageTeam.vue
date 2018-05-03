@@ -3,6 +3,7 @@ import Vue from "vue";
 import { Form } from "crip-vue-bootstrap";
 
 import FileInput from "@/components/form/FileInput.vue";
+import Submit from "@/components/form/Submit.vue";
 import Storage from "@/helpers/local-storage";
 import { manageTeam } from "@/router/routes";
 import { Next } from "@/typings";
@@ -21,11 +22,12 @@ export default Vue.extend({
   name: "ManageTeam",
 
   components: {
-    FileInput,
-    TeamBtn,
-    ManageTeamsBtn,
     CreateTeamMemberBtn,
-    ManageTeamMembersBtn
+    FileInput,
+    ManageTeamMembersBtn,
+    ManageTeamsBtn,
+    Submit,
+    TeamBtn
   },
 
   beforeRouteEnter(to, from, next: Next<any>) {
@@ -93,27 +95,30 @@ export default Vue.extend({
              @submit="save">
 
     <span slot="actions">
+      <ManageTeamsBtn btn="light"
+                      icon>
+        Teams
+      </ManageTeamsBtn>
+
       <TeamBtn v-if="isEdit"
                :team="form.data.id"
                btn="light"
                title="View team public profile"
-               with-icon>
-        Team
+               icon>
+        Preview
       </TeamBtn>
-
-      <ManageTeamsBtn btn="light">
-        All teams
-      </ManageTeamsBtn>
 
       <ManageTeamMembersBtn v-if="isEdit"
                             :team="form.data.id"
-                            btn="light">
+                            btn="light"
+                            icon>
         Members
       </ManageTeamMembersBtn>
 
       <CreateTeamMemberBtn v-if="isEdit"
                            :team="form.data.id"
-                           btn="light">
+                           btn="light"
+                           icon>
         Add member
       </CreateTeamMemberBtn>
     </span>
@@ -160,11 +165,7 @@ export default Vue.extend({
 
     <!-- #submit -->
     <CFormGroup>
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
-        Save
-      </button>
+      <Submit>Save</Submit>
     </CFormGroup>
   </CFormCard>
 </template>

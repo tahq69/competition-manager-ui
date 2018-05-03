@@ -47,20 +47,24 @@ export default Vue.extend({
     <span slot="actions">
       <ManageTeamBtn :team="team"
                      btn="light"
-                     title="Edit team details">
+                     title="Edit team details"
+                     arrow="left"
+                     icon>
         {{ $t('teams.manage_members_grid_head_manage_team') }}
       </ManageTeamBtn>
 
       <TeamBtn :team="team"
                btn="light"
                title="View team public profile"
+               arrow="left"
                icon>
         Team
       </TeamBtn>
 
       <CreateTeamMemberBtn :team="team"
                            btn="light"
-                           title="Create new member in a team">
+                           title="Create new member in a team"
+                           icon>
         {{ $t('teams.manage_members_grid_head_create_member') }}
       </CreateTeamMemberBtn>
     </span>
@@ -96,8 +100,9 @@ export default Vue.extend({
             <td>{{ member.name }} &nbsp;
               <ManageTeamMemberBtn :team="member.team_id"
                                    :member="member.id"
+                                   :title="$t('teams.manage_members_grid_btn_edit_title')"
                                    badge
-                                   :title="$t('teams.manage_members_grid_btn_edit_title')">
+                                   icon>
                 {{ $t('teams.manage_members_grid_btn_edit_text') }}
               </ManageTeamMemberBtn>
             </td>
