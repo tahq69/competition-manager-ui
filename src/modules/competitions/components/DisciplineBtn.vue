@@ -40,6 +40,7 @@ export default Vue.extend({
        :exact="exact"
        :badge="badge"
        :badge-color="badgeColor"
+       :btn="btn"
        :btn-outline="btnOutline"
        :btn-block="btnBlock"
        :btn-size="btnSize"
