@@ -2,37 +2,50 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import CardAction from "@/components/cards/CardAction.vue";
+import Btn from "@/components/Btn.vue";
 
 import { teamCompetitionsRoute } from "../competitions/routes";
 
 export default Vue.extend({
   name: "TeamCompetitionsButton",
 
-  components: { CardAction },
+  components: { Btn },
 
   props: {
     team: { type: [String, Number], required: true },
-    exact: { type: Boolean, default: false },
-    action: { type: Boolean, default: false },
-    direction: { type: String, default: "left" }
+    tag: { type: String, default: "a" },
+    exact: { type: Boolean, default: true },
+    badge: { type: Boolean, default: false },
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
     to(): Location {
-      const team = this.team;
-      return teamCompetitionsRoute({ team });
+      return teamCompetitionsRoute({ team: this.team });
     }
   }
 });
 </script>
 
 <template>
-  <CardAction :to="to"
-              :isArrow="action"
-              :isBtn="action"
-              :exact="exact"
-              :direction="direction">
-    <slot>Competitions</slot>
-  </CardAction>
+  <Btn :to="to"
+       :tag="tag"
+       :exact="exact"
+       :badge="badge"
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
+       :arrow="arrow"
+       :icon="icon ? 'fas fa-eye' : ''">
+    <slot>
+      <!-- default slot -->
+    </slot>
+  </Btn>
 </template>

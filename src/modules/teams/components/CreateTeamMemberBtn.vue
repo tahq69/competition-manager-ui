@@ -17,10 +17,16 @@ export default Vue.extend({
 
   props: {
     team: { type: [String, Number], required: true },
-    exact: { type: Boolean, default: false },
-    btn: { type: String },
+    tag: { type: String, default: "a" },
+    exact: { type: Boolean, default: true },
     badge: { type: Boolean, default: false },
-    arrow: { type: String, default: "" }
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
@@ -40,9 +46,17 @@ export default Vue.extend({
 <template>
   <Btn v-if="isVisible"
        :to="to"
+       :tag="tag"
+       :exact="exact"
        :badge="badge"
-       :btn="btn"
-       icon="far fa-plus-square">
-    <slot />
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
+       :arrow="arrow"
+       :icon="icon ? 'far fa-plus-square' : ''">
+    <slot>
+      <!-- default slot -->
+    </slot>
   </Btn>
 </template>

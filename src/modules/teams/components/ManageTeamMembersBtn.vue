@@ -17,16 +17,21 @@ export default Vue.extend({
 
   props: {
     team: { type: [String, Number], required: true },
-    exact: { type: Boolean, default: false },
-    btn: { type: String },
+    tag: { type: String, default: "a" },
+    exact: { type: Boolean, default: true },
     badge: { type: Boolean, default: false },
-    arrow: { type: String, default: "" }
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
     to(): Location {
-      const team = this.team;
-      return manageTeamMembersRoute({ team });
+      return manageTeamMembersRoute({ team: this.team });
     }
   },
 
@@ -41,11 +46,15 @@ export default Vue.extend({
 <template>
   <Btn v-if="isVisible"
        :to="to"
+       :tag="tag"
        :exact="exact"
-       :arrow="arrow"
-       :btn="btn"
        :badge="badge"
-       icon="fas fa-list">
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
+       :arrow="arrow"
+       :icon="icon ? 'fas fa-list' : ''">
     <slot>
       <!-- default slot -->
     </slot>

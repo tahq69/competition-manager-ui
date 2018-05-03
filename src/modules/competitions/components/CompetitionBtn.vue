@@ -15,10 +15,14 @@ export default Vue.extend({
     cm: { type: [String, Number], required: true },
     tag: { type: String, default: "a" },
     exact: { type: Boolean, default: true },
-    btn: { type: String },
     badge: { type: Boolean, default: false },
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
     arrow: { type: String, default: "" },
-    withIcon: { type: Boolean, default: false }
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
@@ -33,10 +37,13 @@ export default Vue.extend({
   <Btn :to="to"
        :tag="tag"
        :exact="exact"
-       :arrow="arrow"
-       :btn="btn"
        :badge="badge"
-       :icon="withIcon ? 'fas fa-eye' : ''">
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
+       :arrow="arrow"
+       :icon="icon ? 'fas fa-eye' : ''">
     <slot>
       <!-- default slot -->
     </slot>

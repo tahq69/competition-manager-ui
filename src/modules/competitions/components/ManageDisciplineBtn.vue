@@ -18,15 +18,24 @@ export default Vue.extend({
   props: {
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
+    tag: { type: String, default: "a" },
+    exact: { type: Boolean, default: true },
     badge: { type: Boolean, default: false },
-    btn: { type: String }
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
     to(): Location {
-      const cm = this.cm;
-      const discipline = this.discipline;
-      return manageCmDisciplineRoute({ cm, discipline });
+      return manageCmDisciplineRoute({
+        cm: this.cm,
+        discipline: this.discipline
+      });
     }
   },
 
@@ -41,9 +50,17 @@ export default Vue.extend({
 <template>
   <Btn v-if="isVisible"
        :to="to"
+       :tag="tag"
+       :exact="exact"
        :badge="badge"
-       :btn="btn"
-       icon="fas fa-edit">
-    <slot />
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
+       :arrow="arrow"
+       :icon="icon ? 'fas fa-edit' : ''">
+    <slot>
+      <!-- default slot -->
+    </slot>
   </Btn>
 </template>

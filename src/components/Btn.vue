@@ -33,14 +33,14 @@ export default Vue.extend({
       default: "sm",
       validator: isInArrayValidator(["sm", "lg", ""])
     },
-    icon: {
-      type: String,
-      validator: isInArrayValidator(iconTypes)
-    },
     arrow: {
       type: String,
       default: "",
       validator: isInArrayValidator(arrowTypes)
+    },
+    icon: {
+      type: String,
+      validator: isInArrayValidator(iconTypes)
     }
   }
 });

@@ -9,7 +9,7 @@ import { createCmDisciplineRoute } from "#/competitions/disciplines/routes";
 import { DisciplineAuth } from "#/competitions/disciplines/auth";
 
 export default Vue.extend({
-  name: "CreateCompetitionDisciplineButton",
+  name: "CreateDisciplineBtn",
 
   components: { Btn },
 
@@ -18,6 +18,14 @@ export default Vue.extend({
   props: {
     cm: { type: [String, Number], required: true },
     tag: { type: String, default: "a" },
+    exact: { type: Boolean, default: true },
+    badge: { type: Boolean, default: false },
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
     icon: { type: Boolean, default: false }
   },
 
@@ -39,6 +47,13 @@ export default Vue.extend({
   <Btn v-if="isVisible"
        :to="to"
        :tag="tag"
+       :exact="exact"
+       :badge="badge"
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
+       :arrow="arrow"
        :icon="icon ? 'far fa-plus-square' : ''">
     <slot>
       <!-- default slot -->

@@ -16,8 +16,16 @@ export default Vue.extend({
   mixins: [watchVisibility],
 
   props: {
+    tag: { type: String, default: "a" },
+    exact: { type: Boolean, default: true },
     badge: { type: Boolean, default: false },
-    btn: { type: String }
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
@@ -33,11 +41,18 @@ export default Vue.extend({
 </script>
 
 <template>
-  <Btn v-if="isVisible"
-       :to="to"
+  <Btn :to="to"
+       :tag="tag"
+       :exact="exact"
        :badge="badge"
-       :btn="btn"
-       icon="far fa-plus-square">
-    <slot />
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
+       :arrow="arrow"
+       :icon="icon ? 'far fa-plus-square' : ''">
+    <slot>
+      <!-- default slot -->
+    </slot>
   </Btn>
 </template>

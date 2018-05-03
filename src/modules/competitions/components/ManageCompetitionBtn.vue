@@ -17,10 +17,16 @@ export default Vue.extend({
 
   props: {
     cm: { type: [String, Number], required: true },
+    tag: { type: String, default: "a" },
     exact: { type: Boolean, default: true },
-    btn: { type: String },
     badge: { type: Boolean, default: false },
-    arrow: { type: String, default: "" }
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
@@ -33,10 +39,6 @@ export default Vue.extend({
     async checkVisibility() {
       return await CompetitionAuth.canEdit({ cm: this.cm });
     }
-  },
-
-  created() {
-    this.log = this.$logger.component(this);
   }
 });
 </script>
@@ -44,11 +46,17 @@ export default Vue.extend({
 <template>
   <Btn v-if="isVisible"
        :to="to"
+       :tag="tag"
        :exact="exact"
-       :btn="btn"
        :badge="badge"
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
        :arrow="arrow"
-       icon="fas fa-edit">
-    <slot />
+       :icon="icon ? 'fas fa-edit' : ''">
+    <slot>
+      <!-- default slot -->
+    </slot>
   </Btn>
 </template>

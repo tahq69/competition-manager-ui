@@ -13,16 +13,21 @@ export default Vue.extend({
 
   props: {
     user: { type: [String, Number], required: true },
+    tag: { type: String, default: "a" },
     exact: { type: Boolean, default: true },
-    btn: { type: String },
     badge: { type: Boolean, default: false },
-    arrow: { type: String, default: "" }
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
     to(): Location {
-      const user = this.user;
-      return userProfileRoute({ user });
+      return userProfileRoute({ user: this.user });
     }
   }
 });
@@ -30,10 +35,15 @@ export default Vue.extend({
 
 <template>
   <Btn :to="to"
+       :tag="tag"
        :exact="exact"
+       :badge="badge"
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
        :arrow="arrow"
-       :btn="btn"
-       :badge="badge">
+       :icon="icon ? 'fas fa-eye' : ''">
     <slot>
       <!-- default slot -->
     </slot>

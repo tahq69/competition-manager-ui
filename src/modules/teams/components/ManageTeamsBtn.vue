@@ -16,10 +16,16 @@ export default Vue.extend({
   mixins: [watchVisibility],
 
   props: {
+    tag: { type: String, default: "a" },
     exact: { type: Boolean, default: true },
-    btn: { type: String },
     badge: { type: Boolean, default: false },
-    arrow: { type: String, default: "" }
+    badgeColor: { type: String, default: "light" },
+    btnOutline: { type: Boolean, default: false },
+    btnBlock: { type: Boolean, default: false },
+    btn: { type: String, default: "" },
+    btnSize: { type: String, default: "sm" },
+    arrow: { type: String, default: "" },
+    icon: { type: Boolean, default: false }
   },
 
   computed: {
@@ -37,11 +43,15 @@ export default Vue.extend({
 <template>
   <Btn v-if="isVisible"
        :to="to"
+       :tag="tag"
        :exact="exact"
-       :btn="btn"
        :badge="badge"
+       :badge-color="badgeColor"
+       :btn-outline="btnOutline"
+       :btn-block="btnBlock"
+       :btn-size="btnSize"
        :arrow="arrow"
-       icon="fas fa-list">
+       :icon="icon ? 'fas fa-list' : ''">
     <slot>
       <!-- default slot -->
     </slot>
