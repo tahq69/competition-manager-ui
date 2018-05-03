@@ -15,7 +15,7 @@ import { groups } from "../groups/routes";
 
 /** Public routes */
 const disciplinesView = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/CompetitionDisciplines.vue");
+  import(/* webpackChunkName: "cm-discipline" */ "./views/Disciplines.vue");
 const disciplineView = () =>
   import(/* webpackChunkName: "cm-discipline" */ "./views/Discipline.vue");
 const disciplineDetails = () =>

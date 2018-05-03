@@ -1,5 +1,7 @@
 import Vue from "vue";
 
+var log = Vue.logger.group("card");
+
 export default {
   props: {
     height: { type: Number, required: false }
@@ -13,21 +15,29 @@ export default {
     }
   },
 
-  mounted(this: any) {
-    const images = this.$el.getElementsByTagName("img");
-    if (images.length > 0) {
-      // If a card has an image, we need wait until it loads and only then
-      // calculate real height of card to ensure full image fits in each tile.
+  methods: {
+    calculateDimensions(this: any) {
+      const images = this.$el.getElementsByTagName("img");
+      if (images.length > 0) {
+        // if a card has an image, we need wait until it loads and only then
+        // calculate real height of card to ensure full image fits in each tile.
 
-      const img = images[0] as HTMLImageElement;
-      img.onload = () => {
+        const img = images[0] as HTMLImageElement;
+        img.onload = () => {
+          this.isMounted = true;
+          this.$emit("dimensions", { height: this.$el.offsetHeight });
+        };
+      } else {
+        // otherwise we can immediately after data load calculate that height.
         this.isMounted = true;
         this.$emit("dimensions", { height: this.$el.offsetHeight });
-      };
-    } else {
-      // Otherwyse we can imediatly after data load calculate that height.
-      this.isMounted = true;
-      this.$emit("dimensions", { height: this.$el.offsetHeight });
+      }
+    }
+  },
+
+  mounted(this: any) {
+    if (this.$el.getElementsByTagName) {
+      this.calculateDimensions();
     }
   },
 

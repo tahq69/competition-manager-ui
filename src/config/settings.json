@@ -17,6 +17,7 @@
         "error",
         "info",
         "entity",
+        "card",
         "auth.middleware"
       ]
     }

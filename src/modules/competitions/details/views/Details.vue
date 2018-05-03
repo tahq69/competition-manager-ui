@@ -2,16 +2,17 @@
 import Vue from "vue";
 
 import { Next } from "@/typings";
+
 import cmService from "#/competitions/service";
 import { Competition } from "#/competitions/models/competition";
 import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
 
-import DetailsSection from "./DetailsSection.vue";
+import DetailsDescription from "./DetailsDescription.vue";
 
 export default Vue.extend({
   name: "CompetitionDetails",
 
-  components: { DetailsSection, ManageCompetitionBtn },
+  components: { DetailsDescription, ManageCompetitionBtn },
 
   props: {
     cm: { type: [Number, String], required: true }
@@ -56,29 +57,29 @@ export default Vue.extend({
         </CRow>
       </li>
 
-      <DetailsSection title="Cooperation"
-                      :content="competition.cooperation" />
+      <DetailsDescription title="Cooperation"
+                          :content="competition.cooperation" />
 
-      <DetailsSection title="Invitation"
-                      :content="competition.invitation" />
+      <DetailsDescription title="Invitation"
+                          :content="competition.invitation" />
 
-      <DetailsSection title="Program"
-                      :content="competition.program" />
+      <DetailsDescription title="Program"
+                          :content="competition.program" />
 
-      <DetailsSection title="Rules"
-                      :content="competition.rules" />
+      <DetailsDescription title="Rules"
+                          :content="competition.rules" />
 
-      <DetailsSection title="Ambulance"
-                      :content="competition.ambulance" />
+      <DetailsDescription title="Ambulance"
+                          :content="competition.ambulance" />
 
-      <DetailsSection title="Prizes"
-                      :content="competition.prizes" />
+      <DetailsDescription title="Prizes"
+                          :content="competition.prizes" />
 
-      <DetailsSection title="Equipment"
-                      :content="competition.equipment" />
+      <DetailsDescription title="Equipment"
+                          :content="competition.equipment" />
 
-      <DetailsSection title="Price"
-                      :content="competition.price" />
+      <DetailsDescription title="Price"
+                          :content="competition.price" />
     </ul>
 
     <ManageCompetitionBtn :cm="cm"

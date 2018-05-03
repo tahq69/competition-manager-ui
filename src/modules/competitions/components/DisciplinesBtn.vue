@@ -13,6 +13,7 @@ export default Vue.extend({
 
   props: {
     cm: { type: [String, Number], required: true },
+    tag: { type: String, default: "a" },
     action: { type: Boolean, default: false },
     direction: { type: String, default: "left" }
   },
@@ -26,12 +27,11 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CardAction
-    :to="to"
-    :isArrow="action"
-    :isBtn="action"
-    :direction="direction"
-  >
+  <CardAction :to="to"
+              :tag="tag"
+              :isArrow="action"
+              :isBtn="action"
+              :direction="direction">
     <slot>Disciplines</slot>
   </CardAction>
 </template>
