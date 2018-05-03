@@ -85,7 +85,8 @@ export default Vue.extend({
     <ManageCompetitionBtn :cm="cm"
                           btn="light"
                           class="btn-edit"
-                          title="Edit competition details" />
+                          title="Edit competition details"
+                          icon />
   </div>
 </template>
 

@@ -4,11 +4,13 @@ import { Location } from "vue-router";
 import { Form } from "crip-vue-bootstrap";
 import CripSelect from "crip-vue-select";
 
+import { Next } from "@/typings";
 import {
   createCompetitionDiscipline as createRoute,
   manageCompetitionDiscipline as editRoute
 } from "@/router/routes";
-import { Next } from "@/typings";
+import DisciplineBtn from "#/competitions/components/DisciplineBtn.vue";
+import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
 
 import { Discipline } from "./../../models/discipline";
 import disciplineService from "./../service";
@@ -16,6 +18,8 @@ import { cmDisciplineRoute } from "./../routes";
 
 export default Vue.extend({
   name: "ManageDiscipline",
+
+  components: { DisciplineBtn, DisciplinesBtn },
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -111,6 +115,22 @@ export default Vue.extend({
   <CFormCard :title="title"
              id="manage-discipline"
              @submit="save">
+    <span slot="actions">
+      <DisciplinesBtn :cm="cm"
+                      btn="light"
+                      arrow="left"
+                      icon>
+        Disciplines
+      </DisciplinesBtn>
+
+      <DisciplineBtn v-if="isEdit"
+                     :cm="cm"
+                     :discipline="discipline"
+                     btn="light"
+                     icon>
+        Preview
+      </DisciplineBtn>
+    </span>
 
     <!-- #title -->
     <CFormGroup for="title"

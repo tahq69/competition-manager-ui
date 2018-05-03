@@ -40,7 +40,8 @@ export default Vue.extend({
             :xs="12">
         <CompetitionCard :competition="competition"
                          :height="maxHeight"
-                         @dimensions="setupHeight" />
+                         @dimensions="setupHeight"
+                         title="View competition details" />
       </CCol>
     </CRow>
     <CRow>

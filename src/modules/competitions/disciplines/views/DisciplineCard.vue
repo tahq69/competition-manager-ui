@@ -38,9 +38,10 @@ export default Vue.extend({
 
       <ManageDisciplineBtn :cm="cm"
                            :discipline="discipline.id"
+                           title="Edit competition discipline details"
                            btn="light"
                            class="btn-edit"
-                           title="Edit competition discipline details" />
+                           icon />
     </div>
   </DisciplineBtn>
 </template>

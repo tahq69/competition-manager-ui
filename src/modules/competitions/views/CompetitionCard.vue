@@ -47,6 +47,7 @@ export default Vue.extend({
       <ManageCompetitionBtn :cm="competition.id"
                             btn="light"
                             class="btn-edit"
+                            icon
                             title="Edit competition details" />
     </div>
   </CompetitionBtn>

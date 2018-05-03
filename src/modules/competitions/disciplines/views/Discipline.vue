@@ -51,22 +51,33 @@ export default Vue.extend({
         <li class="nav-item">
           <DisciplineBtn :cm="cm"
                          :discipline="discipline"
-                         class="nav-link" />
+                         class="nav-link">
+            Discipline
+          </DisciplineBtn>
         </li>
 
         <li class="nav-item">
           <GroupsBtn :cm="cm"
                      :discipline="discipline"
-                     class="nav-link" />
+                     class="nav-link">
+            Groups
+          </GroupsBtn>
         </li>
       </ul>
       <!-- /.card-header-tabs -->
 
       <CardActions>
         <CompetitionBtn :cm="cm"
-                        :action="true" />
+                        btn="light"
+                        arrow="left">
+          Competition
+        </CompetitionBtn>
+
         <DisciplinesBtn :cm="cm"
-                        :action="true" />
+                        btn="light"
+                        arrow="left">
+          Disciplines
+        </DisciplinesBtn>
       </CardActions>
 
     </div>

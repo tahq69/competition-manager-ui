@@ -72,12 +72,13 @@ export default Vue.extend({
                 &nbsp;
                 <ManageCompetitionBtn :cm="competition.id"
                                       :title="$t('competitions.manage_competitions_grid_btn_edit_title')"
-                                      badge>
+                                      badge
+                                      icon>
                   {{ $t('competitions.manage_competitions_grid_btn_edit_text') }}
                 </ManageCompetitionBtn>
               </td>
               <td>{{ competition.judge_name }}</td>
-              <td>{{ competition.organization_date }}</td>
+              <td>{{ competition.organization_date | formatDateTime }}</td>
             </tr>
           </template>
         </tbody>

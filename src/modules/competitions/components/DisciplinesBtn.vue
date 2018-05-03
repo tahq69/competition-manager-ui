@@ -44,7 +44,7 @@ export default Vue.extend({
        :btn-block="btnBlock"
        :btn-size="btnSize"
        :arrow="arrow"
-       :icon="icon ? 'fas fa-eye' : ''">
+       :icon="icon ? 'fas fa-list' : ''">
     <slot>
       <!-- default slot -->
     </slot>
