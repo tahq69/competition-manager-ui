@@ -4,22 +4,21 @@ import CripSelect from "crip-vue-select";
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import { UserBase } from "@/components/auth/models/user-base";
-import { manageTeamMember } from "@/router/routes";
 import { Next } from "@/typings";
+import { manageTeamMember } from "@/router/routes";
+import { UserBase } from "@/components/auth/models/user-base";
+import Submit from "@/components/form/Submit.vue";
 
 import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
 import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
 import TeamBtn from "#/teams/components/TeamBtn.vue";
+import { Team } from "#/teams/models/team";
+import { TeamMember } from "#/teams/models/team-member";
+import teamService from "#/teams/service";
 
-import { Team } from "../../models/team";
-import { TeamMember } from "../../models/team-member";
-
-import teamService from "../../service";
 import { TeamMemberAuth } from "../auth";
 import memberService from "../service";
-
-import { manageTeamMemberRoute, manageTeamMembersRoute } from "../routes";
+import { manageTeamMembersRoute } from "../routes";
 
 import MemberRoleControl from "./MemberRoleControl.vue";
 
@@ -38,7 +37,8 @@ export default Vue.extend({
     ManageTeamBtn,
     ManageTeamMembersBtn,
     MemberRoleControl,
-    TeamBtn
+    TeamBtn,
+    Submit
   },
 
   props: {
@@ -162,7 +162,7 @@ export default Vue.extend({
       this.log("saveMember", { data: this.form.data });
       this.form.clearErrors();
       try {
-        const member = await memberService.saveTeamMember({
+        await memberService.saveTeamMember({
           id: this.form.data.id,
           name: this.form.data.name,
           team_id: this.team.toString(),
@@ -178,12 +178,7 @@ export default Vue.extend({
         }
 
         this.$notice.success(this.notificationDetails());
-
-        this.initialUserId = member.user_id || 0;
-
-        const params = { team: this.team, member: member.id };
-        const manageRoute = manageTeamMemberRoute(params);
-        this.$router.push(manageRoute);
+        this.$router.push(manageTeamMembersRoute({ team: this.team }));
       } catch (error) {
         const errors = this.concatErrors(error);
         this.form.addErrors(errors);
@@ -222,17 +217,13 @@ export default Vue.extend({
         ).toString(),
         title: this.$t("teams.manage_member_saved_title").toString()
       };
-    },
-
-    manageTeamMembersRoute() {
-      return manageTeamMembersRoute({ team: this.memberTeam.id });
     }
   },
 
   created() {
     this.log = this.$logger.component(this);
 
-    TeamMemberAuth.canEditRoles({ team: this.memberTeam.id }).then(
+    TeamMemberAuth.canEditRoles({ team: this.team }).then(
       canEdit => (this.canEditRoles = canEdit)
     );
   }
@@ -276,7 +267,7 @@ export default Vue.extend({
                 :sm="8">
       <MemberRoleControl v-model="form.data.roles"
                          :member="form.data.id"
-                         :team="memberTeam.id" />
+                         :team="team" />
     </CFormGroup>
 
     <!-- #name -->
@@ -309,13 +300,8 @@ export default Vue.extend({
     </CFormGroup>
 
     <!-- #submit -->
-    <CFormGroup for="submit"
-                :sm="8">
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
-        {{ $t('teams.manage_member_submit_btn') }}
-      </button>
+    <CFormGroup :sm="8">
+      <Submit>{{ $t('teams.manage_member_submit_btn') }}</Submit>
     </CFormGroup>
   </CFormCard>
 </template>

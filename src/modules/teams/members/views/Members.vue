@@ -80,15 +80,17 @@ export default Vue.extend({
 
             <ManageTeamMemberBtn :team="member.team_id"
                                  :member="member.id"
-                                 badge>
+                                 badge
+                                 icon>
               Edit
             </ManageTeamMemberBtn>&nbsp;
 
             <ProfileBtn v-if="hasProfile(member)"
                         :user="member.user_id"
                         title="Member user profile"
-                        badge>
-              <span>Profile</span>
+                        badge
+                        icon>
+              Profile
             </ProfileBtn>
           </td>
           <td>{{ member.membership_type }}</td>

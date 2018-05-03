@@ -44,10 +44,10 @@ export default Vue.extend({
 </script>
 
 <template>
-  <crip-select id="member-roles"
-               multiple
-               :settings="rolesSelect"
-               v-model="roles">
+  <CripSelect id="member-roles"
+              multiple
+              :settings="rolesSelect"
+              v-model="roles">
     All roles assigned
-  </crip-select>
+  </CripSelect>
 </template>
