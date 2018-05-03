@@ -248,7 +248,7 @@ export default Vue.extend({
 
       <TeamBtn :team="team"
                btn="light"
-               with-icon>
+               icon>
         Team
       </TeamBtn>
     </span>

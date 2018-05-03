@@ -9,7 +9,7 @@ export const badgeTypes = [
   "dark"
 ];
 
-export const buttonTypes = [...badgeTypes, "link"];
+export const buttonTypes = [...badgeTypes, "link", ""];
 
 export const iconTypes = [
   "", // none

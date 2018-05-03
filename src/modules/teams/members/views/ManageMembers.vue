@@ -54,7 +54,7 @@ export default Vue.extend({
       <TeamBtn :team="team"
                btn="light"
                title="View team public profile"
-               with-icon>
+               icon>
         Team
       </TeamBtn>
 

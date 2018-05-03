@@ -70,13 +70,15 @@ export default Vue.extend({
              class="card-footer">
           <ManageTeamBtn :team="details.id"
                          btn="primary"
-                         icon="fas fa-edit">
+                         title="Manage team details"
+                         icon>
             Edit
           </ManageTeamBtn>
           &nbsp;
           <CreateCompetitionBtn :team="details.id"
                                 btn="primary"
-                                title="Create new competition">
+                                title="Create new competition"
+                                icon>
             Competition
           </CreateCompetitionBtn>
         </div>
@@ -99,7 +101,10 @@ export default Vue.extend({
 
             <li class="nav-item">
               <TeamCompetitionsBtn :team="team"
-                                   class="nav-link" />
+                                   :exact="false"
+                                   class="nav-link">
+                Competitions
+              </TeamCompetitionsBtn>
             </li>
           </ul>
         </div>

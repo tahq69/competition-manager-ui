@@ -47,68 +47,60 @@ export default Vue.extend({
 
 <template>
   <div id="team-competitions">
-    <div class="card-body py-0">
-      <CRow>
-        <table v-if="hasCm"
-               class="table table-hover mb-0">
-          <thead>
-            <tr>
-              <CGridHeader :paging="competitions"
-                           column="title"
-                           title="Sort by title">
-                Title
-              </CGridHeader>
+    <table v-if="hasCm"
+           class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <CGridHeader :paging="competitions"
+                       column="title"
+                       title="Sort by title">
+            Title
+          </CGridHeader>
 
-              <CGridHeader :paging="competitions"
-                           column="judge_name"
-                           title="Sort by main judge">
-                Judge
-              </CGridHeader>
+          <CGridHeader :paging="competitions"
+                       column="judge_name"
+                       title="Sort by main judge">
+            Judge
+          </CGridHeader>
 
-              <CGridHeader :paging="competitions"
-                           column="organization_date"
-                           title="Sort by organization date">
-                Organization date
-              </CGridHeader>
-            </tr>
-          </thead>
-          <tbody>
-            <router-link v-for="cm in competitions.items"
-                         :key="cm.id"
-                         tag="tr"
-                         :to="competitionDetailsRoute(cm)"
-                         class="c-pointer">
-              <td>
-                <span>{{ cm.title }}</span>
-                &nbsp;
-                <ManageCompetitionBtn :cm="cm.id"
-                                      title="Edit competition details"
-                                      badge>
-                  Edit
-                </ManageCompetitionBtn>
-              </td>
-              <td>{{ cm.judge_name }}</td>
-              <td>{{ cm.organization_date | formatDate }}</td>
-            </router-link>
-          </tbody>
-        </table>
-        <div v-else
-             class="py-3 py-3 col text-danger">
-          This team does not have any competition.
-        </div>
-      </CRow>
+          <CGridHeader :paging="competitions"
+                       column="organization_date"
+                       title="Sort by organization date">
+            Organization date
+          </CGridHeader>
+        </tr>
+      </thead>
+      <tbody>
+        <router-link v-for="cm in competitions.items"
+                     :key="cm.id"
+                     tag="tr"
+                     :to="competitionDetailsRoute(cm)"
+                     class="c-pointer">
+          <td>
+            <span>{{ cm.title }}</span>
+            &nbsp;
+            <ManageCompetitionBtn :cm="cm.id"
+                                  title="Edit competition details"
+                                  badge>
+              Edit
+            </ManageCompetitionBtn>
+          </td>
+          <td>{{ cm.judge_name }}</td>
+          <td>{{ cm.organization_date | formatDate }}</td>
+        </router-link>
+      </tbody>
+    </table>
+    <div v-else
+         class="card-body text-danger">
+      This team does not have any competition.
     </div>
 
     <div v-if="hasCm"
-         class="card-footer">
-      <CRow>
-        <CCol class="clearfix">
-          <CPagination :paging="competitions"
-                       class="float-left mb-0"></CPagination>
-          <CPerPage :paging="competitions"
-                    class="float-right"></CPerPage>
-        </CCol>
-      </CRow>
+         class="card-footer clearfix">
+      <CPagination :paging="competitions"
+                   class="float-left mb-0" />
+      <CPerPage :paging="competitions"
+                class="float-right" />
     </div>
   </div>
 </template>
