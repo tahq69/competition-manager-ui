@@ -5,9 +5,8 @@ import { Next } from "@/typings";
 
 import { Profile } from "../models/profile";
 import { ProfileTeam } from "../models/profile-team";
+import { teamRoute } from "../routes";
 import userService from "../service";
-
-import { teamRoute } from "@/modules/teams/routes";
 
 export default Vue.extend({
   name: "Profile",

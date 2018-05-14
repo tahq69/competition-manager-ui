@@ -11,11 +11,11 @@ export enum AreaType {
 }
 
 export class Area extends Entity {
-  public competition_id: Id;
-  public description: string;
-  public nr: number;
-  public title: string;
-  public type: AreaType;
+  public competition_id: Id = 0;
+  public description: string = "";
+  public nr: number = 0;
+  public title: string = "";
+  public type: AreaType = AreaType.Arena;
 
   constructor(data: any) {
     super(data);

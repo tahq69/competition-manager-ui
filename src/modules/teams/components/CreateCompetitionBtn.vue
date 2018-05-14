@@ -6,7 +6,7 @@ import Btn from "@/components/Btn.vue";
 import { watchVisibility } from "@/components/auth/mixins";
 
 import { createCmRoute } from "#/teams/competitions/routes";
-import { CompetitionAuth } from "#/competitions/auth";
+import { TeamAuth } from "#/teams/auth";
 
 export default Vue.extend({
   name: "CreateCompetitionButton",
@@ -37,7 +37,7 @@ export default Vue.extend({
 
   methods: {
     async checkVisibility() {
-      return await CompetitionAuth.canCreate({ team: this.team });
+      return await TeamAuth.canCreateCompetition(this.team);
     }
   }
 });

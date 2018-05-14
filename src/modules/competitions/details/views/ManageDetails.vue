@@ -4,8 +4,8 @@ import { Form } from "crip-vue-bootstrap";
 
 import { Next } from "@/typings";
 
-import { Competition } from "@/modules/competitions/models/competition";
-import cmService from "@/modules/competitions/service";
+import { Competition } from "#/competitions/models/competition";
+import cmService from "#/competitions/service";
 
 export default Vue.extend({
   name: "ManageCompetitionDetails",

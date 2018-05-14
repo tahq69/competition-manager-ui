@@ -3,9 +3,10 @@ import Vue from "vue";
 import { Form } from "crip-vue-bootstrap";
 import { Datetime } from "vue-datetime";
 
-import cmService from "#/competitions/service";
-import { Competition } from "#/competitions/models/competition";
-import { manageCmDetailsRoute } from "#/competitions/details/routes";
+import { CompetitionCreate } from "#/teams/models/competition-create";
+import { manageCmDetailsRoute } from "#/teams/competitions/routes";
+
+import cmService from "../service";
 
 export default Vue.extend({
   name: "CreateTeamCompetitionForm",
@@ -17,7 +18,7 @@ export default Vue.extend({
   },
 
   data() {
-    const cm = new Competition({ team_id: this.team });
+    const cm = new CompetitionCreate({ team_id: this.team });
     return {
       form: new Form(cm)
     };

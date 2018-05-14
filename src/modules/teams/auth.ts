@@ -1,8 +1,6 @@
 import { middleware, roles } from "@/components/auth";
 import { Id } from "@/typings";
 
-import { CompetitionAuth } from "#/competitions/auth";
-
 interface IEdit {
   team: Id;
 }
@@ -25,7 +23,13 @@ export class TeamAuth {
     return middleware.hasRole(roles.CREATE_TEAMS);
   }
 
-  public static async canCreateCompetition(team: Id) {
-    return await CompetitionAuth.canCreate({ team });
+  public static async canCreateCompetition(team: Id): Promise<boolean> {
+    const hasRole = await middleware.hasTeamRole(
+      { team },
+      roles.CREATE_COMPETITIONS
+    );
+    // TODO: we need validate available credits of the current team to allow
+    // create new competitions for it.
+    return hasRole;
   }
 }

@@ -1,7 +1,7 @@
-import competitions from "@/modules/competitions/lang/en.res.json";
-import posts from "@/modules/posts/lang/en.res.json";
-import teams from "@/modules/teams/lang/en.res.json";
-import user from "@/modules/user/lang/en.res.json";
+import competitions from "#/competitions/lang/en.res.json";
+import posts from "#/posts/lang/en.res.json";
+import teams from "#/teams/lang/en.res.json";
+import user from "#/user/lang/en.res.json";
 
 import app from "./en.res.json";
 

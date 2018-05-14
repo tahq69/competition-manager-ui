@@ -15,26 +15,26 @@ export enum DimensionType {
 }
 
 export class Category extends Entity {
-  public area_id: Id;
-  public category_group_id: Id;
-  public category_group_short: string;
-  public category_group_title: string;
-  public competition_id: Id;
-  public discipline_id: Id;
-  public discipline_short: string;
-  public discipline_title: string;
-  public display_type: DisplayType;
-  public max: number;
-  public min: number;
-  public order: number;
-  public short: string;
-  public title: string;
-  public type: DimensionType;
+  public area_id: Id = 0;
+  public category_group_id: Id = 0;
+  public category_group_short: string = "";
+  public category_group_title: string = "";
+  public competition_id: Id = 0;
+  public discipline_id: Id = 0;
+  public discipline_short: string = "";
+  public discipline_title: string = "";
+  public display_type: DisplayType = DisplayType.Both;
+  public max: number = 0;
+  public min: number = 0;
+  public order: number = 0;
+  public short: string = "";
+  public title: string = "";
+  public type: DimensionType = DimensionType.Age;
 
   public createUrl = "competitions/{competition_id}/disciplines/{discipline_id}" +
-    "/groups/{category_group_id}/categories";
+  "/groups/{category_group_id}/categories";
   public updateUrl = "competitions/{competition_id}/disciplines/{discipline_id}" +
-    "/groups/{category_group_id}/categories/{id}";
+  "/groups/{category_group_id}/categories/{id}";
 
   constructor(data: any) {
     super(data);

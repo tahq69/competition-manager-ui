@@ -6,20 +6,20 @@ import { Id } from "@/typings";
 import { Category, DimensionType } from "./category";
 
 export class Group extends Entity {
-  public competition_id: Id;
-  public discipline_id: Id;
-  public discipline_short: string;
-  public discipline_title: string;
-  public max: number;
-  public min: number;
-  public order: number;
-  public rounds: number;
-  public short: string;
-  public time: number;
-  public title: string;
-  public type: DimensionType;
+  public competition_id: Id = 0;
+  public discipline_id: Id = 0;
+  public discipline_short: string = "";
+  public discipline_title: string = "";
+  public max: number = 0;
+  public min: number = 0;
+  public order: number = 0;
+  public rounds: number = 0;
+  public short: string = "";
+  public time: number = 0;
+  public title: string = "";
+  public type: DimensionType = DimensionType.Age;
 
-  public categories: Category[];
+  public categories: Category[] = [];
 
   public createUrl = "competitions/{competition_id}/disciplines/{discipline_id}/groups";
   public updateUrl = "competitions/{competition_id}/disciplines/{discipline_id}/groups/{id}";

@@ -60,7 +60,7 @@ export default Vue.extend({
     xhr.send();
 
     function handler(this: XMLHttpRequest, ev: Event) {
-      if (this.readyState === this.DONE) {
+      if (this.readyState === this.DONE && iframe.contentWindow) {
         if (this.status === 200) {
           iframe.contentWindow.document.open("text/htmlreplace");
           iframe.contentWindow.document.write(this.response);

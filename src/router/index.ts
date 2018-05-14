@@ -5,10 +5,10 @@ Vue.use(Router);
 
 import NotFound from "@/components/NotFound.vue";
 
-import { root as competitions } from "@/modules/competitions/routes";
-import { home, posts } from "@/modules/posts/routes";
-import { teams } from "@/modules/teams/routes";
-import user from "@/modules/user/routes";
+import { root as competitions } from "#/competitions/routes";
+import { home, posts } from "#/posts/routes";
+import { teams } from "#/teams/routes";
+import user from "#/user/routes";
 
 const routes = [
   home,

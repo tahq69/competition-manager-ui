@@ -3,7 +3,7 @@ import Vue from "vue";
 
 import { Next } from "@/typings";
 
-import CreateCompetitionBtn from "#/competitions/components/CreateCompetitionBtn.vue";
+import CreateCompetitionBtn from "#/teams/components/CreateCompetitionBtn.vue";
 import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
 import TeamBtn from "#/teams/components/TeamBtn.vue";
 import TeamCompetitionsBtn from "#/teams/components/TeamCompetitionsBtn.vue";

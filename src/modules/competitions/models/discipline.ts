@@ -7,7 +7,7 @@ import { DimensionType } from "../models/category";
 
 export class Discipline extends Entity {
   public category_group_type: DimensionType = DimensionType.Age;
-  public category_type: DimensionType = DimensionType.Weight;
+  public category_type: DimensionType = DimensionType.Weight; 
   public competition_id: number = 0;
   public description: string = "";
   public game_type: string = "";
