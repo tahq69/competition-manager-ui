@@ -30,7 +30,10 @@ export default Vue.extend({
       try {
         await userService.emailPasswordReset(this.form.data);
 
-        // TODO: add notification for user about email has been sent.
+        Vue.notice.info({
+          title: "Password reset request sent.",
+          description: "Please check yor email to get password reset link"
+        });
 
         this.$router.push(login);
       } catch (errors) {
