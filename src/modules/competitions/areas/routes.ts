@@ -11,14 +11,11 @@ import {
 import { Id } from "@/typings";
 
 /** Public routes */
-const areasView = () =>
-  import(/* webpackChunkName: "cm-areas" */ "./views/Areas.vue");
-const areaView = () =>
-  import(/* webpackChunkName: "cm-areas" */ "./views/Area.vue");
+import areasView from "./views/Areas.vue";
+import areaView from "./views/Area.vue";
 
 /** Management routes */
-const manageAreaView = () =>
-  import(/* webpackChunkName: "cm-areas" */ "./views/ManageArea.vue");
+import manageAreaView from "./views/ManageArea.vue";
 
 export const areas: RouteConfig[] = [
   {

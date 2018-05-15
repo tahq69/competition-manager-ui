@@ -13,18 +13,12 @@ import {
 import { Id, IRouteParams } from "@/typings";
 
 /** Public routes */
-const groupsView = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/DisciplineGroups.vue");
+import groupsView from "./views/DisciplineGroups.vue";
 
 /** Management routes */
-const manageGroups = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/ManageGroups.vue");
-
-const manageGroup = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/ManageGroupForm.vue");
-
-const manageCategory = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/ManageCategoryForm.vue");
+import manageGroups from "./views/ManageGroups.vue";
+import manageGroup from "./views/ManageGroupForm.vue";
+import manageCategory from "./views/ManageCategoryForm.vue";
 
 export const groups: RouteConfig[] = [
   {

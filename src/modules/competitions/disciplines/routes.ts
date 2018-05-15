@@ -14,16 +14,12 @@ import { Id } from "@/typings";
 import { groups } from "../groups/routes";
 
 /** Public routes */
-const disciplinesView = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/Disciplines.vue");
-const disciplineView = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/Discipline.vue");
-const disciplineDetails = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/DisciplineDetails.vue");
+import disciplinesView from "./views/Disciplines.vue";
+import disciplineView from "./views/Discipline.vue";
+import disciplineDetails from "./views/DisciplineDetails.vue";
 
 /** Management routes */
-const manageDiscipline = () =>
-  import(/* webpackChunkName: "cm-discipline" */ "./views/ManageDiscipline.vue");
+import manageDiscipline from "./views/ManageDiscipline.vue";
 
 export const disciplines = [
   {

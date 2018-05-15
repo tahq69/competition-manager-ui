@@ -15,18 +15,12 @@ import { competitions, root as competitionsRoot } from "./competitions/routes";
 import { members, root as membersRoot } from "./members/routes";
 
 /** Public routes */
-const teamsView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/Teams.vue");
-
-const teamView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/Team.vue");
+import teamsView from "./views/Teams.vue";
+import teamView from "./views/Team.vue";
 
 /** Management routes */
-const manageTeamView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/ManageTeam.vue");
-
-const manageTeamsView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/ManageTeams.vue");
+import manageTeamView from "./views/ManageTeam.vue";
+import manageTeamsView from "./views/ManageTeams.vue";
 
 const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] };
 

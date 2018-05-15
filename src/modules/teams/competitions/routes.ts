@@ -8,12 +8,10 @@ import {
 } from "@/router/routes";
 
 /** Public routes */
-const competitionsView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/Competitions.vue");
+import competitionsView from "./views/Competitions.vue";
 
 /** Management routes */
-const createCmView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/CreateCompetition.vue");
+import createCmView from "./views/CreateCompetition.vue";
 
 export const competitions = [
   {

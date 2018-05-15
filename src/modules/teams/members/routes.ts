@@ -9,15 +9,11 @@ import {
 import { Id, IRouteParams } from "@/typings";
 
 /** Public routes */
-const membersView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/Members.vue");
+import membersView from "./views/Members.vue";
 
 /** Management routes */
-const manageMemberView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/ManageMember.vue");
-
-const manageMembersView = () =>
-  import(/* webpackChunkName: "teams" */ "./views/ManageMembers.vue");
+import manageMemberView from "./views/ManageMember.vue";
+import manageMembersView from "./views/ManageMembers.vue";
 
 const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] };
 

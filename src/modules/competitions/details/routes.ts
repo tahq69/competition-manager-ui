@@ -9,12 +9,10 @@ import {
 import { Id, IRouteParams } from "@/typings";
 
 /** Public views */
-const detailsView = () =>
-  import(/* webpackChunkName: "cm-details" */ "./views/Details.vue");
+import detailsView from "./views/Details.vue";
 
 /** Management views */
-const manageDetailsView = () =>
-  import(/* webpackChunkName: "cm-details" */ "./views/ManageDetails.vue");
+import manageDetailsView from "./views/ManageDetails.vue";
 
 export const root: RouteConfig[] = [];
 
