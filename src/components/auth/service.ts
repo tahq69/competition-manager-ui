@@ -1,11 +1,11 @@
-import { Service } from "@/helpers/service";
+import { url as createUrl, httpContext } from "@/helpers/rest";
 
 import { IAuthUser, ILogin, IRegister } from "./typings";
 
-class UserService extends Service {
+class UserService {
   public async fetchAuthenticatedUser(): Promise<IAuthUser> {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("users/user");
+    return await httpContext(async http => {
+      const url = createUrl("users/user");
       const { data } = await http.get(url);
 
       return {
@@ -19,16 +19,16 @@ class UserService extends Service {
   }
 
   public async fetchLoginToken(payload: ILogin) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("oauth/token", { root: true });
+    return await httpContext(async http => {
+      const url = createUrl("oauth/token", { root: true });
       const { data } = await http.post(url, payload);
       return data;
     });
   }
 
   public async register(payload: IRegister): Promise<void> {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("users");
+    return await httpContext(async http => {
+      const url = createUrl("users");
       await http.post(url, payload);
     });
   }

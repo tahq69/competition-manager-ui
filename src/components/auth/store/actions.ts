@@ -2,7 +2,7 @@ import http from "axios";
 import { ActionContext, Store } from "vuex";
 
 import authService from "@/components/auth/service";
-import { Api } from "@/helpers/api";
+import { url as createUrl } from "@/helpers/rest";
 import { IState as RootState } from "@/store/typings";
 
 import {
@@ -37,7 +37,7 @@ export default {
   ): Promise<ICompetition> {
     if (getters.getCmById(payload.id)) return getters.getCmById(payload.id);
 
-    const url = Api.url("competitions/{id}", { urlReplace: payload });
+    const url = createUrl("competitions/{id}", { urlReplace: payload });
 
     const { data } = await http.get(url);
     const add: IAddCompetitionPayload = {

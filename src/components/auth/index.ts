@@ -3,6 +3,7 @@ import http from "axios";
 import authService from "@/components/auth/service";
 import config from "@/config";
 import Storage from "@/helpers/local-storage";
+import events from "@/helpers/events";
 import { i18n } from "@/lang";
 import { store } from "@/store";
 
@@ -100,3 +101,5 @@ export default class Auth {
     http.defaults.headers.common["Authorization"] = undefined;
   }
 }
+
+events.$on("auth:logout", Auth.logout);

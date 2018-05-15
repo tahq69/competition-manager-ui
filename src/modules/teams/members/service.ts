@@ -1,6 +1,8 @@
 import { Paging } from "crip-vue-bootstrap";
 
-import { Pagination, Service } from "@/helpers";
+import { Pagination } from "@/helpers";
+import { saveEntity } from "@/helpers/service";
+import { url as createUrl, httpContext } from "@/helpers/rest";
 import { Id } from "@/typings";
 
 import { Team } from "../models/team";
@@ -23,16 +25,16 @@ interface IFetchMembers {
   team_id: Id;
 }
 
-class MembersService extends Service {
+class MembersService {
   /**
    * Save team member instance in server api.
    * @param   {ISaveTeamMember} payload
    * @returns {Promise<TeamMember>}
    */
   public async saveTeamMember(payload: ISaveTeamMember): Promise<TeamMember> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const entity = new TeamMember(payload);
-      return await this.save(entity, TeamMember);
+      return await saveEntity(entity, TeamMember);
     });
   }
 
@@ -42,8 +44,8 @@ class MembersService extends Service {
    * @returns {Promise<TeamMember>}
    */
   public async fetchTeamMember(payload: IFetchMember): Promise<TeamMember> {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("teams/{team}/members/{id}", {
+    return await httpContext(async http => {
+      const url = createUrl("teams/{team}/members/{id}", {
         urlReplace: {
           id: payload.id.toString(),
           team: payload.team_id.toString()
@@ -61,8 +63,8 @@ class MembersService extends Service {
    * @returns {Promise<Pagination<TeamMember>>}
    */
   public async fetchTeamMembers(payload: IFetchMembers) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("teams/{team}/members", {
+    return await httpContext(async http => {
+      const url = createUrl("teams/{team}/members", {
         params: payload.paging.urlParams,
         urlReplace: { team: payload.team_id.toString() }
       });
@@ -85,8 +87,8 @@ class MembersService extends Service {
     team: Id;
     member: Id;
   }): Promise<string[]> {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("teams/{team}/members/{member}/roles", {
+    return await httpContext(async http => {
+      const url = createUrl("teams/{team}/members/{member}/roles", {
         urlReplace: payload
       });
 
@@ -105,8 +107,8 @@ class MembersService extends Service {
     member: Id;
     roles: string[];
   }) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("teams/{team}/members/{member}/roles", {
+    return await httpContext(async http => {
+      const url = createUrl("teams/{team}/members/{member}/roles", {
         urlReplace: payload
       });
 

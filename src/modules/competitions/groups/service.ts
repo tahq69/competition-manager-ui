@@ -1,4 +1,5 @@
-import { Service } from "@/helpers/service";
+import { saveEntity, deleteEntity } from "@/helpers/service";
+import { url as createUrl, httpContext } from "@/helpers/rest";
 import { Id } from "@/typings";
 
 import { Category, DisplayType } from "../models/category";
@@ -38,12 +39,12 @@ interface ISaveCategory extends IFetchCategory {
   title: string;
 }
 
-class GroupService extends Service {
+class GroupService {
   public async fetchGroups(payload: IFetchGroups): Promise<Group[]> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const urlTpl =
         "competitions/{competition_id}/disciplines/{discipline_id}/groups";
-      const url = api.url(urlTpl, { urlReplace: payload });
+      const url = createUrl(urlTpl, { urlReplace: payload });
 
       const { data } = await http.get(url);
       return data.reduce((acc: Group[], val: any) => {
@@ -54,11 +55,11 @@ class GroupService extends Service {
   }
 
   public async fetchCategories(payload: IFetchCategories): Promise<Category[]> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const urlTpl =
         "competitions/{competition_id}/disciplines/{discipline_id}" +
         "/groups/{category_group_id}/categories";
-      const url = api.url(urlTpl, { urlReplace: payload });
+      const url = createUrl(urlTpl, { urlReplace: payload });
 
       const { data } = await http.get(url);
       return data.reduce((acc: Category[], val: any) => {
@@ -69,10 +70,10 @@ class GroupService extends Service {
   }
 
   public async fetchGroup(payload: IFetchGroup): Promise<Group> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const urlTpl =
         "competitions/{competition_id}/disciplines/{discipline_id}/groups/{id}";
-      const url = api.url(urlTpl, { urlReplace: payload });
+      const url = createUrl(urlTpl, { urlReplace: payload });
 
       const { data } = await http.get(url);
       return new Group(data);
@@ -80,11 +81,11 @@ class GroupService extends Service {
   }
 
   public async fetchCategory(payload: IFetchCategory): Promise<Category> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const urlTpl =
         "competitions/{competition_id}/disciplines/{discipline_id}/" +
         "groups/{category_group_id}/categories/{id}";
-      const url = api.url(urlTpl, { urlReplace: payload });
+      const url = createUrl(urlTpl, { urlReplace: payload });
 
       const { data } = await http.get(url);
       return new Category(data);
@@ -92,30 +93,30 @@ class GroupService extends Service {
   }
 
   public async saveGroup(payload: ISaveGroup): Promise<Group> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const entity = new Group(payload);
-      return await this.save(entity, Group);
+      return await saveEntity(entity, Group);
     });
   }
 
   public async saveCategory(payload: ISaveCategory): Promise<Category> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const entity = new Category(payload);
-      return await this.save(entity, Category);
+      return await saveEntity(entity, Category);
     });
   }
 
   public async deleteGroup(payload: IFetchGroup): Promise<void> {
-    await this.safeContext(async (http, api) => {
+    await httpContext(async http => {
       const entity = new Group(payload);
-      await this.delete(entity);
+      await deleteEntity(entity);
     });
   }
 
   public async deleteCategory(payload: IFetchCategory): Promise<void> {
-    await this.safeContext(async (http, api) => {
+    await httpContext(async http => {
       const entity = new Category(payload);
-      await this.delete(entity);
+      await deleteEntity(entity);
     });
   }
 }

@@ -1,14 +1,14 @@
-import { Service } from "@/helpers";
+import { url as createUrl, httpContext } from "@/helpers/rest";
 import { getters } from "@/store";
 
 import { Profile } from "./models/profile";
 import { IFetchUserProfile } from "./typings";
 
-class UserService extends Service {
+class UserService {
   public async fetchUserProfile(payload: IFetchUserProfile): Promise<Profile> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async (http) => {
       if (!payload.id) payload.id = getters.user.id;
-      const url = api.url("users/{id}", { urlReplace: payload });
+      const url = createUrl("users/{id}", { urlReplace: payload });
 
       const response = await http.get(url);
       return new Profile(response.data);
@@ -16,8 +16,8 @@ class UserService extends Service {
   }
 
   public async emailPasswordReset(payload: { email: string }) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("password/email");
+    return await httpContext(async (http) => {
+      const url = createUrl("password/email");
       await http.post(url, { email: payload.email });
     });
   }

@@ -3,6 +3,7 @@ import { Id, IRouteParams } from "@/typings";
 import {
   convertParams,
   createCompetition,
+  manageCompetitionDetails,
   teamCompetitions
 } from "@/router/routes";
 
@@ -39,5 +40,10 @@ export const teamCompetitionsRoute = (p: { team: Id }) => ({
 
 export const createCmRoute = (p: { team: Id }) => ({
   ...createCompetition,
+  params: convertParams(p)
+});
+
+export const manageCmDetailsRoute = (p: { cm: Id }) => ({
+  ...manageCompetitionDetails,
   params: convertParams(p)
 });

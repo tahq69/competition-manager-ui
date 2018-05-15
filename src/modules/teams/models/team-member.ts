@@ -1,7 +1,6 @@
 import http from "axios";
 import { Location } from "vue-router";
 
-import { Api } from "@/helpers/api";
 import { Entity } from "@/helpers/entity";
 import { Id } from "@/typings";
 

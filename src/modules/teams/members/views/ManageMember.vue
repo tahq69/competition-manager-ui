@@ -6,6 +6,7 @@ import { Location } from "vue-router";
 
 import { Next } from "@/typings";
 import { manageTeamMember } from "@/router/routes";
+import { searchUser } from "@/helpers/service";
 import { UserBase } from "@/components/auth/models/user-base";
 import Submit from "@/components/form/Submit.vue";
 
@@ -72,7 +73,7 @@ export default Vue.extend({
       memberTeam: new Team({}),
       userSelect: new CripSelect<UserBase>({
         onCriteriaChange: (criteria, setOptions, id) => {
-          teamService.searchUser({ name: criteria }).then(users => {
+          searchUser({ name: criteria }).then(users => {
             const options = users.map(user => toUserOption(user));
             setOptions(options, id);
           });

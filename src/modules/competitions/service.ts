@@ -1,7 +1,9 @@
 import { AxiosStatic } from "axios";
 import { Paging } from "crip-vue-bootstrap";
 
-import { Pagination, Service } from "@/helpers";
+import { Pagination } from "@/helpers/pagination";
+import { saveEntity } from "@/helpers/service";
+import { url as createUrl, httpContext } from "@/helpers/rest";
 import { store } from "@/store";
 import { Id } from "@/typings";
 
@@ -26,10 +28,10 @@ interface ISaveCompetition {
   team_id: Id;
 }
 
-class CompetitionService extends Service {
+class CompetitionService {
   public async fetchCompetitions(payload: IFetchCompetitions) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("competitions", {
+    return await httpContext(async http => {
+      const url = createUrl("competitions", {
         params: {
           ...payload.paging.urlParams,
           owned: (payload.owned ? 1 : 0).toString()
@@ -41,8 +43,8 @@ class CompetitionService extends Service {
   }
 
   public async fetchTeamCompetitions(payload: IFetchTeamCompetitions) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("competitions", {
+    return await httpContext(async http => {
+      const url = createUrl("competitions", {
         params: {
           ...payload.paging.urlParams,
           team_id: payload.team_id.toString()
@@ -54,8 +56,8 @@ class CompetitionService extends Service {
   }
 
   public async fetchCompetition(payload: IFetchCompetition) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("competitions/{id}", {
+    return await httpContext(async http => {
+      const url = createUrl("competitions/{id}", {
         urlReplace: payload
       });
 
@@ -65,9 +67,9 @@ class CompetitionService extends Service {
   }
 
   public async saveCompetition(payload: ISaveCompetition) {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const entity = new Competition(payload);
-      return await this.save(entity, Competition);
+      return await saveEntity(entity, Competition);
     });
   }
 

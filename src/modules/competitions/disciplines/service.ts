@@ -1,6 +1,7 @@
 import Vue from "vue";
 
-import { Service } from "@/helpers/service";
+import { saveEntity } from "@/helpers/service";
+import { url as createUrl, httpContext } from "@/helpers/rest";
 import { Id } from "@/typings";
 
 import { Discipline } from "../models/discipline";
@@ -26,13 +27,13 @@ interface ISaveDiscipline {
   type: string;
 }
 
-class DisciplineService extends Service {
+class DisciplineService {
   public async fetchDisciplines(
     payload: IFetchDisciplines
   ): Promise<Discipline[]> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const urlTpl = "competitions/{competition_id}/disciplines";
-      const url = api.url(urlTpl, { urlReplace: payload });
+      const url = createUrl(urlTpl, { urlReplace: payload });
 
       const { data } = await http.get(url);
       return data.reduce((acc: Discipline[], val: any) => {
@@ -43,9 +44,9 @@ class DisciplineService extends Service {
   }
 
   public async fetchDiscipline(payload: IFetchDiscipline): Promise<Discipline> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const urlTpl = "competitions/{competition_id}/disciplines/{id}";
-      const url = api.url(urlTpl, { urlReplace: payload });
+      const url = createUrl(urlTpl, { urlReplace: payload });
 
       const { data } = await http.get(url);
       return new Discipline(data);
@@ -53,9 +54,9 @@ class DisciplineService extends Service {
   }
 
   public async saveDiscipline(payload: ISaveDiscipline): Promise<Discipline> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const entity = new Discipline(payload);
-      return await this.save(entity, Discipline);
+      return await saveEntity(entity, Discipline);
     });
   }
 }

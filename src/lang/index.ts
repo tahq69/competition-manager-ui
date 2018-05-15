@@ -40,3 +40,7 @@ export default function() {
   SetLocale(locale);
   Settings.defaultLocale = locale;
 }
+
+export function t(key: string): string {
+  return i18n.t(key).toString();
+}

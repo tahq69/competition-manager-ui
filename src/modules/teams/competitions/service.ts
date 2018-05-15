@@ -1,4 +1,6 @@
-import { Pagination, Service } from "@/helpers";
+import { Pagination } from "@/helpers";
+import { saveEntity } from "@/helpers/service";
+import { httpContext } from "@/helpers/rest";
 import { store } from "@/store";
 import { Id } from "@/typings";
 
@@ -12,11 +14,11 @@ interface ISaveCompetition {
   team_id: Id;
 }
 
-class CompetitionService extends Service {
+class CompetitionService {
   public async saveCompetition(payload: ISaveCompetition) {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const entity = new CompetitionCreate(payload);
-      return await this.save(entity, CompetitionCreate);
+      return await saveEntity(entity, CompetitionCreate);
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Service } from "@/helpers/service";
+import { url as createUrl, httpContext } from "@/helpers/rest";
 import { Id } from "@/typings";
 
 import { Area } from "../models/area";
@@ -11,11 +11,11 @@ interface IFetchArea extends IFetchAreas {
   id: Id;
 }
 
-class AreaService extends Service {
+class AreaService {
   public async fetchAreas(payload: IFetchAreas): Promise<Area[]> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const urlTpl = "competitions/{competition_id}/areas";
-      const url = api.url(urlTpl, { urlReplace: payload });
+      const url = createUrl(urlTpl, { urlReplace: payload });
 
       const { data } = await http.get(url);
       return data.reduce((acc: Area[], val: any) => {
@@ -26,9 +26,9 @@ class AreaService extends Service {
   }
 
   public async fetchArea(payload: IFetchArea): Promise<Area> {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const urlTpl = "competitions/{competition_id}/disciplines/{id}";
-      const url = api.url(urlTpl, { urlReplace: payload });
+      const url = createUrl(urlTpl, { urlReplace: payload });
 
       const { data } = await http.get(url);
       return new Area(data);

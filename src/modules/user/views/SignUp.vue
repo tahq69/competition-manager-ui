@@ -5,7 +5,7 @@ import Vue from "vue";
 import Auth, { middleware } from "@/components/auth";
 import { home } from "@/router/routes";
 
-import { SignUp } from "./../models/sign-up";
+import { SignUp } from "#/user/models/sign-up";
 
 export default Vue.extend({
   name: "SignUp",

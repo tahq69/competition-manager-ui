@@ -1,5 +1,4 @@
-import { Entity } from "@/helpers";
-import { teamMembers } from "@/router/routes";
+import { Entity } from "@/helpers/entity";
 
 export class ProfileTeam extends Entity {
   public name = "";

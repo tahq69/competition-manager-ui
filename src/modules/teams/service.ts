@@ -1,6 +1,8 @@
 import { Paging } from "crip-vue-bootstrap";
 
-import { Pagination, Service } from "@/helpers";
+import { Pagination } from "@/helpers/pagination";
+import { saveEntity } from "@/helpers/service";
+import { url as createUrl, httpContext } from "@/helpers/rest";
 import { Id } from "@/typings";
 
 import { Team } from "./models/team";
@@ -22,15 +24,15 @@ interface ISaveTeam {
   logo: string;
 }
 
-class TeamsService extends Service {
+class TeamsService {
   /**
    * Fetch single team instance from server api.
    * @param   {IFetchTeam} payload
    * @returns {Team}
    */
   public async fetchTeam(payload: IFetchTeam) {
-    return await this.safeContext(async (http, api) => {
-      const url = api.url("teams/{id}", {
+    return await httpContext(async http => {
+      const url = createUrl("teams/{id}", {
         urlReplace: { id: payload.id.toString() }
       });
 
@@ -45,12 +47,12 @@ class TeamsService extends Service {
    * @returns {Promise<Pagination<Team>>}
    */
   public async fetchTeams(payload: IFetchTeams) {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const params = Object.assign({}, payload.paging.urlParams, {
         managed: payload.managed ? 1 : 0
       });
 
-      const url = api.url("teams", { params });
+      const url = createUrl("teams", { params });
 
       const response = await http.get(url);
       const pagination = Pagination.create<Team>(response, r => new Team(r));
@@ -64,9 +66,9 @@ class TeamsService extends Service {
    * @returns {Promise<Team>} Saved record entity.
    */
   public async saveTeam(payload: ISaveTeam) {
-    return await this.safeContext(async (http, api) => {
+    return await httpContext(async http => {
       const entity = new Team(payload);
-      return await this.save(entity, Team);
+      return await saveEntity(entity, Team);
     });
   }
 }

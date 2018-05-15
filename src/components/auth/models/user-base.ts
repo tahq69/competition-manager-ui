@@ -1,4 +1,4 @@
-import { Entity } from "@/helpers";
+import { Entity } from "@/helpers/entity";
 
 export class UserBase extends Entity {
   public md5: string = "";
