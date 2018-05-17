@@ -4,7 +4,7 @@ import CripSelect from "crip-vue-select";
 import Vue from "vue";
 import { Route } from "vue-router";
 
-import Events from "@/helpers/events";
+import { emitEvent } from "@/helpers";
 import { createCompetitionDisciplineCategory as createRoute } from "@/router/routes";
 import { Id, Next } from "@/typings";
 
@@ -107,7 +107,7 @@ export default Vue.extend({
       this.form.clearErrors();
       try {
         const category = await groupService.saveCategory(this.form.data);
-        Events.$emit("cm:category:saved", category);
+        emitEvent("cm:category:saved", category);
       } catch (errors) {
         this.form.addErrors(errors);
       }
@@ -115,7 +115,7 @@ export default Vue.extend({
 
     async destroy() {
       await groupService.deleteCategory(this.form.data);
-      Events.$emit("cm:category:deleted", this.form.data.id);
+      emitEvent("cm:category:deleted", this.form.data.id);
     },
 
     reset() {

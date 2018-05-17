@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-import { Utils } from "@/helpers";
+import { debounce } from "@/helpers";
 
 export default {
   beforeRouteUpdate(this: any, to: any, from: any, next: any) {
@@ -21,7 +21,7 @@ export default {
     // Debounce window resize event and force badges to update height.
     window.addEventListener(
       "resize",
-      Utils.debounce(() => (this.maxHeight = 0), 100)
+      debounce(() => (this.maxHeight = 0), 100)
     );
   }
 };

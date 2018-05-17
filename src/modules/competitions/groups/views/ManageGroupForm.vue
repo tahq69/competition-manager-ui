@@ -3,7 +3,7 @@ import { Form } from "crip-vue-bootstrap";
 import Vue from "vue";
 import { Route } from "vue-router";
 
-import Events from "@/helpers/events";
+import { emitEvent } from "@/helpers";
 import { createCompetitionDisciplineGroup as createRoute } from "@/router/routes";
 import { Id, Next } from "@/typings";
 
@@ -76,7 +76,7 @@ export default Vue.extend({
       this.form.clearErrors();
       try {
         const group = await groupService.saveGroup(this.form.data);
-        Events.$emit("cm:group:saved", group);
+        emitEvent("cm:group:saved", group);
       } catch (errors) {
         this.form.addErrors(errors);
       }
@@ -84,7 +84,7 @@ export default Vue.extend({
 
     async destroy() {
       await groupService.deleteGroup(this.form.data);
-      Events.$emit("cm:group:deleted", this.form.data.id);
+      emitEvent("cm:group:deleted", this.form.data.id);
     },
 
     reset() {

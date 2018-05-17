@@ -1,10 +1,10 @@
-import Utils from "@/helpers/utils";
+import { isDefined } from "@/helpers";
 
 const stack: { [key: string]: (url: string) => any } = {};
 
 const w = window as any;
 w.cripFilesystemManager = (url: string, params: { id: string }) => {
-  if (Utils.isDefined(stack[params.id])) stack[params.id](url);
+  if (isDefined(stack[params.id])) stack[params.id](url);
 };
 
 export default {

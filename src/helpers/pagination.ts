@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 
-export type Resolver<T> = (x: any) => T;
+type Resolver<T> = (x: any) => T;
 
 export class Pagination<T> {
   public static create<T>(response: AxiosResponse, resolver: Resolver<T>) {

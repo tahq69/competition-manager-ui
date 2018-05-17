@@ -1,8 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import Storage from "@/helpers/local-storage";
-import Utils from "@/helpers/utils";
+import { LocalStorage, newGuid } from "@/helpers";
 
 import filesys from "./filesys";
 
@@ -25,8 +24,8 @@ export default Vue.extend({
   },
 
   data() {
-    const id = Utils.newGuid();
-    const token = Storage.get("access_token");
+    const id = newGuid();
+    const token = LocalStorage.get("access_token");
 
     return { id, token };
   },

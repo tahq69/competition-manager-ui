@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import Events from "@/helpers/events";
+import { onEvent } from "@/helpers";
 import { Id, Next } from "@/typings";
 
 import { Category } from "../../models/category";
@@ -149,10 +149,10 @@ export default Vue.extend({
   },
 
   created() {
-    Events.$on("cm:category:deleted", this.onCategoryDeleted);
-    Events.$on("cm:category:saved", this.onCategorySaved);
-    Events.$on("cm:group:deleted", this.onGroupDeleted);
-    Events.$on("cm:group:saved", this.onGroupSaved);
+    onEvent("cm:category:deleted", this.onCategoryDeleted);
+    onEvent("cm:category:saved", this.onCategorySaved);
+    onEvent("cm:group:deleted", this.onGroupDeleted);
+    onEvent("cm:group:saved", this.onGroupSaved);
   }
 });
 </script>
@@ -161,45 +161,36 @@ export default Vue.extend({
   <div>
     <div class="table-responsive">
       <table class="table table-bordered table-sm">
-        <tr v-for="group in groups" :key="group.id">
+        <tr v-for="group in groups"
+            :key="group.id">
           <td>
-            <router-link
-              :to="editGroupRoute(group)"
-              :title="group.longText"
-              v-html="group.shortText"
-              class="btn btn-light btn-sm btn-block"
-            />
+            <router-link :to="editGroupRoute(group)"
+                         :title="group.longText"
+                         v-html="group.shortText"
+                         class="btn btn-light btn-sm btn-block" />
           </td>
 
-          <td
-            v-for="category in group.categories"
-            :key="category.id"
-          >
-            <router-link
-              :to="editCategoryRoute(group, category)"
-              :title="category.longText"
-              v-html="category.shortText"
-              class="btn btn-light btn-sm btn-block"
-            />
+          <td v-for="category in group.categories"
+              :key="category.id">
+            <router-link :to="editCategoryRoute(group, category)"
+                         :title="category.longText"
+                         v-html="category.shortText"
+                         class="btn btn-light btn-sm btn-block" />
           </td>
 
           <td>
-            <router-link
-              :to="createCategoryRoute(group)"
-              :title="'Add new category'"
-              class="btn btn-light btn-sm btn-block"
-            >
+            <router-link :to="createCategoryRoute(group)"
+                         :title="'Add new category'"
+                         class="btn btn-light btn-sm btn-block">
               <i class="fa fa-plus-square-o"></i>
             </router-link>
           </td>
         </tr>
         <tr>
           <td>
-            <router-link
-              :to="createGroupRoute()"
-              :title="'Add new group'"
-              class="btn btn-light btn-sm btn-block"
-            >
+            <router-link :to="createGroupRoute()"
+                         :title="'Add new group'"
+                         class="btn btn-light btn-sm btn-block">
               <i class="fa fa-plus-square-o"></i>
             </router-link>
           </td>

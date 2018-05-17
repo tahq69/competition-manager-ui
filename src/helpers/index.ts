@@ -1,18 +1,14 @@
-import { DateTime } from "luxon";
-
 import { Validator } from "@/typings";
 
-import utils from "./utils";
-export { Entity, IEntity } from "./entity";
-export { Pagination } from "./pagination";
+import { isInArray } from "./utils";
 
-export const Utils = utils;
-
-export function d(date: any): string {
-  const result = DateTime.fromSQL(date).toISO();
-  return result ? result : date;
-}
+export * from "./utils";
+export * from "./entity";
+export * from "./pagination";
+export * from "./local-storage";
+export * from "./typings";
+export * from "./events";
 
 export function isInArrayValidator<T>(array: T[]): Validator<T> {
-  return (value: T) => Utils.isInArray(value, array);
+  return (value: T) => isInArray(value, array);
 }

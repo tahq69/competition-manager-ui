@@ -1,6 +1,6 @@
 import { Location } from "vue-router";
 
-import { Entity, IEntity } from "@/helpers/entity";
+import { Entity, IEntity } from "@/helpers";
 
 export interface ITeam extends IEntity {
   logo?: string;

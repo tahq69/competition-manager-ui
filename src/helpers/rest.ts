@@ -3,23 +3,23 @@ import axios, { AxiosResponse } from "axios";
 
 import router from "@/router";
 import { login } from "@/router/routes";
-import config from "@/config";
+import { config } from "@/config";
 import { t } from "@/lang";
-import events from "@/helpers/events";
 
 import { IUrlParams, ContextAction } from "./typings";
-import Utils from "./utils";
+import { emitEvent } from "./events";
+import { supplant, hasValue } from "./utils";
 
 export const http = axios;
 
 export function url(path: string, props: IUrlParams = {}) {
   let url = path.replace(new RegExp("^[\\/]+"), "");
   url = props.root ? `${config.url}/${url}` : `${config.api_url}/${url}`;
-  url = Utils.supplant(url, props.urlReplace || {});
+  url = supplant(url, props.urlReplace || {});
 
   Object.keys(props.params || {}).forEach(index => {
     const val = (props.params || {})[index];
-    if (Utils.hasValue(val)) {
+    if (hasValue(val)) {
       url = addParameter(url, index, val);
     }
   });
@@ -104,8 +104,7 @@ export function handleUnexpectedHttpError(response: AxiosResponse): string {
       Vue.notice.warning({ title: t("app.unauthorized") });
 
       // fire event for auth module to unauthorize user from the system.
-      events.$emit("auth:logout");
-      //Auth.logout();
+      emitEvent("auth:logout");
 
       // Redirect user to login page, but with query to current path. This
       // will allow redirect user to expected route after authorization will

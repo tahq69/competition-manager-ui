@@ -1,8 +1,8 @@
 import { Location } from "vue-router";
 
-import { Entity } from "@/helpers/entity";
+import { Entity } from "@/helpers";
 import { Id } from "@/typings";
-import { d } from "@/helpers";
+import { d } from "@/lang";
 
 export class CompetitionCreate extends Entity {
   public subtitle: string = "";

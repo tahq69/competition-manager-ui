@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-import { Settings } from "luxon";
+import { Settings, DateTime } from "luxon";
 
 import { loadLocale, saveLocale } from "@/config/locale";
 import { LocaleType } from "@/lang/typings";
@@ -43,4 +43,9 @@ export default function() {
 
 export function t(key: string): string {
   return i18n.t(key).toString();
+}
+
+export function d(date: any): string {
+  const result = DateTime.fromSQL(date).toISO();
+  return result ? result : date;
 }

@@ -1,13 +1,13 @@
-import Utils from "./utils";
+import { hasValue } from "./utils";
 
-export default class LocalStorage {
+export class LocalStorage {
   public static remove(key: string): void {
     localStorage.removeItem(key);
   }
 
   public static has(key: string): boolean {
     const value = localStorage.getItem(key);
-    return Utils.hasValue(value);
+    return hasValue(value);
   }
 
   public static get(key: string): string | null {

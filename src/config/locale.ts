@@ -1,5 +1,5 @@
-import config from "@/config";
-import LocalStorage from "@/helpers/local-storage";
+import { config } from "@/config";
+import { LocalStorage } from "@/helpers";
 import { LocaleType } from "@/lang/typings";
 
 const storageKey = "crip-cm-locale";

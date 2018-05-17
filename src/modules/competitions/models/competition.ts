@@ -2,7 +2,7 @@ import { Location } from "vue-router";
 
 import { Entity } from "@/helpers/entity";
 import { Id } from "@/typings";
-import { d } from "@/helpers";
+import { d } from "@/lang";
 
 export class Competition extends Entity {
   public ambulance: string = "";

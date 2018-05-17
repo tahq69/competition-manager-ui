@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { DateTime } from "luxon";
 
-import config from "@/config";
+import { config } from "@/config";
 
 Vue.filter("formatDate", (value: string) => {
   if (value) {

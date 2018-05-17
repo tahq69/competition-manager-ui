@@ -24,7 +24,7 @@ import "vue-datetime/dist/vue-datetime.css";
 import luxon from "luxon";
 
 import { sync } from "vuex-router-sync";
-import config from "./config";
+import { config } from "./config";
 import "./helpers/logger";
 Object.defineProperty(Vue.prototype, "_config", { get: () => config });
 

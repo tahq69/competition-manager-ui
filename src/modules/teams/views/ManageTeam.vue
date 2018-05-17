@@ -4,7 +4,6 @@ import { Form } from "crip-vue-bootstrap";
 
 import FileInput from "@/components/form/FileInput.vue";
 import Submit from "@/components/form/Submit.vue";
-import Storage from "@/helpers/local-storage";
 import { manageTeam } from "@/router/routes";
 import { Next } from "@/typings";
 

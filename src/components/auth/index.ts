@@ -1,9 +1,8 @@
 import http from "axios";
 
 import authService from "@/components/auth/service";
-import config from "@/config";
-import Storage from "@/helpers/local-storage";
-import events from "@/helpers/events";
+import { config } from "@/config";
+import { LocalStorage, onEvent } from "@/helpers";
 import { i18n } from "@/lang";
 import { store } from "@/store";
 
@@ -29,7 +28,7 @@ export default class Auth {
    * @memberof Auth
    */
   public static async check(): Promise<boolean> {
-    if (Storage.has("access_token")) {
+    if (LocalStorage.has("access_token")) {
       Auth.setAuthHeader();
       await store.dispatch<IFetchAuthUser>({ type: "fetchAuthUser" });
 
@@ -66,8 +65,8 @@ export default class Auth {
 
   public static async logout() {
     Auth.removeAuthHeader();
-    Storage.remove("access_token");
-    Storage.remove("refresh_token");
+    LocalStorage.remove("access_token");
+    LocalStorage.remove("refresh_token");
     await store.commit<ILogoutPayload>({ type: "logout" });
   }
 
@@ -80,15 +79,15 @@ export default class Auth {
   }
 
   private static storeSession(secrets: ITokenResponse) {
-    Storage.set("access_token", secrets.access_token);
-    Storage.set("refresh_token", secrets.refresh_token);
+    LocalStorage.set("access_token", secrets.access_token);
+    LocalStorage.set("refresh_token", secrets.refresh_token);
     config.auth_token_type = secrets.token_type;
   }
 
   private static getAuthHeader(): string | null {
-    if (!Storage.has("access_token")) return null;
+    if (!LocalStorage.has("access_token")) return null;
 
-    const accessToken = Storage.get("access_token");
+    const accessToken = LocalStorage.get("access_token");
     return `${config.auth_token_type} ${accessToken}`;
   }
 
@@ -102,4 +101,4 @@ export default class Auth {
   }
 }
 
-events.$on("auth:logout", Auth.logout);
+onEvent("auth:logout", Auth.logout);

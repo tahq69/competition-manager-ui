@@ -1,9 +1,8 @@
 import Vue from "vue";
 
-import config from "@/config";
-import ILoggerOptions from "@/config/logger-options";
+import { config, ILoggerOptions } from "@/config";
 
-import Utils from "./utils";
+import { isInArray } from "./utils";
 
 interface ILogWriterParams {
   type: LogType;
@@ -124,7 +123,7 @@ class WebLogger implements ILogger {
 
   private isInAvailableSections(section: string): boolean {
     if (!this.sections || this.sections.length < 1) return true;
-    return Utils.isInArray(section, this.sections);
+    return isInArray(section, this.sections);
   }
 }
 
