@@ -1,19 +1,16 @@
-// https://github.com/vuejs/vue
 import Vue from "vue";
 import { sync } from "vuex-router-sync";
 import ElementUI from "element-ui";
 
 import "./helpers/logger";
-import { config } from "./config";
-Object.defineProperty(Vue.prototype, "_config", { get: () => config });
+import "./helpers/filters";
+import "./config";
 
 import App from "./App.vue";
 import Lang, { i18n } from "./lang";
 import Router from "./router";
 import Guard from "./router/guard";
 import { store } from "./store";
-
-import "./helpers/filters";
 
 sync(store, Router);
 Guard(Router);

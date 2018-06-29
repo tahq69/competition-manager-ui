@@ -87,7 +87,8 @@ export default Vue.extend({
 <template>
   <el-menu mode="horizontal"
            @select="handleSelect">
-    <el-submenu v-if="isAuthenticated && canManage">
+    <el-submenu v-if="isAuthenticated && canManage"
+                index="management">
       <template slot="title">{{ t("manage") }}</template>
 
       <el-menu-item v-if="canManagePosts"
@@ -118,10 +119,7 @@ export default Vue.extend({
                 index="user">
       <template slot="title">{{ userName }}</template>
       <el-menu-item :index="routes.profile.name">{{ t("profile") }}</el-menu-item>
-      <el-menu-item @click="logout"
-                    index="logout">
-        {{ t("logout") }}
-      </el-menu-item>
+      <el-menu-item index="logout">{{ t("logout") }}</el-menu-item>
     </el-submenu>
     <template v-else>
       <el-menu-item :index="routes.login.name">{{ t("login") }}</el-menu-item>
@@ -130,7 +128,6 @@ export default Vue.extend({
 
     <el-submenu index="locales">
       <template slot="title">{{ t("locale") }}</template>
-
       <el-menu-item v-for="locale in locales"
                     :key="locale.key"
                     :index="locale.key">

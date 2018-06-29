@@ -1,3 +1,4 @@
+import Vue from "vue";
 import { DateTime } from "luxon";
 
 import { IConfig } from "./typings";
@@ -8,3 +9,5 @@ config.dateFormat = DateTime.DATE_SHORT;
 config.dateTimeFormat = DateTime.DATETIME_SHORT;
 
 export * from "./typings";
+
+Object.defineProperty(Vue.prototype, "_config", { get: () => config });
