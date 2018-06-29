@@ -27,4 +27,8 @@ export interface IConfig {
   logs: ILoggerOptions;
   dateFormat: DateTimeFormatOptions;
   dateTimeFormat: DateTimeFormatOptions;
+
+  // Element UI
+  label_position: "left" | "right" | "top";
+  label_width: string;
 }

@@ -1,29 +1,24 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap";
 import Vue from "vue";
 import { Location } from "vue-router";
 
+import { ElForm } from "@/typings/element-ui";
 import Auth, { middleware as auth } from "@/components/auth";
 import { forgotPassword, home } from "@/router/routes";
+
+type ServerError = string | null;
 
 export default Vue.extend({
   name: "Login",
 
-  mounted() {
-    this.log = this.$logger.component(this);
-
-    if (auth.isAuthenticated()) {
-      this.log("User is authenticated. Redirecting to homepage.");
-      this.$router.push(home);
-    }
-  },
-
   data() {
     return {
-      form: new Form({
+      form: {
         email: "",
         password: ""
-      })
+      },
+      serverError: null as ServerError,
+      loading: false
     };
   },
 
@@ -36,78 +31,90 @@ export default Vue.extend({
   methods: {
     async authorize() {
       this.$logger.info("authorize", this.form);
-      this.form.clearErrors();
+      this.serverError = null;
+      this.loading = true;
+
       try {
         const credentials = {
-          password: this.form.data.password,
-          username: this.form.data.email
+          username: this.form.email,
+          password: this.form.password
         };
+
         await Auth.login(credentials);
+        this.loading = false;
         this.$router.push(home);
       } catch (error) {
-        this.form.addErrors({ email: [error] });
+        this.$logger.info("authorize", { error });
+        this.serverError = error;
+        this.loading = false;
       }
+    }
+  },
+
+  created() {
+    this.log = this.$logger.component(this);
+
+    if (auth.isAuthenticated()) {
+      this.log("User is authenticated. Redirecting to homepage.");
+      this.$router.push(home);
     }
   }
 });
 </script>
 
 <template>
-  <CFormCard id="login"
-             @submit="authorize"
-             :form="form"
-             :title="$t('user.login_title')"
-             :body-md="10"
-             :sm="10"
-             :md="8"
-             :lg="6">
+  <el-row>
+    <el-col :sm="{ span: 20, offset: 2 }"
+            :md="{ span: 16, offset: 4 }"
+            :lg="{ span: 12, offset: 6 }"
+            :xl="{ span: 10, offset: 7 }">
+      <el-card v-loading="loading">
+        <span slot="header">{{ $t('user.login_title') }}</span>
+        <el-row>
+          <el-col :md="{ span: 20, offset: 2 }">
+            <el-form :model="form"
+                     ref="form"
+                     :label-position="_config.label_position"
+                     :label-width="_config.label_width"
+                     @submit.native.prevent="authorize">
+              <el-form-item :label="$t('user.login_email_label')"
+                            :error="serverError"
+                            prop="email">
+                <el-input v-model="form.email"
+                          type="email"
+                          name="email"
+                          auto-complete="on"
+                          :placeholder="$t('user.login_email_placeholder')"
+                          autofocus
+                          clearable />
+              </el-form-item>
 
-    <!-- #email -->
-    <CFormGroup for="email"
-                :form="form"
-                :label="$t('user.login_email_label')"
-                :md="8"
-                :sm="8">
-      <input type="email"
-             id="email"
-             name="email"
-             autocomplete="email"
-             class="form-control"
-             :placeholder="$t('user.login_email_placeholder')"
-             v-model="form.data.email"
-             v-c-focus="true"
-             required>
-    </CFormGroup>
+              <el-form-item :label="$t('user.login_password_label')"
+                            prop="password">
+                <el-input v-model="form.password"
+                          type="password"
+                          name="password"
+                          auto-complete="on"
+                          :placeholder="$t('user.login_password_placeholder')"
+                          autofocus
+                          clearable />
+              </el-form-item>
 
-    <!-- #password -->
-    <CFormGroup for="password"
-                :label="$t('user.login_password_label')"
-                :md="8"
-                :sm="8">
-      <input type="password"
-             id="password"
-             name="password"
-             autocomplete="current-password"
-             class="form-control"
-             :placeholder="$t('user.login_password_placeholder')"
-             v-model="form.data.password"
-             required>
-    </CFormGroup>
-
-    <!-- #submit -->
-    <CFormGroup for="submit"
-                :md="8"
-                :sm="8">
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
-        {{ $t('user.login_submit_button') }}
-      </button>
-
-      <router-link :to="forgotPassword"
-                   class="btn btn-link">
-        {{ $t('user.login_submit_forgot') }}
-      </router-link>
-    </CFormGroup>
-  </CFormCard>
+              <el-form-item>
+                <el-button type="primary"
+                           native-type="submit">
+                  {{ $t('user.login_submit_button') }}
+                </el-button>
+                <router-link :to="forgotPassword">
+                  <el-button>
+                    {{ $t('user.login_submit_forgot') }}
+                  </el-button>
+                </router-link>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
+      </el-card>
+    </el-col>
+  </el-row>
 </template>

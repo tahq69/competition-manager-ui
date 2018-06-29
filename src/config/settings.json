@@ -7,6 +7,8 @@
     "url": "",
     "api_url": "/api",
     "server_date_format": "YYYY-MM-DD HH:mm:ss",
+    "label_position": "right",
+    "label_width": "150px",
     "default_locale": "lv",
     "logs": {
       "target": "console",
