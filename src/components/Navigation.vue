@@ -89,7 +89,10 @@ export default Vue.extend({
            @select="handleSelect">
     <el-submenu v-if="isAuthenticated && canManage"
                 index="management">
-      <template slot="title">{{ t("manage") }}</template>
+      <template slot="title">
+        <i class="el-icon-menu"></i>
+        <span>{{ t("manage") }}</span>
+      </template>
 
       <el-menu-item v-if="canManagePosts"
                     :index="routes.managePosts.name">
