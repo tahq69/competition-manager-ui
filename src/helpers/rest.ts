@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { Notification } from "element-ui";
 import axios, { AxiosResponse } from "axios";
 
 import router from "@/router";
@@ -77,7 +78,7 @@ export function handleError(error: any): string {
 
   Vue.logger.error("Api.handle -> unknown", error);
 
-  Vue.notice.error({ title: t("app.api_unexpectedError") });
+  Notification.error(t("app.api_unexpectedError"));
 
   return t("app.api_unexpectedError");
 }
@@ -101,7 +102,7 @@ export function handleUnexpectedHttpError(response: AxiosResponse): string {
   switch (response.status) {
     case 401:
       Vue.logger.error("Api.http -> unauthorized", response.data);
-      Vue.notice.warning({ title: t("app.unauthorized") });
+      Notification.warning(t("app.unauthorized"));
 
       // fire event for auth module to unauthorize user from the system.
       emitEvent("auth:logout");
@@ -116,11 +117,11 @@ export function handleUnexpectedHttpError(response: AxiosResponse): string {
 
       return t("app.unauthorized");
     case 404:
-      Vue.notice.error({ title: t("app.api_actionNotFound") });
+      Notification.error(t("app.api_actionNotFound"));
       return t("app.api_actionNotFound");
     case 403:
     case 405:
-      Vue.notice.warning({ title: t("app.api_actionNotAllowed") });
+      Notification.warning(t("app.api_actionNotAllowed"));
       Vue.logger.log("Api.http -> not allowed", response);
       // TODO: send this as email to admin to be able detect users who is
       // trying hack app or some places has not enough protection and simple
@@ -128,7 +129,7 @@ export function handleUnexpectedHttpError(response: AxiosResponse): string {
       return t("app.api_actionNotAllowed");
     default:
       Vue.logger.log("Api.http -> unknown", response);
-      Vue.notice.warning({ title: t("app.api_unknownHttpError") });
+      Notification.warning(t("app.api_unknownHttpError"));
       // TODO: send this as email to admin to be able detect unexpected http
       // errors.
       return t("app.api_unknownHttpError");

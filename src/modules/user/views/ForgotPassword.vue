@@ -1,5 +1,6 @@
 <script lang="ts">
 import Vue from "vue";
+import { Notification } from "element-ui";
 import { Form } from "crip-vue-bootstrap";
 
 import { login } from "@/router/routes";
@@ -30,9 +31,9 @@ export default Vue.extend({
       try {
         await userService.emailPasswordReset(this.form.data);
 
-        Vue.notice.info({
+        Notification.info({
           title: "Password reset request sent.",
-          description: "Please check yor email to get password reset link"
+          message: "Please check yor email to get password reset link"
         });
 
         this.$router.push(login);

@@ -35,7 +35,7 @@ export default Vue.extend({
       this.competition.clearErrors();
       try {
         const cm = await cmService.saveCompetition(this.competition.data);
-        this.$notice.success({ title: "Competition details updated" });
+        this.$notify.success("Competition details updated");
       } catch (errors) {
         this.competition.addErrors(errors);
       }

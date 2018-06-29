@@ -1,45 +1,13 @@
 // https://github.com/vuejs/vue
 import Vue from "vue";
-
-// https://www.npmjs.com/package/crip-vue-loading
-import CripLoading, { ILoadingOptions } from "crip-vue-loading";
-
-// https://www.npmjs.com/package/crip-vue-notice
-import CripNotice, { INoticesOptions } from "crip-vue-notice";
-
-// https://www.npmjs.com/package/crip-vue-select
-import CripSelect, { CripSelectOptions } from "crip-vue-select";
-
-// https://www.npmjs.com/package/crip-vue-bootstrap
-import CripBootstrap, { IBootstrapOptions } from "crip-vue-bootstrap";
-
-// https://github.com/axios/axios
-import axios from "axios";
-
-// https://github.com/mariomka/vue-datetime
-import Datetime from "vue-datetime";
-import "vue-datetime/dist/vue-datetime.css";
-
-// https://github.com/moment/luxon
-import luxon from "luxon";
-
 import { sync } from "vuex-router-sync";
-import { config } from "./config";
-import "./helpers/logger";
-Object.defineProperty(Vue.prototype, "_config", { get: () => config });
+import ElementUI from "element-ui";
 
-Vue.use<CripSelectOptions>(CripSelect, { logLevel: "warn" });
-Vue.use<IBootstrapOptions>(CripBootstrap, { prefix: "C", logLevel: "error" });
-Vue.use<INoticesOptions>(CripNotice, {
-  duration: 4,
-  styles: { top: "73px", right: "15px" }
-});
-Vue.use<ILoadingOptions>(CripLoading, {
-  axios,
-  color: "rgba(255,255,255,1)",
-  verbose: false
-});
-Vue.use(Datetime);
+import "element-ui/lib/theme-chalk/index.css";
+
+import "./helpers/logger";
+import { config } from "./config";
+Object.defineProperty(Vue.prototype, "_config", { get: () => config });
 
 import App from "./App.vue";
 import Lang, { i18n } from "./lang";
@@ -49,9 +17,9 @@ import { store } from "./store";
 
 import "./helpers/filters";
 
-// Vue.use<ILoggerOptions>(Logger, config.logs)
 sync(store, Router);
 Guard(Router);
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 

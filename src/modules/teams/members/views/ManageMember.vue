@@ -178,7 +178,7 @@ export default Vue.extend({
           });
         }
 
-        this.$notice.success(this.notificationDetails());
+        this.$notify.success(this.notificationDetails());
         this.$router.push(manageTeamMembersRoute({ team: this.team }));
       } catch (error) {
         const errors = this.concatErrors(error);
@@ -200,10 +200,10 @@ export default Vue.extend({
       this.form.data.user_id = 0;
     },
 
-    notificationDetails(): { title: string; description: string } {
+    notificationDetails(): { title: string; message: string } {
       if (this.isInvitationVisible) {
         return {
-          description: this.$t(
+          message: this.$t(
             "teams.manage_member_invitation_sent_body",
             this.invitation
           ).toString(),
@@ -212,7 +212,7 @@ export default Vue.extend({
       }
 
       return {
-        description: this.$t(
+        message: this.$t(
           "teams.manage_member_saved_body",
           this.invitation
         ).toString(),

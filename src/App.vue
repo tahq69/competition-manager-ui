@@ -1,29 +1,14 @@
 <script lang="ts">
-import { NavElement } from "crip-vue-bootstrap";
 import Vue from "vue";
-import { Location } from "vue-router";
 
 import Auth from "@/components/auth";
-import { home } from "@/router/routes";
 
-import { leftNav, rightNav } from "./components/navigation";
+import Navigation from "./components/Navigation.vue";
 
 export default Vue.extend({
   name: "app",
 
-  computed: {
-    home(): Location {
-      return home;
-    },
-
-    leftNav(): NavElement[] {
-      return leftNav();
-    },
-
-    rightNav(): NavElement[] {
-      return rightNav();
-    }
-  },
+  components: { Navigation },
 
   methods: {
     redirectAuthenticated() {
@@ -31,13 +16,11 @@ export default Vue.extend({
       // to guarded route instead of home page.
       if (this.$route.query && this.$route.query["redirect"]) {
         this.$router.push(this.$route.query["redirect"]);
-        return;
       }
     }
   },
 
   mounted() {
-    this.$logger.component(this);
     Auth.check();
   },
 
@@ -55,27 +38,16 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div id="app-view">
-    <CNavbar :left="leftNav"
-             :right="rightNav"
-             :containered="true"
-             class="navbar-default fixed-top">
-      <router-link :to="home"
-                   class="navbar-brand">
-        {{ $t('app.title') }}
-      </router-link>
-    </CNavbar>
-
-    <div class="container app-container mt-3">
+  <el-container>
+    <el-header>
+      <Navigation />
+    </el-header>
+    <el-main>
       <router-view />
-    </div>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <style lang="scss">
-@import "./sass/app";
-
-.router-link-active {
-  font-weight: bolder !important;
-}
+@import "assets/styles";
 </style>

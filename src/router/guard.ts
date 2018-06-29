@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Router, { Location, RawLocation, Route, RouteRecord } from "vue-router";
+import { Notification } from "element-ui";
+import Router, { Route, RouteRecord } from "vue-router";
 
 import { middleware as auth } from "@/components/auth";
 import { Next } from "@/typings";
@@ -52,9 +52,9 @@ function requiredRolesGuard(to: Route, from: Route, next: Next) {
 
     if (auth.hasAllRoles(roles)) return next();
 
-    Vue.notice.error({
+    Notification.error({
       title: "Permission denied",
-      description: "User has no required roles"
+      message: "User has no required roles"
     });
 
     return next(home);
@@ -70,10 +70,11 @@ function optionalRolesGuard(to: Route, from: Route, next: Next) {
 
     if (auth.hasAnyRole(roles)) return next();
 
-    Vue.notice.error({
+    Notification.error({
       title: "Permission denied",
-      description: "User has no any of required roles"
+      message: "User has no any of required roles"
     });
+
     return next(home);
   }
 
@@ -87,9 +88,9 @@ async function requiredTeamRolesGuard(to: Route, from: Route, next: Next) {
 
     if (await auth.hasAnyTeamRole(to.params, roles)) return next();
 
-    Vue.notice.error({
+    Notification.error({
       title: "Permission denied",
-      description: "User has no required team roles"
+      message: "User has no required team roles"
     });
 
     return next(home);
@@ -105,9 +106,9 @@ async function optionalTeamRolesGuard(to: Route, from: Route, next: Next) {
 
     if (await auth.hasAllTeamRoles(to.params, roles)) return next();
 
-    Vue.notice.error({
+    Notification.error({
       title: "Permission denied",
-      description: "User has no any of required team roles"
+      message: "User has no any of required team roles"
     });
 
     return next(home);

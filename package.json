@@ -16,6 +16,7 @@
     "crip-vue-loading": "^1.2.5",
     "crip-vue-notice": "^1.1.1",
     "crip-vue-select": "0.0.6",
+    "element-ui": "^2.4.2",
     "luxon": "^1.2.0",
     "vue": "^2.5.13",
     "vue-datetime": "^1.0.0-beta.3",

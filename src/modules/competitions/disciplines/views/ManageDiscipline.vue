@@ -89,7 +89,7 @@ export default Vue.extend({
       try {
         const saved = await disciplineService.saveDiscipline(this.form.data);
 
-        this.$notice.success({ title: "Discipline saved" });
+        this.$notify.success("Discipline saved");
 
         if (!this.isEdit) {
           // Redirect only when we create new discipline.

@@ -31,7 +31,7 @@ export default Vue.extend({
       this.form.clearErrors();
       try {
         const cm = await cmService.saveCompetition(this.form.data);
-        this.$notice.success({ title: "Competition created" });
+        this.$notify.success("Competition created");
         this.$router.push(manageCmDetailsRoute({ cm: cm.id }));
       } catch (errors) {
         this.form.addErrors(errors);

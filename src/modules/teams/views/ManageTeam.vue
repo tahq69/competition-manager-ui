@@ -73,7 +73,7 @@ export default Vue.extend({
       this.form.clearErrors();
       try {
         const team = await teamService.saveTeam(this.form.data);
-        this.$notice.success({ title: "Team saved" });
+        this.$notify.success("Team saved");
         this.$router.push(manageTeamRoute({ team: team.id }));
       } catch (errors) {
         this.form.addErrors(errors);
