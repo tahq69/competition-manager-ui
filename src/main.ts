@@ -3,8 +3,6 @@ import Vue from "vue";
 import { sync } from "vuex-router-sync";
 import ElementUI from "element-ui";
 
-import "element-ui/lib/theme-chalk/index.css";
-
 import "./helpers/logger";
 import { config } from "./config";
 Object.defineProperty(Vue.prototype, "_config", { get: () => config });
