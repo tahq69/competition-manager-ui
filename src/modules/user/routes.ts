@@ -49,6 +49,7 @@ export default [
   {
     ...resetPassword,
     component: resetPasswordVue,
+    props: true,
     path: "/auth/password/reset/:token"
   }
 ] as RouteConfig[];
