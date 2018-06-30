@@ -35,6 +35,10 @@ export default Vue.extend({
       return result;
     },
 
+    activeIndex(): string | undefined {
+      return this.$route.name;
+    },
+
     canManage(): boolean {
       return auth.hasAnyRole([
         roles.CREATE_POST,
@@ -86,6 +90,7 @@ export default Vue.extend({
 
 <template>
   <el-menu mode="horizontal"
+           :default-active="activeIndex"
            @select="handleSelect">
     <el-submenu v-if="isAuthenticated && canManage"
                 index="management">
