@@ -3,12 +3,15 @@ import Vue from "vue";
 
 import Auth from "@/components/auth";
 
-import Navigation from "./components/Navigation.vue";
+import TopNavigation from "./components/TopNavigation.vue";
+import AsideNavigation from "./components/AsideNavigation.vue";
 
 export default Vue.extend({
   name: "app",
 
-  components: { Navigation },
+  components: { TopNavigation, AsideNavigation },
+
+  data: () => ({ isCollapse: true }),
 
   methods: {
     redirectAuthenticated() {
@@ -40,14 +43,25 @@ export default Vue.extend({
 <template>
   <el-container>
     <el-header>
-      <Navigation />
+      <TopNavigation :isCollapse="isCollapse"
+                     @collapse="isCollapse = !isCollapse" />
     </el-header>
-    <el-main>
-      <router-view />
-    </el-main>
+    <el-container>
+      <el-aside :width="isCollapse ? '65px' : '300px'">
+        <AsideNavigation :isCollapse="isCollapse" />
+      </el-aside>
+      <el-main>
+        <router-view />
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 
 <style lang="scss">
 @import "assets/styles";
+
+.el-header {
+  background-color: $--color-primary;
+  color: $--color-info-light;
+}
 </style>
