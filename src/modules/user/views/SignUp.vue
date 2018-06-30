@@ -22,7 +22,7 @@ export default Vue.extend({
       return this.$refs["form"] as any;
     },
 
-    rules(): Rules {
+    rules(): Rules<SignUp, keyof SignUp> {
       return {
         email: [required("Please input the email address")],
         name: [required("Please input the name")],
@@ -100,10 +100,9 @@ export default Vue.extend({
             :lg="{ span: 16, offset: 4 }">
       <el-card>
         <span slot="header">{{ $t('user.signUp_title') }}</span>
-        <el-row>
+        <el-row v-loading="loading">
           <el-col :md="{ span: 20, offset: 2 }">
-            <el-form v-loading="loading"
-                     :model="form"
+            <el-form :model="form"
                      :rules="rules"
                      ref="form"
                      :label-position="_config.label_position"

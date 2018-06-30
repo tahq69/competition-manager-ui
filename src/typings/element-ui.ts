@@ -18,9 +18,7 @@ export type ElValidationType =
 
 export type ElValidateTriggerType = "change" | "blur";
 
-export interface Rules {
-  [key: string]: Array<Rule<any>>;
-}
+export type Rules<T, K extends keyof T> = { [P in K]: Array<Rule<T[P]>> };
 
 export interface ValidateCallback {
   (error?: Error): void;
