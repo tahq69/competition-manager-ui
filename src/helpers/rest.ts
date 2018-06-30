@@ -92,7 +92,14 @@ export function handleHttpError(response: AxiosResponse): string {
 
   // Simply throw validation response errors.
   if (response.data.hasOwnProperty("errors")) {
-    return response.data.errors;
+    const errors = response.data.errors;
+    if (typeof errors === "string") return errors;
+    const result: { [key: string]: string } = {};
+    Object.keys(errors).forEach(key => {
+      result[key] = errors[key].map((x: string) => x.trim()).join(" ");
+    });
+
+    return result as any;
   }
 
   return response.data;

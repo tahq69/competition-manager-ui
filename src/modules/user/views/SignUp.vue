@@ -1,8 +1,9 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap";
 import Vue from "vue";
+import { ElForm, Rules, Rule } from "@/typings/element-ui";
 
 import Auth, { middleware } from "@/components/auth";
+import { required, rule, validate } from "@/helpers/validators";
 import { home } from "@/router/routes";
 
 import { SignUp } from "#/user/models/sign-up";
@@ -10,18 +11,75 @@ import { SignUp } from "#/user/models/sign-up";
 export default Vue.extend({
   name: "SignUp",
 
-  data: () => ({ form: new Form(new SignUp()) }),
+  data: () => ({
+    form: new SignUp(),
+    errors: {},
+    loading: false
+  }),
+
+  computed: {
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
+    },
+
+    rules(): Rules {
+      return {
+        email: [required("Please input the email address")],
+        name: [required("Please input the name")],
+        password: this.passwordRules,
+        password_confirmation: this.passwordConfirmationRules
+      };
+    },
+
+    passwordRules(): Rule[] {
+      return [
+        required("Please input the password"),
+        rule({ min: 6 }, "Password should be at least 6 characters"),
+        validate((rule, value, callback) => {
+          // validate password confirmation field if it already has a value.
+          if (this.form.password_confirmation !== "")
+            this.formRef.validateField("password_confirmation", _ => _);
+
+          callback();
+        })
+      ];
+    },
+
+    passwordConfirmationRules(): Rule[] {
+      return [
+        required("Please input the password again"),
+        validate<string>((rule, value, callback) => {
+          if (value !== this.form.password)
+            callback(new Error("Passwords don't match"));
+          else callback();
+        })
+      ];
+    }
+  },
 
   methods: {
     async signUp() {
-      this.form.clearErrors();
-      try {
-        await Auth.register(this.form.data);
+      if (this.loading) return;
 
-        this.$router.push(home);
-      } catch (errors) {
-        this.form.addErrors(errors);
-      }
+      this.loading = true;
+      this.errors = {};
+
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
+        }
+
+        try {
+          await Auth.register(this.form);
+
+          this.loading = false;
+          this.$router.push(home);
+        } catch (errors) {
+          this.loading = false;
+          this.errors = errors;
+        }
+      });
     }
   },
 
@@ -37,87 +95,76 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CFormCard id="signup"
-             @submit="signUp"
-             :form="form"
-             :title="$t('user.signUp_title')"
-             :body-md="10"
-             :md="10"
-             :lg="8">
-    <!-- #name -->
-    <CFormGroup for="name"
-                :form="form"
-                :label="$t('user.signUp_name_label')"
-                :md="8"
-                :sm="8">
-      <input type="text"
-             id="name"
-             name="name"
-             autocomplete="name"
-             class="form-control"
-             :placeholder="$t('user.signUp_name_placeholder')"
-             v-model="form.data.name"
-             v-c-focus="true"
-             required>
-    </CFormGroup>
+  <el-row>
+    <el-col :md="{ span: 20, offset: 2 }"
+            :lg="{ span: 16, offset: 4 }">
+      <el-card>
+        <span slot="header">{{ $t('user.signUp_title') }}</span>
+        <el-row>
+          <el-col :md="{ span: 20, offset: 2 }">
+            <el-form v-loading="loading"
+                     :model="form"
+                     :rules="rules"
+                     ref="form"
+                     :label-position="_config.label_position"
+                     :label-width="_config.label_width"
+                     @submit.native.prevent="signUp">
+              <el-form-item :label="$t('user.signUp_name_label')"
+                            :error="errors.name"
+                            prop="name">
+                <el-input v-model="form.name"
+                          type="text"
+                          name="name"
+                          auto-complete="on"
+                          :placeholder="$t('user.signUp_name_placeholder')"
+                          autofocus
+                          clearable />
+              </el-form-item>
 
-    <!-- #email -->
-    <CFormGroup for="email"
-                :form="form"
-                :label="$t('user.signUp_email_label')"
-                :md="8"
-                :sm="8">
-      <input type="email"
-             id="email"
-             name="email"
-             autocomplete="email"
-             class="form-control"
-             :placeholder="$t('user.signUp_email_placeholder')"
-             v-model="form.data.email"
-             required>
-    </CFormGroup>
+              <el-form-item :label="$t('user.signUp_email_label')"
+                            :error="errors.email"
+                            prop="email">
+                <el-input v-model="form.email"
+                          type="email"
+                          name="email"
+                          auto-complete="on"
+                          :placeholder="$t('user.signUp_email_placeholder')"
+                          clearable />
+              </el-form-item>
 
-    <!-- #password -->
-    <CFormGroup for="password"
-                :form="form"
-                :label="$t('user.signUp_password_label')"
-                :md="8"
-                :sm="8">
-      <input type="password"
-             id="password"
-             name="password"
-             autocomplete="new-password"
-             class="form-control"
-             :placeholder="$t('user.signUp_password_placeholder')"
-             v-model="form.data.password"
-             required>
-    </CFormGroup>
+              <el-form-item :label="$t('user.signUp_password_label')"
+                            :error="errors.password"
+                            prop="password">
+                <el-input v-model="form.password"
+                          type="password"
+                          name="password"
+                          auto-complete="on"
+                          :placeholder="$t('user.signUp_password_placeholder')"
+                          clearable />
+              </el-form-item>
 
-    <!-- #password_confirmation -->
-    <CFormGroup for="password_confirmation"
-                :form="form"
-                :label="$t('user.signUp_password_confirmation_label')"
-                :md="8"
-                :sm="8">
-      <input type="password"
-             id="password_confirmation"
-             name="password_confirmation"
-             autocomplete="new-password"
-             class="form-control"
-             :placeholder="$t('user.signUp_password_confirmation_placeholder')"
-             v-model="form.data.password_confirmation"
-             required>
-    </CFormGroup>
+              <el-form-item :label="$t('user.signUp_password_confirmation_label')"
+                            :error="errors.password_confirmation"
+                            prop="password_confirmation">
+                <el-input v-model="form.password_confirmation"
+                          type="password"
+                          name="password_confirmation"
+                          auto-complete="on"
+                          :placeholder="$t('user.signUp_password_confirmation_placeholder')"
+              
+                          clearable />
+              </el-form-item>
 
-    <!-- #submit -->
-    <CFormGroup for="submit"
-                :md="8"
-                :sm="8">
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
-        {{ $t('user.signUp_submit_button') }}
-      </button>
-    </CFormGroup>
-  </CFormCard>
+              <el-form-item>
+                <el-button type="primary"
+                           native-type="submit">
+                  {{ $t('user.signUp_submit_button') }}
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
+      </el-card>
+    </el-col>
+  </el-row>
 </template>
