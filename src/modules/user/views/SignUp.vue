@@ -24,7 +24,10 @@ export default Vue.extend({
 
     rules(): Rules<SignUp, keyof SignUp> {
       return {
-        email: [required("Please input the email address")],
+        email: [
+          required("Please input the email address"),
+          rule({ type: "email" }, "Please input valid email address")
+        ],
         name: [required("Please input the name")],
         password: this.passwordRules,
         password_confirmation: this.passwordConfirmationRules

@@ -1,11 +1,13 @@
 <script lang="ts">
 import Vue from "vue";
 import { Notification } from "element-ui";
-import { Form } from "crip-vue-bootstrap";
+import { ElForm, Rules, Rule } from "@/typings/element-ui";
 
 import { login } from "@/router/routes";
+import { required, rule } from "@/helpers/validators";
 
-import userService from "./../service";
+import userService from "#/user/service";
+import { ForgotPassword } from "#/user/models/forgot-password";
 
 export default Vue.extend({
   name: "ForgotPassword",
@@ -14,71 +16,98 @@ export default Vue.extend({
     this.$logger.component(this);
   },
 
-  data() {
-    return {
-      form: new Form({
-        email: ""
-      })
-    };
+  data: () => ({
+    form: new ForgotPassword(),
+    errors: {},
+    loading: false
+  }),
+
+  computed: {
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
+    },
+
+    rules(): Rules<ForgotPassword, keyof ForgotPassword> {
+      return {
+        email: [
+          required("Please input the email address"),
+          rule({ type: "email" }, "Please input valid email address")
+        ]
+      };
+    }
   },
 
   methods: {
     async sendResetEmail() {
-      this.form.clearErrors();
+      if (this.loading) return;
 
-      this.$logger.log("sendResetEmail", this.form);
+      this.loading = true;
+      this.errors = {};
 
-      try {
-        await userService.emailPasswordReset(this.form.data);
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
+        }
 
-        Notification.info({
-          title: "Password reset request sent.",
-          message: "Please check yor email to get password reset link"
-        });
+        try {
+          await userService.emailPasswordReset(this.form);
 
-        this.$router.push(login);
-      } catch (errors) {
-        this.form.addErrors(errors);
-      }
+          Notification.success({
+            title: "Password reset request sent.",
+            message: "Please check yor email to get password reset link"
+          });
+
+          this.loading = false;
+          this.$router.push(login);
+        } catch (errors) {
+          this.loading = false;
+          this.errors = errors;
+        }
+      });
     }
   }
 });
 </script>
 
 <template>
-  <CFormCard id="forgot-password"
-             @submit="sendResetEmail"
-             :form="form"
-             :title="$t('user.forgotPassword_title')"
-             :body-md="10"
-             :sm="10"
-             :md="8"
-             :lg="6">
-    <!-- #email -->
-    <CFormGroup for="email"
-                :form="form"
-                :label="$t('user.forgotPassword_email_label')"
-                :md="8"
-                :sm="8">
-      <input type="email"
-             id="email"
-             name="email"
-             class="form-control"
-             :placeholder="$t('user.forgotPassword_email_placeholder')"
-             v-model="form.data.email"
-             v-c-focus="true"
-             required>
-    </CFormGroup>
+  <el-row>
+    <el-col :sm="{ span: 20, offset: 2 }"
+            :md="{ span: 16, offset: 4 }"
+            :lg="{ span: 12, offset: 6 }">
+      <el-card>
+        <span slot="header">{{ $t('user.forgotPassword_title') }}</span>
+        <el-row v-loading="loading">
+          <el-col :md="{ span: 20, offset: 2 }">
+            <el-form :model="form"
+                     :rules="rules"
+                     ref="form"
+                     :label-position="_config.label_position"
+                     :label-width="_config.label_width"
+                     @submit.native.prevent="sendResetEmail">
 
-    <!-- #submit -->
-    <CFormGroup for="submit"
-                :md="8"
-                :sm="8">
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
-        {{ $t('user.forgotPassword_submit_button') }}
-      </button>
-    </CFormGroup>
-  </CFormCard>
+              <el-form-item :label="$t('user.forgotPassword_email_label')"
+                            :error="errors.email"
+                            prop="email">
+                <el-input v-model="form.email"
+                          type="email"
+                          name="email"
+                          auto-complete="on"
+                          :placeholder="$t('user.forgotPassword_email_placeholder')"
+                          autofocus
+                          clearable />
+              </el-form-item>
+
+              <el-form-item>
+                <el-button type="primary"
+                           native-type="submit">
+                  {{ $t('user.forgotPassword_submit_button') }}
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
+      </el-card>
+    </el-col>
+  </el-row>
 </template>
