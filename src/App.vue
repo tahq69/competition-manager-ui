@@ -13,7 +13,17 @@ export default Vue.extend({
 
   data: () => ({ isCollapse: true }),
 
+  computed: {
+    mainStyles(): any {
+      return { "margin-left": this.isCollapse ? "-135px" : "0px" };
+    }
+  },
+
   methods: {
+    collapse() {
+      this.isCollapse = !this.isCollapse;
+    },
+
     redirectAuthenticated() {
       // If user has redirected here by guard, redirect him back
       // to guarded route instead of home page.
@@ -44,13 +54,14 @@ export default Vue.extend({
   <el-container>
     <el-header>
       <TopNavigation :isCollapse="isCollapse"
-                     @collapse="isCollapse = !isCollapse" />
+                     @collapse="collapse" />
     </el-header>
     <el-container>
-      <el-aside :width="isCollapse ? '65px' : '300px'">
-        <AsideNavigation :isCollapse="isCollapse" />
+      <el-aside width="200px">
+        <AsideNavigation :isCollapse="isCollapse"
+                         class="el-menu-vertical" />
       </el-aside>
-      <el-main>
+      <el-main :style="mainStyles">
         <router-view />
       </el-main>
     </el-container>
@@ -63,5 +74,13 @@ export default Vue.extend({
 .el-header {
   background-color: $--color-primary;
   color: $--color-info-light;
+}
+
+.el-main {
+  transition: $--all-transition;
+}
+
+.el-menu-vertical:not(.el-menu--collapse) {
+  width: 199px;
 }
 </style>

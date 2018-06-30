@@ -81,7 +81,8 @@ export default Vue.extend({
          @click.prevent="$emit('collapse')">
         <i class="el-icon-menu"></i>
       </a>
-      <h1 class="application-title">{{ $t('app.title') }}</h1>
+      <h1 class="application-title"
+          @click="goTo(routes.home)">{{ $t('app.title') }}</h1>
     </el-col>
 
     <el-col :span="12">
@@ -146,8 +147,13 @@ a.toggle-aside {
 
 .application-title {
   display: inline-block;
+  cursor: pointer;
   margin: 0;
   font-size: 1.5em;
+
+  &:hover {
+    color: $--color-white;
+  }
 }
 
 .top-navigation-dropdown {

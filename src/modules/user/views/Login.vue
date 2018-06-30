@@ -12,8 +12,6 @@ import { Credentials } from "#/user/models/credentials";
 type ServerError = string | null;
 
 export default Vue.extend({
-  name: "Login",
-
   data: () => ({
     form: new Credentials(),
     serverError: null as ServerError,
@@ -71,23 +69,23 @@ export default Vue.extend({
 
 <template>
   <el-row>
-    <el-col :sm="{ span: 20, offset: 2 }"
-            :md="{ span: 16, offset: 4 }"
-            :lg="{ span: 12, offset: 6 }"
-            :xl="{ span: 10, offset: 7 }">
+    <el-col :md="{ span: 20, offset: 2 }"
+            :lg="{ span: 16, offset: 4 }"
+            :xl="{ span: 12, offset: 6 }">
       <el-card>
         <span slot="header">{{ $t('user.login_title') }}</span>
         <el-row v-loading="loading">
-          <el-col :md="{ span: 20, offset: 2 }">
+          <el-col :lg="{ span: 20, offset: 2 }"
+                  :xl="{ span: 16, offset: 4 }">
             <el-form :model="form"
                      :rules="rules"
                      ref="form"
                      :label-position="_config.label_position"
                      :label-width="_config.label_width"
                      @submit.native.prevent="authorize">
-              <el-form-item :label="$t('user.login_email_label')"
-                            :error="serverError"
+              <el-form-item :error="serverError"
                             prop="username">
+                <span slot="label" class="a">{{ $t('user.login_email_label') }}</span>
                 <el-input v-model="form.username"
                           type="email"
                           name="email"
@@ -114,7 +112,7 @@ export default Vue.extend({
                   {{ $t('user.login_submit_button') }}
                 </el-button>
                 <router-link :to="forgotPassword">
-                  <el-button>
+                  <el-button type="text">
                     {{ $t('user.login_submit_forgot') }}
                   </el-button>
                 </router-link>
