@@ -8,31 +8,15 @@ type Locale = { key: LocaleType; text: string };
 type Locales = Locale[];
 
 export default Vue.extend({
-  name: "Navigation",
+  props: {
+    isCollapse: { type: Boolean, required: true }
+  },
 
   data: () => ({ routes }),
 
   computed: {
     isAuthenticated(): boolean {
       return auth.isAuthenticated();
-    },
-
-    userName(): string {
-      return this.$store.state.auth.user.name;
-    },
-
-    locales(): Locales {
-      const result: Locales = [];
-
-      Object.keys(locales).forEach(key => {
-        const locale: ILocale = locales[key as LocaleType];
-        result.push({
-          key: locale.key,
-          text: locale.text
-        });
-      });
-
-      return result;
     },
 
     activeIndex(): string | undefined {
@@ -68,16 +52,6 @@ export default Vue.extend({
     },
 
     handleSelect(key: string, keyPath: string[]) {
-      this.log("handleSelect", { key, keyPath });
-      if (keyPath.indexOf("locales") === 0) {
-        SetLocale(key as LocaleType);
-        return;
-      }
-
-      if (key === "logout") {
-        return Auth.logout();
-      }
-
       this.$router.push({ name: key });
     }
   },
@@ -89,13 +63,13 @@ export default Vue.extend({
 </script>
 
 <template>
-  <el-menu mode="horizontal"
-           :default-active="activeIndex"
+  <el-menu :default-active="activeIndex"
+           :collapse="isCollapse"
            @select="handleSelect">
     <el-submenu v-if="isAuthenticated && canManage"
                 index="management">
       <template slot="title">
-        <i class="el-icon-menu"></i>
+        <i class="el-icon-setting"></i>
         <span>{{ t("manage") }}</span>
       </template>
 
@@ -116,31 +90,13 @@ export default Vue.extend({
     </el-submenu>
 
     <el-menu-item :index="routes.competitions.name">
-      {{ t("competitions") }}
+      <i class="el-icon-document"></i>
+      <span slot="title">{{ t("competitions") }}</span>
     </el-menu-item>
 
     <el-menu-item :index="routes.teams.name">
-      {{ t("teams") }}
+      <i class="el-icon-menu"></i>
+      <span slot="title">{{ t("teams") }}</span>
     </el-menu-item>
-
-    <el-submenu v-if="isAuthenticated"
-                index="user">
-      <template slot="title">{{ userName }}</template>
-      <el-menu-item :index="routes.profile.name">{{ t("profile") }}</el-menu-item>
-      <el-menu-item index="logout">{{ t("logout") }}</el-menu-item>
-    </el-submenu>
-    <template v-else>
-      <el-menu-item :index="routes.login.name">{{ t("login") }}</el-menu-item>
-      <el-menu-item :index="routes.signUp.name">{{ t("signup") }}</el-menu-item>
-    </template>
-
-    <el-submenu index="locales">
-      <template slot="title">{{ t("locale") }}</template>
-      <el-menu-item v-for="locale in locales"
-                    :key="locale.key"
-                    :index="locale.key">
-        {{ locale.text }}
-      </el-menu-item>
-    </el-submenu>
   </el-menu>
 </template>

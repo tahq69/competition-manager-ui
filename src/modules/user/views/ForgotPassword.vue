@@ -72,13 +72,14 @@ export default Vue.extend({
 
 <template>
   <el-row>
-    <el-col :sm="{ span: 20, offset: 2 }"
-            :md="{ span: 16, offset: 4 }"
-            :lg="{ span: 12, offset: 6 }">
+    <el-col :md="{ span: 20, offset: 2 }"
+            :lg="{ span: 16, offset: 4 }"
+            :xl="{ span: 12, offset: 6 }">
       <el-card>
         <span slot="header">{{ $t('user.forgotPassword_title') }}</span>
         <el-row v-loading="loading">
-          <el-col :md="{ span: 20, offset: 2 }">
+          <el-col :lg="{ span: 20, offset: 2 }"
+                  :xl="{ span: 16, offset: 4 }">
             <el-form :model="form"
                      :rules="rules"
                      ref="form"

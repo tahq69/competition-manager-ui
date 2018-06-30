@@ -3,14 +3,27 @@ import Vue from "vue";
 
 import Auth from "@/components/auth";
 
-import Navigation from "./components/Navigation.vue";
+import TopNavigation from "./components/TopNavigation.vue";
+import AsideNavigation from "./components/AsideNavigation.vue";
 
 export default Vue.extend({
   name: "app",
 
-  components: { Navigation },
+  components: { TopNavigation, AsideNavigation },
+
+  data: () => ({ isCollapse: true }),
+
+  computed: {
+    mainStyles(): any {
+      return { "margin-left": this.isCollapse ? "-135px" : "0px" };
+    }
+  },
 
   methods: {
+    collapse() {
+      this.isCollapse = !this.isCollapse;
+    },
+
     redirectAuthenticated() {
       // If user has redirected here by guard, redirect him back
       // to guarded route instead of home page.
@@ -40,14 +53,34 @@ export default Vue.extend({
 <template>
   <el-container>
     <el-header>
-      <Navigation />
+      <TopNavigation :isCollapse="isCollapse"
+                     @collapse="collapse" />
     </el-header>
-    <el-main>
-      <router-view />
-    </el-main>
+    <el-container>
+      <el-aside width="200px">
+        <AsideNavigation :isCollapse="isCollapse"
+                         class="el-menu-vertical" />
+      </el-aside>
+      <el-main :style="mainStyles">
+        <router-view />
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 
 <style lang="scss">
 @import "assets/styles";
+
+.el-header {
+  background-color: $--color-primary;
+  color: $--color-info-light;
+}
+
+.el-main {
+  transition: $--all-transition;
+}
+
+.el-menu-vertical:not(.el-menu--collapse) {
+  width: 199px;
+}
 </style>
