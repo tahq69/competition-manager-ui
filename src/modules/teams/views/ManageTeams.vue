@@ -1,38 +1,83 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap";
 import Vue from "vue";
-import { Location } from "vue-router";
 
 import { Id } from "@/typings";
+import { SortDirection, Paging } from "@/helpers/pagination";
+import { manageTeams } from "@/router/routes";
+
+import { Team } from "#/teams/models/team";
+import teamService from "#/teams/service";
 
 import CreateTeamBtn from "#/teams/components/CreateTeamBtn.vue";
 import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
 import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
-
-import { manageTeamMembersRoute } from "../members/routes";
-import { Team } from "../models/team";
-import teamService from "../service";
-
-const { mixin, paging: teams } = createPaging<Team>(paging =>
-  teamService.fetchTeams({ paging })
-);
 
 export default Vue.extend({
   name: "ManageTeams",
 
   components: { CreateTeamBtn, ManageTeamBtn, ManageTeamMembersBtn },
 
-  mixins: [mixin],
+  props: {
+    page: { type: [String, Number], required: true },
+    perPage: { type: [String, Number], required: true },
+    sort: { type: String, required: true },
+    direction: { type: String, required: true }
+  },
 
-  data: () => ({ teams }),
+  data: () => ({
+    loading: false,
+    totalItems: 1000000,
+    teams: [] as Team[]
+  }),
+
+  computed: {
+    currentPage(): number {
+      // convert route string parameter to number for el-pagination.
+      return parseInt(this.page.toString()) || 1;
+    },
+
+    currentPerPage(): number {
+      // convert route string parameter to number for el-pagination.
+      return parseInt(this.perPage.toString()) || 10;
+    }
+  },
 
   methods: {
-    manageTeamMembersRoute: (team: Team) =>
-      manageTeamMembersRoute({ team: team.id })
+    currentChange(page: string) {
+      // trigger route change when users updates pagination.
+      this.$router.push({
+        name: manageTeams.name,
+        params: { page, sort: this.sort, direction: this.direction }
+      });
+    },
+
+    async fetchPage() {
+      this.loading = true;
+      
+      const page = this.currentPage;
+      const perPage = this.currentPerPage;
+      const direction = this.direction as SortDirection;
+      const paging = new Paging(page, perPage, this.sort, direction);
+      const paginated = await teamService.fetchTeams({ paging });
+
+      this.teams = paginated.items;
+      this.totalItems = paginated.total;
+
+      this.loading = false;
+    }
   },
 
   created() {
-    this.$logger.component(this);
+    this.log = this.$logger.component(this);
+
+    // fetch data on component initial load.
+    this.fetchPage();
+
+    // update when page/perPage/sort/direction is changed.
+    this.$watch(
+      () => [this.page, this.sort, this.direction, this.perPage].join(),
+      () => this.fetchPage()
+    );
   }
 });
 </script>
@@ -72,7 +117,7 @@ export default Vue.extend({
         </tr>
       </thead>
       <tbody>
-        <template v-for="team in teams.items">
+        <template v-for="team in teams">
           <tr @click="teams.select(team)"
               :class="teams.classes(team)"
               :key="team.id">

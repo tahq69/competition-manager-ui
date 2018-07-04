@@ -54,7 +54,7 @@ export default Vue.extend({
     },
 
     handleSelect(key: string, keyPath: string[]) {
-      this.$router.push({ name: key });
+      this.$router.push({ name: key, params: { page: "1" } });
     }
   },
 

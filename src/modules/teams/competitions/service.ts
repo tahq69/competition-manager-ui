@@ -1,7 +1,5 @@
-import { Pagination } from "@/helpers";
 import { saveEntity } from "@/helpers/service";
 import { httpContext } from "@/helpers/rest";
-import { store } from "@/store";
 import { Id } from "@/typings";
 
 import { CompetitionCreate } from "../models/competition-create";

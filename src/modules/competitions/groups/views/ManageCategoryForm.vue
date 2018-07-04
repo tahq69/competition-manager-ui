@@ -1,6 +1,4 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap";
-import CripSelect from "crip-vue-select";
 import Vue from "vue";
 import { Route } from "vue-router";
 
@@ -77,75 +75,73 @@ export default Vue.extend({
 
   data() {
     return {
-      form: new Form(
-        new Category({
-          area_id: 0,
-          category_group_id: this.group,
-          competition_id: this.cm,
-          discipline_id: this.discipline,
-          display_type: DisplayType.Max,
-          id: 0,
-          max: 0,
-          min: 0,
-          short: "",
-          title: ""
-        })
-      ),
+      form: new Category({
+        area_id: 0,
+        category_group_id: this.group,
+        competition_id: this.cm,
+        discipline_id: this.discipline,
+        display_type: DisplayType.Max,
+        id: 0,
+        max: 0,
+        min: 0,
+        short: "",
+        title: ""
+      })
 
-      areaSelect: new CripSelect({}),
+      /*areaSelect: new CripSelect({}),
 
       displayTypeSelect: new CripSelect([
         { key: "1", text: "Maximum", value: DisplayType.Max },
         { key: "2", text: "Minimum", value: DisplayType.Min },
         { key: "3", text: "Both", value: DisplayType.Both }
-      ])
+      ])*/
     };
   },
 
   methods: {
     async submit() {
-      this.form.clearErrors();
+      /*this.form.clearErrors();
       try {
         const category = await groupService.saveCategory(this.form.data);
         emitEvent("cm:category:saved", category);
       } catch (errors) {
         this.form.addErrors(errors);
-      }
+      }*/
     },
 
     async destroy() {
-      await groupService.deleteCategory(this.form.data);
-      emitEvent("cm:category:deleted", this.form.data.id);
+      await groupService.deleteCategory(this.form);
+      emitEvent("cm:category:deleted", this.form.id);
     },
 
     reset() {
-      this.form.data.area_id = 0;
-      this.form.data.category_group_id = this.group;
-      this.form.data.competition_id = this.cm;
-      this.form.data.discipline_id = this.discipline;
-      this.form.data.display_type = DisplayType.Max;
-      this.form.data.id = 0;
-      this.form.data.max = 0;
-      this.form.data.min = 0;
-      this.form.data.short = "";
-      this.form.data.title = "";
+      this.form.area_id = 0;
+      this.form.category_group_id = this.group;
+      this.form.competition_id = this.cm;
+      this.form.discipline_id = this.discipline;
+      this.form.display_type = DisplayType.Max;
+      this.form.id = 0;
+      this.form.max = 0;
+      this.form.min = 0;
+      this.form.short = "";
+      this.form.title = "";
     },
 
     setCategory(category: Category) {
-      this.form.data.area_id = category.area_id;
-      this.form.data.category_group_id = category.category_group_id;
-      this.form.data.competition_id = category.competition_id;
-      this.form.data.discipline_id = category.discipline_id;
-      this.form.data.display_type = category.display_type;
-      this.form.data.id = category.id;
-      this.form.data.max = category.max;
-      this.form.data.min = category.min;
-      this.form.data.short = category.short;
-      this.form.data.title = category.title;
+      this.form.area_id = category.area_id;
+      this.form.category_group_id = category.category_group_id;
+      this.form.competition_id = category.competition_id;
+      this.form.discipline_id = category.discipline_id;
+      this.form.display_type = category.display_type;
+      this.form.id = category.id;
+      this.form.max = category.max;
+      this.form.min = category.min;
+      this.form.short = category.short;
+      this.form.title = category.title;
     },
 
     setAreas(options: any[]) {
-      this.areaSelect.addOption(options);
+      /*this.areaSelect.addOption(options);*/
     }
   },
 

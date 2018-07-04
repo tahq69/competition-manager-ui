@@ -1,6 +1,4 @@
-import { Paging } from "crip-vue-bootstrap";
-
-import { Pagination } from "@/helpers";
+import { Paginated, Paging } from "@/helpers";
 import { saveEntity } from "@/helpers/service";
 import { url as createUrl, httpContext } from "@/helpers/rest";
 import { Id } from "@/typings";
@@ -21,7 +19,7 @@ interface IFetchMember {
 }
 
 interface IFetchMembers {
-  paging: Paging<TeamMember>;
+  paging: Paging;
   team_id: Id;
 }
 
@@ -70,11 +68,8 @@ class MembersService {
       });
 
       const response = await http.get(url);
-      const pagination = Pagination.create<TeamMember>(
-        response,
-        r => new TeamMember(r)
-      );
-      return pagination;
+      
+      return new Paginated(response, r => new TeamMember(r));
     });
   }
 

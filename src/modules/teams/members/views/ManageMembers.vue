@@ -1,19 +1,16 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap";
 import Vue from "vue";
-import { Location } from "vue-router";
+
+import { Paging, SortDirection } from "@/helpers";
+import { manageTeamMembers } from "@/router/routes";
+
+import { TeamMember } from "#/teams/models/team-member";
+import memberService from "#/teams/members/service";
 
 import ManageTeamMemberBtn from "#/teams/components/ManageTeamMemberBtn.vue";
 import CreateTeamMemberBtn from "#/teams/components/CreateTeamMemberBtn.vue";
 import TeamBtn from "#/teams/components/TeamBtn.vue";
 import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
-
-import { TeamMember } from "../../models/team-member";
-import memberService from "../service";
-
-const { mixin, paging: members } = createPaging<TeamMember>((paging, to) => {
-  return memberService.fetchTeamMembers({ paging, team_id: to.params.team });
-});
 
 export default Vue.extend({
   name: "ManageMembers",
@@ -26,15 +23,70 @@ export default Vue.extend({
   },
 
   props: {
-    team: { type: [String, Number], required: true }
+    team: { type: [String, Number], required: true },
+    page: { type: [String, Number], required: true },
+    perPage: { type: [String, Number], required: true },
+    sort: { type: String, required: true },
+    direction: { type: String, required: true }
   },
 
-  mixins: [mixin],
+  data: () => ({
+    loading: false,
+    totalItems: 1000000,
+    members: [] as TeamMember[]
+  }),
 
-  data: () => ({ members }),
+  computed: {
+    currentPage(): number {
+      // convert route string parameter to number for el-pagination.
+      return parseInt(this.page.toString()) || 1;
+    },
+
+    currentPerPage(): number {
+      // convert route string parameter to number for el-pagination.
+      return parseInt(this.perPage.toString()) || 10;
+    }
+  },
+
+  methods: {
+    currentChange(page: string) {
+      const perPage = this.perPage.toString();
+
+      // trigger route change when users updates pagination.
+      this.$router.push({
+        name: manageTeamMembers.name,
+        params: { page, sort: this.sort, direction: this.direction, perPage }
+      });
+    },
+
+    async fetchPage() {
+      this.loading = true;
+
+      const page = this.currentPage;
+      const perPage = this.currentPerPage;
+      const direction = this.direction as SortDirection;
+      const paging = new Paging(page, perPage, this.sort, direction);
+      const payload = { paging, team_id: this.team };
+      const paginated = await memberService.fetchTeamMembers(payload);
+
+      this.members = paginated.items;
+      this.totalItems = paginated.total;
+
+      this.loading = false;
+    }
+  },
 
   created() {
     this.log = this.$logger.component(this);
+
+    // fetch data on component initial load.
+    this.fetchPage();
+
+    // update when page/perPage/sort/direction is changed.
+    this.$watch(
+      () => [this.page, this.sort, this.direction, this.perPage].join(),
+      () => this.fetchPage()
+    );
   }
 });
 </script>
@@ -92,7 +144,7 @@ export default Vue.extend({
         </tr>
       </thead>
       <tbody>
-        <template v-for="member in members.items">
+        <template v-for="member in members">
           <tr @click="members.select(member)"
               :class="members.classes(member)"
               :key="member.id">

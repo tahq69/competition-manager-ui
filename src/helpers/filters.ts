@@ -1,16 +1,16 @@
 import Vue from "vue";
-import { DateTime } from "luxon";
+// import { DateTime } from "luxon";
 
 import { config } from "@/config";
 
 Vue.filter("formatDate", (value: string) => {
   if (value) {
-    return DateTime.fromISO(value).toLocaleString(config.dateFormat);
+    return ""; // DateTime.fromISO(value).toLocaleString(config.dateFormat);
   }
 });
 
 Vue.filter("formatDateTime", (value: string) => {
   if (value) {
-    return DateTime.fromISO(value).toLocaleString(config.dateTimeFormat);
+    return ""; // DateTime.fromISO(value).toLocaleString(config.dateTimeFormat);
   }
 });

@@ -35,7 +35,7 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
-@import "~bootstrap/scss/functions";
+/*@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 
 .discipline-create-card {
@@ -47,5 +47,5 @@ export default Vue.extend({
   .card-body {
     text-align: center;
   }
-}
+}*/
 </style>

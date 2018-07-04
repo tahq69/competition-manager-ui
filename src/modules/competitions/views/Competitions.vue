@@ -1,5 +1,4 @@
 <script lang="ts">
-import { createPaging } from "crip-vue-bootstrap";
 import Vue from "vue";
 
 import CardWrapper from "@/components/cards/card-wrapper";

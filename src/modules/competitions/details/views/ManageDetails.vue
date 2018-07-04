@@ -1,6 +1,5 @@
 <script lang="ts">
 import Vue from "vue";
-import { Form } from "crip-vue-bootstrap";
 
 import { Next } from "@/typings";
 
@@ -21,24 +20,24 @@ export default Vue.extend({
   },
 
   data: () => ({
-    competition: new Form(new Competition({}))
+    competition: new Competition({})
   }),
 
   methods: {
     init(competition: Competition) {
-      this.competition = new Form(competition);
+      this.competition = competition;
     },
 
     async save() {
-      this.log("save()", this.competition.data);
+      this.log("save()", this.competition);
 
-      this.competition.clearErrors();
+      /*this.competition.clearErrors();
       try {
         const cm = await cmService.saveCompetition(this.competition.data);
         this.$notify.success("Competition details updated");
       } catch (errors) {
         this.competition.addErrors(errors);
-      }
+      }*/
     }
   },
 

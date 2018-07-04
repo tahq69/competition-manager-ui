@@ -1,5 +1,4 @@
 <script lang="ts">
-import CripSelect from "crip-vue-select";
 import Vue from "vue";
 
 import * as roles from "@/components/auth/roles";
@@ -16,7 +15,7 @@ export default Vue.extend({
 
   data: () => ({
     roles: [] as string[],
-    rolesSelect: new CripSelect([
+    /*rolesSelect: new CripSelect([
       { key: "1", text: "Manage team details", value: roles.MANAGE_TEAMS },
       { key: "2", text: "Manage team members", value: roles.MANAGE_MEMBERS },
       {
@@ -24,7 +23,7 @@ export default Vue.extend({
         text: "Manage team member roles",
         value: roles.MANAGE_MEMBER_ROLES
       }
-    ])
+    ])*/
   }),
 
   created() {

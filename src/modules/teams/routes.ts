@@ -9,7 +9,7 @@ import {
   teamMembers,
   teams as teamsRoute
 } from "@/router/routes";
-import { Id, IRouteParams } from "@/typings";
+import { Id } from "@/typings";
 
 import { competitions, root as competitionsRoot } from "./competitions/routes";
 import { members, root as membersRoot } from "./members/routes";
@@ -41,7 +41,8 @@ export const teams = [
     ...manageTeams,
     component: manageTeamsView,
     meta,
-    path: "/teams/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?"
+    path: "/teams/manage/:page(\\d+)/:sort/:direction/:perPage(\\d+)",
+    props: true
   },
   {
     component: teamView,

@@ -1,6 +1,5 @@
 <script lang="ts">
 import Vue from "vue";
-import { Form } from "crip-vue-bootstrap";
 
 import FileInput from "@/components/form/FileInput.vue";
 import Submit from "@/components/form/Submit.vue";
@@ -42,7 +41,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    form: new Form(new Team({})),
+    form: new Team({}),
     teamName: ""
   }),
 
@@ -57,27 +56,27 @@ export default Vue.extend({
     },
 
     createTeamMemberRoute(): any {
-      return createTeamMemberRoute({ team: this.form.data.id });
+      return createTeamMemberRoute({ team: this.form.id });
     }
   },
 
   methods: {
     setTeam(team: Team) {
-      this.form.data = team;
+      this.form = team;
       this.teamName = team.name;
     },
 
     async save() {
-      this.log("save()", this.form.data);
+      this.log("save()", this.form);
 
-      this.form.clearErrors();
+      /*this.form.clearErrors();
       try {
         const team = await teamService.saveTeam(this.form.data);
         this.$notify.success("Team saved");
         this.$router.push(manageTeamRoute({ team: team.id }));
       } catch (errors) {
         this.form.addErrors(errors);
-      }
+      }*/
     }
   },
 

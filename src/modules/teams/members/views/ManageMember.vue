@@ -1,8 +1,5 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap";
-import CripSelect from "crip-vue-select";
 import Vue from "vue";
-import { Location } from "vue-router";
 
 import { Next } from "@/typings";
 import { manageTeamMember } from "@/router/routes";
@@ -68,17 +65,17 @@ export default Vue.extend({
   data() {
     return {
       canEditRoles: false,
-      form: new Form<TeamMember>(new TeamMember({})),
+      form: new TeamMember({}),
       initialUserId: 0,
       memberTeam: new Team({}),
-      userSelect: new CripSelect<UserBase>({
+      /*userSelect: new CripSelect<UserBase>({
         onCriteriaChange: (criteria, setOptions, id) => {
           searchUser({ name: criteria }).then(users => {
             const options = users.map(user => toUserOption(user));
             setOptions(options, id);
           });
         }
-      })
+      })*/
     };
   },
 
@@ -95,15 +92,15 @@ export default Vue.extend({
     },
 
     isInvitationVisible(): boolean {
-      this.log(this.form.data.user_id, this.initialUserId);
+      this.log(this.form.user_id, this.initialUserId);
       return (
-        !!this.form.data.user_id &&
-        this.form.data.user_id !== this.initialUserId
+        !!this.form.user_id &&
+        this.form.user_id !== this.initialUserId
       );
     },
 
     invitation(): any {
-      return { name: this.form.data.name, team: this.memberTeam.short };
+      return { name: this.form.name, team: this.memberTeam.short };
     }
   },
 
@@ -125,13 +122,13 @@ export default Vue.extend({
         value: new UserBase({ id: userId, name })
       };
 
-      this.userSelect.addOption(option);
-      this.userSelect.selectOption(option);
+      /*this.userSelect.addOption(option);
+      this.userSelect.selectOption(option);*/
 
       // Fil up form with member information from API.
-      this.form.data.user_id = userId;
-      this.form.data.name = name;
-      this.form.data.id = member.id;
+      this.form.user_id = userId;
+      this.form.name = name;
+      this.form.id = member.id;
     },
 
     async associatedMember(user: UserBase | string | null) {
@@ -143,25 +140,25 @@ export default Vue.extend({
       }
 
       if (user === null) {
-        this.form.data.user_id = 0;
-        this.form.data.name = "";
+        this.form.user_id = 0;
+        this.form.name = "";
 
         return;
       }
 
-      this.form.data.user_id = parseInt(user.id.toString(), 10);
-      this.form.data.name = user.name;
+      this.form.user_id = parseInt(user.id.toString(), 10);
+      this.form.name = user.name;
     },
 
     newMember(name: string) {
       this.log("newMember", { name });
-      this.form.data.user_id = 0;
-      this.form.data.name = name;
+      this.form.user_id = 0;
+      this.form.name = name;
     },
 
     async saveMember() {
-      this.log("saveMember", { data: this.form.data });
-      this.form.clearErrors();
+      this.log("saveMember", { data: this.form });
+      /*this.form.clearErrors();
       try {
         await memberService.saveTeamMember({
           id: this.form.data.id,
@@ -183,7 +180,7 @@ export default Vue.extend({
       } catch (error) {
         const errors = this.concatErrors(error);
         this.form.addErrors(errors);
-      }
+      }*/
     },
 
     concatErrors(errors: any) {
@@ -197,7 +194,7 @@ export default Vue.extend({
     },
 
     dismissInvitation() {
-      this.form.data.user_id = 0;
+      this.form.user_id = 0;
     },
 
     notificationDetails(): { title: string; message: string } {

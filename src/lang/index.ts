@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-import { Settings, DateTime } from "luxon";
+// import { Settings, DateTime } from "luxon";
 
 import { loadLocale, saveLocale } from "@/config/locale";
 import { LocaleType } from "@/lang/typings";
@@ -38,7 +38,7 @@ export function SetLocale(locale: LocaleType = "lv") {
 export default function() {
   const locale = loadLocale();
   SetLocale(locale);
-  Settings.defaultLocale = locale;
+  // Settings.defaultLocale = locale;
 }
 
 export function t(key: string): string {
@@ -46,6 +46,6 @@ export function t(key: string): string {
 }
 
 export function d(date: any): string {
-  const result = DateTime.fromSQL(date).toISO();
-  return result ? result : date;
+  /*const result = DateTime.fromSQL(date).toISO();*/
+  return /*result ? result :*/ date;
 }

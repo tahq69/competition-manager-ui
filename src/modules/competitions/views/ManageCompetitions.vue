@@ -1,28 +1,84 @@
 <script lang="ts">
 import Vue from "vue";
 import { Location } from "vue-router";
-import { Paging, createPaging } from "crip-vue-bootstrap";
 
-import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
+import { manageCompetitions } from "@/router/routes";
 
 import { Competition } from "../models/competition";
 import competitionService from "../service";
 
-const { mixin, paging: competitions } = createPaging<Competition>(
-  (paging, to) => competitionService.fetchCompetitions({ paging, owned: true })
-);
+import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
+import { Paging, SortDirection } from "@/helpers";
 
 export default Vue.extend({
   name: "ManageCompetitions",
 
   components: { ManageCompetitionBtn },
 
-  mixins: [mixin],
+  props: {
+    page: { type: [String, Number], required: true },
+    perPage: { type: [String, Number], required: true },
+    sort: { type: String, required: true },
+    direction: { type: String, required: true }
+  },
 
-  data: () => ({ competitions }),
+  data: () => ({
+    loading: false,
+    totalItems: 1000000,
+    competitions: [] as Competition[]
+  }),
+
+  computed: {
+    currentPage(): number {
+      // convert route string parameter to number for el-pagination.
+      return parseInt(this.page.toString()) || 1;
+    },
+
+    currentPerPage(): number {
+      // convert route string parameter to number for el-pagination.
+      return parseInt(this.perPage.toString()) || 10;
+    }
+  },
+
+  methods: {
+    currentChange(page: string) {
+      const perPage = this.perPage.toString();
+
+      // trigger route change when users updates pagination.
+      this.$router.push({
+        name: manageCompetitions.name,
+        params: { page, sort: this.sort, direction: this.direction, perPage }
+      });
+    },
+
+    async fetchPage() {
+      this.loading = true;
+
+      const page = this.currentPage;
+      const perPage = this.currentPerPage;
+      const direction = this.direction as SortDirection;
+      const paging = new Paging(page, perPage, this.sort, direction);
+      const payload = { paging, owned: true };
+      const paginated = await competitionService.fetchCompetitions(payload);
+
+      this.competitions = paginated.items;
+      this.totalItems = paginated.total;
+
+      this.loading = false;
+    }
+  },
 
   created() {
     this.log = this.$logger.component(this);
+
+    // fetch data on component initial load.
+    this.fetchPage();
+
+    // update when page/perPage/sort/direction is changed.
+    this.$watch(
+      () => [this.page, this.sort, this.direction, this.perPage].join(),
+      () => this.fetchPage()
+    );
   }
 });
 </script>
@@ -72,6 +128,7 @@ export default Vue.extend({
                 &nbsp;
                 <ManageCompetitionBtn :cm="competition.id"
                                       :title="$t('competitions.manage_competitions_grid_btn_edit_title')"
+              
                                       badge
                                       icon>
                   {{ $t('competitions.manage_competitions_grid_btn_edit_text') }}

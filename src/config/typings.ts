@@ -1,5 +1,3 @@
-import { DateTimeFormatOptions } from "luxon";
-
 export interface ILoggerOptions {
   /**
    * Logging placement area.
@@ -25,8 +23,6 @@ export interface IConfig {
   server_date_format: string;
   default_locale: string;
   logs: ILoggerOptions;
-  dateFormat: DateTimeFormatOptions;
-  dateTimeFormat: DateTimeFormatOptions;
 
   // Element UI
   label_position: "left" | "right" | "top";

@@ -91,7 +91,7 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
-@import "~bootstrap/scss/functions";
+/*@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 
 .competition-details {
@@ -103,5 +103,5 @@ export default Vue.extend({
     top: 0;
     z-index: $zindex-dropdown;
   }
-}
+}*/
 </style>

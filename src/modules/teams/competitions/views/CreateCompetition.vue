@@ -1,7 +1,5 @@
 <script lang="ts">
 import Vue from "vue";
-import { Form } from "crip-vue-bootstrap";
-import { Datetime } from "vue-datetime";
 
 import { CompetitionCreate } from "#/teams/models/competition-create";
 import { manageCmDetailsRoute } from "#/teams/competitions/routes";
@@ -11,31 +9,28 @@ import cmService from "../service";
 export default Vue.extend({
   name: "CreateTeamCompetitionForm",
 
-  components: { Datetime },
-
   props: {
     team: { type: [String, Number], required: true }
   },
 
   data() {
-    const cm = new CompetitionCreate({ team_id: this.team });
     return {
-      form: new Form(cm)
+      form: new CompetitionCreate({ team_id: this.team })
     };
   },
 
   methods: {
     async save() {
-      this.log("save()", this.form.data);
+      this.log("save()", this.form);
 
-      this.form.clearErrors();
+      /*this.form.clearErrors();
       try {
         const cm = await cmService.saveCompetition(this.form.data);
         this.$notify.success("Competition created");
         this.$router.push(manageCmDetailsRoute({ cm: cm.id }));
       } catch (errors) {
         this.form.addErrors(errors);
-      }
+      }*/
     }
   },
 

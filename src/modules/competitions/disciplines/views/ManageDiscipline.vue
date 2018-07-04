@@ -1,8 +1,6 @@
 <script lang="ts">
 import Vue from "vue";
 import { Location } from "vue-router";
-import { Form } from "crip-vue-bootstrap";
-import CripSelect from "crip-vue-select";
 
 import { Next } from "@/typings";
 import {
@@ -41,17 +39,15 @@ export default Vue.extend({
   data() {
     return {
       disciplineTitle: "",
-      form: new Form(
-        new Discipline({
-          competition_id: this.cm,
-          title: "",
-          short: "",
-          type: "",
-          game_type: "",
-          description: ""
-        })
-      ),
-      typeSelect: new CripSelect({
+      form: new Discipline({
+        competition_id: this.cm,
+        title: "",
+        short: "",
+        type: "",
+        game_type: "",
+        description: ""
+      })
+      /*typeSelect: new CripSelect({
         options: [
           { key: "1", text: "Kickboxing", value: "KICKBOXING" },
           { key: "2", text: "Box", value: "BOXING" }
@@ -62,7 +58,7 @@ export default Vue.extend({
           { key: "1", text: "Age", value: "AGE" },
           { key: "2", text: "Weight", value: "WEIGHT" }
         ]
-      })
+      })*/
     };
   },
 
@@ -80,14 +76,14 @@ export default Vue.extend({
   methods: {
     setDiscipline(discipline: Discipline): void {
       this.disciplineTitle = discipline.title;
-      this.form = new Form(discipline);
+      this.form = discipline;
     },
 
     async save() {
-      this.log("save()", this.form.data);
+      this.log("save()", this.form);
 
-      try {
-        const saved = await disciplineService.saveDiscipline(this.form.data);
+      /*try {
+        const saved = await disciplineService.saveDiscipline(this.form);
 
         this.$notify.success("Discipline saved");
 
@@ -100,8 +96,7 @@ export default Vue.extend({
         }
       } catch (errors) {
         this.log("save(errors)", errors);
-        this.form.addErrors(errors);
-      }
+      }*/
     }
   },
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-import { Form } from "crip-vue-bootstrap";
 import Vue from "vue";
 import { Route } from "vue-router";
 
@@ -56,59 +55,57 @@ export default Vue.extend({
 
   data() {
     return {
-      form: new Form(
-        new Group({
-          competition_id: this.cm,
-          discipline_id: this.discipline,
-          max: 0,
-          min: 0,
-          rounds: 0,
-          short: "",
-          time: 0,
-          title: ""
-        })
-      )
+      form: new Group({
+        competition_id: this.cm,
+        discipline_id: this.discipline,
+        max: 0,
+        min: 0,
+        rounds: 0,
+        short: "",
+        time: 0,
+        title: ""
+      })
     };
   },
 
   methods: {
     async submit() {
-      this.form.clearErrors();
+      /*this.form.clearErrors();
       try {
         const group = await groupService.saveGroup(this.form.data);
         emitEvent("cm:group:saved", group);
       } catch (errors) {
         this.form.addErrors(errors);
-      }
+      }*/
     },
 
     async destroy() {
-      await groupService.deleteGroup(this.form.data);
-      emitEvent("cm:group:deleted", this.form.data.id);
+      await groupService.deleteGroup(this.form);
+      emitEvent("cm:group:deleted", this.form.id);
     },
 
     reset() {
-      this.form.data.competition_id = this.cm;
-      this.form.data.discipline_id = this.discipline;
-      this.form.data.max = 0;
-      this.form.data.min = 0;
-      this.form.data.rounds = 0;
-      this.form.data.short = "";
-      this.form.data.time = 0;
-      this.form.data.title = "";
-      this.form.data.id = 0;
+      this.form.competition_id = this.cm;
+      this.form.discipline_id = this.discipline;
+      this.form.max = 0;
+      this.form.min = 0;
+      this.form.rounds = 0;
+      this.form.short = "";
+      this.form.time = 0;
+      this.form.title = "";
+      this.form.id = 0;
     },
 
     update(group: Group) {
-      this.form.data.competition_id = group.competition_id;
-      this.form.data.discipline_id = group.discipline_id;
-      this.form.data.max = group.max;
-      this.form.data.min = group.min;
-      this.form.data.rounds = group.rounds;
-      this.form.data.short = group.short;
-      this.form.data.time = group.time;
-      this.form.data.title = group.title;
-      this.form.data.id = group.id;
+      this.form.competition_id = group.competition_id;
+      this.form.discipline_id = group.discipline_id;
+      this.form.max = group.max;
+      this.form.min = group.min;
+      this.form.rounds = group.rounds;
+      this.form.short = group.short;
+      this.form.time = group.time;
+      this.form.title = group.title;
+      this.form.id = group.id;
     }
   }
 });

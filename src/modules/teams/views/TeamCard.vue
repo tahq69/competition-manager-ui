@@ -48,7 +48,7 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
-@import "~bootstrap/scss/functions";
+/*@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 
 .team-card {
@@ -64,5 +64,5 @@ export default Vue.extend({
     right: $card-spacer-y;
     top: $card-spacer-x;
   }
-}
+}*/
 </style>
