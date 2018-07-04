@@ -52,7 +52,8 @@ export const teams = [
   {
     ...teamsRoute,
     component: teamsView,
-    path: "/teams/:page(\\d+)?/:sort?/:direction?"
+    path: "/teams/:page(\\d+)/:sort/:direction",
+    props: true
   },
   ...membersRoot,
   ...competitionsRoot
