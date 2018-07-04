@@ -1,7 +1,6 @@
 import { AxiosStatic } from "axios";
-import { Paging } from "crip-vue-bootstrap";
 
-import { Pagination } from "@/helpers/pagination";
+import { Paging, Paginated } from "@/helpers/pagination";
 import { saveEntity } from "@/helpers/service";
 import { url as createUrl, httpContext } from "@/helpers/rest";
 import { store } from "@/store";
@@ -10,13 +9,15 @@ import { Id } from "@/typings";
 import { Competition } from "./models/competition";
 
 interface IFetchCompetitions {
-  paging: Paging<Competition>;
+  paging: Paging;
   owned?: boolean;
 }
+
 interface IFetchTeamCompetitions {
-  paging: Paging<Competition>;
+  paging: Paging;
   team_id: Id;
 }
+
 interface IFetchCompetition {
   id: Id;
 }
@@ -76,7 +77,7 @@ class CompetitionService {
   private async requestCompetitionsPaging(http: AxiosStatic, url: string) {
     const response = await http.get(url);
 
-    return Pagination.create(response, r => {
+    return new Paginated(response, r => {
       const cm = new Competition(r);
 
       // Add competition to store for auth role validation on UI components.

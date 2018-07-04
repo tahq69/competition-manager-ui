@@ -1,3 +1,5 @@
+import elementUi from "element-ui/lib/locale/lang/lv";
+
 import competitions from "#/competitions/lang/lv.res.json";
 import posts from "#/posts/lang/lv.res.json";
 import teams from "#/teams/lang/lv.res.json";
@@ -10,5 +12,6 @@ export default {
   competitions,
   posts,
   teams,
-  user
+  user,
+  ...elementUi
 };

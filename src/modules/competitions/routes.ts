@@ -29,7 +29,8 @@ export const root: RouteConfig[] = [
   {
     ...competitions,
     component: competitionsView,
-    path: "/competitions/:page(\\d+)?"
+    path: "/competitions/:page(\\d+)?",
+    props: true
   },
   {
     component: competition,

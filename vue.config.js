@@ -18,5 +18,12 @@ module.exports = {
   },
   configureWebpack: config => {
     config.resolve.alias["#"] = path.resolve(__dirname, "src/modules");
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        data: `@import "./src/assets/_variables.scss";`
+      }
+    }
   }
 };

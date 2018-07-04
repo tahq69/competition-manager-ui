@@ -1,19 +1,8 @@
 import { AxiosResponse } from "axios";
 
-type Resolver<T> = (x: any) => T;
+type Resolver<T, P = any> = (x: P) => T;
 
-export class Pagination<T> {
-  public static create<T>(response: AxiosResponse, resolver: Resolver<T>) {
-    const pagination = new Pagination<T>(response);
-
-    response.data.data.forEach((row: any) => {
-      const entity = resolver(row);
-      pagination.items.push(entity);
-    });
-
-    return pagination;
-  }
-
+export class Paginated<T, P = any> {
   public currentPage: number;
 
   public from: number;
@@ -27,9 +16,8 @@ export class Pagination<T> {
   public prevPageUrl: string;
 
   public items: T[];
-  public loading: boolean;
 
-  constructor(response: AxiosResponse) {
+  constructor(response: AxiosResponse, resolver?: Resolver<T, P>) {
     const data = response.data;
     // tslint:disable:no-bitwise
     this.currentPage = data.current_page | 0;
@@ -43,6 +31,12 @@ export class Pagination<T> {
     this.prevPageUrl = data.prev_page_url;
 
     this.items = [];
-    this.loading = false;
+
+    if (resolver) {
+      data.data.forEach((row: P) => {
+        const entity = resolver(row);
+        this.items.push(entity);
+      });
+    }
   }
 }

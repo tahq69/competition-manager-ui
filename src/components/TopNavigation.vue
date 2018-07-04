@@ -8,6 +8,8 @@ type Locale = { key: LocaleType; text: string };
 type Locales = Locale[];
 
 export default Vue.extend({
+  name: "TopNavigation",
+
   props: {
     isCollapse: { type: Boolean, required: true }
   },
@@ -129,8 +131,6 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
-
 a.toggle-aside {
   color: $--color-info-light;
   font-size: 18px;

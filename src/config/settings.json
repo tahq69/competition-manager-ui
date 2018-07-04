@@ -18,9 +18,7 @@
         "component",
         "error",
         "info",
-        "entity",
-        "card",
-        "auth.middleware"
+        "card"
       ]
     }
   },

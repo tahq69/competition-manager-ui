@@ -14,7 +14,7 @@ import { store } from "./store";
 
 sync(store, Router);
 Guard(Router);
-Vue.use(ElementUI);
+Vue.use(ElementUI, { i18n: (key: any, value: any) => i18n.t(key, value) });
 
 Vue.config.productionTip = false;
 

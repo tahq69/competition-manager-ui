@@ -8,6 +8,8 @@ type Locale = { key: LocaleType; text: string };
 type Locales = Locale[];
 
 export default Vue.extend({
+  name: "AsideNavigtion",
+
   props: {
     isCollapse: { type: Boolean, required: true }
   },

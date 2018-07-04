@@ -1,7 +1,5 @@
 import Vue from "vue";
 
-var log = Vue.logger.group("card");
-
 export default {
   props: {
     height: { type: Number, required: false }
