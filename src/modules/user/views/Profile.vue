@@ -3,13 +3,16 @@ import Vue from "vue";
 
 import { Next } from "@/typings";
 
-import { Profile } from "../models/profile";
-import { ProfileTeam } from "../models/profile-team";
-import { teamRoute } from "../routes";
-import userService from "../service";
+import userService from "#/user/service";
+import { Profile } from "#/user/models/profile";
+import { ProfileTeam } from "#/user/models/profile-team";
+
+import TeamLink from "#/teams/components/TeamLink.vue";
 
 export default Vue.extend({
   name: "Profile",
+
+  components: { TeamLink },
 
   props: {
     user: { type: String, required: false },
@@ -18,13 +21,10 @@ export default Vue.extend({
     size: { type: Number, default: 255 }
   },
 
-  beforeRouteEnter(to, from, next: Next<any>) {
-    userService
-      .fetchUserProfile({ id: to.params.user })
-      .then(profile => next(vm => vm.setProfile(profile)));
-  },
-
-  data: () => ({ profile: new Profile({ md5: "" }) }),
+  data: () => ({
+    loading: false,
+    profile: new Profile({ md5: "" })
+  }),
 
   computed: {
     imageUrl(): string {
@@ -42,50 +42,54 @@ export default Vue.extend({
   },
 
   methods: {
-    setProfile(profile: Profile) {
-      this.log("setProfile(profile)", { profile });
-      this.profile = profile;
-    },
+    async fetchProfile() {
+      this.loading = true;
 
-    teamRoute: (team: ProfileTeam) => teamRoute({ team: team.id })
+      var profile = await userService.fetchUserProfile({ id: this.user });
+      this.profile = profile;
+
+      this.loading = false;
+    }
   },
 
   created() {
     this.log = this.$logger.component(this);
+    this.fetchProfile();
   }
 });
 </script>
 
 <template>
-  <CRow id="user-profile">
-    <CCol :sm="6"
-          :md="4"
-          :lg="3">
-      <div class="card">
+  <el-row id="user-profile"
+          v-loading="loading">
+    <el-col :sm="12"
+            :md="8"
+            :lg="6">
+      <el-card :body-style="{ padding: '0px' }">
         <img :src="imageUrl"
              alt="avatar"
-             class="card-img-top img-fluid">
-
+             class="profile-img">
         <div class="card-body">
           <h5 class="card-title">{{ profile.name }}</h5>
-          <ul class="teams">
-            <router-link tag="li"
-                         v-for="team in profile.teams"
-                         :key="team.id"
-                         :to="teamRoute(team)"
-                         :title="team.name"
-                         class="team img-thumbnail">
-              <img :src="team.logo || teamDefault"
-                   class="img-responsive" />
-            </router-link>
+          <ul class="team-list">
+            <li class="team-item"
+                v-for="team in profile.teams"
+                :key="team.id">
+              <TeamLink :team="team.id"
+                        :title="team.name"
+                        class="team-thumbnail">
+                <img :src="team.logo || teamDefault"
+                     class="team-img" />
+              </TeamLink>
+            </li>
           </ul>
         </div>
-      </div>
-    </CCol>
+      </el-card>
+    </el-col>
 
-    <CCol :sm="6"
-          :md="8"
-          :lg="9">
+    <el-col :sm="12"
+            :md="16"
+            :lg="18">
       <div class="card">
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
@@ -104,33 +108,39 @@ export default Vue.extend({
 
         <router-view></router-view>
       </div>
-    </CCol>
-  </CRow>
+    </el-col>
+  </el-row>
 </template>
 
 <style lang="scss">
 #user-profile {
-  .card-body .teams {
-    list-style: none;
+  .profile-img,
+  .team-img {
+    width: 100%;
+    display: block;
+  }
+
+  .card-body {
+    padding: 16px;
+  }
+
+  .team-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
     padding: 0;
-    margin: 0 -4px;
+    margin: -0.25em;
 
-    .team {
-      cursor: pointer;
-      display: inline-block;
-      max-width: 66px;
-      height: 66px;
-      padding-top: 33px;
-      margin: 4px;
+    .team-item {
+      display: flex;
+      width: 25%;
 
-      &:hover {
-        border-color: #007bff;
-      }
+      .team-thumbnail {
+        padding: 0.25em;
 
-      .img-responsive {
-        transform: translateY(-50%);
-        max-width: 100%;
-        height: auto;
+        .team-img:hover {
+          box-shadow: $--box-shadow-light;
+        }
       }
     }
   }

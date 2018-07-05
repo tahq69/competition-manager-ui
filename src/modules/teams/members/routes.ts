@@ -6,7 +6,7 @@ import {
   manageTeamMembers,
   teamMembers
 } from "@/router/routes";
-import { Id, IRouteParams } from "@/typings";
+import { Id, IRouteParams, PagingParams } from "@/typings";
 
 /** Public routes */
 import membersView from "./views/Members.vue";
@@ -20,7 +20,7 @@ const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] };
 export const members = [
   {
     ...teamMembers,
-    path: "members/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+    path: "members/:page(\\d+)/:sort/:direction/:perPage(\\d+)",
     component: membersView,
     props: true
   }
@@ -51,14 +51,18 @@ export const root = [
   }
 ];
 
-export const teamMembersRoute = (p: { team: Id }) => ({
+export const teamMembersRoute = (p: { team: Id } & PagingParams) => ({
   ...teamMembers,
-  params: convertParams(p)
+  params: convertParams(
+    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+  )
 });
 
-export const manageTeamMembersRoute = (p: { team: Id }) => ({
+export const manageTeamMembersRoute = (p: { team: Id } & PagingParams) => ({
   ...manageTeamMembers,
-  params: convertParams(p)
+  params: convertParams(
+    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+  )
 });
 
 export const createTeamMemberRoute = (p: { team: Id }) => ({

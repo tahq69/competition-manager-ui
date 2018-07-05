@@ -1,7 +1,6 @@
 <script lang="ts">
 import Vue from "vue";
 
-import CardWrapper from "@/components/cards/card-wrapper";
 import { Paging, Paginated } from "@/helpers/pagination";
 import { competitions } from "@/router/routes";
 
@@ -13,8 +12,6 @@ export default Vue.extend({
   name: "Competitions",
 
   components: { CompetitionCard },
-
-  mixins: [CardWrapper],
 
   props: {
     page: { type: [String, Number], required: true }
@@ -74,17 +71,18 @@ export default Vue.extend({
 <template>
   <div id="competitions"
        v-loading="loading">
-    <el-row :gutter="21">
+    <el-row :gutter="20"
+            type="flex"
+            class="competitions-row">
       <el-col v-for="competition in competitions"
               :key="competition.id"
+              class="competitions-col"
               :xl="4"
               :lg="6"
               :md="8"
               :sm="12"
               :xs="24">
         <CompetitionCard :competition="competition"
-                         :height="maxHeight"
-                         @dimensions="setupHeight"
                          title="View competition details" />
       </el-col>
     </el-row>
@@ -101,8 +99,15 @@ export default Vue.extend({
 
 <style lang="scss">
 #competitions {
-  margin-top: -10.5px;
-  margin-bottom: -10.5px;
+  margin-top: -10px;
+
+  .competitions-row {
+    flex-wrap: wrap;
+
+    .competitions-col {
+      margin: 10px 0;
+    }
+  }
 
   .pagination-row {
     text-align: center;

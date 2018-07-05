@@ -58,7 +58,3 @@ export const userProfileRoute = (p: { user: Id }) => ({
   ...profile,
   params: convertParams(p)
 });
-
-export const teamRoute = (p: { team: Id }) => {
-  return { ...teamMembers, params: convertParams(p) };
-};

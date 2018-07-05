@@ -98,7 +98,7 @@ export default Vue.extend({
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item :command="routes.profile.name">{{ t("profile") }}</el-dropdown-item>
+          <el-dropdown-item :command="routes.authProfile.name">{{ t("profile") }}</el-dropdown-item>
           <el-dropdown-item command="logout">{{ t("logout") }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

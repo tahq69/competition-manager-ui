@@ -1,5 +1,3 @@
-import { Location } from "vue-router";
-
 import { IRouteParams } from "@/typings";
 
 export function convertParams(params: IRouteParams) {

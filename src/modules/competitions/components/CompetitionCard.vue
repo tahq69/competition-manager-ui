@@ -1,9 +1,6 @@
 <script lang="ts">
 import Vue from "vue";
 
-import Card from "@/components/cards/card";
-
-import { manageCmDetailsRoute } from "#/competitions/details/routes";
 import { CompetitionAuth } from "#/competitions/auth";
 import { Competition } from "#/competitions/models/competition";
 import CompetitionLink from "#/competitions/components/CompetitionLink.vue";
@@ -14,17 +11,9 @@ export default Vue.extend({
 
   components: { CompetitionLink, ManageCompetitionLink },
 
-  mixins: [Card],
-
   props: {
     competition: { type: Competition, required: true }
   },
-
-  computed: {
-    manageRoute(): any {
-      return manageCmDetailsRoute({ cm: this.competition.id });
-    }
-  }
 });
 </script>
 
@@ -32,8 +21,7 @@ export default Vue.extend({
   <CompetitionLink :cm="competition.id"
                    class="competition-card"
                    tag="div">
-    <el-card shadow="hover"
-             :style="{height: elHeight}">
+    <el-card shadow="hover">
       <h4 slot="header"
           class="card-header">
         {{ competition.title }}
@@ -66,7 +54,11 @@ export default Vue.extend({
 <style lang="scss">
 .competition-card {
   position: relative;
-  margin: 10.5px 0;
+  height: 100%;
+
+  .el-card {
+    height: 100%;
+  }
 
   .card-header {
     margin: 0;
