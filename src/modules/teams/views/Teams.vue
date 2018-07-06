@@ -1,20 +1,18 @@
 <script lang="ts">
 import Vue from "vue";
 
-import CardWrapper from "@/components/cards/card-wrapper";
 import { Paging, Paginated, SortDirection } from "@/helpers/pagination";
 import { teams } from "@/router/routes";
 
 import { Team } from "#/teams/models/team";
 import teamService from "#/teams/service";
-import TeamCard from "#/teams/views/TeamCard.vue";
+
+import TeamCard from "#/teams/components/TeamCard.vue";
 
 export default Vue.extend({
   name: "Teams",
 
   components: { TeamCard },
-
-  mixins: [CardWrapper],
 
   props: {
     page: { type: [String, Number], required: true },
@@ -49,7 +47,7 @@ export default Vue.extend({
 
       const page = this.currentPage;
       const direction = this.direction as SortDirection;
-      const paging = new Paging(page, 16, this.sort, direction);
+      const paging = new Paging(page, 12, this.sort, direction);
       const paginated = await teamService.fetchTeams({ paging });
 
       this.teams = paginated.items;
@@ -74,23 +72,48 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div id="teams">
-    <CRow>
-      <CCol v-for="team in teams"
-            :key="team.id"
-            :lg="3"
-            :md="4"
-            :sm="6"
-            :xs="12">
-        <TeamCard :team="team"
-                  :height="maxHeight"
-                  @dimensions="setupHeight" />
-      </CCol>
-    </CRow>
-    <CRow>
-      <CCol class="mx-auto">
-        <CPagination :paging="teams" />
-      </CCol>
-    </CRow>
+  <div id="teams"
+       v-loading="loading">
+    <el-row type="flex"
+            :gutter="20"
+            class="teams-row">
+      <el-col v-for="team in teams"
+              :key="team.id"
+              class="teams-col"
+              :xl="4"
+              :lg="6"
+              :md="8"
+              :sm="12"
+              :xs="24">
+        <TeamCard :team="team" />
+      </el-col>
+    </el-row>
+    <el-row class="pagination-row">
+      <el-pagination @current-change="currentChange"
+                     :current-page="currentPage"
+                     layout="total, prev, pager, next"
+                     :page-size="12"
+                     :total="totalItems">
+      </el-pagination>
+    </el-row>
   </div>
 </template>
+
+<style lang="scss">
+#teams {
+  margin-top: -10px;
+
+  .teams-row {
+    flex-wrap: wrap;
+
+    .teams-col {
+      margin: 10px 0;
+    }
+  }
+
+  .pagination-row {
+    text-align: center;
+    padding: 15px 0;
+  }
+}
+</style>

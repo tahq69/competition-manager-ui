@@ -1,4 +1,4 @@
-export type SortDirection = "asc" | "desc";
+import { SortDirection } from "@/typings";
 
 export class Paging {
   constructor(

@@ -2,6 +2,7 @@ import Vue from "vue";
 import { RawLocation } from "vue-router";
 
 export interface IClasses extends IDictionary<boolean> {}
+export type SortDirection = "asc" | "desc";
 export type Id = number | string;
 export type Validator<T> = (value: T) => boolean;
 

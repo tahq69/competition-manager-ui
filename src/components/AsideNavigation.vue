@@ -4,6 +4,9 @@ import Auth, { middleware as auth, roles } from "@/components/auth";
 import { locales, LocaleType, ILocale, i18n, SetLocale } from "@/lang";
 import * as routes from "@/router/routes";
 
+import { competitionsRoute } from "#/competitions/routes";
+import { getTeamsRoute } from "#/teams/routes";
+
 type Locale = { key: LocaleType; text: string };
 type Locales = Locale[];
 
@@ -54,7 +57,20 @@ export default Vue.extend({
     },
 
     handleSelect(key: string, keyPath: string[]) {
-      this.$router.push({ name: key, params: { page: "1" } });
+      this.$router.push(this.getRoute(key));
+    },
+
+    getRoute(key: string) {
+      switch (key) {
+        case routes.competitions.name:
+          return competitionsRoute();
+
+        case routes.teams.name:
+          return getTeamsRoute();
+
+        default:
+          return { name: key };
+      }
     }
   },
 

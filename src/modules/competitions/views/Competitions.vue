@@ -42,7 +42,7 @@ export default Vue.extend({
     async fetchPage(page: number) {
       this.loading = true;
 
-      const paging = new Paging(page, 8, "organization_date");
+      const paging = new Paging(page, 12, "organization_date");
       const paginated = await cmService.fetchCompetitions({ paging });
 
       this.competitions = paginated.items;
@@ -90,7 +90,7 @@ export default Vue.extend({
       <el-pagination @current-change="currentChange"
                      :current-page="currentPage"
                      layout="total, prev, pager, next"
-                     :page-size="8"
+                     :page-size="12"
                      :total="totalItems">
       </el-pagination>
     </el-row>

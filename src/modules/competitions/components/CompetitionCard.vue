@@ -39,7 +39,6 @@ export default Vue.extend({
         <el-col :span="16">{{ competition.judge_name }}</el-col>
       </el-row>
       <ManageCompetitionLink :cm="competition.id"
-                             style="float: right;"
                              class="card-edit-link"
                              title="Edit competition details">
         <el-button type="primary"

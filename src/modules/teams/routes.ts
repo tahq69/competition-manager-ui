@@ -1,6 +1,6 @@
-import { Location, RouteConfig } from "vue-router";
+import { RouteConfig } from "vue-router";
 
-import * as roles from "@/components/auth/roles";
+import { Id, PagingParams } from "@/typings";
 import {
   convertParams,
   createTeam,
@@ -9,18 +9,21 @@ import {
   teamMembers,
   teams as teamsRoute
 } from "@/router/routes";
-import { Id } from "@/typings";
+import * as roles from "@/components/auth/roles";
 
-import { competitions, root as competitionsRoot } from "./competitions/routes";
-import { members, root as membersRoot } from "./members/routes";
+import {
+  competitions,
+  root as competitionsRoot
+} from "#/teams/competitions/routes";
+import { members, root as membersRoot } from "#/teams/members/routes";
 
 /** Public routes */
-import teamsView from "./views/Teams.vue";
-import teamView from "./views/Team.vue";
+import teamsView from "#/teams/views/Teams.vue";
+import teamView from "#/teams/views/Team.vue";
 
 /** Management routes */
-import manageTeamView from "./views/ManageTeam.vue";
-import manageTeamsView from "./views/ManageTeams.vue";
+import manageTeamView from "#/teams/views/ManageTeam.vue";
+import manageTeamsView from "#/teams/views/ManageTeams.vue";
 
 const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] };
 
@@ -60,9 +63,12 @@ export const teams = [
   ...competitionsRoot
 ] as RouteConfig[];
 
-export const manageTeamsRoute = () => {
-  return { ...manageTeams };
-};
+export const manageTeamsRoute = (p?: PagingParams) => ({
+  ...manageTeams,
+  params: convertParams(
+    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+  )
+});
 
 export const createTeamRoute = () => {
   return { ...createTeam };
@@ -75,3 +81,10 @@ export const manageTeamRoute = (p: { team: Id }) => {
 export const teamRoute = (p: { team: Id }) => {
   return { ...teamMembers, params: convertParams(p) };
 };
+
+export const getTeamsRoute = (p?: PagingParams) => ({
+  ...teamsRoute,
+  params: convertParams(
+    Object.assign({ page: 1, sort: "id", direction: "desc" }, p)
+  )
+});
