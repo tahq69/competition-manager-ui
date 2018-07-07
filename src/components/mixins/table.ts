@@ -6,11 +6,11 @@ const validator = (page: string | number) => parseInt(page.toString()) > 0;
 export default {
   props: {
     page: { type: [String, Number], required: true, validator },
-    pageSize: { type: [String, Number], required: true, validator },
-    sort: { type: String, required: true },
+    pageSize: { type: [String, Number], default: 10, validator },
+    sort: { type: String, default: "id" },
     direction: {
       type: String,
-      required: true,
+      default: "descending",
       validator: (direction: string) =>
         ["ascending", "descending"].indexOf(direction) > -1
     }

@@ -3,6 +3,7 @@ import Vue from "vue";
 
 import { Paging, Paginated, SortDirection } from "@/helpers/pagination";
 import { teams } from "@/router/routes";
+import { table } from "@/components/mixins";
 
 import { Team } from "#/teams/models/team";
 import teamService from "#/teams/service";
@@ -14,60 +15,26 @@ export default Vue.extend({
 
   components: { TeamCard },
 
-  props: {
-    page: { type: [String, Number], required: true },
-    sort: { type: String, required: true },
-    direction: { type: String, required: true }
-  },
+  mixins: [table],
 
   data: () => ({
-    pageSize: 12,
-    loading: false,
-    totalItems: 1000000,
-    teams: [] as Team[]
+    teams: [] as Team[],
+    route: teams // make sure table mixin knows current route
   }),
 
   computed: {
-    currentPage(): number {
-      // convert route string parameter to number for el-pagination.
-      return parseInt(this.page.toString()) || 1;
-    }
+    // override mixin calculated size to constant for this page.
+    currentPageSize: (): number => 12
   },
 
   methods: {
-    currentChange(page: string) {
-      // trigger route change when users updates pagination.
-      this.$router.push({
-        name: teams.name,
-        params: { page, sort: this.sort, direction: this.direction }
-      });
-    },
-
-    async fetchPage() {
-      this.loading = true;
-
-      const page = this.currentPage;
-      const direction = this.direction as SortDirection;
-      const paging = new Paging(page, this.pageSize, this.sort, direction);
+    async fetchPage(paging: Paging) {
       const paginated = await teamService.fetchTeams({ paging });
 
       this.teams = paginated.items;
-      this.totalItems = paginated.total;
-      this.loading = false;
+
+      return paginated.total;
     }
-  },
-
-  created() {
-    this.log = this.$logger.component(this);
-
-    // fetch data on component initial load.
-    this.fetchPage();
-
-    // update when page/sort/direction is changed.
-    this.$watch(
-      () => [this.page, this.sort, this.direction].join(),
-      () => this.fetchPage()
-    );
   }
 });
 </script>
@@ -90,10 +57,10 @@ export default Vue.extend({
       </el-col>
     </el-row>
     <el-row class="pagination-row">
-      <el-pagination @current-change="currentChange"
+      <el-pagination @current-change="onPageChange"
                      :current-page="currentPage"
                      layout="total, prev, pager, next"
-                     :page-size="pageSize"
+                     :page-size="currentPageSize"
                      :total="totalItems">
       </el-pagination>
     </el-row>
