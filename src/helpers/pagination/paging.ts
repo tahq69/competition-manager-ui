@@ -3,7 +3,7 @@ import { SortDirection } from "@/typings";
 export class Paging {
   constructor(
     private page: number,
-    private perPage = 20,
+    private pageSize = 10,
     private sort = "id",
     private direction: SortDirection = "desc"
   ) {}
@@ -11,7 +11,7 @@ export class Paging {
   public get urlParams(): { [key: string]: string } {
     return {
       page: (this.page || 1).toString(),
-      per_page: (this.perPage || 20).toString(),
+      per_page: (this.pageSize || 10).toString(),
       sort_by: this.sort,
       sort_direction: this.direction
     };

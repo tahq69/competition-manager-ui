@@ -19,7 +19,7 @@ export default Vue.extend({
 
   props: {
     page: { type: [String, Number], required: true },
-    perPage: { type: [String, Number], required: true },
+    pageSize: { type: [String, Number], required: true },
     sort: { type: String, required: true },
     direction: { type: String, required: true }
   },
@@ -36,9 +36,9 @@ export default Vue.extend({
       return parseInt(this.page.toString()) || 1;
     },
 
-    currentPerPage(): number {
+    currentPageSize(): number {
       // convert route string parameter to number for el-pagination.
-      return parseInt(this.perPage.toString()) || 10;
+      return parseInt(this.pageSize.toString()) || 10;
     }
   },
 
@@ -55,9 +55,9 @@ export default Vue.extend({
       this.loading = true;
       
       const page = this.currentPage;
-      const perPage = this.currentPerPage;
+      const pageSize = this.currentPageSize;
       const direction = this.direction as SortDirection;
-      const paging = new Paging(page, perPage, this.sort, direction);
+      const paging = new Paging(page, pageSize, this.sort, direction);
       const paginated = await teamService.fetchTeams({ paging });
 
       this.teams = paginated.items;
@@ -73,9 +73,9 @@ export default Vue.extend({
     // fetch data on component initial load.
     this.fetchPage();
 
-    // update when page/perPage/sort/direction is changed.
+    // update when page/pageSize/sort/direction is changed.
     this.$watch(
-      () => [this.page, this.sort, this.direction, this.perPage].join(),
+      () => [this.page, this.sort, this.direction, this.pageSize].join(),
       () => this.fetchPage()
     );
   }

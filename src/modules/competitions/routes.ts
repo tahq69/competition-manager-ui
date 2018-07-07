@@ -24,7 +24,7 @@ export const root: RouteConfig[] = [
     ...manageCompetitions,
     component: manageCms,
     meta: { auth: true, roles: [roles.SUPER_ADMIN] },
-    path: "/competitions/manage/:page(\\d+)/:sort/:direction/:perPage(\\d+)",
+    path: "/competitions/manage/:page(\\d+)/:sort/:direction/:pageSize(\\d+)",
     props: true
   },
   {
@@ -51,6 +51,6 @@ export const competitionsRoute = (p?: { page: number | string }) => ({
 export const manageCompetitionsRoute = (p?: PagingParams) => ({
   ...manageCompetitions,
   params: convertParams(
-    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
   )
 });

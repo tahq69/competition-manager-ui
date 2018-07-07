@@ -20,7 +20,7 @@ const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] };
 export const members = [
   {
     ...teamMembers,
-    path: "members/:page(\\d+)/:sort/:direction/:perPage(\\d+)",
+    path: "members/:page(\\d+)/:sort/:direction/:pageSize(\\d+)",
     component: membersView,
     props: true
   }
@@ -47,21 +47,21 @@ export const root = [
     props: true,
     meta,
     path:
-      "/team/:team(\\d+)/members/manage/:page(\\d+)/:sort/:direction/:perPage(\\d+)"
+      "/team/:team(\\d+)/members/manage/:page(\\d+)/:sort/:direction/:pageSize(\\d+)"
   }
 ];
 
 export const teamMembersRoute = (p: { team: Id } & PagingParams) => ({
   ...teamMembers,
   params: convertParams(
-    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
   )
 });
 
 export const manageTeamMembersRoute = (p: { team: Id } & PagingParams) => ({
   ...manageTeamMembers,
   params: convertParams(
-    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
   )
 });
 

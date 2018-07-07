@@ -19,7 +19,7 @@ export type Next<VM extends Vue = Vue> = (
 
 export interface PagingParams {
   direction?: "asc" | "desc";
-  perPage?: string | number;
+  pageSize?: string | number;
   page?: string | number;
   sort?: string;
 }

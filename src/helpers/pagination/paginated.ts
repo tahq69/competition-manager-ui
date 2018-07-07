@@ -10,7 +10,7 @@ export class Paginated<T, P = any> {
 
   public total: number;
   public lastPage: number;
-  public perPage: number;
+  public pageSize: number;
 
   public nextPageUrl: string;
   public prevPageUrl: string;
@@ -25,7 +25,7 @@ export class Paginated<T, P = any> {
     this.to = data.to | 0;
     this.total = data.total | 0;
     this.lastPage = data.last_page | 0;
-    this.perPage = data.per_page | 0;
+    this.pageSize = data.per_page | 0;
 
     this.nextPageUrl = data.next_page_url;
     this.prevPageUrl = data.prev_page_url;

@@ -21,7 +21,7 @@ export default Vue.extend({
   props: {
     team: { type: [String, Number], required: true },
     page: { type: [String, Number], required: true },
-    perPage: { type: [String, Number], required: true },
+    pageSize: { type: [String, Number], required: true },
     sort: { type: String, required: true },
     direction: { type: String, required: true }
   },
@@ -46,7 +46,7 @@ export default Vue.extend({
 
     currentPageSize(): number {
       // convert route string parameter to number for el-pagination.
-      return parseInt(this.perPage.toString()) || 10;
+      return parseInt(this.pageSize.toString()) || 10;
     },
 
     defaultSort(): any {
@@ -66,13 +66,13 @@ export default Vue.extend({
       page = "1",
       direction = "asc",
       sort = "id",
-      perPage = "10"
+      pageSize = "10"
     }: PagingParams) {
       this.$router.push({
         name: teamMembers.name,
         params: {
           page: page.toString(),
-          perPage: perPage.toString(),
+          pageSize: pageSize.toString(),
           sort,
           direction
         }
@@ -83,17 +83,17 @@ export default Vue.extend({
       // trigger route change when users updates pagination.
       this.onDataChange({
         page,
-        perPage: this.perPage,
+        pageSize: this.pageSize,
         direction: this.direction as any,
         sort: this.sort
       });
     },
 
-    onPageSizeChange(perPage: string) {
+    onPageSizeChange(pageSize: string) {
       // trigger route change when users updates pagination.
       this.onDataChange({
         page: 1,
-        perPage,
+        pageSize,
         direction: this.direction as any,
         sort: this.sort
       });
@@ -104,7 +104,7 @@ export default Vue.extend({
       // trigger route change when users updates sorting properties.
       this.onDataChange({
         page: 1,
-        perPage: this.perPage,
+        pageSize: this.pageSize,
         direction,
         sort: prop
       });
@@ -114,9 +114,9 @@ export default Vue.extend({
       this.loading = true;
 
       const page = this.currentPage;
-      const perPage = this.currentPageSize;
+      const pageSize = this.currentPageSize;
       const direction = this.direction as SortDirection;
-      const paging = new Paging(page, perPage, this.sort, direction);
+      const paging = new Paging(page, pageSize, this.sort, direction);
       const payload = { paging, team_id: this.team };
       const paginated = await membersService.fetchTeamMembers(payload);
 
@@ -133,9 +133,9 @@ export default Vue.extend({
     // fetch data on component initial load.
     this.fetchPage();
 
-    // update when page/perPage/sort/direction is changed.
+    // update when page/pageSize/sort/direction is changed.
     this.$watch(
-      () => [this.page, this.sort, this.direction, this.perPage].join(),
+      () => [this.page, this.sort, this.direction, this.pageSize].join(),
       () => this.fetchPage()
     );
 

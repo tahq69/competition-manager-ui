@@ -44,7 +44,7 @@ export const teams = [
     ...manageTeams,
     component: manageTeamsView,
     meta,
-    path: "/teams/manage/:page(\\d+)/:sort/:direction/:perPage(\\d+)",
+    path: "/teams/manage/:page(\\d+)/:sort/:direction/:pageSize(\\d+)",
     props: true
   },
   {
@@ -66,7 +66,7 @@ export const teams = [
 export const manageTeamsRoute = (p?: PagingParams) => ({
   ...manageTeams,
   params: convertParams(
-    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
   )
 });
 
@@ -81,7 +81,7 @@ export const manageTeamRoute = (p: { team: Id }) => {
 export const teamRoute = (p: { team: Id } & PagingParams) => ({
   ...teamMembers,
   params: convertParams(
-    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
   )
 });
 

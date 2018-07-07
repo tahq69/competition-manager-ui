@@ -16,7 +16,7 @@ import createCmView from "./views/CreateCompetition.vue";
 export const competitions = [
   {
     ...teamCompetitions,
-    path: "competitions/:page(\\d+)/:sort/:direction/:perPage(\\d+)",
+    path: "competitions/:page(\\d+)/:sort/:direction/:pageSize(\\d+)",
     component: competitionsView,
     props: true
   },
@@ -34,7 +34,7 @@ export const root = [];
 export const teamCompetitionsRoute = (p: { team: Id } & PagingParams) => ({
   ...teamCompetitions,
   params: convertParams(
-    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
   )
 });
 

@@ -17,7 +17,7 @@ import postViewVue from "./views/PostView.vue";
 export const home: RouteConfig = {
   ...homeRoute,
   component: postListVue,
-  path: "/home/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+  path: "/home/:page(\\d+)?/:sort?/:direction?/:pageSize(\\d+)?",
   props: true
 };
 
@@ -40,7 +40,7 @@ export const posts: RouteConfig[] = [
     ...managePosts,
     component: managePostsVue,
     meta: { auth: true, roles: [roles.CREATE_POST, roles.MANAGE_POSTS] },
-    path: "/posts/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?"
+    path: "/posts/manage/:page(\\d+)?/:sort?/:direction?/:pageSize(\\d+)?"
   },
   {
     ...readPost,
