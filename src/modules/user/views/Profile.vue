@@ -2,6 +2,7 @@
 import Vue from "vue";
 
 import { Next } from "@/typings";
+import ImageCard from "@/components/cards/ImageCard.vue";
 
 import userService from "#/user/service";
 import { Profile } from "#/user/models/profile";
@@ -12,7 +13,7 @@ import TeamLink from "#/teams/components/TeamLink.vue";
 export default Vue.extend({
   name: "Profile",
 
-  components: { TeamLink },
+  components: { ImageCard, TeamLink },
 
   props: {
     user: { type: String, required: false },
@@ -65,26 +66,25 @@ export default Vue.extend({
     <el-col :sm="12"
             :md="8"
             :lg="6">
-      <el-card :body-style="{ padding: '0px' }">
+      <ImageCard>
         <img :src="imageUrl"
-             alt="avatar"
-             class="profile-img">
-        <div class="card-body">
-          <h5 class="card-title">{{ profile.name }}</h5>
-          <ul class="team-list">
-            <li class="team-item"
-                v-for="team in profile.teams"
-                :key="team.id">
-              <TeamLink :team="team.id"
-                        :title="team.name"
-                        class="team-thumbnail">
-                <img :src="team.logo || teamDefault"
-                     class="team-img" />
-              </TeamLink>
-            </li>
-          </ul>
-        </div>
-      </el-card>
+             slot="image"
+             alt="avatar">
+
+        <h5 class="card-header">{{ profile.name }}</h5>
+        <ul class="team-list">
+          <li class="team-item"
+              v-for="team in profile.teams"
+              :key="team.id">
+            <TeamLink :team="team.id"
+                      :title="team.name"
+                      class="team-thumbnail">
+              <img :src="team.logo || teamDefault"
+                   class="team-img" />
+            </TeamLink>
+          </li>
+        </ul>
+      </ImageCard>
     </el-col>
 
     <el-col :sm="12"
@@ -114,14 +114,9 @@ export default Vue.extend({
 
 <style lang="scss">
 #user-profile {
-  .profile-img,
   .team-img {
     width: 100%;
     display: block;
-  }
-
-  .card-body {
-    padding: 16px;
   }
 
   .team-list {
