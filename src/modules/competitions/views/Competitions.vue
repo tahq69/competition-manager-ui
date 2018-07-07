@@ -18,6 +18,7 @@ export default Vue.extend({
   },
 
   data: () => ({
+    pageSize: 12,
     loading: false,
     totalItems: 1000000,
     competitions: [] as Competition[]
@@ -42,7 +43,7 @@ export default Vue.extend({
     async fetchPage(page: number) {
       this.loading = true;
 
-      const paging = new Paging(page, 12, "organization_date");
+      const paging = new Paging(page, this.pageSize, "organization_date");
       const paginated = await cmService.fetchCompetitions({ paging });
 
       this.competitions = paginated.items;
@@ -90,7 +91,7 @@ export default Vue.extend({
       <el-pagination @current-change="currentChange"
                      :current-page="currentPage"
                      layout="total, prev, pager, next"
-                     :page-size="12"
+                     :page-size="pageSize"
                      :total="totalItems">
       </el-pagination>
     </el-row>

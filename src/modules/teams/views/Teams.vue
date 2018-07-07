@@ -21,6 +21,7 @@ export default Vue.extend({
   },
 
   data: () => ({
+    pageSize: 12,
     loading: false,
     totalItems: 1000000,
     teams: [] as Team[]
@@ -47,7 +48,7 @@ export default Vue.extend({
 
       const page = this.currentPage;
       const direction = this.direction as SortDirection;
-      const paging = new Paging(page, 12, this.sort, direction);
+      const paging = new Paging(page, this.pageSize, this.sort, direction);
       const paginated = await teamService.fetchTeams({ paging });
 
       this.teams = paginated.items;
@@ -92,7 +93,7 @@ export default Vue.extend({
       <el-pagination @current-change="currentChange"
                      :current-page="currentPage"
                      layout="total, prev, pager, next"
-                     :page-size="12"
+                     :page-size="pageSize"
                      :total="totalItems">
       </el-pagination>
     </el-row>
