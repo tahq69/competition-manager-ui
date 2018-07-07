@@ -2,7 +2,7 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import { link, watchVisibility } from "@/components/mixins";
+import { link, visibility } from "@/components/mixins";
 
 import { manageTeamRoute } from "#/teams/routes";
 import { TeamAuth } from "#/teams/auth";
@@ -10,7 +10,7 @@ import { TeamAuth } from "#/teams/auth";
 export default Vue.extend({
   name: "ManageTeamLink",
 
-  mixins: [link, watchVisibility],
+  mixins: [link, visibility],
 
   props: {
     team: { type: [String, Number], required: true }

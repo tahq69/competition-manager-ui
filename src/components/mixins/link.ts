@@ -13,9 +13,7 @@ const icons = [
 const validator = (values: string[]) => (value: string) =>
   values.indexOf(value) > -1;
 
-export * from "@/components/auth/mixins";
-
-export const link = {
+export default {
   props: {
     tag: { type: String, default: "a" },
     exact: { type: Boolean, default: true },

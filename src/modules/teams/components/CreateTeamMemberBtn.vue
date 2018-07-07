@@ -3,7 +3,7 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
-import { watchVisibility } from "@/components/auth/mixins";
+import { visibility } from "@/components/mixins";
 
 import { createTeamMemberRoute } from "#/teams/members/routes";
 import { TeamMemberAuth } from "#/teams/members/auth";
@@ -13,7 +13,7 @@ export default Vue.extend({
 
   components: { Btn },
 
-  mixins: [watchVisibility],
+  mixins: [visibility],
 
   props: {
     team: { type: [String, Number], required: true },

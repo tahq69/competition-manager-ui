@@ -1,4 +1,4 @@
-export const watchVisibility = {
+export default {
   data: () => ({ isVisible: false }),
 
   methods: {

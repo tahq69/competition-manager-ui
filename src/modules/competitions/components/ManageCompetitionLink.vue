@@ -2,7 +2,7 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import { link, watchVisibility } from "@/components/mixins";
+import { link, visibility } from "@/components/mixins";
 
 import { manageCmDetailsRoute } from "#/competitions/details/routes";
 import { CompetitionAuth } from "#/competitions/auth";
@@ -10,7 +10,7 @@ import { CompetitionAuth } from "#/competitions/auth";
 export default Vue.extend({
   name: "ManageCompetitionLink",
 
-  mixins: [link, watchVisibility],
+  mixins: [link, visibility],
 
   props: {
     cm: { type: [String, Number], required: true }

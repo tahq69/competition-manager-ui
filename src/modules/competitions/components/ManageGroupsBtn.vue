@@ -3,7 +3,7 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import Btn from "@/components/Btn.vue";
-import { watchVisibility } from "@/components/auth/mixins";
+import { visibility } from "@/components/mixins";
 
 import { manageCmGroupsRoute } from "#/competitions/groups/routes";
 import { DisciplineAuth } from "#/competitions/disciplines/auth";
@@ -13,7 +13,7 @@ export default Vue.extend({
 
   components: { Btn },
 
-  mixins: [watchVisibility],
+  mixins: [visibility],
 
   props: {
     cm: { type: [String, Number], required: true },
