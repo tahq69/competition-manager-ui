@@ -2,8 +2,7 @@ import Vue from "vue";
 import { RawLocation } from "vue-router";
 
 export interface IClasses extends IDictionary<boolean> {}
-export type ElSortDirection = "ascending" | "descending";
-export type SortDirection = "asc" | "desc";
+export type SortDirection = "ascending" | "descending";
 export type Id = number | string;
 export type Validator<T> = (value: T) => boolean;
 
@@ -18,7 +17,7 @@ export type Next<VM extends Vue = Vue> = (
 ) => void;
 
 export interface PagingParams {
-  direction?: "asc" | "desc";
+  direction?: SortDirection;
   pageSize?: string | number;
   page?: string | number;
   sort?: string;

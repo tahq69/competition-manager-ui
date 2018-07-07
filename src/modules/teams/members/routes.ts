@@ -54,14 +54,20 @@ export const root = [
 export const teamMembersRoute = (p: { team: Id } & PagingParams) => ({
   ...teamMembers,
   params: convertParams(
-    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
+    Object.assign(
+      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
+      p
+    )
   )
 });
 
 export const manageTeamMembersRoute = (p: { team: Id } & PagingParams) => ({
   ...manageTeamMembers,
   params: convertParams(
-    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
+    Object.assign(
+      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
+      p
+    )
   )
 });
 

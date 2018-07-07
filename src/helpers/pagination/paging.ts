@@ -5,7 +5,7 @@ export class Paging {
     private page: number,
     private pageSize = 10,
     private sort = "id",
-    private direction: SortDirection = "desc"
+    private direction: SortDirection = "descending"
   ) {}
 
   public get urlParams(): { [key: string]: string } {

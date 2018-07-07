@@ -51,6 +51,9 @@ export const competitionsRoute = (p?: { page: number | string }) => ({
 export const manageCompetitionsRoute = (p?: PagingParams) => ({
   ...manageCompetitions,
   params: convertParams(
-    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
+    Object.assign(
+      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
+      p
+    )
   )
 });

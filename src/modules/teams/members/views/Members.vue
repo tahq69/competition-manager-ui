@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { ElSortDirection, SortDirection, PagingParams } from "@/typings";
+import { SortDirection, PagingParams } from "@/typings";
 import { teamMembers } from "@/router/routes";
 import { Paging } from "@/helpers";
 
@@ -50,10 +50,7 @@ export default Vue.extend({
     },
 
     defaultSort(): any {
-      return {
-        prop: this.sort,
-        order: this.direction == "asc" ? "ascending" : "descending"
-      };
+      return { prop: this.sort, order: this.direction };
     }
   },
 
@@ -64,7 +61,7 @@ export default Vue.extend({
 
     onDataChange({
       page = "1",
-      direction = "asc",
+      direction = "descending",
       sort = "id",
       pageSize = "10"
     }: PagingParams) {
@@ -99,13 +96,12 @@ export default Vue.extend({
       });
     },
 
-    onSortChange({ order, prop }: { order: ElSortDirection; prop: string }) {
-      const direction: SortDirection = order == "ascending" ? "asc" : "desc";
+    onSortChange({ order, prop }: { order: SortDirection; prop: string }) {
       // trigger route change when users updates sorting properties.
       this.onDataChange({
         page: 1,
         pageSize: this.pageSize,
-        direction,
+        direction: order,
         sort: prop
       });
     },

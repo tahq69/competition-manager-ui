@@ -34,7 +34,10 @@ export const root = [];
 export const teamCompetitionsRoute = (p: { team: Id } & PagingParams) => ({
   ...teamCompetitions,
   params: convertParams(
-    Object.assign({ page: 1, pageSize: 10, sort: "id", direction: "desc" }, p)
+    Object.assign(
+      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
+      p
+    )
   )
 });
 
