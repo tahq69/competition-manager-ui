@@ -2,15 +2,16 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
+import { link } from "@/components/mixins";
 import { teamCompetitionsRoute } from "../competitions/routes";
 
 export default Vue.extend({
   name: "TeamCompetitionsLink",
 
+  mixins: [link],
+
   props: {
-    team: { type: [String, Number], required: true },
-    tag: { type: String, default: "a" },
-    exact: { type: Boolean, default: true }
+    team: { type: [String, Number], required: true }
   },
 
   computed: {
@@ -24,7 +25,10 @@ export default Vue.extend({
 <template>
   <router-link :to="to"
                :tag="tag"
-               :exact="exact">
+               :exact="exact"
+               :class="elClass">
+    <i v-if="icon"
+       :class="icon"></i>
     <slot>
       <!-- default slot -->
     </slot>

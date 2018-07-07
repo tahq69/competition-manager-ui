@@ -111,10 +111,5 @@ export default Vue.extend({
       margin: 10px 0;
     }
   }
-
-  .pagination-row {
-    text-align: center;
-    padding: 15px 0;
-  }
 }
 </style>

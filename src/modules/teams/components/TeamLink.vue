@@ -2,19 +2,17 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import Btn from "@/components/Btn.vue";
+import { link } from "@/components/mixins";
 
 import { teamMembersRoute } from "../members/routes";
 
 export default Vue.extend({
   name: "Teamlink",
 
-  components: { Btn },
+  mixins: [link],
 
   props: {
-    team: { type: [String, Number], required: true },
-    tag: { type: String, default: "a" },
-    exact: { type: Boolean, default: true }
+    team: { type: [String, Number], required: true }
   },
 
   computed: {
@@ -28,7 +26,10 @@ export default Vue.extend({
 <template>
   <router-link :to="to"
                :tag="tag"
-               :exact="exact">
+               :exact="exact"
+               :class="elClass">
+    <i v-if="icon"
+       :class="icon"></i>
     <slot>
       <!-- default slot -->
     </slot>

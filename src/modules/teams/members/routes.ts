@@ -1,4 +1,4 @@
-import * as roles from "@/components/auth/roles";
+import { Id, PagingParams } from "@/typings";
 import {
   convertParams,
   createTeamMember,
@@ -6,14 +6,14 @@ import {
   manageTeamMembers,
   teamMembers
 } from "@/router/routes";
-import { Id, IRouteParams, PagingParams } from "@/typings";
+import * as roles from "@/components/auth/roles";
 
 /** Public routes */
-import membersView from "./views/Members.vue";
+import membersView from "#/teams/members/views/Members.vue";
 
 /** Management routes */
-import manageMemberView from "./views/ManageMember.vue";
-import manageMembersView from "./views/ManageMembers.vue";
+import manageMemberView from "#/teams/members/views/ManageMember.vue";
+import manageMembersView from "#/teams/members/views/ManageMembers.vue";
 
 const meta = { requiresAuth: true, requiresRoles: [roles.CREATE_TEAMS] };
 
@@ -47,7 +47,7 @@ export const root = [
     props: true,
     meta,
     path:
-      "/team/:team(\\d+)/members/manage/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?"
+      "/team/:team(\\d+)/members/manage/:page(\\d+)/:sort/:direction/:perPage(\\d+)"
   }
 ];
 

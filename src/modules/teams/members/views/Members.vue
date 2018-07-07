@@ -1,21 +1,22 @@
 <script lang="ts">
 import Vue from "vue";
 
+import { ElSortDirection, SortDirection, PagingParams } from "@/typings";
 import { teamMembers } from "@/router/routes";
+import { Paging } from "@/helpers";
 
 import { TeamMember } from "#/teams/models/team-member";
 
 import { TeamMemberAuth } from "#/teams/members/auth";
 import membersService from "#/teams/members/service";
 
-import ManageTeamMemberBtn from "#/teams/components/ManageTeamMemberBtn.vue";
-import ProfileBtn from "#/user/components/ProfileBtn.vue";
-import { Paging, SortDirection } from "@/helpers";
+import ManageTeamMemberLink from "#/teams/components/ManageTeamMemberLink.vue";
+import ProfileLink from "#/user/components/ProfileLink.vue";
 
 export default Vue.extend({
   name: "TeamMembers",
 
-  components: { ManageTeamMemberBtn, ProfileBtn },
+  components: { ManageTeamMemberLink, ProfileLink },
 
   props: {
     team: { type: [String, Number], required: true },
@@ -43,9 +44,16 @@ export default Vue.extend({
       return parseInt(this.page.toString()) || 1;
     },
 
-    currentPerPage(): number {
+    currentPageSize(): number {
       // convert route string parameter to number for el-pagination.
       return parseInt(this.perPage.toString()) || 10;
+    },
+
+    defaultSort(): any {
+      return {
+        prop: this.sort,
+        order: this.direction == "asc" ? "ascending" : "descending"
+      };
     }
   },
 
@@ -54,13 +62,51 @@ export default Vue.extend({
       return (member.user_id || 0) > 0;
     },
 
-    currentChange(page: string) {
-      const perPage = this.perPage.toString();
-
-      // trigger route change when users updates pagination.
+    onDataChange({
+      page = "1",
+      direction = "asc",
+      sort = "id",
+      perPage = "10"
+    }: PagingParams) {
       this.$router.push({
         name: teamMembers.name,
-        params: { page, sort: this.sort, direction: this.direction, perPage }
+        params: {
+          page: page.toString(),
+          perPage: perPage.toString(),
+          sort,
+          direction
+        }
+      });
+    },
+
+    onPageChange(page: string) {
+      // trigger route change when users updates pagination.
+      this.onDataChange({
+        page,
+        perPage: this.perPage,
+        direction: this.direction as any,
+        sort: this.sort
+      });
+    },
+
+    onPageSizeChange(perPage: string) {
+      // trigger route change when users updates pagination.
+      this.onDataChange({
+        page: 1,
+        perPage,
+        direction: this.direction as any,
+        sort: this.sort
+      });
+    },
+
+    onSortChange({ order, prop }: { order: ElSortDirection; prop: string }) {
+      const direction: SortDirection = order == "ascending" ? "asc" : "desc";
+      // trigger route change when users updates sorting properties.
+      this.onDataChange({
+        page: 1,
+        perPage: this.perPage,
+        direction,
+        sort: prop
       });
     },
 
@@ -68,7 +114,7 @@ export default Vue.extend({
       this.loading = true;
 
       const page = this.currentPage;
-      const perPage = this.currentPerPage;
+      const perPage = this.currentPageSize;
       const direction = this.direction as SortDirection;
       const paging = new Paging(page, perPage, this.sort, direction);
       const payload = { paging, team_id: this.team };
@@ -105,61 +151,51 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div id="team-members">
-    <table v-if="hasMembers"
-           class="table mb-0 table-hover">
-      <thead>
-        <tr>
-          <CGridHeader :paging="members"
-                       column="name"
+  <div id="team-members"
+       v-loading="loading">
+    <el-table :data="members"
+              :default-sort="defaultSort"
+              @sort-change="onSortChange">
+      <el-table-column prop="name"
+                       label="Name"
+                       sortable="custom"
                        title="Sort by name">
-            Name
-          </CGridHeader>
-
-          <CGridHeader :paging="members"
-                       column="membership_type"
+      </el-table-column>
+      <el-table-column prop="membership_type"
+                       label="Membership"
+                       sortable="custom"
                        title="Sort by membership">
-            Membership
-          </CGridHeader>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="member in members"
-            :key="member.id"
-            class="crip-table-row">
-          <td>
-            {{ member.name }} &nbsp;
+      </el-table-column>
+      <el-table-column>
+        <template slot-scope="scope">
+          <ManageTeamMemberLink :team="scope.row.team_id"
+                                :member="scope.row.id"
+                                title="Edit team member details"
+                                icon="el-icon-edit"
+                                type="primary"
+                                button
+                                circle
+                                mini/>
 
-            <ManageTeamMemberBtn :team="member.team_id"
-                                 :member="member.id"
-                                 badge
-                                 icon>
-              Edit
-            </ManageTeamMemberBtn>&nbsp;
+          <ProfileLink v-if="hasProfile(scope.row)"
+                       :user="scope.row.user_id"
+                       title="Member user profile"
+                       button
+                       mini>
+            Profile</ProfileLink>
+        </template>
+      </el-table-column>
+    </el-table>
 
-            <ProfileBtn v-if="hasProfile(member)"
-                        :user="member.user_id"
-                        title="Member user profile"
-                        badge
-                        icon>
-              Profile
-            </ProfileBtn>
-          </td>
-          <td>{{ member.membership_type }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div v-else
-         class="card-body text-danger">
-      This team does not have any member.
-    </div>
-
-    <div v-if="hasMembers"
-         class="card-footer clearfix">
-      <CPagination :paging="members"
-                   class="float-left mb-0" />
-      <CPerPage :paging="members"
-                class="float-right" />
-    </div>
+    <el-row class="pagination-row">
+      <el-pagination @current-change="onPageChange"
+                     @size-change="onPageSizeChange"
+                     layout="total, prev, pager, next, sizes"
+                     :current-page="currentPage"
+                     :page-sizes="[10, 20, 50, 100]"
+                     :page-size="currentPageSize"
+                     :total="totalItems">
+      </el-pagination>
+    </el-row>
   </div>
 </template>

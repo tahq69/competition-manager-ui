@@ -4,27 +4,28 @@ import { Location } from "vue-router";
 
 import { link, watchVisibility } from "@/components/mixins";
 
-import { manageCmDetailsRoute } from "#/competitions/details/routes";
-import { CompetitionAuth } from "#/competitions/auth";
+import { manageTeamMemberRoute } from "#/teams/members/routes";
+import { TeamMemberAuth } from "#/teams/members/auth";
 
 export default Vue.extend({
-  name: "ManageCompetitionLink",
+  name: "ManageTeamMemberLink",
 
   mixins: [link, watchVisibility],
 
   props: {
-    cm: { type: [String, Number], required: true }
+    team: { type: [String, Number], required: true },
+    member: { type: [String, Number], required: true }
   },
 
   computed: {
     to(): Location {
-      return manageCmDetailsRoute({ cm: this.cm });
+      return manageTeamMemberRoute({ team: this.team, member: this.member });
     }
   },
 
   methods: {
     async checkVisibility() {
-      return await CompetitionAuth.canEdit({ cm: this.cm });
+      return await TeamMemberAuth.canEditMembers({ team: this.team });
     }
   }
 });

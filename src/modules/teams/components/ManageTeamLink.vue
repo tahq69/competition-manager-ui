@@ -2,7 +2,7 @@
 import Vue from "vue";
 import { Location } from "vue-router";
 
-import { watchVisibility } from "@/components/auth/mixins";
+import { link, watchVisibility } from "@/components/mixins";
 
 import { manageTeamRoute } from "#/teams/routes";
 import { TeamAuth } from "#/teams/auth";
@@ -10,12 +10,10 @@ import { TeamAuth } from "#/teams/auth";
 export default Vue.extend({
   name: "ManageTeamLink",
 
-  mixins: [watchVisibility],
+  mixins: [link, watchVisibility],
 
   props: {
-    team: { type: [String, Number], required: true },
-    tag: { type: String, default: "a" },
-    exact: { type: Boolean, default: true }
+    team: { type: [String, Number], required: true }
   },
 
   computed: {
@@ -36,7 +34,10 @@ export default Vue.extend({
   <router-link v-if="isVisible"
                :to="to"
                :tag="tag"
-               :exact="exact">
+               :exact="exact"
+               :class="elClass">
+    <i v-if="icon"
+       :class="icon"></i>
     <slot>
       <!-- default slot -->
     </slot>
