@@ -2,18 +2,18 @@
 import Vue from "vue";
 
 import { teamCompetitions } from "@/router/routes";
-import { Paging, SortDirection } from "@/helpers";
+import { Paging, SortDirection, PagingParams } from "@/helpers";
 
 import cmService from "#/competitions/service";
 import { Competition } from "#/competitions/models/competition";
 import { cmDetailsRoute } from "#/competitions/details/routes";
 
-import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
+import ManageCompetitionLink from "#/competitions/components/ManageCompetitionLink.vue";
 
 export default Vue.extend({
   name: "TeamCompetitions",
 
-  components: { ManageCompetitionBtn },
+  components: { ManageCompetitionLink },
 
   props: {
     team: { type: [String, Number], required: true },
@@ -30,10 +30,6 @@ export default Vue.extend({
   }),
 
   computed: {
-    hasCm(): boolean {
-      return this.competitions.length > 0;
-    },
-    
     currentPage(): number {
       // convert route string parameter to number for el-pagination.
       return parseInt(this.page.toString()) || 1;
@@ -42,21 +38,58 @@ export default Vue.extend({
     currentPageSize(): number {
       // convert route string parameter to number for el-pagination.
       return parseInt(this.pageSize.toString()) || 10;
+    },
+
+    defaultSort(): any {
+      return { prop: this.sort, order: this.direction };
     }
   },
 
   methods: {
-    competitionDetailsRoute(cm: Competition) {
-      return cmDetailsRoute({ cm: cm.id });
-    },
-    
-    currentChange(page: string) {
-      const pageSize = this.pageSize.toString();
-
-      // trigger route change when users updates pagination.
+    onDataChange({
+      page = "1",
+      direction = "descending",
+      sort = "id",
+      pageSize = "10"
+    }: PagingParams) {
       this.$router.push({
         name: teamCompetitions.name,
-        params: { page, sort: this.sort, direction: this.direction, pageSize }
+        params: {
+          page: page.toString(),
+          pageSize: pageSize.toString(),
+          sort,
+          direction
+        }
+      });
+    },
+
+    onPageChange(page: string) {
+      // trigger route change when users updates pagination.
+      this.onDataChange({
+        page,
+        pageSize: this.pageSize,
+        direction: this.direction as any,
+        sort: this.sort
+      });
+    },
+
+    onPageSizeChange(pageSize: string) {
+      // trigger route change when users updates pagination.
+      this.onDataChange({
+        page: 1,
+        pageSize,
+        direction: this.direction as any,
+        sort: this.sort
+      });
+    },
+
+    onSortChange({ order, prop }: { order: SortDirection; prop: string }) {
+      // trigger route change when users updates sorting properties.
+      this.onDataChange({
+        page: 1,
+        pageSize: this.pageSize,
+        direction: order,
+        sort: prop
       });
     },
 
@@ -74,6 +107,10 @@ export default Vue.extend({
       this.totalItems = paginated.total;
 
       this.loading = false;
+    },
+
+    onCurrentChange(cm: Competition) {
+      this.$router.push(cmDetailsRoute({ cm: cm.id }));
     }
   },
 
@@ -93,61 +130,60 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div id="team-competitions">
-    <table v-if="hasCm"
-           class="table table-hover mb-0">
-      <thead>
-        <tr>
-          <CGridHeader :paging="competitions"
-                       column="title"
-                       title="Sort by title">
-            Title
-          </CGridHeader>
+  <div id="team-competitions"
+       v-loading="loading">
+    <el-table :data="competitions"
+              :default-sort="defaultSort"
+              highlight-current-row
+              @current-change="onCurrentChange"
+              @sort-change="onSortChange">
+      <el-table-column prop="title"
+                       label="Title"
+                       sortable="custom">
+        <template slot-scope="cm">
+          {{ cm.row.title }}
+        </template>
+      </el-table-column>
 
-          <CGridHeader :paging="competitions"
-                       column="judge_name"
-                       title="Sort by main judge">
-            Judge
-          </CGridHeader>
+      <el-table-column prop="judge_name"
+                       label="Judge"
+                       sortable="custom">
+        <template slot-scope="cm">
+          {{ cm.row.judge_name }}
+        </template>
+      </el-table-column>
 
-          <CGridHeader :paging="competitions"
-                       column="organization_date"
-                       title="Sort by organization date">
-            Organization date
-          </CGridHeader>
-        </tr>
-      </thead>
-      <tbody>
-        <router-link v-for="cm in competitions"
-                     :key="cm.id"
-                     tag="tr"
-                     :to="competitionDetailsRoute(cm)"
-                     class="c-pointer">
-          <td>
-            <span>{{ cm.title }}</span>
-            &nbsp;
-            <ManageCompetitionBtn :cm="cm.id"
-                                  title="Edit competition details"
-                                  badge>
-              Edit
-            </ManageCompetitionBtn>
-          </td>
-          <td>{{ cm.judge_name }}</td>
-          <td>{{ cm.organization_date | formatDate }}</td>
-        </router-link>
-      </tbody>
-    </table>
-    <div v-else
-         class="card-body text-danger">
-      This team does not have any competition.
-    </div>
+      <el-table-column prop="organization_date"
+                       label="Organization date"
+                       sortable="custom">
+        <template slot-scope="cm">
+          {{ cm.row.organization_date | formatDate }}
+        </template>
+      </el-table-column>
 
-    <div v-if="hasCm"
-         class="card-footer clearfix">
-      <CPagination :paging="competitions"
-                   class="float-left mb-0" />
-      <CPerPage :paging="competitions"
-                class="float-right" />
-    </div>
+      <el-table-column>
+        <template slot-scope="cm">
+          <ManageCompetitionLink :cm="cm.row.team_id"
+                                 @click.stop
+                                 title="Edit competition details"
+                                 icon="el-icon-edit"
+                                 type="primary"
+                                 button
+                                 circle
+                                 mini/>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-row class="pagination-row">
+      <el-pagination @current-change="onPageChange"
+                     @size-change="onPageSizeChange"
+                     layout="total, prev, pager, next, sizes"
+                     :current-page="currentPage"
+                     :page-sizes="[10, 20, 50, 100]"
+                     :page-size="currentPageSize"
+                     :total="totalItems">
+      </el-pagination>
+    </el-row>
   </div>
 </template>
