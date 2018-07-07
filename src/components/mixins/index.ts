@@ -1,5 +1,7 @@
-import _visibility from "@/components/mixins/visibility";
 import _link from "@/components/mixins/link";
+import _table from "@/components/mixins/table";
+import _visibility from "@/components/mixins/visibility";
 
-export const visibility = _visibility;
 export const link = _link;
+export const table = _table;
+export const visibility = _visibility;
