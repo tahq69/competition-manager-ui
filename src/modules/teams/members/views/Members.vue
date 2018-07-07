@@ -2,8 +2,9 @@
 import Vue from "vue";
 
 import { SortDirection, PagingParams } from "@/typings";
-import { teamMembers } from "@/router/routes";
 import { Paging } from "@/helpers";
+import { table } from "@/components/mixins";
+import { teamMembers } from "@/router/routes";
 
 import { TeamMember } from "#/teams/models/team-member";
 
@@ -18,123 +19,35 @@ export default Vue.extend({
 
   components: { ManageTeamMemberLink, ProfileLink },
 
+  mixins: [table],
+
   props: {
-    team: { type: [String, Number], required: true },
-    page: { type: [String, Number], required: true },
-    pageSize: { type: [String, Number], required: true },
-    sort: { type: String, required: true },
-    direction: { type: String, required: true }
+    team: { type: [String, Number], required: true }
   },
 
   data: () => ({
-    loading: false,
-    totalItems: 1000000,
     members: [] as TeamMember[],
     canEdit: false,
-    canEditMembers: false
+    canEditMembers: false,
+    route: teamMembers // make sure table mixin knows current route
   }),
-
-  computed: {
-    hasMembers(): boolean {
-      return this.members.length > 0;
-    },
-
-    currentPage(): number {
-      // convert route string parameter to number for el-pagination.
-      return parseInt(this.page.toString()) || 1;
-    },
-
-    currentPageSize(): number {
-      // convert route string parameter to number for el-pagination.
-      return parseInt(this.pageSize.toString()) || 10;
-    },
-
-    defaultSort(): any {
-      return { prop: this.sort, order: this.direction };
-    }
-  },
 
   methods: {
     hasProfile(member: TeamMember) {
       return (member.user_id || 0) > 0;
     },
 
-    onDataChange({
-      page = "1",
-      direction = "descending",
-      sort = "id",
-      pageSize = "10"
-    }: PagingParams) {
-      this.$router.push({
-        name: teamMembers.name,
-        params: {
-          page: page.toString(),
-          pageSize: pageSize.toString(),
-          sort,
-          direction
-        }
-      });
-    },
-
-    onPageChange(page: string) {
-      // trigger route change when users updates pagination.
-      this.onDataChange({
-        page,
-        pageSize: this.pageSize,
-        direction: this.direction as any,
-        sort: this.sort
-      });
-    },
-
-    onPageSizeChange(pageSize: string) {
-      // trigger route change when users updates pagination.
-      this.onDataChange({
-        page: 1,
-        pageSize,
-        direction: this.direction as any,
-        sort: this.sort
-      });
-    },
-
-    onSortChange({ order, prop }: { order: SortDirection; prop: string }) {
-      // trigger route change when users updates sorting properties.
-      this.onDataChange({
-        page: 1,
-        pageSize: this.pageSize,
-        direction: order,
-        sort: prop
-      });
-    },
-
-    async fetchPage() {
-      this.loading = true;
-
-      const page = this.currentPage;
-      const pageSize = this.currentPageSize;
-      const direction = this.direction as SortDirection;
-      const paging = new Paging(page, pageSize, this.sort, direction);
+    async fetchPage(paging: Paging) {
       const payload = { paging, team_id: this.team };
       const paginated = await membersService.fetchTeamMembers(payload);
 
       this.members = paginated.items;
-      this.totalItems = paginated.total;
 
-      this.loading = false;
+      return paginated.total;
     }
   },
 
   created() {
-    this.log = this.$logger.component(this);
-
-    // fetch data on component initial load.
-    this.fetchPage();
-
-    // update when page/pageSize/sort/direction is changed.
-    this.$watch(
-      () => [this.page, this.sort, this.direction, this.pageSize].join(),
-      () => this.fetchPage()
-    );
-
     TeamMemberAuth.canEdit({ team: this.team }).then(
       canEdit => (this.canEdit = canEdit)
     );
@@ -185,7 +98,7 @@ export default Vue.extend({
                      @size-change="onPageSizeChange"
                      layout="total, prev, pager, next, sizes"
                      :current-page="currentPage"
-                     :page-sizes="[10, 20, 50, 100]"
+                     :page-sizes="pageSizes"
                      :page-size="currentPageSize"
                      :total="totalItems">
       </el-pagination>
