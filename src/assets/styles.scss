@@ -2,6 +2,8 @@
 @import "variables";
 @import "element-custom";
 
+@import "~element-ui/packages/theme-chalk/src/index";
+
 body {
   font-family: "Montserrat", sans-serif;
 }
