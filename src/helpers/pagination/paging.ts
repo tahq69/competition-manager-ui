@@ -2,10 +2,10 @@ import { SortDirection } from "@/typings";
 
 export class Paging {
   constructor(
-    private page: number,
-    private pageSize = 10,
-    private sort = "id",
-    private direction: SortDirection = "descending"
+    public page: number,
+    public pageSize = 10,
+    public sort = "id",
+    public direction: SortDirection = "descending"
   ) {}
 
   public get urlParams(): { [key: string]: string } {

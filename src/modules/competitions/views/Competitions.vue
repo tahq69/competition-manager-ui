@@ -3,6 +3,7 @@ import Vue from "vue";
 
 import { Paging, Paginated } from "@/helpers/pagination";
 import { competitions } from "@/router/routes";
+import { table } from "@/components/mixins";
 
 import { Competition } from "#/competitions/models/competition";
 import cmService from "#/competitions/service";
@@ -13,58 +14,29 @@ export default Vue.extend({
 
   components: { CompetitionCard },
 
-  props: {
-    page: { type: [String, Number], required: true }
-  },
+  mixins: [table],
 
   data: () => ({
-    pageSize: 12,
-    loading: false,
-    totalItems: 1000000,
-    competitions: [] as Competition[]
+    competitions: [] as Competition[],
+    route: competitions // make sure table mixin knows current route
   }),
 
   computed: {
-    currentPage(): number {
-      // convert route string parameter to number for el-pagination.
-      return parseInt(this.page.toString()) || 1;
-    }
+    // override mixin calculated size to constant for this page.
+    currentPageSize: (): number => 12
   },
 
   methods: {
-    currentChange(page: string) {
-      // trigger route change when users updates pagination.
-      this.$router.push({
-        name: competitions.name,
-        params: { page }
-      });
-    },
+    async fetchPage(paging: Paging) {
+      // owerride default sort with date for this page as there is no option for
+      // use to change it.
+      paging.sort = "organization_date";
 
-    async fetchPage(page: number) {
-      this.loading = true;
-
-      const paging = new Paging(page, this.pageSize, "organization_date");
       const paginated = await cmService.fetchCompetitions({ paging });
 
       this.competitions = paginated.items;
-      this.totalItems = paginated.total;
-
-      this.loading = false;
+      return paginated.total;
     }
-  },
-
-  watch: {
-    page() {
-      // update when router page is changed.
-      this.fetchPage(this.currentPage);
-    }
-  },
-
-  created() {
-    this.log = this.$logger.component(this);
-
-    // fetch data on component initial load.
-    this.fetchPage(this.currentPage);
   }
 });
 </script>
@@ -88,10 +60,10 @@ export default Vue.extend({
       </el-col>
     </el-row>
     <el-row class="pagination-row">
-      <el-pagination @current-change="currentChange"
-                     :current-page="currentPage"
+      <el-pagination @current-change="onPageChange"
                      layout="total, prev, pager, next"
-                     :page-size="pageSize"
+                     :current-page="currentPage"
+                     :page-size="currentPageSize"
                      :total="totalItems">
       </el-pagination>
     </el-row>
