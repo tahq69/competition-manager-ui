@@ -154,18 +154,14 @@ export default Vue.extend({
               @sort-change="onSortChange">
       <el-table-column prop="name"
                        label="Name"
-                       sortable="custom"
-                       title="Sort by name">
-      </el-table-column>
+                       sortable="custom"></el-table-column>
       <el-table-column prop="membership_type"
                        label="Membership"
-                       sortable="custom"
-                       title="Sort by membership">
-      </el-table-column>
+                       sortable="custom"></el-table-column>
       <el-table-column>
-        <template slot-scope="scope">
-          <ManageTeamMemberLink :team="scope.row.team_id"
-                                :member="scope.row.id"
+        <template slot-scope="member">
+          <ManageTeamMemberLink :team="member.row.team_id"
+                                :member="member.row.id"
                                 title="Edit team member details"
                                 icon="el-icon-edit"
                                 type="primary"
@@ -173,12 +169,13 @@ export default Vue.extend({
                                 circle
                                 mini/>
 
-          <ProfileLink v-if="hasProfile(scope.row)"
-                       :user="scope.row.user_id"
+          <ProfileLink v-if="hasProfile(member.row)"
+                       :user="member.row.user_id"
                        title="Member user profile"
                        button
                        mini>
-            Profile</ProfileLink>
+            Profile
+          </ProfileLink>
         </template>
       </el-table-column>
     </el-table>
