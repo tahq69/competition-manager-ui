@@ -78,9 +78,12 @@ export const manageTeamRoute = (p: { team: Id }) => {
   return { ...manageTeam, params: convertParams(p) };
 };
 
-export const teamRoute = (p: { team: Id }) => {
-  return { ...teamMembers, params: convertParams(p) };
-};
+export const teamRoute = (p: { team: Id } & PagingParams) => ({
+  ...teamMembers,
+  params: convertParams(
+    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+  )
+});
 
 export const getTeamsRoute = (p?: PagingParams) => ({
   ...teamsRoute,

@@ -1,5 +1,5 @@
 import * as roles from "@/components/auth/roles";
-import { Id, IRouteParams } from "@/typings";
+import { Id, IRouteParams, PagingParams } from "@/typings";
 import {
   convertParams,
   createCompetition,
@@ -16,7 +16,7 @@ import createCmView from "./views/CreateCompetition.vue";
 export const competitions = [
   {
     ...teamCompetitions,
-    path: "competitions/:page(\\d+)?/:sort?/:direction?/:perPage(\\d+)?",
+    path: "competitions/:page(\\d+)/:sort/:direction/:perPage(\\d+)",
     component: competitionsView,
     props: true
   },
@@ -31,9 +31,11 @@ export const competitions = [
 
 export const root = [];
 
-export const teamCompetitionsRoute = (p: { team: Id }) => ({
+export const teamCompetitionsRoute = (p: { team: Id } & PagingParams) => ({
   ...teamCompetitions,
-  params: convertParams(p)
+  params: convertParams(
+    Object.assign({ page: 1, perPage: 10, sort: "id", direction: "desc" }, p)
+  )
 });
 
 export const createCmRoute = (p: { team: Id }) => ({
