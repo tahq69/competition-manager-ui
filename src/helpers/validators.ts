@@ -1,4 +1,4 @@
-import { Rule, Validate } from "@/typings/element-ui";
+import { Rule, Validate } from "@/typings";
 
 export function rule<T = any>(rule: Rule<T>, message?: string): Rule<T> {
   return Object.assign({ trigger: "blur" }, { message }, rule);

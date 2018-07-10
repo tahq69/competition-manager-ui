@@ -1,6 +1,8 @@
 import Vue from "vue";
 import { RawLocation } from "vue-router";
 
+export * from "./element-ui";
+
 export interface IClasses extends IDictionary<boolean> {}
 export type SortDirection = "ascending" | "descending";
 export type Id = number | string;

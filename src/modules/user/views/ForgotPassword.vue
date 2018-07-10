@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Notification } from "element-ui";
-import { ElForm, Rules, Rule } from "@/typings/element-ui";
+import { ElForm, Rules, Rule } from "@/typings";
 
 import { login } from "@/router/routes";
 import { required, rule } from "@/helpers/validators";

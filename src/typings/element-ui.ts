@@ -1,4 +1,4 @@
-export { ElForm } from "element-ui/types/form";
+export { Form as ElForm } from "element-ui";
 
 export type ElValidationType =
   | "string"

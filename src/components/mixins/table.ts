@@ -71,13 +71,13 @@ export default {
       });
     },
 
-    onSortChange(this: any, { order, prop }) {
+    onSortChange(this: any, p: { order: SortDirection; prop: string }) {
       // trigger route change when users updates sorting properties.
       this.changeRoute({
         page: 1,
         pageSize: this.pageSize,
-        direction: order,
-        sort: prop
+        direction: p.order,
+        sort: p.prop
       });
     },
 

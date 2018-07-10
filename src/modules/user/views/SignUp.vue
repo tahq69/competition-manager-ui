@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue from "vue";
-import { ElForm, Rules, Rule } from "@/typings/element-ui";
+import { ElForm, Rules, Rule } from "@/typings";
 
 import Auth, { middleware } from "@/components/auth";
 import { required, rule, validate } from "@/helpers/validators";
