@@ -1,5 +1,5 @@
 import * as roles from "@/components/auth/roles";
-import { Id, IRouteParams, PagingParams } from "@/typings";
+import { Id, PagingParams } from "@/typings";
 import {
   convertParams,
   createCompetition,
