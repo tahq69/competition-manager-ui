@@ -1,10 +1,10 @@
 <script lang="ts">
 import Vue from "vue";
+import { ElForm, Rules, Rule, Next } from "@/typings";
 
 import FileInput from "@/components/form/FileInput.vue";
 import Submit from "@/components/form/Submit.vue";
 import { manageTeam } from "@/router/routes";
-import { Next } from "@/typings";
 
 import TeamBtn from "#/teams/components/TeamBtn.vue";
 import ManageTeamsBtn from "#/teams/components/ManageTeamsBtn.vue";
@@ -14,7 +14,7 @@ import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
 import { createTeamMemberRoute } from "../members/routes";
 import { Team } from "../models/team";
 import { manageTeamRoute } from "../routes";
-import teamService from "../service";
+import { fetchTeam } from "../service";
 
 export default Vue.extend({
   name: "ManageTeam",
@@ -37,7 +37,7 @@ export default Vue.extend({
 
     // If we open edit route, we load data from API and show it in a form.
     const payload = { id: to.params.team };
-    teamService.fetchTeam(payload).then(team => open(team));
+    fetchTeam(payload).then(team => open(team));
   },
 
   data: () => ({
@@ -99,7 +99,7 @@ export default Vue.extend({
       </ManageTeamsBtn>
 
       <TeamBtn v-if="isEdit"
-               :team="form.data.id"
+               :team="form.id"
                btn="light"
                title="View team public profile"
                icon>
@@ -107,14 +107,14 @@ export default Vue.extend({
       </TeamBtn>
 
       <ManageTeamMembersBtn v-if="isEdit"
-                            :team="form.data.id"
+                            :team="form.id"
                             btn="light"
                             icon>
         Members
       </ManageTeamMembersBtn>
 
       <CreateTeamMemberBtn v-if="isEdit"
-                           :team="form.data.id"
+                           :team="form.id"
                            btn="light"
                            icon>
         Add member
@@ -127,7 +127,7 @@ export default Vue.extend({
                 label="Name">
       <input type="text"
              id="name"
-             v-model="form.data.name"
+             v-model="form.name"
              name="name"
              :class="[{'is-invalid': form.errors.name}, 'form-control']">
     </CFormGroup>
@@ -138,7 +138,7 @@ export default Vue.extend({
                 label="Short title">
       <input type="text"
              id="short"
-             v-model="form.data.short"
+             v-model="form.short"
              name="short"
              :class="[{'is-invalid': form.errors.short}, 'form-control']">
     </CFormGroup>
@@ -151,14 +151,14 @@ export default Vue.extend({
                  name="logo"
                  size="sm"
                  type="image"
-                 v-model="form.data.logo"
+                 v-model="form.logo"
                  :form="form"
                  :input-class="[{'is-invalid': form.errors.logo}, 'form-control']" />
     </CFormGroup>
 
     <!-- #logo-preview -->
-    <CFormGroup v-if="form.data.logo">
-      <img :src="form.data.logo">
+    <CFormGroup v-if="form.logo">
+      <img :src="form.logo">
     </CFormGroup>
 
     <!-- #submit -->

@@ -6,7 +6,7 @@ import { SortDirection, Paging } from "@/helpers/pagination";
 import { manageTeams } from "@/router/routes";
 
 import { Team } from "#/teams/models/team";
-import teamService from "#/teams/service";
+import { fetchTeams } from "#/teams/service";
 
 import CreateTeamBtn from "#/teams/components/CreateTeamBtn.vue";
 import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
@@ -53,12 +53,12 @@ export default Vue.extend({
 
     async fetchPage() {
       this.loading = true;
-      
+
       const page = this.currentPage;
       const pageSize = this.currentPageSize;
       const direction = this.direction as SortDirection;
       const paging = new Paging(page, pageSize, this.sort, direction);
-      const paginated = await teamService.fetchTeams({ paging });
+      const paginated = await fetchTeams({ paging });
 
       this.teams = paginated.items;
       this.totalItems = paginated.total;

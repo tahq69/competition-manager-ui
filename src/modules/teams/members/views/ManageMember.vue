@@ -12,7 +12,7 @@ import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
 import TeamBtn from "#/teams/components/TeamBtn.vue";
 import { Team } from "#/teams/models/team";
 import { TeamMember } from "#/teams/models/team-member";
-import teamService from "#/teams/service";
+import { fetchTeam } from "#/teams/service";
 
 import { TeamMemberAuth } from "../auth";
 import memberService from "../service";
@@ -45,7 +45,7 @@ export default Vue.extend({
   },
 
   async beforeRouteEnter(to, from, next: Next<any>) {
-    const team = await teamService.fetchTeam({ id: to.params.team });
+    const team = await fetchTeam({ id: to.params.team });
     if (to.params.member) {
       // If it is edit route, we need fetch member details from api and
       // initialize them on select.
@@ -67,7 +67,7 @@ export default Vue.extend({
       canEditRoles: false,
       form: new TeamMember({}),
       initialUserId: 0,
-      memberTeam: new Team({}),
+      memberTeam: new Team({})
       /*userSelect: new CripSelect<UserBase>({
         onCriteriaChange: (criteria, setOptions, id) => {
           searchUser({ name: criteria }).then(users => {
@@ -93,10 +93,7 @@ export default Vue.extend({
 
     isInvitationVisible(): boolean {
       this.log(this.form.user_id, this.initialUserId);
-      return (
-        !!this.form.user_id &&
-        this.form.user_id !== this.initialUserId
-      );
+      return !!this.form.user_id && this.form.user_id !== this.initialUserId;
     },
 
     invitation(): any {

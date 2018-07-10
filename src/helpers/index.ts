@@ -1,13 +1,15 @@
 import { Validator } from "@/typings";
 
-import { isInArray } from "./utils";
+import { isInArray } from "@/helpers/utils";
 
-export * from "./utils";
-export * from "./entity";
-export * from "./pagination";
-export * from "./local-storage";
-export * from "./typings";
-export * from "./events";
+export * from "@/helpers/utils";
+export * from "@/helpers/entity";
+export * from "@/helpers/pagination";
+export * from "@/helpers/local-storage";
+export * from "@/helpers/typings";
+export * from "@/helpers/events";
+export * from "@/helpers/rest";
+export * from "@/helpers/service";
 
 export function isInArrayValidator<T>(array: T[]): Validator<T> {
   return (value: T) => isInArray(value, array);

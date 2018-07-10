@@ -1,3 +1,5 @@
+import { isInArrayValidator as validator } from "@/helpers";
+
 const sizes = ["", "medium", "small", "mini"];
 const types = ["default", "primary", "success", "info", "warning", "danger"];
 const icons = [
@@ -10,8 +12,6 @@ const icons = [
   "el-icon-plus",
   "el-icon-minus"
 ];
-const validator = (values: string[]) => (value: string) =>
-  values.indexOf(value) > -1;
 
 export default {
   props: {

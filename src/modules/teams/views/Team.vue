@@ -5,7 +5,7 @@ import { Next } from "@/typings";
 import ImageCard from "@/components/cards/ImageCard.vue";
 
 import { Team } from "#/teams/models/team";
-import teamService from "#/teams/service";
+import { fetchTeam } from "#/teams/service";
 
 import TeamLink from "#/teams/components/TeamLink.vue";
 import ManageTeamLink from "#/teams/components/ManageTeamLink.vue";
@@ -36,7 +36,7 @@ export default Vue.extend({
       this.loading = true;
 
       const payload = { id: this.team };
-      this.details = await teamService.fetchTeam(payload);
+      this.details = await fetchTeam(payload);
 
       this.loading = false;
     }

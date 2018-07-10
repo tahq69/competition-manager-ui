@@ -6,7 +6,7 @@ import { teams } from "@/router/routes";
 import { table } from "@/components/mixins";
 
 import { Team } from "#/teams/models/team";
-import teamService from "#/teams/service";
+import { fetchTeams } from "#/teams/service";
 
 import TeamCard from "#/teams/components/TeamCard.vue";
 
@@ -29,7 +29,7 @@ export default Vue.extend({
 
   methods: {
     async fetchPage(paging: Paging) {
-      const paginated = await teamService.fetchTeams({ paging });
+      const paginated = await fetchTeams({ paging });
 
       this.teams = paginated.items;
 
