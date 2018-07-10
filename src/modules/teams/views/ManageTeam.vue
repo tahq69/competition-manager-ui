@@ -2,19 +2,21 @@
 import Vue from "vue";
 import { ElForm, Rules, Rule, Next } from "@/typings";
 
+import { required } from "@/helpers/validators";
+
 import FileInput from "@/components/form/FileInput.vue";
 import Submit from "@/components/form/Submit.vue";
 import { manageTeam } from "@/router/routes";
+
+import { createTeamMemberRoute } from "#/teams/members/routes";
+import { manageTeamRoute } from "#/teams/routes";
+import { fetchTeam, saveTeam } from "#/teams/service";
+import { ManageTeam } from "#/teams/models";
 
 import TeamBtn from "#/teams/components/TeamBtn.vue";
 import ManageTeamsBtn from "#/teams/components/ManageTeamsBtn.vue";
 import CreateTeamMemberBtn from "#/teams/components/CreateTeamMemberBtn.vue";
 import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
-
-import { createTeamMemberRoute } from "../members/routes";
-import { Team } from "../models/team";
-import { manageTeamRoute } from "../routes";
-import { fetchTeam } from "../service";
 
 export default Vue.extend({
   name: "ManageTeam",
@@ -28,142 +30,155 @@ export default Vue.extend({
     TeamBtn
   },
 
-  beforeRouteEnter(to, from, next: Next<any>) {
-    const open = (team: Team) => next(vm => vm.setTeam(team));
+  props: {
+    team: { type: [String, Number], required: false }
+  },
 
-    // If we open create route, we have no data to load from API and we can
-    // initialize from with emtry data record.
-    if (to.name !== manageTeam.name) return open(new Team({}));
-
-    // If we open edit route, we load data from API and show it in a form.
-    const payload = { id: to.params.team };
-    fetchTeam(payload).then(team => open(team));
+  beforeRouteUpdate(to, from, next) {
+    this.formRef.clearValidate();
+    next();
   },
 
   data: () => ({
-    form: new Team({}),
+    loading: false,
+    form: new ManageTeam(),
+    errors: {},
     teamName: ""
   }),
 
   computed: {
-    isEdit(): boolean {
-      return this.$route.name === manageTeam.name;
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
+    },
+
+    rules(): Rules<ManageTeam> {
+      return {
+        name: [required("Please input the name")],
+        short: [required("Please input the short name")],
+        logo: []
+      };
     },
 
     title(): string {
-      if (this.isEdit) return `Manage team: ${this.teamName}`;
+      if (this.team) return `Manage team: ${this.teamName}`;
       return "Create new team";
     },
 
     createTeamMemberRoute(): any {
-      return createTeamMemberRoute({ team: this.form.id });
+      return createTeamMemberRoute({ team: this.team });
     }
   },
 
   methods: {
-    setTeam(team: Team) {
-      this.form = team;
-      this.teamName = team.name;
+    fetchTeam() {
+      this.loading = true;
+
+      const payload = { id: this.team };
+      fetchTeam(payload)
+        .then(team => {
+          this.form = team;
+          this.teamName = team.name;
+          this.loading = false;
+        })
+        .catch(() => (this.loading = false));
     },
 
     async save() {
-      this.log("save()", this.form);
+      if (this.loading) return;
 
-      /*this.form.clearErrors();
-      try {
-        const team = await teamService.saveTeam(this.form.data);
-        this.$notify.success("Team saved");
-        this.$router.push(manageTeamRoute({ team: team.id }));
-      } catch (errors) {
-        this.form.addErrors(errors);
-      }*/
+      this.loading = true;
+      this.errors = {};
+
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
+        }
+
+        try {
+          const team = await saveTeam(this.form);
+          this.$notify.success("Team saved");
+          this.loading = false;
+
+          const manageTeam = manageTeamRoute({ team: team.id });
+          this.$router.push(manageTeam);
+        } catch (errors) {
+          this.loading = false;
+          this.errors = errors;
+        }
+      });
     }
   },
 
-  mounted() {
-    this.log = this.$logger.component(this);
+  created() {
+    if (this.team) {
+      // if we open edit route, we load data from API and show it in a form.
+      this.fetchTeam();
+    }
   }
 });
 </script>
 
 <template>
-  <CFormCard :title="title"
-             :form="form"
-             id="manage-team"
-             @submit="save">
+  <el-card id="manage-team">
+    <span slot="header">{{ title }}</span>
+    <el-form v-loading="loading"
+             :model="form"
+             :rules="rules"
+             ref="form"
+             :label-position="_config.label_position"
+             :label-width="_config.label_width"
+             @submit.native.prevent="save">
+      <el-form-item label="Name"
+                    :error="errors.name"
+                    prop="name">
+        <el-input v-model="form.name"
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  autofocus
+                  clearable />
+      </el-form-item>
 
+      <el-form-item label="Short title"
+                    :error="errors.short"
+                    prop="short">
+        <el-input v-model="form.short"
+                  type="text"
+                  name="short"
+                  placeholder="Short title"
+                  clearable />
+      </el-form-item>
+
+      <el-form-item label="Team logo"
+                    :error="errors.logo"
+                    prop="logo">
+        <FileInput id="logo"
+                   size="sm"
+                   name="logo"
+                   type="image"
+                   v-model="form.logo" />
+      </el-form-item>
+
+      <el-form-item v-if="form.logo">
+        <img :src="form.logo">
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary"
+                   native-type="submit">
+          Save
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
+
+  <!--
     <span slot="actions">
-      <ManageTeamsBtn btn="light"
-                      icon>
-        Teams
-      </ManageTeamsBtn>
-
-      <TeamBtn v-if="isEdit"
-               :team="form.id"
-               btn="light"
-               title="View team public profile"
-               icon>
-        Preview
-      </TeamBtn>
-
-      <ManageTeamMembersBtn v-if="isEdit"
-                            :team="form.id"
-                            btn="light"
-                            icon>
-        Members
-      </ManageTeamMembersBtn>
-
-      <CreateTeamMemberBtn v-if="isEdit"
-                           :team="form.id"
-                           btn="light"
-                           icon>
-        Add member
-      </CreateTeamMemberBtn>
+      <ManageTeamsBtn btn="light" icon>Teams</ManageTeamsBtn>
+      <TeamBtn v-if="isEdit" :team="form.id" btn="light" title="View team public profile" icon>Preview</TeamBtn>
+      <ManageTeamMembersBtn v-if="isEdit" :team="form.id" btn="light" icon>Members</ManageTeamMembersBtn>
+      <CreateTeamMemberBtn v-if="isEdit" :team="form.id" btn="light" icon>Add member</CreateTeamMemberBtn>
     </span>
-
-    <!-- #name -->
-    <CFormGroup for="name"
-                :form="form"
-                label="Name">
-      <input type="text"
-             id="name"
-             v-model="form.name"
-             name="name"
-             :class="[{'is-invalid': form.errors.name}, 'form-control']">
-    </CFormGroup>
-
-    <!-- #short -->
-    <CFormGroup for="short"
-                :form="form"
-                label="Short title">
-      <input type="text"
-             id="short"
-             v-model="form.short"
-             name="short"
-             :class="[{'is-invalid': form.errors.short}, 'form-control']">
-    </CFormGroup>
-
-    <!-- #logo -->
-    <CFormGroup for="logo"
-                :form="form"
-                label="Team logo">
-      <FileInput id="logo"
-                 name="logo"
-                 size="sm"
-                 type="image"
-                 v-model="form.logo"
-                 :form="form"
-                 :input-class="[{'is-invalid': form.errors.logo}, 'form-control']" />
-    </CFormGroup>
-
-    <!-- #logo-preview -->
-    <CFormGroup v-if="form.logo">
-      <img :src="form.logo">
-    </CFormGroup>
-
-    <!-- #submit -->
-    <CFormGroup>
-      <Submit>Save</Submit>
-    </CFormGroup>
-  </CFormCard>
+  -->
 </template>

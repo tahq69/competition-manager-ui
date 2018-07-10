@@ -38,7 +38,8 @@ export const teams = [
     ...manageTeam,
     component: manageTeamView,
     meta,
-    path: "/team/manage/:team(\\d+)"
+    path: "/team/manage/:team(\\d+)",
+    props: true
   },
   {
     ...manageTeams,

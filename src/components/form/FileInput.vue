@@ -9,13 +9,11 @@ export default Vue.extend({
   components: { FilesysIframe },
 
   props: {
-    name: { type: String, required: true },
-    value: { type: String, required: true },
-    form: { type: Object, required: true },
     id: { type: String, required: false },
-    size: { type: String, required: false },
+    name: { type: String, required: true },
     type: { type: String, required: false },
-    inputClass: { type: [String, Array, Object], required: false }
+    value: { type: String, required: true },
+    size: { type: String, required: false }
   },
 
   data: () => ({ isManagerVisible: false }),
@@ -27,36 +25,37 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div class="input-group crip-file-input">
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary"
-              @click="isManagerVisible = !isManagerVisible"
-              type="button">Select file</button>
-    </div>
+  <div class="file-input">
+    <el-input :id="id"
+              :name="name"
+              :value="value"
+              @input="$emit('input', $event.target.value)"
+              disabled>
+      <el-button slot="append"
+                 @click="isManagerVisible = !isManagerVisible"
+                 icon="el-icon-search">Select file</el-button>
+    </el-input>
 
-    <input type="text"
-           disabled="disabled"
-           :value="value"
-           @input="$emit('input', $event.target.value)"
-           :id="id"
-           :name="name"
-           :class="inputClass">
-
-    <CFormErrors slot="feedback"
-                 :errors="form.errors[name]" />
-
-    <CModal :is-visible.sync="isManagerVisible"
-            size="lg">
+    <el-dialog :visible.sync="isManagerVisible"
+               custom-class="file-input-dialog"
+               :show-close="true"
+               title="CRIP File Manager"
+               width="90%">
       <FilesysIframe :size="size"
                      :type="type"
                      @input="$emit('input', $event), isManagerVisible = false" />
-    </CModal>
-
+    </el-dialog>
   </div>
 </template>
 
 <style lang="scss">
-.crip-file-input .modal-body {
-  padding: 0;
+.file-input-dialog {
+  .el-dialog__header {
+    background-color: #f5f6f7;
+  }
+
+  .el-dialog__body {
+    padding: 0;
+  }
 }
 </style>

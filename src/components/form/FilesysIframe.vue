@@ -71,9 +71,16 @@ export default Vue.extend({
 });
 </script>
 
-
 <template>
   <iframe ref="iframe"
+          class="filesys-iframe"
           width="100%"
           height="500px"></iframe>
 </template>
+
+<style lang="scss">
+.filesys-iframe {
+  border: 0;
+}
+</style>
+
