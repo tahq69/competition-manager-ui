@@ -52,6 +52,7 @@ export default Vue.extend({
 
 <style lang="scss">
 .competition-card {
+  cursor: pointer;
   position: relative;
   height: 100%;
 
