@@ -27,7 +27,7 @@ export default Vue.extend({
       return this.$refs["form"] as any;
     },
 
-    rules(): Rules<ResetPassword, keyof ResetPassword> {
+    rules(): Rules<ResetPassword> {
       return {
         email: [
           required("Please input the email address"),

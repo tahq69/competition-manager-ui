@@ -23,7 +23,7 @@ export default Vue.extend({
       return this.$refs["form"] as any;
     },
 
-    rules(): Rules<Credentials, keyof Credentials> {
+    rules(): Rules<Credentials> {
       return {
         username: [
           required("Please enter email address"),
