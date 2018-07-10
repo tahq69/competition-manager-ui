@@ -1,24 +1,15 @@
-import { saveEntity } from "@/helpers/service";
-import { httpContext } from "@/helpers/rest";
-import { Id } from "@/typings";
+import { httpContext, saveEntity } from "@/helpers";
 
-import { CompetitionCreate } from "../models/competition-create";
+import { SaveCompetitionPayload } from "#/teams/typings";
+import { CompetitionCreate } from "#/teams/models/competition-create";
 
-interface ISaveCompetition {
-  title: string;
-  subtitle: string;
-  registration_till: string;
-  organization_date: string;
-  team_id: Id;
+/**
+ * Save team competition entity details.
+ * @param payload Query payload.
+ */
+export async function saveCompetition(payload: SaveCompetitionPayload) {
+  return await httpContext(async () => {
+    const entity = new CompetitionCreate(payload);
+    return await saveEntity(entity, CompetitionCreate);
+  });
 }
-
-class CompetitionService {
-  public async saveCompetition(payload: ISaveCompetition) {
-    return await httpContext(async http => {
-      const entity = new CompetitionCreate(payload);
-      return await saveEntity(entity, CompetitionCreate);
-    });
-  }
-}
-
-export default new CompetitionService();

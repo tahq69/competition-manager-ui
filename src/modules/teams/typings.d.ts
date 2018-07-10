@@ -1,6 +1,9 @@
 import { Id } from "@/typings";
 import { Paging } from "@/helpers";
 
+export * from "#/teams/competitions/typings";
+export * from "#/teams/members/typings";
+
 export interface FetchTeamPayload {
   id: Id;
 }

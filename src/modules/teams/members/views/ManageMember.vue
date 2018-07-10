@@ -15,7 +15,7 @@ import { TeamMember } from "#/teams/models/team-member";
 import { fetchTeam } from "#/teams/service";
 
 import { TeamMemberAuth } from "../auth";
-import memberService from "../service";
+import { fetchTeamMember } from "../service";
 import { manageTeamMembersRoute } from "../routes";
 
 import MemberRoleControl from "./MemberRoleControl.vue";
@@ -50,7 +50,7 @@ export default Vue.extend({
       // If it is edit route, we need fetch member details from api and
       // initialize them on select.
       const payload = { id: to.params.member, team_id: to.params.team };
-      const member = await memberService.fetchTeamMember(payload);
+      const member = await fetchTeamMember(payload);
 
       return next(vm => {
         vm.setTeam(team);

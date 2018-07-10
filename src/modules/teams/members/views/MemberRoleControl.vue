@@ -3,7 +3,7 @@ import Vue from "vue";
 
 import * as roles from "@/components/auth/roles";
 
-import memberService from "../service";
+import { fetchMemberRoles } from "../service";
 
 export default Vue.extend({
   name: "MemberRoleControl",
@@ -14,7 +14,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    roles: [] as string[],
+    roles: [] as string[]
     /*rolesSelect: new CripSelect([
       { key: "1", text: "Manage team details", value: roles.MANAGE_TEAMS },
       { key: "2", text: "Manage team members", value: roles.MANAGE_MEMBERS },
@@ -29,9 +29,9 @@ export default Vue.extend({
   created() {
     this.log = this.$logger.component(this);
 
-    memberService
-      .fetchRoles({ team: this.team, member: this.member })
-      .then(roles => (this.roles = roles));
+    fetchMemberRoles({ team: this.team, member: this.member }).then(
+      roles => (this.roles = roles)
+    );
   },
 
   watch: {

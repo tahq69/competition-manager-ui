@@ -5,7 +5,7 @@ import { Paging, SortDirection } from "@/helpers";
 import { manageTeamMembers } from "@/router/routes";
 
 import { TeamMember } from "#/teams/models/team-member";
-import memberService from "#/teams/members/service";
+import { fetchTeamMembers } from "#/teams/members/service";
 
 import ManageTeamMemberBtn from "#/teams/components/ManageTeamMemberBtn.vue";
 import CreateTeamMemberBtn from "#/teams/components/CreateTeamMemberBtn.vue";
@@ -67,7 +67,7 @@ export default Vue.extend({
       const direction = this.direction as SortDirection;
       const paging = new Paging(page, pageSize, this.sort, direction);
       const payload = { paging, team_id: this.team };
-      const paginated = await memberService.fetchTeamMembers(payload);
+      const paginated = await fetchTeamMembers(payload);
 
       this.members = paginated.items;
       this.totalItems = paginated.total;

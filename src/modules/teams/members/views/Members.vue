@@ -9,7 +9,7 @@ import { teamMembers } from "@/router/routes";
 import { TeamMember } from "#/teams/models/team-member";
 
 import { TeamMemberAuth } from "#/teams/members/auth";
-import membersService from "#/teams/members/service";
+import { fetchTeamMembers } from "#/teams/members/service";
 
 import ManageTeamMemberLink from "#/teams/components/ManageTeamMemberLink.vue";
 import ProfileLink from "#/user/components/ProfileLink.vue";
@@ -39,7 +39,7 @@ export default Vue.extend({
 
     async fetchPage(paging: Paging) {
       const payload = { paging, team_id: this.team };
-      const paginated = await membersService.fetchTeamMembers(payload);
+      const paginated = await fetchTeamMembers(payload);
 
       this.members = paginated.items;
 

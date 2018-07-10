@@ -4,7 +4,7 @@ import Vue from "vue";
 import { CompetitionCreate } from "#/teams/models/competition-create";
 import { manageCmDetailsRoute } from "#/teams/competitions/routes";
 
-import cmService from "../service";
+import { saveCompetition } from "#/teams/service";
 
 export default Vue.extend({
   name: "CreateTeamCompetitionForm",
@@ -25,7 +25,7 @@ export default Vue.extend({
 
       /*this.form.clearErrors();
       try {
-        const cm = await cmService.saveCompetition(this.form.data);
+        const cm = await saveCompetition(this.form.data);
         this.$notify.success("Competition created");
         this.$router.push(manageCmDetailsRoute({ cm: cm.id }));
       } catch (errors) {

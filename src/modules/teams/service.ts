@@ -12,6 +12,8 @@ import {
 } from "#/teams/typings";
 import { Team } from "#/teams/models/team";
 
+export * from "#/teams/competitions/service";
+
 /**
  * Fetch team details from server.
  * @param payload Query payload.
