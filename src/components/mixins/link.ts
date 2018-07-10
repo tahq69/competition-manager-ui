@@ -7,6 +7,7 @@ const icons = [
   "el-icon-edit",
   "el-icon-delete",
   "el-icon-tickets",
+  "el-icon-view",
   "el-icon-close",
   "el-icon-check",
   "el-icon-plus",

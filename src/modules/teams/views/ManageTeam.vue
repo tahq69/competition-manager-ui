@@ -3,31 +3,31 @@ import Vue from "vue";
 import { ElForm, Rules, Rule, Next } from "@/typings";
 
 import { required } from "@/helpers/validators";
+import { manageTeam } from "@/router/routes";
 
 import FileInput from "@/components/form/FileInput.vue";
 import Submit from "@/components/form/Submit.vue";
-import { manageTeam } from "@/router/routes";
 
-import { createTeamMemberRoute } from "#/teams/members/routes";
-import { manageTeamRoute } from "#/teams/routes";
-import { fetchTeam, saveTeam } from "#/teams/service";
 import { ManageTeam } from "#/teams/models";
+import { createTeamMemberRoute } from "#/teams/members/routes";
+import { fetchTeam, saveTeam } from "#/teams/service";
+import { manageTeamRoute } from "#/teams/routes";
 
-import TeamBtn from "#/teams/components/TeamBtn.vue";
-import ManageTeamsBtn from "#/teams/components/ManageTeamsBtn.vue";
-import CreateTeamMemberBtn from "#/teams/components/CreateTeamMemberBtn.vue";
-import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
+import CreateTeamMemberLink from "#/teams/components/CreateTeamMemberLink.vue";
+import ManageTeamMembersLink from "#/teams/components/ManageTeamMembersLink.vue";
+import ManageTeamsLink from "#/teams/components/ManageTeamsLink.vue";
+import TeamLink from "#/teams/components/TeamLink.vue";
 
 export default Vue.extend({
   name: "ManageTeam",
 
   components: {
-    CreateTeamMemberBtn,
+    CreateTeamMemberLink,
     FileInput,
-    ManageTeamMembersBtn,
-    ManageTeamsBtn,
+    ManageTeamMembersLink,
+    ManageTeamsLink,
     Submit,
-    TeamBtn
+    TeamLink
   },
 
   props: {
@@ -121,7 +121,36 @@ export default Vue.extend({
 
 <template>
   <el-card id="manage-team">
-    <span slot="header">{{ title }}</span>
+    <div slot="header"
+         class="clearfix">
+      <span>{{ title }}</span>
+      <ManageTeamsLink icon="el-icon-tickets"
+                       button
+                       mini>
+        Teams
+      </ManageTeamsLink>
+      <TeamLink v-if="team"
+                :team="team"
+                icon="el-icon-view"
+                button
+                mini>
+        Preview
+      </TeamLink>
+      <ManageTeamMembersLink v-if="team"
+                             :team="team"
+                             icon="el-icon-tickets"
+                             button
+                             mini>
+        Members
+      </ManageTeamMembersLink>
+      <CreateTeamMemberLink v-if="team"
+                            :team="team"
+                            icon="el-icon-plus"
+                            button
+                            mini>
+        Add member
+      </CreateTeamMemberLink>
+    </div>
     <el-form v-loading="loading"
              :model="form"
              :rules="rules"
@@ -172,13 +201,4 @@ export default Vue.extend({
       </el-form-item>
     </el-form>
   </el-card>
-
-  <!--
-    <span slot="actions">
-      <ManageTeamsBtn btn="light" icon>Teams</ManageTeamsBtn>
-      <TeamBtn v-if="isEdit" :team="form.id" btn="light" title="View team public profile" icon>Preview</TeamBtn>
-      <ManageTeamMembersBtn v-if="isEdit" :team="form.id" btn="light" icon>Members</ManageTeamMembersBtn>
-      <CreateTeamMemberBtn v-if="isEdit" :team="form.id" btn="light" icon>Add member</CreateTeamMemberBtn>
-    </span>
-  -->
 </template>

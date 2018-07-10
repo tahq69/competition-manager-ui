@@ -1,7 +1,14 @@
-.el-form-item {
-  &__error {
+.el-form-item__content {
+  .el-form-item__error {
     position: initial;
     left: initial;
     top: initial;
+  }
+}
+
+.el-card__header {
+  .el-link-button {
+    float: right;
+    margin: -5px 0 -5px 8px;
   }
 }
