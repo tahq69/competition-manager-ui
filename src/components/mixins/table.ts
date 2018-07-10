@@ -1,5 +1,5 @@
-import { PagingParams, SortDirection } from "@/typings";
-import { Paging } from "@/helpers";
+import { SortDirection } from "@/typings";
+import { Paging, PagingParams } from "@/helpers";
 
 const validator = (page: string | number) => parseInt(page.toString()) > 0;
 

@@ -2,6 +2,8 @@ import { AxiosStatic } from "axios";
 
 import { IDictionary, Id } from "@/typings";
 
+export * from "@/helpers/pagination/typings";
+
 export type ContextAction<T> = (http: AxiosStatic) => T;
 
 export interface IUrlParams {
