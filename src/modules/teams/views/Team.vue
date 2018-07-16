@@ -70,7 +70,7 @@ export default Vue.extend({
           <ManageTeamLink :team="details.id"
                           title="Manage team details">
             <el-button type="primary"
-                       icon="el-icon-edit"
+                       icon="edit"
                        size="mini"
                        circle />
           </ManageTeamLink>

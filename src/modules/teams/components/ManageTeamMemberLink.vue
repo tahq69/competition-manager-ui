@@ -38,7 +38,7 @@ export default Vue.extend({
                :exact="exact"
                :class="elClass">
     <i v-if="icon"
-       :class="icon"></i>
+       :class="_icon"></i>
     <slot>
       <!-- default slot -->
     </slot>

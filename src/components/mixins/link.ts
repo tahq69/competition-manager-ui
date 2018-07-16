@@ -4,14 +4,14 @@ const sizes = ["", "medium", "small", "mini"];
 const types = ["default", "primary", "success", "info", "warning", "danger"];
 const icons = [
   "",
-  "el-icon-edit",
-  "el-icon-delete",
-  "el-icon-tickets",
-  "el-icon-view",
-  "el-icon-close",
-  "el-icon-check",
-  "el-icon-plus",
-  "el-icon-minus"
+  "edit",
+  "delete",
+  "tickets",
+  "view",
+  "close",
+  "check",
+  "plus",
+  "minus"
 ];
 
 export default {
@@ -29,17 +29,19 @@ export default {
   },
 
   computed: {
-    elClass() {
-      const el: any = this;
+    elClass(this: any) {
       return {
-        "el-link-button el-button": el.button,
-        [`el-button--${el.type}`]: el.button,
-        [`el-button--${el.size}`]: el.button && el.size && !el.mini,
-        "el-button--mini": el.button && el.mini,
-        "is-circle": el.button && el.circle,
-        "is-plain": el.button && el.plain,
-        "is-round": el.button && el.round
+        "el-link-button el-button": this.button,
+        [`el-button--${this.type}`]: this.button,
+        [`el-button--${this.size}`]: this.button && this.size && !this.mini,
+        "el-button--mini": this.button && this.mini,
+        "is-circle": this.button && this.circle,
+        "is-plain": this.button && this.plain,
+        "is-round": this.button && this.round
       };
+    },
+    _icon(this: any) {
+      return `el-icon-${this.icon}`;
     }
   }
 };

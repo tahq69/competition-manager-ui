@@ -1,8 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { Id } from "@/typings";
-import { SortDirection, Paging } from "@/helpers";
+import { Paging } from "@/helpers";
 import { table } from "@/components/mixins";
 import { manageTeams } from "@/router/routes";
 
@@ -39,7 +38,7 @@ export default Vue.extend({
     <div slot="header"
          class="clearfix">
       <span>{{ $t('teams.manage_teams_grid_title') }}</span>
-      <CreateTeamLink icon="el-icon-plus"
+      <CreateTeamLink icon="plus"
                       button
                       mini>
         {{ $t('teams.manage_teams_grid_head_create_new') }}
@@ -65,7 +64,7 @@ export default Vue.extend({
           <template slot-scope="team">
             <ManageTeamLink :team="team.row.id"
                             :title="$t('teams.manage_teams_grid_btn_edit_title')"
-                            icon="el-icon-edit"
+                            icon="edit"
                             type="primary"
                             button
                             circle

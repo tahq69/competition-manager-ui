@@ -124,28 +124,28 @@ export default Vue.extend({
     <div slot="header"
          class="clearfix">
       <span>{{ title }}</span>
-      <ManageTeamsLink icon="el-icon-tickets"
+      <ManageTeamsLink icon="tickets"
                        button
                        mini>
         Teams
       </ManageTeamsLink>
       <TeamLink v-if="team"
                 :team="team"
-                icon="el-icon-view"
+                icon="view"
                 button
                 mini>
         Preview
       </TeamLink>
       <ManageTeamMembersLink v-if="team"
                              :team="team"
-                             icon="el-icon-tickets"
+                             icon="tickets"
                              button
                              mini>
         Members
       </ManageTeamMembersLink>
       <CreateTeamMemberLink v-if="team"
                             :team="team"
-                            icon="el-icon-plus"
+                            icon="plus"
                             button
                             mini>
         Add member

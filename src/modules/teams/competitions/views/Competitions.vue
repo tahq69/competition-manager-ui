@@ -80,7 +80,7 @@ export default Vue.extend({
           <ManageCompetitionLink :cm="cm.row.team_id"
                                  @click.stop
                                  title="Edit competition details"
-                                 icon="el-icon-edit"
+                                 icon="edit"
                                  type="primary"
                                  button
                                  circle

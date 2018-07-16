@@ -76,7 +76,7 @@ export default Vue.extend({
           <ManageTeamMemberLink :team="member.row.team_id"
                                 :member="member.row.id"
                                 title="Edit team member details"
-                                icon="el-icon-edit"
+                                icon="edit"
                                 type="primary"
                                 button
                                 circle
