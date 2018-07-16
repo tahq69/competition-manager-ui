@@ -1,1 +1,1 @@
-export * from "./manage-team"
+export * from "./manage-team";

@@ -18,4 +18,3 @@ export default Vue.extend({
 
   </li>
 </template>
-

@@ -13,7 +13,7 @@ export default Vue.extend({
   mixins: [link, visibility],
 
   props: {
-    team: { type: [String, Number], required: true },
+    team: { type: [String, Number], required: true }
   },
 
   computed: {

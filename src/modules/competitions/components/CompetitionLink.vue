@@ -12,7 +12,7 @@ export default Vue.extend({
   mixins: [link],
 
   props: {
-    cm: { type: [String, Number], required: true },
+    cm: { type: [String, Number], required: true }
   },
 
   computed: {

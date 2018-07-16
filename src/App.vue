@@ -69,7 +69,7 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
-@import "assets/styles";
+@import "~assets/styles";
 
 .el-header {
   background-color: $--color-primary;

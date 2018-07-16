@@ -7,11 +7,11 @@ import { userProfileRoute } from "../routes";
 
 export default Vue.extend({
   name: "ProfileLink",
- 
+
   mixins: [link],
 
   props: {
-    user: { type: [String, Number], required: true },
+    user: { type: [String, Number], required: true }
   },
 
   computed: {

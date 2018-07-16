@@ -13,7 +13,7 @@ export default Vue.extend({
 
   props: {
     competition: { type: Competition, required: true }
-  },
+  }
 });
 </script>
 

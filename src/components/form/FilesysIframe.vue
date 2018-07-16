@@ -83,4 +83,3 @@ export default Vue.extend({
   border: 0;
 }
 </style>
-
