@@ -2,8 +2,8 @@
 import Vue from "vue";
 
 import { Paging } from "@/helpers";
-import { table } from "@/components/mixins";
 import { manageTeams } from "@/router/routes";
+import { table } from "@/components/mixins";
 
 import { Team } from "#/teams/models/team";
 import { fetchTeams } from "#/teams/service";
@@ -64,8 +64,8 @@ export default Vue.extend({
           <template slot-scope="team">
             <ManageTeamLink :team="team.row.id"
                             :title="$t('teams.manage_teams_grid_btn_edit_title')"
-                            icon="edit"
                             type="primary"
+                            icon="edit"
                             button
                             circle
                             mini/>
