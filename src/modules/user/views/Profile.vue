@@ -113,6 +113,8 @@ export default Vue.extend({
 </template>
 
 <style lang="scss">
+@import "~assets/variables";
+
 #user-profile {
   .team-img {
     width: 100%;
