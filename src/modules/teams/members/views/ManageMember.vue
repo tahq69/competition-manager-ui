@@ -1,42 +1,36 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { Next } from "@/typings";
+import { ElForm, Rules, Rule } from "@/typings";
 import { manageTeamMember } from "@/router/routes";
 import { searchUser } from "@/helpers/service";
+import { required } from "@/helpers/validators";
 import { UserBase } from "@/components/auth/models/user-base";
-import Submit from "@/components/form/Submit.vue";
 
-import ManageTeamMembersBtn from "#/teams/components/ManageTeamMembersBtn.vue";
-import ManageTeamBtn from "#/teams/components/ManageTeamBtn.vue";
-import TeamBtn from "#/teams/components/TeamBtn.vue";
-import { Team } from "#/teams/models/team";
-import { TeamMember } from "#/teams/models/team-member";
+import { ManageTeamMember, TeamMember, Team } from "#/teams/models";
 import { fetchTeam } from "#/teams/service";
 
-import { TeamMemberAuth } from "../auth";
-import { fetchTeamMember } from "../service";
-import { manageTeamMembersRoute } from "../routes";
+import ManageTeamLink from "#/teams/components/ManageTeamLink.vue";
+import ManageTeamMembersLink from "#/teams/components/ManageTeamMembersLink.vue";
+import MemberRoleInput from "#/teams/components/MemberRoleInput.vue";
+import TeamLink from "#/teams/components/TeamLink.vue";
 
-import MemberRoleControl from "./MemberRoleControl.vue";
-
-function toUserOption(user: UserBase) {
-  return {
-    key: user.id,
-    text: user.name,
-    value: user
-  };
-}
+import {
+  fetchTeamMember,
+  saveTeamMember,
+  saveMemberRoles
+} from "#/teams/members/service";
+import { TeamMemberAuth } from "#/teams/members/auth";
+import { manageTeamMembersRoute } from "#/teams/members/routes";
 
 export default Vue.extend({
   name: "ManageMember",
 
   components: {
-    ManageTeamBtn,
-    ManageTeamMembersBtn,
-    MemberRoleControl,
-    TeamBtn,
-    Submit
+    ManageTeamLink,
+    ManageTeamMembersLink,
+    MemberRoleInput,
+    TeamLink
   },
 
   props: {
@@ -44,48 +38,40 @@ export default Vue.extend({
     member: { type: [String, Number], required: false }
   },
 
-  async beforeRouteEnter(to, from, next: Next<any>) {
-    const team = await fetchTeam({ id: to.params.team });
-    if (to.params.member) {
-      // If it is edit route, we need fetch member details from api and
-      // initialize them on select.
-      const payload = { id: to.params.member, team_id: to.params.team };
-      const member = await fetchTeamMember(payload);
-
-      return next(vm => {
-        vm.setTeam(team);
-        vm.setMember(member);
-      });
-    }
-
-    // This is create route and we can simply show a empty form.
-    next(vm => vm.setTeam(team));
+  beforeRouteUpdate(to, from, next) {
+    this.formRef.clearValidate();
+    next();
   },
 
-  data() {
-    return {
-      canEditRoles: false,
-      form: new TeamMember({}),
-      initialUserId: 0,
-      memberTeam: new Team({})
-      /*userSelect: new CripSelect<UserBase>({
-        onCriteriaChange: (criteria, setOptions, id) => {
-          searchUser({ name: criteria }).then(users => {
-            const options = users.map(user => toUserOption(user));
-            setOptions(options, id);
-          });
-        }
-      })*/
-    };
-  },
+  data: () => ({
+    loading: false,
+    canEditRoles: false,
+    form: new ManageTeamMember(),
+    errors: {},
+    initialUserId: 0,
+    memberTeam: new Team({}),
+    searchingUser: false,
+    searchedUsers: [] as any[],
+    selectedUser: {} as any
+  }),
 
   computed: {
-    isEdit(): boolean {
-      return this.$route.name === manageTeamMember.name;
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
+    },
+
+    rules(): Rules<ManageTeamMember> {
+      return {
+        id: [],
+        user_id: [],
+        team_id: [],
+        name: [required("Please input the name")],
+        roles: []
+      };
     },
 
     title(): string {
-      if (this.isEdit)
+      if (this.member)
         return this.$t("teams.manage_member_edit_title") as string;
 
       return this.$t("teams.manage_member_create_title") as string;
@@ -102,82 +88,89 @@ export default Vue.extend({
   },
 
   methods: {
-    setTeam(team: Team) {
-      this.memberTeam = team;
+    async fetchData() {
+      this.loading = true;
+      const payload = { id: this.team };
+      this.memberTeam = await fetchTeam(payload);
+      this.form.team_id = this.team;
+
+      if (this.member) {
+        // member exists only if we open edit form.
+        const payload = { id: this.member, team_id: this.team };
+        const member = await fetchTeamMember(payload);
+
+        this.setMember(member);
+      }
+
+      this.loading = false;
+    },
+
+    async searchUser(query: string) {
+      this.log("searchUser", { query });
+      this.searchingUser = true;
+      this.searchedUsers = await searchUser({ name: query });
+      this.searchingUser = false;
     },
 
     setMember(member: TeamMember) {
       this.log("setMember(member)", { member });
-      const userId = member.user_id || 0;
-      this.initialUserId = userId;
+      const { user_id, name } = member;
 
-      // Add member option to select option list and make it selected.
-      const { name } = member;
-      const option = {
-        key: userId,
-        text: name,
-        value: new UserBase({ id: userId, name })
-      };
+      this.initialUserId = user_id || 0;
+      this.selectedUser = { id: this.initialUserId, name };
+      this.searchedUsers.push(this.selectedUser);
 
-      /*this.userSelect.addOption(option);
-      this.userSelect.selectOption(option);*/
-
-      // Fil up form with member information from API.
-      this.form.user_id = userId;
+      // fill up form with member information from API.
+      this.form.user_id = this.initialUserId;
       this.form.name = name;
       this.form.id = member.id;
     },
 
-    async associatedMember(user: UserBase | string | null) {
-      this.log("associatedMember", { user });
+    associateMember(user: UserBase | string) {
+      this.log("associateMember", { user });
 
       if (typeof user === "string") {
-        this.newMember(user);
-        return;
-      }
-
-      if (user === null) {
         this.form.user_id = 0;
-        this.form.name = "";
-
+        this.form.name = name;
         return;
       }
 
-      this.form.user_id = parseInt(user.id.toString(), 10);
+      this.form.user_id = user.id;
       this.form.name = user.name;
     },
 
-    newMember(name: string) {
-      this.log("newMember", { name });
-      this.form.user_id = 0;
-      this.form.name = name;
-    },
+    async save() {
+      this.log("save", this.form);
+      if (this.loading) return;
 
-    async saveMember() {
-      this.log("saveMember", { data: this.form });
-      /*this.form.clearErrors();
-      try {
-        await memberService.saveTeamMember({
-          id: this.form.data.id,
-          name: this.form.data.name,
-          team_id: this.team.toString(),
-          user_id: this.form.data.user_id
-        });
+      this.loading = true;
+      this.errors = {};
 
-        if (this.isEdit && this.canEditRoles) {
-          await memberService.saveMemberRoles({
-            team: this.team,
-            member: this.form.data.id,
-            roles: this.form.data.roles
-          });
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
         }
 
-        this.$notify.success(this.notificationDetails());
-        this.$router.push(manageTeamMembersRoute({ team: this.team }));
-      } catch (error) {
-        const errors = this.concatErrors(error);
-        this.form.addErrors(errors);
-      }*/
+        try {
+          await saveTeamMember(this.form);
+
+          if (this.member && this.canEditRoles) {
+            await saveMemberRoles({
+              team: this.team,
+              member: this.form.id,
+              roles: this.form.roles
+            });
+          }
+
+          this.$notify.success(this.notificationDetails());
+          this.$router.push(manageTeamMembersRoute({ team: this.team }));
+        } catch (errors) {
+          this.errors = this.concatErrors(errors);
+        }
+
+        this.loading = false;
+      });
     },
 
     concatErrors(errors: any) {
@@ -215,8 +208,13 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    selectedUser: "associateMember"
+  },
+
   created() {
     this.log = this.$logger.component(this);
+    this.fetchData();
 
     TeamMemberAuth.canEditRoles({ team: this.team }).then(
       canEdit => (this.canEditRoles = canEdit)
@@ -226,84 +224,91 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CFormCard id="manage-member"
-             :form="form"
-             :title="title"
-             @submit="saveMember"
-             class="col-xs-12">
-
-    <span slot="actions">
-      <ManageTeamBtn :team="team"
-                     btn="light"
-                     title="Edit team details"
-                     arrow="left"
-                     icon>
+  <el-card id="manage-team-member">
+    <div slot="header"
+         class="clearfix">
+      <span>{{ title }}</span>
+      <ManageTeamLink :team="team"
+                      title="Edit team details"
+                      icon="edit"
+                      button
+                      mini>
+        Teams
+      </ManageTeamLink>
+      <TeamLink :team="team"
+                title="Team details"
+                icon="view"
+                button
+                mini>
         Team
-      </ManageTeamBtn>
-
-      <TeamBtn :team="team"
-               btn="light"
-               arrow="left"
-               icon>
-        Team
-      </TeamBtn>
-
-      <ManageTeamMembersBtn :team="team"
-                            btn="light"
-                            arrow="left"
-                            icon>
+      </TeamLink>
+      <ManageTeamMembersLink :team="team"
+                             title="Manage team members"
+                             icon="tickets"
+                             button
+                             mini>
         Members
-      </ManageTeamMembersBtn>
-    </span>
-
-    <CFormGroup v-if="isEdit && canEditRoles"
-                label="Member roles"
-                for="member-roles"
-                :sm="8">
-      <MemberRoleControl v-model="form.data.roles"
-                         :member="form.data.id"
+      </ManageTeamMembersLink>
+    </div>
+    <el-form v-loading="loading"
+             :model="form"
+             :rules="rules"
+             ref="form"
+             :label-position="_config.label_position"
+             :label-width="_config.label_width"
+             @submit.native.prevent="save">
+      <el-form-item v-if="member && canEditRoles"
+                    label="Member roles"
+                    :error="errors.roles"
+                    prop="roles">
+        <MemberRoleInput v-model="form.roles"
+                         :member="member"
                          :team="team" />
-    </CFormGroup>
+      </el-form-item>
+      <el-form-item :label="$t('teams.manage_member_name_label')"
+                    :error="errors.name"
+                    prop="name">
+        <el-select v-model="selectedUser"
+                   value-key="name"
+                   placeholder="Name"
+                   :remote-method="searchUser"
+                   :loading="searchingUser"
+                   default-first-option
+                   allow-create
+                   filterable
+                   clearable
+                   remote>
+          <el-option v-for="user in searchedUsers"
+                     :key="user.id"
+                     :label="user.name"
+                     :value="user" />
+        </el-select>
+      </el-form-item>
 
-    <!-- #name -->
-    <CFormGroup for="name"
-                :form="form"
-                :label="$t('teams.manage_member_name_label')"
-                :sm="8">
-      <CripSelect :settings="userSelect"
-                  :input-class="[{'is-invalid': form.errors.name}]"
-                  @input="associatedMember"
-                  id="member"
-                  tags>
-        <CFormErrors slot="feedback"
-                     :errors="form.errors.name" />
-      </CripSelect>
-    </CFormGroup>
+      <el-form-item v-if="isInvitationVisible">
+        <span>
+          {{ $t('teams.manage_member_invitation_text', invitation) }}
+        </span>
+        <el-button :title="$t('teams.manage_member_invitation_dismiss')"
+                   @click="dismissInvitation"
+                   type="danger"
+                   icon="el-icon-close"
+                   size="mini"
+                   circle />
+      </el-form-item>
 
-    <!-- #invitation -->
-    <CFormGroup :sm="8"
-                v-if="isInvitationVisible">
-      <button type="button"
-              @click="dismissInvitation"
-              class="close text-danger"
-              :title="$t('teams.manage_member_invitation_dismiss')">
-        &times;
-      </button>
-      <span>
-        {{ $t('teams.manage_member_invitation_text', invitation) }}
-      </span>
-    </CFormGroup>
-
-    <!-- #submit -->
-    <CFormGroup :sm="8">
-      <Submit>{{ $t('teams.manage_member_submit_btn') }}</Submit>
-    </CFormGroup>
-  </CFormCard>
+      <el-form-item>
+        <el-button type="primary"
+                   native-type="submit">
+          Save
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
 </template>
 
 <style lang="scss" scoped>
-button.close.text-danger {
-  float: none;
-  font-weight: bolder;
+.el-select {
+  display: block;
 }
 </style>

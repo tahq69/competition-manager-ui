@@ -3,7 +3,7 @@ import Vue from "vue";
 
 import * as roles from "@/components/auth/roles";
 
-import { fetchMemberRoles } from "../service";
+import { fetchMemberRoles } from "#/teams/members/service";
 
 export default Vue.extend({
   name: "MemberRoleControl",
@@ -14,16 +14,16 @@ export default Vue.extend({
   },
 
   data: () => ({
-    roles: [] as string[]
-    /*rolesSelect: new CripSelect([
-      { key: "1", text: "Manage team details", value: roles.MANAGE_TEAMS },
-      { key: "2", text: "Manage team members", value: roles.MANAGE_MEMBERS },
+    roles: [] as string[],
+    options: [
+      { key: "1", label: "Manage team details", value: roles.MANAGE_TEAMS },
+      { key: "2", label: "Manage team members", value: roles.MANAGE_MEMBERS },
       {
         key: "3",
-        text: "Manage team member roles",
+        label: "Manage team member roles",
         value: roles.MANAGE_MEMBER_ROLES
       }
-    ])*/
+    ]
   }),
 
   created() {
@@ -43,10 +43,13 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CripSelect id="member-roles"
-              multiple
-              :settings="rolesSelect"
-              v-model="roles">
-    All roles assigned
-  </CripSelect>
+  <el-select v-model="roles"
+             multiple
+             placeholder="Select roles">
+    <el-option v-for="item in options"
+               :key="item.key"
+               :label="item.label"
+               :value="item.value">
+    </el-option>
+  </el-select>
 </template>

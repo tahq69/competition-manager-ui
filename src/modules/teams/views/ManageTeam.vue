@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue from "vue";
-import { ElForm, Rules, Rule, Next } from "@/typings";
+import { ElForm, Rules, Rule } from "@/typings";
 
 import { required } from "@/helpers/validators";
 import { manageTeam } from "@/router/routes";
