@@ -21,7 +21,7 @@ import {
   saveMemberRoles
 } from "#/teams/members/service";
 import { TeamMemberAuth } from "#/teams/members/auth";
-import { manageTeamMembersRoute } from "#/teams/members/routes";
+import { manageTeamMemberRoute } from "#/teams/members/routes";
 
 export default Vue.extend({
   name: "ManageMember",
@@ -131,7 +131,7 @@ export default Vue.extend({
 
       if (typeof user === "string") {
         this.form.user_id = 0;
-        this.form.name = name;
+        this.form.name = user;
         return;
       }
 
@@ -153,7 +153,7 @@ export default Vue.extend({
         }
 
         try {
-          await saveTeamMember(this.form);
+          const member = await saveTeamMember(this.form);
 
           if (this.member && this.canEditRoles) {
             await saveMemberRoles({
@@ -164,7 +164,12 @@ export default Vue.extend({
           }
 
           this.$notify.success(this.notificationDetails());
-          this.$router.push(manageTeamMembersRoute({ team: this.team }));
+
+          const route = manageTeamMemberRoute({
+            team: this.team,
+            member: member.id
+          });
+          this.$router.push(route);
         } catch (errors) {
           this.errors = this.concatErrors(errors);
         }
@@ -205,20 +210,25 @@ export default Vue.extend({
         ).toString(),
         title: this.$t("teams.manage_member_saved_title").toString()
       };
+    },
+
+    async checkPermissions() {
+      this.canEditRoles = await TeamMemberAuth.canEditRoles({
+        team: this.team
+      });
     }
   },
 
   watch: {
-    selectedUser: "associateMember"
+    selectedUser: "associateMember",
+    member: "checkPermissions"
   },
 
   created() {
     this.log = this.$logger.component(this);
     this.fetchData();
 
-    TeamMemberAuth.canEditRoles({ team: this.team }).then(
-      canEdit => (this.canEditRoles = canEdit)
-    );
+    this.checkPermissions();
   }
 });
 </script>
