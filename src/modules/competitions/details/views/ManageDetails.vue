@@ -4,7 +4,7 @@ import Vue from "vue";
 import { Next } from "@/typings";
 
 import { Competition } from "#/competitions/models/competition";
-import cmService from "#/competitions/service";
+import { fetchCompetition } from "#/competitions/service";
 
 export default Vue.extend({
   name: "ManageCompetitionDetails",
@@ -14,9 +14,9 @@ export default Vue.extend({
   },
 
   beforeRouteEnter(to, from, next: Next<any>) {
-    cmService
-      .fetchCompetition({ id: to.params.cm })
-      .then(competition => next(vm => vm.init(competition)));
+    fetchCompetition({ id: to.params.cm }).then(competition =>
+      next(vm => vm.init(competition))
+    );
   },
 
   data: () => ({
@@ -87,6 +87,7 @@ export default Vue.extend({
                 v-model="competition.data.registration_till"
                 :format="_config.dateTimeFormat"
                 :class="[{'is-invalid': competition.errors.registration_till}, 'form-control']"
+    
                 auto/>
     </CFormGroup>
 
@@ -101,6 +102,7 @@ export default Vue.extend({
                 v-model="competition.data.organization_date"
                 :format="_config.dateTimeFormat"
                 :class="[{'is-invalid': competition.errors.organization_date}, 'form-control']"
+    
                 auto/>
     </CFormGroup>
 

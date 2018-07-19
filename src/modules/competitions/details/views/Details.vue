@@ -3,105 +3,113 @@ import Vue from "vue";
 
 import { Next } from "@/typings";
 
-import cmService from "#/competitions/service";
+import { fetchCompetition } from "#/competitions/service";
 import { Competition } from "#/competitions/models/competition";
-import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
 
-import DetailsDescription from "./DetailsDescription.vue";
+import ManageCompetitionLink from "#/competitions/components/ManageCompetitionLink.vue";
 
 export default Vue.extend({
   name: "CompetitionDetails",
 
-  components: { DetailsDescription, ManageCompetitionBtn },
+  components: { ManageCompetitionLink },
 
   props: {
     cm: { type: [Number, String], required: true }
   },
 
-  beforeRouteEnter(to, from, next: Next<any>) {
-    cmService
-      .fetchCompetition({ id: to.params.cm })
-      .then(competition => next(vm => vm.init(competition)));
-  },
-
   data: () => ({
+    loading: false,
     competition: new Competition({})
   }),
 
   methods: {
-    init(competition: Competition) {
-      this.competition = competition;
+    async fetchData() {
+      this.loading = true;
+      this.competition = await fetchCompetition({ id: this.cm });
+      this.loading = false;
     }
+  },
+
+  created() {
+    this.log = this.$logger.component(this);
+    this.fetchData();
   }
 });
 </script>
 
 <template>
-  <div :class="`competition-details competition-details-${cm}`">
-    <ul id="competition-details"
-        class="list-group list-group-flush mb-0">
+  <div id="competition-details"
+       v-loading="loading">
 
-      <li class="list-group-item">
-        <!-- TODO: Add judge details component if info is provided -->
-        <h4>{{ competition.title }}</h4>
-        <h5 class="text-muted">{{ competition.subtitle }}</h5>
+    <ManageCompetitionLink :cm="cm"
+                           title="Edit competition details"
+                           type="primary"
+                           icon="edit"
+                           button
+                           circle
+                           mini
+                           style="float: right" />
 
-        <CRow>
-          <CCol>Registration available until:</CCol>
-          <CCol>{{ competition.registration_till | formatDateTime }}</CCol>
-        </CRow>
+    <!-- TODO: Add judge details component if info is provided -->
+    <h3>{{ competition.title }}</h3>
+    <h4 class="text-muted">{{ competition.subtitle }}</h4>
 
-        <CRow>
-          <CCol>Competition starts at:</CCol>
-          <CCol>{{ competition.organization_date | formatDateTime }}</CCol>
-        </CRow>
-      </li>
+    <el-row>
+      <el-col>Registration available until:</el-col>
+      <el-col>{{ competition.registration_till | formatDateTime }}</el-col>
+    </el-row>
 
-      <DetailsDescription title="Cooperation"
-                          :content="competition.cooperation" />
+    <el-row>
+      <el-col>Competition starts at:</el-col>
+      <el-col>{{ competition.organization_date | formatDateTime }}</el-col>
+    </el-row>
 
-      <DetailsDescription title="Invitation"
-                          :content="competition.invitation" />
+    <div v-if="competition.cooperation">
+      <h4>Cooperation</h4>
+      <div v-html="competition.cooperation" />
+      <hr />
+    </div>
 
-      <DetailsDescription title="Program"
-                          :content="competition.program" />
+    <div v-if="competition.invitation">
+      <h4>Invitation</h4>
+      <div v-html="competition.invitation" />
+      <hr />
+    </div>
 
-      <DetailsDescription title="Rules"
-                          :content="competition.rules" />
+    <div v-if="competition.program">
+      <h4>Program</h4>
+      <div v-html="competition.program" />
+      <hr />
+    </div>
 
-      <DetailsDescription title="Ambulance"
-                          :content="competition.ambulance" />
+    <div v-if="competition.rules">
+      <h4>Rules</h4>
+      <div v-html="competition.rules" />
+      <hr />
+    </div>
 
-      <DetailsDescription title="Prizes"
-                          :content="competition.prizes" />
+    <div v-if="competition.ambulance">
+      <h4>Ambulance</h4>
+      <div v-html="competition.ambulance" />
+      <hr />
+    </div>
 
-      <DetailsDescription title="Equipment"
-                          :content="competition.equipment" />
+    <div v-if="competition.prizes">
+      <h4>Prizes</h4>
+      <div v-html="competition.prizes" />
+      <hr />
+    </div>
 
-      <DetailsDescription title="Price"
-                          :content="competition.price" />
-    </ul>
+    <div v-if="competition.equipment">
+      <h4>Equipment</h4>
+      <div v-html="competition.equipment" />
+      <hr />
+    </div>
 
-    <ManageCompetitionBtn :cm="cm"
-                          btn="light"
-                          class="btn-edit"
-                          title="Edit competition details"
-                          icon />
+    <div v-if="competition.price">
+      <h4>Price</h4>
+      <div v-html="competition.price" />
+      <hr />
+    </div>
   </div>
 </template>
-
-<style lang="scss">
-/*@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-
-.competition-details {
-  position: relative;
-
-  .btn-edit {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: $zindex-dropdown;
-  }
-}*/
-</style>

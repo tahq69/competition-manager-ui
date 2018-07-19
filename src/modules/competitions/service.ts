@@ -6,7 +6,8 @@ import { url as createUrl, httpContext } from "@/helpers/rest";
 import { store } from "@/store";
 import { Id } from "@/typings";
 
-import { Competition } from "./models/competition";
+import { FetchCompetitionPayload } from "#/competitions/typings";
+import { Competition } from "#/competitions/models/competition";
 
 interface IFetchCompetitions {
   paging: Paging;
@@ -18,15 +19,23 @@ interface IFetchTeamCompetitions {
   team_id: Id;
 }
 
-interface IFetchCompetition {
-  id: Id;
-}
 interface ISaveCompetition {
   title: string;
   subtitle: string;
   registration_till: string;
   organization_date: string;
   team_id: Id;
+}
+
+export async function fetchCompetition(payload: FetchCompetitionPayload) {
+  return await httpContext(async http => {
+    const url = createUrl("competitions/{id}", {
+      urlReplace: payload
+    });
+
+    const { data } = await http.get(url);
+    return new Competition(data);
+  });
 }
 
 class CompetitionService {
@@ -53,17 +62,6 @@ class CompetitionService {
       });
 
       return await this.requestCompetitionsPaging(http, url);
-    });
-  }
-
-  public async fetchCompetition(payload: IFetchCompetition) {
-    return await httpContext(async http => {
-      const url = createUrl("competitions/{id}", {
-        urlReplace: payload
-      });
-
-      const { data } = await http.get(url);
-      return new Competition(data);
     });
   }
 

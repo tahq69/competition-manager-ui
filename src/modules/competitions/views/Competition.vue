@@ -1,23 +1,31 @@
 <script lang="ts">
 import Vue from "vue";
 
+import * as routes from "@/router/routes";
+
 import { Competition } from "#/competitions/models/competition";
-import AreasBtn from "#/competitions/components/AreasBtn.vue";
-import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
-import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
+
+import AreasLink from "#/competitions/components/AreasLink.vue";
+import CompetitionLink from "#/competitions/components/CompetitionLink.vue";
+import DisciplinesLink from "#/competitions/components/DisciplinesLink.vue";
 
 export default Vue.extend({
   name: "Competition",
 
   components: {
-    AreasBtn,
-    DisciplinesBtn,
-    CompetitionBtn
+    AreasLink,
+    CompetitionLink,
+    DisciplinesLink
   },
 
   props: {
     cm: { type: [Number, String], required: true }
   },
+
+  data: () => ({
+    routes,
+    activeTab: routes.competitionDetails.name
+  }),
 
   computed: {
     competition(): Competition {
@@ -25,42 +33,42 @@ export default Vue.extend({
     }
   },
 
-  mounted() {
+  created() {
     this.log = this.$logger.component(this);
+
+    this.activeTab = this.$route.name || routes.competitionDetails.name;
   }
 });
 </script>
 
 <template>
-  <div id="manage-competition"
-       class="card crip-card">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <CompetitionBtn :cm="cm"
-                          class="nav-link">
-            {{ $t("competitions.competition_details_tab") }}
-          </CompetitionBtn>
-        </li>
+  <div id="competition">
+    <el-tabs v-model="activeTab">
+      <el-tab-pane :name="routes.competitionDetails.name">
+        <CompetitionLink slot="label"
+                         :cm="cm"
+                         tag="div">
+          {{ $t("competitions.competition_details_tab") }}
+        </CompetitionLink>
+      </el-tab-pane>
 
-        <li class="nav-item">
-          <DisciplinesBtn :cm="cm"
-                          class="nav-link">
-            {{ $t("competitions.competition_disciplines_tab") }}
-          </DisciplinesBtn>
-        </li>
+      <el-tab-pane :name="routes.competitionDisciplines.name">
+        <DisciplinesLink slot="label"
+                         :cm="cm"
+                         tag="div">
+          {{ $t("competitions.competition_disciplines_tab") }}
+        </DisciplinesLink>
+      </el-tab-pane>
 
-        <li class="nav-item">
-          <AreasBtn :cm="cm"
-                    class="nav-link">
-            {{ $t("competitions.competition_areas_tab") }}
-          </AreasBtn>
-        </li>
-      </ul>
-    </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-      <router-view></router-view>
-    </div>
+      <el-tab-pane :name="routes.competitionDisciplines.name">
+        <AreasLink slot="label"
+                   :cm="cm"
+                   tag="div">
+          {{ $t("competitions.competition_areas_tab") }}
+        </AreasLink>
+      </el-tab-pane>
+    </el-tabs>
+
+    <router-view></router-view>
   </div>
 </template>
