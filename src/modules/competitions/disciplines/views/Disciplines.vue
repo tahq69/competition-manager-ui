@@ -1,65 +1,78 @@
 <script lang="ts">
 import Vue from "vue";
 
-import CardWrapper from "@/components/cards/card-wrapper";
-import { Next } from "@/typings";
+import visibility from "@/components/mixins/visibility";
 
 import { Discipline } from "#/competitions/models/discipline";
 import { DisciplineAuth } from "#/competitions/disciplines/auth";
-import disciplineService from "#/competitions/disciplines/service";
+import { fetchDisciplines } from "#/competitions/disciplines/service";
 
-import CreateDisciplineCard from "./CreateDisciplineCard.vue";
-import DisciplineCard from "./DisciplineCard.vue";
+import CreateDisciplineCard from "#/competitions/components/CreateDisciplineCard.vue";
+import DisciplineCard from "#/competitions/components/DisciplineCard.vue";
 
 export default Vue.extend({
   name: "CompetitionDisciplines",
 
-  mixins: [CardWrapper],
-
   components: { CreateDisciplineCard, DisciplineCard },
 
-  beforeRouteEnter(to, from, next: Next<any>) {
-    const payload = { competition_id: to.params.cm };
-    disciplineService
-      .fetchDisciplines(payload)
-      .then(disciplines => next(vm => vm.init(disciplines)));
-  },
+  mixins: [visibility],
 
   props: {
     cm: { type: [Number, String], required: true }
   },
 
-  data: () => ({ disciplines: [] as Discipline[] }),
+  data: () => ({
+    loading: true,
+    isCreateVisible: false,
+    disciplines: [] as Discipline[]
+  }),
 
   methods: {
-    init(disciplines: Discipline[]): void {
-      this.disciplines = disciplines;
+    async fetchData() {
+      this.loading = true;
+      const payload = { competition_id: this.cm };
+      this.disciplines = await fetchDisciplines(payload);
+      this.loading = false;
+    },
+
+    async checkVisibility() {
+      this.isCreateVisible = await DisciplineAuth.canCreate(this.cm);
     }
   },
 
   created() {
     this.log = this.$logger.component(this);
+    this.fetchData();
   }
 });
 </script>
 
 <template>
-  <CRow id="disciplines">
-    <CCol v-for="discipline in disciplines"
-          :key="discipline.id"
-          :sm="6">
+  <el-row v-loading="loading"
+          :gutter="20"
+          type="flex"
+          class="disciplines-row">
+    <el-col v-for="discipline in disciplines"
+            :key="discipline.id"
+            class="discipline-col"
+            :xl="4"
+            :lg="6"
+            :md="8"
+            :sm="12"
+            :xs="24">
       <DisciplineCard :cm="cm"
                       :discipline="discipline"
-                      :height="maxHeight"
-                      @dimensions="setupHeight"
-                      title="View discipline" />
-    </CCol>
-
-    <CCol :sm="6">
+                      title="View discipline details" />
+    </el-col>
+    <el-col v-if="isCreateVisible"
+            class="discipline-col"
+            :xl="4"
+            :lg="6"
+            :md="8"
+            :sm="12"
+            :xs="24">
       <CreateDisciplineCard :cm="cm"
-                            :height="maxHeight"
-                            @dimensions="setupHeight"
-                            title="Create discipline for competition" />
-    </CCol>
-  </CRow>
+                            title="Create new discipline" />
+    </el-col>
+  </el-row>
 </template>

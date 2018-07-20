@@ -7,7 +7,7 @@ import {
   createCompetitionDiscipline as createRoute,
   manageCompetitionDiscipline as editRoute
 } from "@/router/routes";
-import DisciplineBtn from "#/competitions/components/DisciplineBtn.vue";
+import DisciplineLink from "#/competitions/components/DisciplineLink.vue";
 import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
 
 import { Discipline } from "./../../models/discipline";
@@ -17,7 +17,7 @@ import { cmDisciplineRoute } from "./../routes";
 export default Vue.extend({
   name: "ManageDiscipline",
 
-  components: { DisciplineBtn, DisciplinesBtn },
+  components: { DisciplineLink, DisciplinesBtn },
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -118,13 +118,14 @@ export default Vue.extend({
         Disciplines
       </DisciplinesBtn>
 
-      <DisciplineBtn v-if="isEdit"
+      <DisciplineLink v-if="isEdit"
                      :cm="cm"
                      :discipline="discipline"
-                     btn="light"
-                     icon>
+                     icon="eye"
+                     button
+                     mini>
         Preview
-      </DisciplineBtn>
+      </DisciplineLink>
     </span>
 
     <!-- #title -->

@@ -40,12 +40,12 @@ export default Vue.extend({
       </el-row>
       <ManageCompetitionLink :cm="competition.id"
                              class="card-edit-link"
-                             title="Edit competition details">
-        <el-button type="primary"
-                   icon="el-icon-edit"
-                   size="mini"
-                   circle />
-      </ManageCompetitionLink>
+                             title="Edit competition details"
+                             type="primary"
+                             icon="edit"
+                             button
+                             mini
+                             circle />
     </el-card>
   </CompetitionLink>
 </template>

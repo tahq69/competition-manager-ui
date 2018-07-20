@@ -5,10 +5,7 @@ import { url as createUrl, httpContext } from "@/helpers/rest";
 import { Id } from "@/typings";
 
 import { Discipline } from "../models/discipline";
-
-interface IFetchDisciplines {
-  competition_id: Id;
-}
+import { FetchDisciplinesPayload } from "#/competitions/disciplines/typings";
 
 interface IFetchDiscipline {
   competition_id: Id;
@@ -27,22 +24,17 @@ interface ISaveDiscipline {
   type: string;
 }
 
+export async function fetchDisciplines(payload: FetchDisciplinesPayload) {
+  return await httpContext(async http => {
+    const urlTpl = "competitions/{competition_id}/disciplines";
+    const url = createUrl(urlTpl, { urlReplace: payload });
+
+    const { data }: { data: any[] } = await http.get(url);
+    return data.map(val => new Discipline(val));
+  });
+}
+
 class DisciplineService {
-  public async fetchDisciplines(
-    payload: IFetchDisciplines
-  ): Promise<Discipline[]> {
-    return await httpContext(async http => {
-      const urlTpl = "competitions/{competition_id}/disciplines";
-      const url = createUrl(urlTpl, { urlReplace: payload });
-
-      const { data } = await http.get(url);
-      return data.reduce((acc: Discipline[], val: any) => {
-        acc.push(new Discipline(val));
-        return acc;
-      }, []);
-    });
-  }
-
   public async fetchDiscipline(payload: IFetchDiscipline): Promise<Discipline> {
     return await httpContext(async http => {
       const urlTpl = "competitions/{competition_id}/disciplines/{id}";

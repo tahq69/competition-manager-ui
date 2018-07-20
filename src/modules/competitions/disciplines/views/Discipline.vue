@@ -5,7 +5,7 @@ import CardActions from "@/components/cards/CardActions.vue";
 import { Next } from "@/typings";
 
 import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
-import DisciplineBtn from "#/competitions/components/DisciplineBtn.vue";
+import DisciplineLink from "#/competitions/components/DisciplineLink.vue";
 import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
 import GroupsBtn from "#/competitions/components/GroupsBtn.vue";
 
@@ -17,7 +17,7 @@ export default Vue.extend({
   components: {
     CardActions,
     CompetitionBtn,
-    DisciplineBtn,
+    DisciplineLink,
     DisciplinesBtn,
     GroupsBtn
   },
@@ -49,11 +49,11 @@ export default Vue.extend({
 
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <DisciplineBtn :cm="cm"
-                         :discipline="discipline"
-                         class="nav-link">
+          <DisciplineLink :cm="cm"
+                          :discipline="discipline"
+                          class="nav-link">
             Discipline
-          </DisciplineBtn>
+          </DisciplineLink>
         </li>
 
         <li class="nav-item">
