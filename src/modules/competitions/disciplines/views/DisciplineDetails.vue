@@ -48,9 +48,7 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div id="discipline-details"
-       :class="`discipline discipline-${discipline}`">
-
+  <div id="discipline-details">
     <h2 class="card-title">{{ details.title }}
       <small class="text-muted">{{ details.short }}</small>
     </h2>

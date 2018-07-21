@@ -42,8 +42,8 @@ export default Vue.extend({
 
 <template>
   <div id="discipline">
-    <el-card class="breadcrumb-card">
-      <el-breadcrumb>
+    <el-card class="tabs-card">
+      <el-breadcrumb slot="header">
         <el-breadcrumb-item>
           <CompetitionLink :cm="cm">
             Competition
@@ -64,9 +64,7 @@ export default Vue.extend({
           Groups
         </el-breadcrumb-item>
       </el-breadcrumb>
-    </el-card>
 
-    <el-card class="tabs-card">
       <el-tabs v-model="activeTab">
         <el-tab-pane :name="routes.competitionDiscipline.name">
           <DisciplineLink slot="label"

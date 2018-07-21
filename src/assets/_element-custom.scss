@@ -12,11 +12,7 @@
     margin: -5px 0 -5px 8px;
   }
 
-  &.tabs-card .el-card__body {
+  &.tabs-card > .el-card__body {
     padding-top: 10px;
-  }
-
-  &.breadcrumb-card {
-    margin-bottom: 20px;
   }
 }
