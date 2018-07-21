@@ -5,7 +5,7 @@ import { teamCompetitions } from "@/router/routes";
 import { Paging, SortDirection, PagingParams } from "@/helpers";
 import { table } from "@/components/mixins";
 
-import cmService from "#/competitions/service";
+import { fetchCompetitions } from "#/competitions/service";
 import { Competition } from "#/competitions/models/competition";
 import { cmDetailsRoute } from "#/competitions/details/routes";
 
@@ -30,7 +30,7 @@ export default Vue.extend({
   methods: {
     async fetchPage(paging: Paging) {
       const payload = { paging, team_id: this.team };
-      const paginated = await cmService.fetchTeamCompetitions(payload);
+      const paginated = await fetchCompetitions(payload);
 
       this.competitions = paginated.items;
       return paginated.total;

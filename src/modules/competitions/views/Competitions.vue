@@ -6,7 +6,7 @@ import { competitions } from "@/router/routes";
 import { table } from "@/components/mixins";
 
 import { Competition } from "#/competitions/models/competition";
-import cmService from "#/competitions/service";
+import { fetchCompetitions } from "#/competitions/service";
 import CompetitionCard from "#/competitions/components/CompetitionCard.vue";
 
 export default Vue.extend({
@@ -32,7 +32,7 @@ export default Vue.extend({
       // use to change it.
       paging.sort = "organization_date";
 
-      const paginated = await cmService.fetchCompetitions({ paging });
+      const paginated = await fetchCompetitions({ paging });
 
       this.competitions = paginated.items;
       return paginated.total;
