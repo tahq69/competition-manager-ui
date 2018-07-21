@@ -11,7 +11,7 @@ import DisciplineLink from "#/competitions/components/DisciplineLink.vue";
 import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
 
 import { Discipline } from "./../../models/discipline";
-import disciplineService from "./../service";
+import { fetchDiscipline } from "./../service";
 import { cmDisciplineRoute } from "./../routes";
 
 export default Vue.extend({
@@ -31,9 +31,9 @@ export default Vue.extend({
     // If we open edit route, we have to load data from API.
     const payload = { competition_id: to.params.cm, id: to.params.discipline };
 
-    disciplineService
-      .fetchDiscipline(payload)
-      .then(discipline => next(vm => vm.setDiscipline(discipline)));
+    fetchDiscipline(payload).then(discipline =>
+      next(vm => vm.setDiscipline(discipline))
+    );
   },
 
   data() {
@@ -119,11 +119,11 @@ export default Vue.extend({
       </DisciplinesBtn>
 
       <DisciplineLink v-if="isEdit"
-                     :cm="cm"
-                     :discipline="discipline"
-                     icon="eye"
-                     button
-                     mini>
+                      :cm="cm"
+                      :discipline="discipline"
+                      icon="eye"
+                      button
+                      mini>
         Preview
       </DisciplineLink>
     </span>
