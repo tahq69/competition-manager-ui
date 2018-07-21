@@ -1,7 +1,11 @@
+import { Id } from "@/typings";
 import { saveEntity, deleteEntity } from "@/helpers/service";
 import { url as createUrl, httpContext } from "@/helpers/rest";
-import { Id } from "@/typings";
 
+import {
+  FetchGroupsPayload,
+  FetchCategoriesPayload
+} from "#/competitions/groups/typings";
 import { Category, DisplayType } from "../models/category";
 import { Group } from "../models/group";
 
@@ -39,36 +43,32 @@ interface ISaveCategory extends IFetchCategory {
   title: string;
 }
 
+export async function fetchGroups(payload: FetchGroupsPayload) {
+  return await httpContext(async http => {
+    const urlTpl =
+      "competitions/{competition_id}/disciplines/{discipline_id}/groups";
+    const url = createUrl(urlTpl, { urlReplace: payload });
+
+    const { data }: { data: any[] } = await http.get(url);
+
+    return data.map(val => new Group(val));
+  });
+}
+
+export async function fetchCategories(payload: FetchCategoriesPayload) {
+  return await httpContext(async http => {
+    const urlTpl =
+      "competitions/{competition_id}/disciplines/{discipline_id}" +
+      "/groups/{category_group_id}/categories";
+    const url = createUrl(urlTpl, { urlReplace: payload });
+
+    const { data }: { data: any[] } = await http.get(url);
+
+    return data.map(val => new Category(val));
+  });
+}
+
 class GroupService {
-  public async fetchGroups(payload: IFetchGroups): Promise<Group[]> {
-    return await httpContext(async http => {
-      const urlTpl =
-        "competitions/{competition_id}/disciplines/{discipline_id}/groups";
-      const url = createUrl(urlTpl, { urlReplace: payload });
-
-      const { data } = await http.get(url);
-      return data.reduce((acc: Group[], val: any) => {
-        acc.push(new Group(val));
-        return acc;
-      }, []);
-    });
-  }
-
-  public async fetchCategories(payload: IFetchCategories): Promise<Category[]> {
-    return await httpContext(async http => {
-      const urlTpl =
-        "competitions/{competition_id}/disciplines/{discipline_id}" +
-        "/groups/{category_group_id}/categories";
-      const url = createUrl(urlTpl, { urlReplace: payload });
-
-      const { data } = await http.get(url);
-      return data.reduce((acc: Category[], val: any) => {
-        acc.push(new Category(val));
-        return acc;
-      }, []);
-    });
-  }
-
   public async fetchGroup(payload: IFetchGroup): Promise<Group> {
     return await httpContext(async http => {
       const urlTpl =

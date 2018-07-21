@@ -1,29 +1,16 @@
 <script lang="ts">
 import Vue from "vue";
-import { Location } from "vue-router";
 
-import { Id, Next } from "@/typings";
+import { Category } from "#/competitions/models/category";
+import { Group } from "#/competitions/models/group";
+import { fetchGroups, fetchCategories } from "#/competitions/groups/service";
 
-import ManageGroupsBtn from "#/competitions/components/ManageGroupsBtn.vue";
-
-import { Category } from "../../models/category";
-import { Group } from "../../models/group";
-import groupService from "../service";
+import ManageGroupsLink from "#/competitions/components/ManageGroupsLink.vue";
 
 export default Vue.extend({
   name: "DisciplineGroups",
 
-  components: { ManageGroupsBtn },
-
-  beforeRouteEnter(to, from, next: Next<any>) {
-    const payload = {
-      competition_id: to.params.cm,
-      discipline_id: to.params.discipline
-    };
-    groupService
-      .fetchGroups(payload)
-      .then(groups => next(vm => vm.setGroups(groups)));
-  },
+  components: { ManageGroupsLink },
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -46,19 +33,21 @@ export default Vue.extend({
   },
 
   methods: {
-    async setGroups(groups: Group[]): Promise<void> {
+    async fetchGroups() {
+      const payload = {
+        competition_id: this.cm,
+        discipline_id: this.discipline
+      };
+
+      const groups = await fetchGroups(payload);
+      const pool = groups.map(group => this.fetchCategories(group));
+
       this.groups = groups;
-
-      const pool = groups.reduce<Array<Promise<void>>>((acc, group) => {
-        acc.push(this.fetchCategories(group));
-        return acc;
-      }, []);
-
       await Promise.all(pool);
     },
 
     async fetchCategories(group: Group): Promise<void> {
-      const categories = await groupService.fetchCategories({
+      const categories = await fetchCategories({
         competition_id: group.competition_id,
         discipline_id: group.discipline_id,
         category_group_id: group.id
@@ -76,8 +65,15 @@ export default Vue.extend({
 </script>
 
 <template>
-  <CCol id="discipline-groups"
-        :class="`discipline discipline-${discipline}`">
+  <div id="discipline-groups">
+    <ManageGroupsLink :cm="cm"
+                      :discipline="discipline"
+                      style="float: right"
+                      type="primary"
+                      icon="edit"
+                      button
+                      circle
+                      mini />
 
     <table class="table">
       <tr v-for="group in groups"
@@ -91,23 +87,5 @@ export default Vue.extend({
         </td>
       </tr>
     </table>
-
-    <ManageGroupsBtn :cm="cm"
-                     :discipline="discipline"
-                     btn="primary">
-      Edit
-    </ManageGroupsBtn>
-  </CCol>
+  </div>
 </template>
-
-<style lang="scss">
-.discipline {
-  position: relative;
-
-  .btn-edit {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-}
-</style>

@@ -12,7 +12,7 @@ import {
   manageCategoryRoute,
   manageCmGroupRoute
 } from "../routes";
-import groupService from "../service";
+import { fetchCategories, fetchGroups } from "../service";
 
 export default Vue.extend({
   name: "ManageGroups",
@@ -23,8 +23,7 @@ export default Vue.extend({
       discipline_id: to.params.discipline
     };
 
-    groupService
-      .fetchGroups(payload)
+    fetchGroups(payload)
       .then(groups => next(vm => vm.setGroups(groups)));
   },
 
@@ -84,7 +83,7 @@ export default Vue.extend({
     },
 
     async fetchCategories(group: Group): Promise<void> {
-      const categories = await groupService.fetchCategories({
+      const categories = await fetchCategories({
         competition_id: group.competition_id,
         discipline_id: group.discipline_id,
         category_group_id: group.id
