@@ -3,8 +3,9 @@ import Vue from "vue";
 
 import { CompetitionAuth } from "#/competitions/auth";
 import { Competition } from "#/competitions/models/competition";
-import CompetitionLink from "#/competitions/components/CompetitionLink.vue";
-import ManageCompetitionLink from "#/competitions/components/ManageCompetitionLink.vue";
+
+import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
+import ManageCompetitionLink from "#/competitions/components/links/ManageCompetitionLink.vue";
 
 export default Vue.extend({
   name: "CompetitionCard",

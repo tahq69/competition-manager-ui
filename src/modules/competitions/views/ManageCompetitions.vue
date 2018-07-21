@@ -7,7 +7,7 @@ import { manageCompetitions } from "@/router/routes";
 import { Competition } from "../models/competition";
 import competitionService from "../service";
 
-import ManageCompetitionLink from "#/competitions/components/ManageCompetitionLink.vue";
+import ManageCompetitionLink from "#/competitions/components/links/ManageCompetitionLink.vue";
 import { Paging, SortDirection } from "@/helpers";
 
 export default Vue.extend({

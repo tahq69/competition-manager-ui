@@ -6,10 +6,10 @@ import { competitionDiscipline } from "@/router/routes";
 
 import { Discipline } from "#/competitions/models/discipline";
 
-import CompetitionLink from "#/competitions/components/CompetitionLink.vue";
-import DisciplineLink from "#/competitions/components/DisciplineLink.vue";
-import DisciplinesLink from "#/competitions/components/DisciplinesLink.vue";
-import GroupsLink from "#/competitions/components/GroupsLink.vue";
+import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
+import DisciplineLink from "#/competitions/components/links/DisciplineLink.vue";
+import DisciplinesLink from "#/competitions/components/links/DisciplinesLink.vue";
+import GroupsLink from "#/competitions/components/links/GroupsLink.vue";
 
 export default Vue.extend({
   name: "Discipline",

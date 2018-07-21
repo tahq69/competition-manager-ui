@@ -4,10 +4,10 @@ import { Location } from "vue-router";
 
 import { link } from "@/components/mixins";
 
-import { cmDisciplinesRoute } from "../disciplines/routes";
+import { competitionAreasRoute } from "#/competitions/areas/routes";
 
 export default Vue.extend({
-  name: "CompetitionDisciplinesLink",
+  name: "CompetitionAreasLink",
 
   mixins: [link],
 
@@ -17,7 +17,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return cmDisciplinesRoute({ cm: this.cm });
+      return competitionAreasRoute({ cm: this.cm });
     }
   }
 });

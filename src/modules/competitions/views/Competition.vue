@@ -6,9 +6,9 @@ import { competitionDetails } from "@/router/routes";
 
 import { Competition } from "#/competitions/models/competition";
 
-import AreasLink from "#/competitions/components/AreasLink.vue";
-import CompetitionLink from "#/competitions/components/CompetitionLink.vue";
-import DisciplinesLink from "#/competitions/components/DisciplinesLink.vue";
+import AreasLink from "#/competitions/components/links/AreasLink.vue";
+import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
+import DisciplinesLink from "#/competitions/components/links/DisciplinesLink.vue";
 
 export default Vue.extend({
   name: "Competition",

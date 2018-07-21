@@ -7,12 +7,13 @@ import {
   createCompetitionDiscipline as createRoute,
   manageCompetitionDiscipline as editRoute
 } from "@/router/routes";
-import DisciplineLink from "#/competitions/components/DisciplineLink.vue";
-import DisciplinesLink from "#/competitions/components/DisciplinesLink.vue";
 
-import { Discipline } from "./../../models/discipline";
-import { fetchDiscipline } from "./../service";
-import { cmDisciplineRoute } from "./../routes";
+import { Discipline } from "#/competitions/models/discipline";
+import { fetchDiscipline } from "#/competitions/disciplines/service";
+import { cmDisciplineRoute } from "#/competitions/disciplines/routes";
+
+import DisciplineLink from "#/competitions/components/links/DisciplineLink.vue";
+import DisciplinesLink from "#/competitions/components/links/DisciplinesLink.vue";
 
 export default Vue.extend({
   name: "ManageDiscipline",

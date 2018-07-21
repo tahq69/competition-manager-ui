@@ -9,7 +9,7 @@ import cmService from "#/competitions/service";
 import { Competition } from "#/competitions/models/competition";
 import { cmDetailsRoute } from "#/competitions/details/routes";
 
-import ManageCompetitionLink from "#/competitions/components/ManageCompetitionLink.vue";
+import ManageCompetitionLink from "#/competitions/components/links/ManageCompetitionLink.vue";
 
 export default Vue.extend({
   name: "TeamCompetitions",

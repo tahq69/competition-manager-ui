@@ -4,7 +4,7 @@ import { Location } from "vue-router";
 
 import link from "@/components/mixins/link";
 
-import { cmGroups } from "../groups/routes";
+import { cmGroups } from "#/competitions/groups/routes";
 
 export default Vue.extend({
   name: "CompetitionDisciplineGroupsButton",
