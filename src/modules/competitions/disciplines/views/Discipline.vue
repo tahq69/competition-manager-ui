@@ -1,26 +1,27 @@
 <script lang="ts">
 import Vue from "vue";
 
-import CardActions from "@/components/cards/CardActions.vue";
-import { Next } from "@/typings";
+import { createTabsMixin } from "@/components/mixins";
+import { competitionDiscipline } from "@/router/routes";
 
-import CompetitionBtn from "#/competitions/components/CompetitionBtn.vue";
+import { Discipline } from "#/competitions/models/discipline";
+
+import CompetitionLink from "#/competitions/components/CompetitionLink.vue";
 import DisciplineLink from "#/competitions/components/DisciplineLink.vue";
-import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
-import GroupsBtn from "#/competitions/components/GroupsBtn.vue";
-
-import { Discipline } from "../../models/discipline";
+import DisciplinesLink from "#/competitions/components/DisciplinesLink.vue";
+import GroupsLink from "#/competitions/components/GroupsLink.vue";
 
 export default Vue.extend({
   name: "Discipline",
 
   components: {
-    CardActions,
-    CompetitionBtn,
+    CompetitionLink,
     DisciplineLink,
-    DisciplinesBtn,
-    GroupsBtn
+    DisciplinesLink,
+    GroupsLink
   },
+
+  mixins: [createTabsMixin(competitionDiscipline.name)],
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -34,58 +35,59 @@ export default Vue.extend({
       competition_id: this.cm
     });
 
-    return {
-      details
-    };
+    return { details };
   }
 });
 </script>
 
 <template>
-  <div id="discipline"
-       class="crip-card card discipline mb-3"
-       :class="`discipline-${discipline}`">
-    <div class="card-header">
+  <div id="discipline">
+    <el-card class="breadcrumb-card">
+      <el-breadcrumb>
+        <el-breadcrumb-item>
+          <CompetitionLink :cm="cm">
+            Competition
+          </CompetitionLink>
+        </el-breadcrumb-item>
 
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <DisciplineLink :cm="cm"
+        <el-breadcrumb-item>
+          <DisciplinesLink :cm="cm">
+            Disciplines
+          </DisciplinesLink>
+        </el-breadcrumb-item>
+
+        <el-breadcrumb-item v-if="activeTab == routes.competitionDiscipline.name">
+          Discipline
+        </el-breadcrumb-item>
+
+        <el-breadcrumb-item v-if="activeTab == routes.competitionDisciplineGroups.name">
+          Groups
+        </el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-card>
+
+    <el-card class="tabs-card">
+      <el-tabs v-model="activeTab">
+        <el-tab-pane :name="routes.competitionDiscipline.name">
+          <DisciplineLink slot="label"
+                          :cm="cm"
                           :discipline="discipline"
-                          class="nav-link">
+                          tag="div">
             Discipline
           </DisciplineLink>
-        </li>
+        </el-tab-pane>
 
-        <li class="nav-item">
-          <GroupsBtn :cm="cm"
-                     :discipline="discipline"
-                     class="nav-link">
+        <el-tab-pane :name="routes.competitionDisciplineGroups.name">
+          <GroupsLink slot="label"
+                      :cm="cm"
+                      :discipline="discipline"
+                      tag="div">
             Groups
-          </GroupsBtn>
-        </li>
-      </ul>
-      <!-- /.card-header-tabs -->
+          </GroupsLink>
+        </el-tab-pane>
+      </el-tabs>
 
-      <CardActions>
-        <CompetitionBtn :cm="cm"
-                        btn="light"
-                        arrow="left">
-          Competition
-        </CompetitionBtn>
-
-        <DisciplinesBtn :cm="cm"
-                        btn="light"
-                        arrow="left">
-          Disciplines
-        </DisciplinesBtn>
-      </CardActions>
-
-    </div>
-    <!-- /.card-header -->
-
-    <div class="card-body">
       <router-view></router-view>
-    </div>
-
+    </el-card>
   </div>
 </template>
