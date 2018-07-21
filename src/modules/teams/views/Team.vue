@@ -7,18 +7,18 @@ import ImageCard from "@/components/cards/ImageCard.vue";
 import { Team } from "#/teams/models/team";
 import { fetchTeam } from "#/teams/service";
 
-import TeamLink from "#/teams/components/TeamLink.vue";
-import ManageTeamLink from "#/teams/components/ManageTeamLink.vue";
-import TeamCompetitionsLink from "#/teams/components/TeamCompetitionsLink.vue";
+import ManageTeamLink from "#/teams/components/links/ManageTeamLink.vue";
+import TeamCompetitionsLink from "#/teams/components/links/TeamCompetitionsLink.vue";
+import TeamLink from "#/teams/components/links/TeamLink.vue";
 
 export default Vue.extend({
   name: "Team",
 
   components: {
     ImageCard,
-    TeamLink,
     ManageTeamLink,
-    TeamCompetitionsLink
+    TeamCompetitionsLink,
+    TeamLink
   },
 
   props: {

@@ -8,7 +8,7 @@ import userService from "#/user/service";
 import { Profile } from "#/user/models/profile";
 import { ProfileTeam } from "#/user/models/profile-team";
 
-import TeamLink from "#/teams/components/TeamLink.vue";
+import TeamLink from "#/teams/components/links/TeamLink.vue";
 
 export default Vue.extend({
   name: "Profile",

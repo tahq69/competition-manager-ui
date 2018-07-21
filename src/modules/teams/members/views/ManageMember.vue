@@ -10,11 +10,6 @@ import { UserBase } from "@/components/auth/models/user-base";
 import { ManageTeamMember, TeamMember, Team } from "#/teams/models";
 import { fetchTeam } from "#/teams/service";
 
-import ManageTeamLink from "#/teams/components/ManageTeamLink.vue";
-import ManageTeamMembersLink from "#/teams/components/ManageTeamMembersLink.vue";
-import MemberRoleInput from "#/teams/components/MemberRoleInput.vue";
-import TeamLink from "#/teams/components/TeamLink.vue";
-
 import {
   fetchTeamMember,
   saveTeamMember,
@@ -22,6 +17,11 @@ import {
 } from "#/teams/members/service";
 import { TeamMemberAuth } from "#/teams/members/auth";
 import { manageTeamMemberRoute } from "#/teams/members/routes";
+
+import ManageTeamLink from "#/teams/components/links/ManageTeamLink.vue";
+import ManageTeamMembersLink from "#/teams/components/links/ManageTeamMembersLink.vue";
+import MemberRoleInput from "#/teams/components/MemberRoleInput.vue";
+import TeamLink from "#/teams/components/links/TeamLink.vue";
 
 export default Vue.extend({
   name: "ManageMember",

@@ -4,10 +4,10 @@ import { Location } from "vue-router";
 
 import { link } from "@/components/mixins";
 
-import { teamMembersRoute } from "../members/routes";
+import { teamCompetitionsRoute } from "#/teams/competitions/routes";
 
 export default Vue.extend({
-  name: "Teamlink",
+  name: "TeamCompetitionsLink",
 
   mixins: [link],
 
@@ -17,7 +17,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return teamMembersRoute({ team: this.team });
+      return teamCompetitionsRoute({ team: this.team });
     }
   }
 });

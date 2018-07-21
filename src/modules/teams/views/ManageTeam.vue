@@ -13,10 +13,10 @@ import { createTeamMemberRoute } from "#/teams/members/routes";
 import { fetchTeam, saveTeam } from "#/teams/service";
 import { manageTeamRoute } from "#/teams/routes";
 
-import CreateTeamMemberLink from "#/teams/components/CreateTeamMemberLink.vue";
-import ManageTeamMembersLink from "#/teams/components/ManageTeamMembersLink.vue";
-import ManageTeamsLink from "#/teams/components/ManageTeamsLink.vue";
-import TeamLink from "#/teams/components/TeamLink.vue";
+import CreateTeamMemberLink from "#/teams/components/links/CreateTeamMemberLink.vue";
+import ManageTeamMembersLink from "#/teams/components/links/ManageTeamMembersLink.vue";
+import ManageTeamsLink from "#/teams/components/links/ManageTeamsLink.vue";
+import TeamLink from "#/teams/components/links/TeamLink.vue";
 
 export default Vue.extend({
   name: "ManageTeam",

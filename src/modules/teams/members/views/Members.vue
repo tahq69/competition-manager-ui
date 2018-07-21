@@ -11,8 +11,8 @@ import { TeamMember } from "#/teams/models/team-member";
 import { TeamMemberAuth } from "#/teams/members/auth";
 import { fetchTeamMembers } from "#/teams/members/service";
 
-import ManageTeamMemberLink from "#/teams/components/ManageTeamMemberLink.vue";
-import ProfileLink from "#/user/components/ProfileLink.vue";
+import ManageTeamMemberLink from "#/teams/components/links/ManageTeamMemberLink.vue";
+import ProfileLink from "#/user/components/links/ProfileLink.vue";
 
 export default Vue.extend({
   name: "TeamMembers",

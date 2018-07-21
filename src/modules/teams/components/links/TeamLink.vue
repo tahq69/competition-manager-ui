@@ -3,20 +3,21 @@ import Vue from "vue";
 import { Location } from "vue-router";
 
 import { link } from "@/components/mixins";
-import { userProfileRoute } from "../routes";
+
+import { teamMembersRoute } from "#/teams/members/routes";
 
 export default Vue.extend({
-  name: "ProfileLink",
+  name: "Teamlink",
 
   mixins: [link],
 
   props: {
-    user: { type: [String, Number], required: true }
+    team: { type: [String, Number], required: true }
   },
 
   computed: {
     to(): Location {
-      return userProfileRoute({ user: this.user });
+      return teamMembersRoute({ team: this.team });
     }
   }
 });
