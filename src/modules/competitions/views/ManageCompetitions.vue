@@ -7,13 +7,13 @@ import { manageCompetitions } from "@/router/routes";
 import { Competition } from "../models/competition";
 import competitionService from "../service";
 
-import ManageCompetitionBtn from "#/competitions/components/ManageCompetitionBtn.vue";
+import ManageCompetitionLink from "#/competitions/components/ManageCompetitionLink.vue";
 import { Paging, SortDirection } from "@/helpers";
 
 export default Vue.extend({
   name: "ManageCompetitions",
 
-  components: { ManageCompetitionBtn },
+  components: { ManageCompetitionLink },
 
   props: {
     page: { type: [String, Number], required: true },
@@ -126,13 +126,13 @@ export default Vue.extend({
               <td>
                 <span>{{ competition.title }}</span>
                 &nbsp;
-                <ManageCompetitionBtn :cm="competition.id"
-                                      :title="$t('competitions.manage_competitions_grid_btn_edit_title')"
+                <ManageCompetitionLink :cm="competition.id"
+                                       :title="$t('competitions.manage_competitions_grid_btn_edit_title')"
               
-                                      badge
-                                      icon>
+                                       badge
+                                       icon>
                   {{ $t('competitions.manage_competitions_grid_btn_edit_text') }}
-                </ManageCompetitionBtn>
+                </ManageCompetitionLink>
               </td>
               <td>{{ competition.judge_name }}</td>
               <td>{{ competition.organization_date | formatDateTime }}</td>

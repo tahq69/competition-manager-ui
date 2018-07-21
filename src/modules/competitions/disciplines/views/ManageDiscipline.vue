@@ -8,7 +8,7 @@ import {
   manageCompetitionDiscipline as editRoute
 } from "@/router/routes";
 import DisciplineLink from "#/competitions/components/DisciplineLink.vue";
-import DisciplinesBtn from "#/competitions/components/DisciplinesBtn.vue";
+import DisciplinesLink from "#/competitions/components/DisciplinesLink.vue";
 
 import { Discipline } from "./../../models/discipline";
 import { fetchDiscipline } from "./../service";
@@ -17,7 +17,7 @@ import { cmDisciplineRoute } from "./../routes";
 export default Vue.extend({
   name: "ManageDiscipline",
 
-  components: { DisciplineLink, DisciplinesBtn },
+  components: { DisciplineLink, DisciplinesLink },
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -111,12 +111,12 @@ export default Vue.extend({
              id="manage-discipline"
              @submit="save">
     <span slot="actions">
-      <DisciplinesBtn :cm="cm"
-                      btn="light"
-                      arrow="left"
-                      icon>
+      <DisciplinesLink :cm="cm"
+                       btn="light"
+                       arrow="left"
+                       icon>
         Disciplines
-      </DisciplinesBtn>
+      </DisciplinesLink>
 
       <DisciplineLink v-if="isEdit"
                       :cm="cm"

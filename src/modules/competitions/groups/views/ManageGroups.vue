@@ -23,8 +23,7 @@ export default Vue.extend({
       discipline_id: to.params.discipline
     };
 
-    fetchGroups(payload)
-      .then(groups => next(vm => vm.setGroups(groups)));
+    fetchGroups(payload).then(groups => next(vm => vm.setGroups(groups)));
   },
 
   props: {
