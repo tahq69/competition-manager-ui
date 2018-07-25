@@ -10,11 +10,12 @@ import { Competition } from "#/competitions/models/competition";
 import { fetchCompetitions } from "#/competitions/service";
 
 import ManageCompetitionLink from "#/competitions/components/links/ManageCompetitionLink.vue";
+import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
 
 export default Vue.extend({
   name: "ManageCompetitions",
 
-  components: { ManageCompetitionLink },
+  components: { CompetitionLink, ManageCompetitionLink },
 
   mixins: [table],
 
@@ -68,6 +69,12 @@ export default Vue.extend({
         </el-table-column>
         <el-table-column>
           <template slot-scope="competition">
+            <CompetitionLink :cm="competition.row.id"
+                             mini
+                             circle
+                             button
+                             icon="view"
+                             title="View competition details" />
             <ManageCompetitionLink :cm="competition.row.id"
                                    mini
                                    circle
