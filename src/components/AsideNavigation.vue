@@ -4,8 +4,11 @@ import Auth, { middleware as auth, roles } from "@/components/auth";
 import { locales, LocaleType, ILocale, i18n, SetLocale } from "@/lang";
 import * as routes from "@/router/routes";
 
-import { competitionsRoute } from "#/competitions/routes";
-import { getTeamsRoute } from "#/teams/routes";
+import {
+  competitionsRoute,
+  manageCompetitionsRoute
+} from "#/competitions/routes";
+import { getTeamsRoute, manageTeamsRoute } from "#/teams/routes";
 
 type Locale = { key: LocaleType; text: string };
 type Locales = Locale[];
@@ -65,8 +68,14 @@ export default Vue.extend({
         case routes.competitions.name:
           return competitionsRoute();
 
+        case routes.manageCompetitions.name:
+          return manageCompetitionsRoute();
+
         case routes.teams.name:
           return getTeamsRoute();
+
+        case routes.manageTeams.name:
+          return manageTeamsRoute();
 
         default:
           return { name: key };
