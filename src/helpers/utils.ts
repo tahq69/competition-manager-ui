@@ -89,12 +89,15 @@ export function newGuid(): string {
  * @returns {string}
  */
 export function supplant(template: string, values: any) {
-  return template.replace(/\{([^{}]*)\}/g, (a, b): string => {
-    const r = values[b];
-    const isStrOrNr = typeof r === "string" || typeof r === "number";
+  return template.replace(
+    /\{([^{}]*)\}/g,
+    (a, b): string => {
+      const r = values[b];
+      const isStrOrNr = typeof r === "string" || typeof r === "number";
 
-    return isStrOrNr ? r.toString() : a;
-  });
+      return isStrOrNr ? r.toString() : a;
+    }
+  );
 }
 
 /**

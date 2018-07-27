@@ -31,10 +31,12 @@ export class Category extends Entity {
   public title: string = "";
   public type: DimensionType = DimensionType.Age;
 
-  public createUrl = "competitions/{competition_id}/disciplines/{discipline_id}" +
-  "/groups/{category_group_id}/categories";
-  public updateUrl = "competitions/{competition_id}/disciplines/{discipline_id}" +
-  "/groups/{category_group_id}/categories/{id}";
+  public createUrl =
+    "competitions/{competition_id}/disciplines/{discipline_id}" +
+    "/groups/{category_group_id}/categories";
+  public updateUrl =
+    "competitions/{competition_id}/disciplines/{discipline_id}" +
+    "/groups/{category_group_id}/categories/{id}";
 
   constructor(data: any) {
     super(data);

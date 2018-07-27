@@ -21,8 +21,10 @@ export class Group extends Entity {
 
   public categories: Category[] = [];
 
-  public createUrl = "competitions/{competition_id}/disciplines/{discipline_id}/groups";
-  public updateUrl = "competitions/{competition_id}/disciplines/{discipline_id}/groups/{id}";
+  public createUrl =
+    "competitions/{competition_id}/disciplines/{discipline_id}/groups";
+  public updateUrl =
+    "competitions/{competition_id}/disciplines/{discipline_id}/groups/{id}";
 
   constructor(data: any) {
     super(data);

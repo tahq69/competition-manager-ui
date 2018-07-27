@@ -116,8 +116,8 @@ class WebLogger implements ILogger {
   }
 
   private consoleLog(type: LogType, args: any[]) {
-    if (window.console && console[type]) {
-      console[type].apply(console, args);
+    if (window.console && window.console[type]) {
+      window.console[type].apply(console, args);
     }
   }
 
