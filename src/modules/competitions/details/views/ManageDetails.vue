@@ -1,10 +1,11 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { Next } from "@/typings";
+import { ElForm, Rules, Rule, Id } from "@/typings";
+import { required, date, alphaDashSpace } from "@/helpers/validators";
 
-import { Competition } from "#/competitions/models/competition";
-import { fetchCompetition } from "#/competitions/service";
+import { ManageCompetition } from "#/competitions/models";
+import { fetchCompetition, saveCompetition } from "#/competitions/service";
 
 export default Vue.extend({
   name: "ManageCompetitionDetails",
@@ -13,194 +14,241 @@ export default Vue.extend({
     cm: { type: [Number, String], required: true }
   },
 
-  beforeRouteEnter(to, from, next: Next<any>) {
-    fetchCompetition({ id: to.params.cm }).then(competition =>
-      next(vm => vm.init(competition))
-    );
-  },
-
   data: () => ({
-    competition: new Competition({})
+    loading: true,
+    form: new ManageCompetition(),
+    errors: {},
+    title: ""
   }),
 
+  computed: {
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
+    },
+
+    rules(): Rules<ManageCompetition> {
+      return {
+        ambulance: [],
+        cooperation: [],
+        equipment: [],
+        invitation: [],
+        organization_date: [required("Please enter organization date")],
+        price: [],
+        prizes: [],
+        program: [],
+        registration_till: [
+          required("Please enter last day of the registration")
+        ],
+        rules: [],
+        subtitle: [
+          required("Please enter subtitle"),
+          alphaDashSpace(
+            "Subtitle may contain only characters, numbers and spaces"
+          )
+        ],
+        title: [
+          required("Please enter the title"),
+          alphaDashSpace(
+            "Title may contain only characters, numbers and spaces"
+          )
+        ]
+      };
+    }
+  },
+
   methods: {
-    init(competition: Competition) {
-      this.competition = competition;
+    async fetchData() {
+      this.loading = true;
+
+      const competition = await fetchCompetition({ id: this.cm });
+      this.form = competition;
+      this.title = String(competition.title);
+
+      this.loading = false;
     },
 
     async save() {
-      this.log("save()", this.competition);
+      if (this.loading) return;
 
-      /*this.competition.clearErrors();
-      try {
-        const cm = await cmService.saveCompetition(this.competition.data);
-        this.$notify.success("Competition details updated");
-      } catch (errors) {
-        this.competition.addErrors(errors);
-      }*/
+      this.loading = true;
+      this.errors = {};
+
+      this.log("save()", this.form);
+
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
+        }
+
+        try {
+          const team = await saveCompetition(this.form);
+          this.$notify.success("Competition details updated");
+          this.loading = false;
+        } catch (errors) {
+          this.loading = false;
+          this.errors = errors;
+        }
+      });
     }
   },
 
   created() {
     this.log = this.$logger.component(this);
+    this.fetchData();
   }
 });
 </script>
 
 <template>
-  <CForm :form="competition"
-         id="manage-competition"
-         @submit="save">
+  <el-card id="manage-competition">
+    <div slot="header"
+         class="clearfix">
+      <span>{{ title }}</span>
+    </div>
 
-    <!-- #title -->
-    <CFormGroup for="title"
-                :form="competition"
-                label="Title"
-                :md="9">
-      <input type="text"
-             id="title"
-             v-model="competition.data.title"
-             name="title"
-             :class="[{'is-invalid': competition.errors.title}, 'form-control']">
-    </CFormGroup>
+    <el-form v-loading="loading"
+             :model="form"
+             :rules="rules"
+             ref="form"
+             :label-position="_config.label_position"
+             :label-width="_config.label_width"
+             @submit.native.prevent="save">
+      <el-form-item label="Title"
+                    :error="errors.title"
+                    prop="title">
+        <el-input v-model="form.title"
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  autofocus
+                  clearable />
+      </el-form-item>
 
-    <!-- #subtitle -->
-    <CFormGroup for="subtitle"
-                :form="competition"
-                label="Subtitle"
-                :md="9">
-      <input type="text"
-             id="subtitle"
-             v-model="competition.data.subtitle"
-             name="subtitle"
-             :class="[{'is-invalid': competition.errors.subtitle}, 'form-control']">
-    </CFormGroup>
+      <el-form-item label="Subtitle"
+                    :error="errors.subtitle"
+                    prop="subtitle">
+        <el-input v-model="form.subtitle"
+                  type="text"
+                  name="subtitle"
+                  placeholder="Subtitle"
+                  clearable />
+      </el-form-item>
 
-    <!-- #registration_till -->
-    <CFormGroup for="registration_till"
-                :form="competition"
-                label="Registration till"
-                :md="9">
-      <datetime type="datetime"
-                name="registration_till"
-                id="registration_till"
-                v-model="competition.data.registration_till"
-                :format="_config.dateTimeFormat"
-                :class="[{'is-invalid': competition.errors.registration_till}, 'form-control']"
-    
-                auto/>
-    </CFormGroup>
+      <el-form-item label="Registration till"
+                    :error="errors.registration_till"
+                    prop="registration_till">
+        <el-date-picker v-model="form.registration_till"
+                        type="datetime"
+                        name="registration_till"
+                        placeholder="Registration till">
+        </el-date-picker>
+      </el-form-item>
 
-    <!-- #organization_date -->
-    <CFormGroup for="organization_date"
-                :form="competition"
-                label="Organization date"
-                :md="9">
-      <datetime type="datetime"
-                name="organization_date"
-                id="organization_date"
-                v-model="competition.data.organization_date"
-                :format="_config.dateTimeFormat"
-                :class="[{'is-invalid': competition.errors.organization_date}, 'form-control']"
-    
-                auto/>
-    </CFormGroup>
+      <el-form-item label="Organization date"
+                    :error="errors.organization_date"
+                    prop="organization_date">
+        <el-date-picker v-model="form.organization_date"
+                        type="datetime"
+                        name="organization_date"
+                        placeholder="Organization date">
+        </el-date-picker>
+      </el-form-item>
 
-    <!-- #cooperation -->
-    <CFormGroup for="cooperation"
-                :form="competition"
-                label="Cooperation"
-                :md="9">
-      <textarea id="cooperation"
-                v-model="competition.data.cooperation"
-                name="cooperation"
-                :class="[{'is-invalid': competition.errors.cooperation}, 'form-control']"></textarea>
-    </CFormGroup>
+      <el-form-item label="Cooperation"
+                    :error="errors.cooperation"
+                    prop="cooperation">
+        <el-input v-model="form.cooperation"
+                  type="textarea"
+                  autosize
+                  name="cooperation"
+                  placeholder="Cooperation">
+        </el-input>
+      </el-form-item>
 
-    <!-- #invitation -->
-    <CFormGroup for="invitation"
-                :form="competition"
-                label="Invitation"
-                :md="9">
-      <textarea id="invitation"
-                v-model="competition.data.invitation"
-                name="invitation"
-                :class="[{'is-invalid': competition.errors.invitation}, 'form-control']"></textarea>
-    </CFormGroup>
+      <el-form-item label="Invitation"
+                    :error="errors.invitation"
+                    prop="invitation">
+        <el-input v-model="form.invitation"
+                  type="textarea"
+                  autosize
+                  name="invitation"
+                  placeholder="Invitation">
+        </el-input>
+      </el-form-item>
 
-    <!-- #program -->
-    <CFormGroup for="program"
-                :form="competition"
-                label="Program"
-                :md="9">
-      <textarea id="program"
-                v-model="competition.data.program"
-                name="program"
-                :class="[{'is-invalid': competition.errors.program}, 'form-control']"></textarea>
-    </CFormGroup>
+      <el-form-item label="Program"
+                    :error="errors.program"
+                    prop="program">
+        <el-input v-model="form.program"
+                  type="textarea"
+                  autosize
+                  name="program"
+                  placeholder="Program">
+        </el-input>
+      </el-form-item>
 
-    <!-- #rules -->
-    <CFormGroup for="rules"
-                :form="competition"
-                label="Rules"
-                :md="9">
-      <textarea id="rules"
-                v-model="competition.data.rules"
-                name="rules"
-                :class="[{'is-invalid': competition.errors.rules}, 'form-control']"></textarea>
-    </CFormGroup>
+      <el-form-item label="Rules"
+                    :error="errors.rules"
+                    prop="rules">
+        <el-input v-model="form.rules"
+                  type="textarea"
+                  autosize
+                  name="rules"
+                  placeholder="Rules">
+        </el-input>
+      </el-form-item>
 
-    <!-- #ambulance -->
-    <CFormGroup for="ambulance"
-                :form="competition"
-                label="Ambulance"
-                :md="9">
-      <textarea id="ambulance"
-                v-model="competition.data.ambulance"
-                name="ambulance"
-                :class="[{'is-invalid': competition.errors.ambulance}, 'form-control']"></textarea>
-    </CFormGroup>
+      <el-form-item label="Ambulance"
+                    :error="errors.ambulance"
+                    prop="ambulance">
+        <el-input v-model="form.ambulance"
+                  type="textarea"
+                  autosize
+                  name="ambulance"
+                  placeholder="Ambulance">
+        </el-input>
+      </el-form-item>
 
-    <!-- #prizes -->
-    <CFormGroup for="prizes"
-                :form="competition"
-                label="Prizes"
-                :md="9">
-      <textarea id="prizes"
-                v-model="competition.data.prizes"
-                name="prizes"
-                :class="[{'is-invalid': competition.errors.prizes}, 'form-control']"></textarea>
-    </CFormGroup>
+      <el-form-item label="Prizes"
+                    :error="errors.prizes"
+                    prop="prizes">
+        <el-input v-model="form.prizes"
+                  type="textarea"
+                  autosize
+                  name="prizes"
+                  placeholder="Prizes">
+        </el-input>
+      </el-form-item>
 
-    <!-- #equipment -->
-    <CFormGroup for="equipment"
-                :form="competition"
-                label="Equipment"
-                :md="9">
-      <textarea id="equipment"
-                v-model="competition.data.equipment"
-                name="equipment"
-                :class="[{'is-invalid': competition.errors.equipment}, 'form-control']"></textarea>
-    </CFormGroup>
+      <el-form-item label="Equipment"
+                    :error="errors.equipment"
+                    prop="equipment">
+        <el-input v-model="form.equipment"
+                  type="textarea"
+                  autosize
+                  name="equipment"
+                  placeholder="Equipment">
+        </el-input>
+      </el-form-item>
 
-    <!-- #price -->
-    <CFormGroup for="price"
-                :form="competition"
-                label="Price"
-                :md="9">
-      <textarea id="price"
-                v-model="competition.data.price"
-                name="price"
-                :class="[{'is-invalid': competition.errors.price}, 'form-control']"></textarea>
-    </CFormGroup>
+      <el-form-item label="Price"
+                    :error="errors.price"
+                    prop="price">
+        <el-input v-model="form.price"
+                  type="textarea"
+                  autosize
+                  name="price"
+                  placeholder="Price">
+        </el-input>
+      </el-form-item>
 
-    <!-- #submit -->
-    <CFormGroup :md="9">
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
-        Save
-      </button>
-    </CFormGroup>
-  </CForm>
+      <el-form-item>
+        <el-button type="primary"
+                   native-type="submit">
+          Save
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
 </template>

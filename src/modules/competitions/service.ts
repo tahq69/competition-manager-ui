@@ -1,15 +1,21 @@
-import { AxiosStatic } from "axios";
-
 import { store } from "@/store";
-import { Id } from "@/typings";
-import { Paging, Paginated } from "@/helpers/pagination";
+import { Paginated } from "@/helpers/pagination";
 import { url as createUrl, httpContext } from "@/helpers/rest";
+import { saveEntity } from "@/helpers/service";
 
 import {
   FetchCompetitionPayload,
-  FetchCompetitionsPayload
+  FetchCompetitionsPayload,
+  SaveCompetitionPayload
 } from "#/competitions/typings";
 import { Competition } from "#/competitions/models/competition";
+
+export async function saveCompetition(payload: SaveCompetitionPayload) {
+  return await httpContext(async () => {
+    const entity = new Competition(payload);
+    return await saveEntity(entity, Competition);
+  });
+}
 
 export async function fetchCompetition(payload: FetchCompetitionPayload) {
   return await httpContext(async http => {
