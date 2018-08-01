@@ -1,7 +1,6 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { CompetitionAuth } from "#/competitions/auth";
 import { Competition } from "#/competitions/models/competition";
 
 import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";

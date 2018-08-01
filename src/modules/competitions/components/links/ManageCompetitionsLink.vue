@@ -4,27 +4,23 @@ import { Location } from "vue-router";
 
 import { link, visibility } from "@/components/mixins";
 
-import { manageCmDetailsRoute } from "#/competitions/details/routes";
-import { canEditCompetition } from "#/competitions/auth";
+import { manageCompetitionsRoute } from "#/competitions/routes";
+import { canManageCompetitions } from "#/competitions/auth";
 
 export default Vue.extend({
-  name: "ManageCompetitionLink",
+  name: "ManageCompetitionsLink",
 
   mixins: [link, visibility],
 
-  props: {
-    cm: { type: [String, Number], required: true }
-  },
-
   computed: {
     to(): Location {
-      return manageCmDetailsRoute({ cm: this.cm });
+      return manageCompetitionsRoute();
     }
   },
 
   methods: {
     async checkVisibility() {
-      return await canEditCompetition({ cm: this.cm });
+      return await canManageCompetitions();
     }
   }
 });

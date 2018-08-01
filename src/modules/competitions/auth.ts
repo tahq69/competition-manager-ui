@@ -6,16 +6,13 @@ interface IEdit {
   team?: Id;
 }
 
-interface ICreate {
-  team: Id;
+export async function canManageCompetitions() {
+  return await middleware.hasRole(roles.SUPER_ADMIN);
 }
 
-export class CompetitionAuth {
-  public static async canEdit(opt: IEdit): Promise<boolean> {
-    const requiredRoles = [
-      roles.CREATE_COMPETITIONS,
-      roles.MANAGE_COMPETITIONS
-    ];
-    return await middleware.hasAnyTeamRole(opt, requiredRoles);
-  }
+export async function canEditCompetition(opt: IEdit) {
+  return await middleware.hasAnyTeamRole(opt, [
+    roles.CREATE_COMPETITIONS,
+    roles.MANAGE_COMPETITIONS
+  ]);
 }
