@@ -3,7 +3,7 @@ import Vue from "vue";
 import { UserBase } from "@/components/auth/models/user-base";
 import { Entity } from "@/helpers/entity";
 import { url as createUrl, httpContext, http } from "@/helpers/rest";
-import { ContextAction, ISearchUser } from "./typings";
+import { ContextAction, ISearchUser } from "@/helpers/typings";
 
 export async function searchUser(payload: ISearchUser): Promise<UserBase[]> {
   return await httpContext(async http => {
