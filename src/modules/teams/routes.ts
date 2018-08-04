@@ -2,12 +2,12 @@ import { RouteConfig } from "vue-router";
 
 import { Id, PagingParams } from "@/typings";
 import {
-  convertParams,
   createTeam,
   manageTeam,
   manageTeams,
   teamMembers,
-  teams as teamsRoute
+  teams as teamsRoute,
+  createRoute
 } from "@/router/routes";
 import * as roles from "@/components/auth/roles";
 
@@ -64,37 +64,16 @@ export const teams = [
   ...competitionsRoot
 ] as RouteConfig[];
 
-export const manageTeamsRoute = (p?: PagingParams) => ({
-  ...manageTeams,
-  params: convertParams(
-    Object.assign(
-      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
-      p
-    )
-  )
-});
+export const manageTeamsRoute = (p?: PagingParams) =>
+  createRoute(manageTeams, p);
 
-export const createTeamRoute = () => {
-  return { ...createTeam };
-};
+export const createTeamRoute = () => ({ ...createTeam });
 
-export const manageTeamRoute = (p: { team: Id }) => {
-  return { ...manageTeam, params: convertParams(p) };
-};
+export const manageTeamRoute = (p: { team: Id }) =>
+  createRoute(manageTeam, p, {});
 
-export const teamRoute = (p: { team: Id } & PagingParams) => ({
-  ...teamMembers,
-  params: convertParams(
-    Object.assign(
-      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
-      p
-    )
-  )
-});
+export const teamRoute = (p: { team: Id } & PagingParams) =>
+  createRoute(teamMembers, p);
 
-export const getTeamsRoute = (p?: PagingParams) => ({
-  ...teamsRoute,
-  params: convertParams(
-    Object.assign({ page: 1, sort: "id", direction: "descending" }, p)
-  )
-});
+export const getTeamsRoute = (p?: PagingParams) =>
+  createRoute(teamsRoute, p, { page: 1, sort: "id", direction: "descending" });

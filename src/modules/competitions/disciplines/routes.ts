@@ -5,8 +5,8 @@ import {
   competitionDiscipline,
   competitionDisciplineGroups,
   competitionDisciplines,
-  convertParams,
   createCompetitionDiscipline,
+  createRoute,
   manageCompetitionDiscipline
 } from "@/router/routes";
 import { Id } from "@/typings";
@@ -61,22 +61,14 @@ export const root: RouteConfig[] = [
   }
 ];
 
-export const cmDisciplinesRoute = (p: { cm: Id }) => ({
-  ...competitionDisciplines,
-  params: convertParams(p)
-});
+export const cmDisciplinesRoute = (p: { cm: Id }) =>
+  createRoute(competitionDisciplines, p, {});
 
-export const cmDisciplineRoute = (p: { cm: Id; discipline: Id }) => ({
-  ...competitionDiscipline,
-  params: convertParams(p)
-});
+export const cmDisciplineRoute = (p: { cm: Id; discipline: Id }) =>
+  createRoute(competitionDiscipline, p, {});
 
-export const createCmDisciplineRoute = (p: { cm: Id }) => ({
-  ...createCompetitionDiscipline,
-  params: convertParams(p)
-});
+export const createCmDisciplineRoute = (p: { cm: Id }) =>
+  createRoute(createCompetitionDiscipline, p, {});
 
-export const manageCmDisciplineRoute = (p: { cm: Id; discipline: Id }) => ({
-  ...manageCompetitionDiscipline,
-  params: convertParams(p)
-});
+export const manageCmDisciplineRoute = (p: { cm: Id; discipline: Id }) =>
+  createRoute(manageCompetitionDiscipline, p, {});

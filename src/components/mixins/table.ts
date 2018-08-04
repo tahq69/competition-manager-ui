@@ -42,13 +42,11 @@ export default {
     changeRoute(this: any, p: PagingParams) {
       const page = p.page ? p.page.toString() : "1";
       const pageSize = p.pageSize ? p.pageSize.toString() : "10";
+      const route = Object.assign({}, this.route, {
+        params: { page, pageSize, sort: p.sort, direction: p.direction }
+      });
 
-      this.$router.push(
-        Object.assign(
-          { params: { page, pageSize, sort: p.sort, direction: p.direction } },
-          this.route
-        )
-      );
+      this.$router.push(route);
     },
 
     onPageChange(this: any, page: string) {

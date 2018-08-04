@@ -1,23 +1,22 @@
-import { Location, RouteConfig } from "vue-router";
+import { RouteConfig } from "vue-router";
 
 import {
   authProfile,
-  convertParams,
   forgotPassword,
   login,
   profile,
   resetPassword,
   signUp,
-  teamMembers
+  createRoute
 } from "@/router/routes";
 import { Id } from "@/typings";
 
-import Login from "./views/Login.vue";
-import SignUp from "./views/SignUp.vue";
+import Login from "@/modules/user/views/Login.vue";
+import SignUp from "@/modules/user/views/SignUp.vue";
 
-import resetPasswordVue from "./views/ResetPassword.vue";
-import forgotPasswordVue from "./views/ForgotPassword.vue";
-import profileVue from "./views/Profile.vue";
+import resetPasswordVue from "@/modules/user/views/ResetPassword.vue";
+import forgotPasswordVue from "@/modules/user/views/ForgotPassword.vue";
+import profileVue from "@/modules/user/views/Profile.vue";
 
 export default [
   {
@@ -54,7 +53,5 @@ export default [
   }
 ] as RouteConfig[];
 
-export const userProfileRoute = (p: { user: Id }) => ({
-  ...profile,
-  params: convertParams(p)
-});
+export const userProfileRoute = (p: { user: Id }) =>
+  createRoute(profile, p, {});

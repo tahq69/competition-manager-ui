@@ -1,17 +1,17 @@
 import * as roles from "@/components/auth/roles";
 import { Id, PagingParams } from "@/typings";
 import {
-  convertParams,
   createCompetition,
+  createRoute,
   manageCompetitionDetails,
   teamCompetitions
 } from "@/router/routes";
 
 /** Public routes */
-import competitionsView from "./views/Competitions.vue";
+import competitionsView from "@/modules/teams/competitions/views/Competitions.vue";
 
 /** Management routes */
-import createCmView from "./views/CreateCompetition.vue";
+import createCmView from "@/modules/teams/competitions/views/CreateCompetition.vue";
 
 export const competitions = [
   {
@@ -31,22 +31,11 @@ export const competitions = [
 
 export const root = [];
 
-export const teamCompetitionsRoute = (p: { team: Id } & PagingParams) => ({
-  ...teamCompetitions,
-  params: convertParams(
-    Object.assign(
-      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
-      p
-    )
-  )
-});
+export const teamCompetitionsRoute = (p: { team: Id } & PagingParams) =>
+  createRoute(teamCompetitions, p);
 
-export const createCmRoute = (p: { team: Id }) => ({
-  ...createCompetition,
-  params: convertParams(p)
-});
+export const createCmRoute = (p: { team: Id }) =>
+  createRoute(createCompetition, p);
 
-export const manageCmDetailsRoute = (p: { cm: Id }) => ({
-  ...manageCompetitionDetails,
-  params: convertParams(p)
-});
+export const manageCmDetailsRoute = (p: { cm: Id }) =>
+  createRoute(manageCompetitionDetails, p);

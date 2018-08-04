@@ -1,24 +1,30 @@
 import { RouteConfig } from "vue-router";
 
-import * as roles from "@/components/auth/roles";
+import { Id } from "@/typings";
 import {
   competitionDisciplineGroups,
-  convertParams,
   createCompetitionDisciplineCategory,
   createCompetitionDisciplineGroup,
+  createRoute,
   manageCompetitionDisciplineCategory,
   manageCompetitionDisciplineGroup,
   manageCompetitionDisciplineGroups
 } from "@/router/routes";
-import { Id, IRouteParams } from "@/typings";
+import * as roles from "@/components/auth/roles";
+
+import {
+  CategoryRouteParams,
+  DisciplineRouteParams,
+  GroupRouteParams
+} from "@/modules/competitions/groups/typings";
 
 /** Public routes */
-import groupsView from "./views/DisciplineGroups.vue";
+import groupsView from "@/modules/competitions/groups/views/DisciplineGroups.vue";
 
 /** Management routes */
-import manageGroups from "./views/ManageGroups.vue";
-import manageGroup from "./views/ManageGroupForm.vue";
-import manageCategory from "./views/ManageCategoryForm.vue";
+import manageGroups from "@/modules/competitions/groups/views/ManageGroups.vue";
+import manageGroup from "@/modules/competitions/groups/views/ManageGroupForm.vue";
+import manageCategory from "@/modules/competitions/groups/views/ManageCategoryForm.vue";
 
 export const groups: RouteConfig[] = [
   {
@@ -66,45 +72,20 @@ export const groups: RouteConfig[] = [
   }
 ];
 
-export const cmGroups = (p: { cm: Id; discipline: Id }) => ({
-  ...competitionDisciplineGroups,
-  params: convertParams(p)
-});
+export const cmGroups = (p: DisciplineRouteParams) =>
+  createRoute(competitionDisciplineGroups, p, {});
 
-export const manageCmGroupsRoute = (p: { cm: Id; discipline: Id }) => ({
-  ...manageCompetitionDisciplineGroups,
-  params: convertParams(p)
-});
+export const manageCmGroupsRoute = (p: DisciplineRouteParams) =>
+  createRoute(manageCompetitionDisciplineGroups, p, {});
 
-export const createCmGroup = (p: { cm: Id; discipline: Id }) => ({
-  ...createCompetitionDisciplineGroup,
-  params: convertParams(p)
-});
+export const createCmGroup = (p: DisciplineRouteParams) =>
+  createRoute(createCompetitionDisciplineGroup, p, {});
 
-export const manageCmGroupRoute = (p: {
-  cm: Id;
-  discipline: Id;
-  group: Id;
-}) => ({
-  ...manageCompetitionDisciplineGroup,
-  params: convertParams(p)
-});
+export const manageCmGroupRoute = (p: GroupRouteParams) =>
+  createRoute(manageCompetitionDisciplineGroup, p, {});
 
-export const createCategoryRoute = (p: {
-  cm: Id;
-  discipline: Id;
-  group: Id;
-}) => ({
-  ...createCompetitionDisciplineCategory,
-  params: convertParams(p)
-});
+export const createCategoryRoute = (p: GroupRouteParams) =>
+  createRoute(createCompetitionDisciplineCategory, p, {});
 
-export const manageCategoryRoute = (p: {
-  cm: Id;
-  discipline: Id;
-  group: Id;
-  category: Id;
-}) => ({
-  ...manageCompetitionDisciplineCategory,
-  params: convertParams(p)
-});
+export const manageCategoryRoute = (p: CategoryRouteParams) =>
+  createRoute(manageCompetitionDisciplineCategory, p, {});

@@ -5,7 +5,7 @@ import { Id } from "@/typings";
 import * as roles from "@/components/auth/roles";
 import {
   competitionDetails,
-  convertParams,
+  createRoute,
   manageCompetitionDetails
 } from "@/router/routes";
 
@@ -34,12 +34,8 @@ export const details: RouteConfig[] = [
   }
 ];
 
-export const cmDetailsRoute = (p: { cm: Id }) => ({
-  ...competitionDetails,
-  params: convertParams(p)
-});
+export const cmDetailsRoute = (p: { cm: Id }) =>
+  createRoute(competitionDetails, p, {});
 
-export const manageCmDetailsRoute = (p: { cm: Id }) => ({
-  ...manageCompetitionDetails,
-  params: convertParams(p)
-});
+export const manageCmDetailsRoute = (p: { cm: Id }) =>
+  createRoute(manageCompetitionDetails, p, {});

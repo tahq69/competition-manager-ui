@@ -1,9 +1,21 @@
+import { Location } from "vue-router";
 import { IRouteParams } from "@/typings";
 
 export function convertParams(params: IRouteParams) {
   const result: { [key: string]: string } = {};
   Object.keys(params).forEach(key => (result[key] = params[key].toString()));
   return result;
+}
+
+export function createRoute(
+  route: Location,
+  params?: any,
+  defaults: any = { page: 1, pageSize: 10, sort: "id", direction: "descending" }
+) {
+  return {
+    ...route,
+    params: convertParams(Object.assign(defaults, params))
+  };
 }
 
 export const home = { name: "home" };

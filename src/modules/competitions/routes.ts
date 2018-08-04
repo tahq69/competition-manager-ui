@@ -4,7 +4,8 @@ import { PagingParams } from "@/typings";
 import {
   competitions,
   convertParams,
-  manageCompetitions
+  manageCompetitions,
+  createRoute
 } from "@/router/routes";
 import * as roles from "@/components/auth/roles";
 
@@ -43,17 +44,8 @@ export const root: RouteConfig[] = [
   ...disciplinesRoot
 ];
 
-export const competitionsRoute = (p?: { page: number | string }) => ({
-  ...competitions,
-  params: convertParams(Object.assign({ page: 1 }, p))
-});
+export const competitionsRoute = (p?: { page: number | string }) =>
+  createRoute(competitions, p, { page: 1 });
 
-export const manageCompetitionsRoute = (p?: PagingParams) => ({
-  ...manageCompetitions,
-  params: convertParams(
-    Object.assign(
-      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
-      p
-    )
-  )
-});
+export const manageCompetitionsRoute = (p?: PagingParams) =>
+  createRoute(manageCompetitions, p);

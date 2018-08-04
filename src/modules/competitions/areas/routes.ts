@@ -4,8 +4,8 @@ import * as roles from "@/components/auth/roles";
 import {
   competitionArea,
   competitionAreas,
-  convertParams,
   createCompetitionArea,
+  createRoute,
   manageCompetitionArea
 } from "@/router/routes";
 import { Id } from "@/typings";
@@ -46,7 +46,5 @@ export const areas: RouteConfig[] = [
   }
 ];
 
-export const competitionAreasRoute = (p: { cm: Id }) => ({
-  ...competitionAreas,
-  params: convertParams(p)
-});
+export const competitionAreasRoute = (p: { cm: Id }) =>
+  createRoute(competitionAreas, p, {});

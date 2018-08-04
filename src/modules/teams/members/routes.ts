@@ -1,6 +1,6 @@
 import { Id, PagingParams } from "@/typings";
 import {
-  convertParams,
+  createRoute,
   createTeamMember,
   manageTeamMember,
   manageTeamMembers,
@@ -51,32 +51,14 @@ export const root = [
   }
 ];
 
-export const teamMembersRoute = (p: { team: Id } & PagingParams) => ({
-  ...teamMembers,
-  params: convertParams(
-    Object.assign(
-      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
-      p
-    )
-  )
-});
+export const teamMembersRoute = (p: { team: Id } & PagingParams) =>
+  createRoute(teamMembers, p);
 
-export const manageTeamMembersRoute = (p: { team: Id } & PagingParams) => ({
-  ...manageTeamMembers,
-  params: convertParams(
-    Object.assign(
-      { page: 1, pageSize: 10, sort: "id", direction: "descending" },
-      p
-    )
-  )
-});
+export const manageTeamMembersRoute = (p: { team: Id } & PagingParams) =>
+  createRoute(manageTeamMembers, p);
 
-export const createTeamMemberRoute = (p: { team: Id }) => ({
-  ...createTeamMember,
-  params: convertParams(p)
-});
+export const createTeamMemberRoute = (p: { team: Id }) =>
+  createRoute(createTeamMember, p);
 
-export const manageTeamMemberRoute = (p: { team: Id; member: Id }) => ({
-  ...manageTeamMember,
-  params: convertParams(p)
-});
+export const manageTeamMemberRoute = (p: { team: Id; member: Id }) =>
+  createRoute(manageTeamMember, p);
