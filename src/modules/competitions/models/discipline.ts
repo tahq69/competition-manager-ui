@@ -1,9 +1,6 @@
-import { Location } from "vue-router";
-
 import { Entity } from "@/helpers/entity";
 
-import { cmGroups } from "../groups/routes";
-import { DimensionType } from "../models/category";
+import { DimensionType } from "@/modules/competitions/models";
 
 export class Discipline extends Entity {
   public category_group_type: DimensionType = DimensionType.Age;

@@ -18,7 +18,8 @@
         "component",
         "error",
         "info",
-        "card"
+        "card",
+        "helpers.service"
       ]
     }
   },

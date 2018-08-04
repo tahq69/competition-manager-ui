@@ -1,220 +1,268 @@
 <script lang="ts">
 import Vue from "vue";
-import { Location } from "vue-router";
 
-import { Next } from "@/typings";
+import { ElForm, Rules, Rule, Id } from "@/typings";
+import { required, date, alphaDashSpace } from "@/helpers/validators";
+
+import { ManageDiscipline } from "#/competitions/models";
 import {
-  createCompetitionDiscipline as createRoute,
-  manageCompetitionDiscipline as editRoute
-} from "@/router/routes";
-
-import { Discipline } from "#/competitions/models/discipline";
-import { fetchDiscipline } from "#/competitions/disciplines/service";
+  fetchDiscipline,
+  saveDiscipline
+} from "#/competitions/disciplines/service";
 import { cmDisciplineRoute } from "#/competitions/disciplines/routes";
 
+import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
 import DisciplineLink from "#/competitions/components/links/DisciplineLink.vue";
 import DisciplinesLink from "#/competitions/components/links/DisciplinesLink.vue";
 
 export default Vue.extend({
   name: "ManageDiscipline",
 
-  components: { DisciplineLink, DisciplinesLink },
+  components: { CompetitionLink, DisciplineLink, DisciplinesLink },
 
   props: {
     cm: { type: [Number, String], required: true },
     discipline: { type: [Number, String], required: false }
   },
 
-  beforeRouteEnter(to, from, next: Next<any>) {
-    // If we open create route, we have no data to load from API.
-    if (to.name === createRoute.name) return next();
-
-    // If we open edit route, we have to load data from API.
-    const payload = { competition_id: to.params.cm, id: to.params.discipline };
-
-    fetchDiscipline(payload).then(discipline =>
-      next(vm => vm.setDiscipline(discipline))
-    );
-  },
-
-  data() {
-    return {
-      disciplineTitle: "",
-      form: new Discipline({
-        competition_id: this.cm,
-        title: "",
-        short: "",
-        type: "",
-        game_type: "",
-        description: ""
-      })
-      /*typeSelect: new CripSelect({
-        options: [
-          { key: "1", text: "Kickboxing", value: "KICKBOXING" },
-          { key: "2", text: "Box", value: "BOXING" }
-        ]
-      }),
-      categoryTypeSelect: new CripSelect({
-        options: [
-          { key: "1", text: "Age", value: "AGE" },
-          { key: "2", text: "Weight", value: "WEIGHT" }
-        ]
-      })*/
-    };
-  },
+  data: () => ({
+    loading: true,
+    form: new ManageDiscipline(),
+    errors: {},
+    title: "",
+    typeOptions: [
+      { key: "1", label: "Kickboxing", value: "KICKBOXING" },
+      { key: "2", label: "Box", value: "BOXING" }
+    ],
+    categoryTypeOptions: [
+      { key: "1", label: "Age", value: "AGE" },
+      { key: "2", label: "Weight", value: "WEIGHT" }
+    ]
+  }),
 
   computed: {
-    isEdit(): boolean {
-      return this.$route.name === editRoute.name;
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
     },
 
-    title(): string {
-      if (this.isEdit) return `Manage discipline: ${this.disciplineTitle}`;
-      return "Create new discipline";
+    rules(): Rules<ManageDiscipline> {
+      return {
+        category_group_type: [],
+        category_type: [],
+        competition_id: [],
+        description: [required("Please enter description")],
+        game_type: [required("Please enter details")],
+        short: [
+          required("Please enter short discipline title"),
+          alphaDashSpace(
+            "Short title may contain only characters, numbers and spaces"
+          )
+        ],
+        title: [
+          required("Please enter discipline title"),
+          alphaDashSpace(
+            "Title may contain only characters, numbers and spaces"
+          )
+        ],
+        type: []
+      };
     }
   },
 
   methods: {
-    setDiscipline(discipline: Discipline): void {
-      this.disciplineTitle = discipline.title;
+    async fetchData() {
+      // if we create new discipline, there has no data to fetch from server.
+      if (!this.discipline) {
+        this.loading = false;
+        this.title = "Create new discipline";
+
+        return;
+      }
+
+      this.loading = true;
+
+      const payload = { competition_id: this.cm, id: this.discipline };
+      const discipline = await fetchDiscipline(payload);
+
       this.form = discipline;
+      this.title = String(discipline.title);
+
+      this.loading = false;
     },
 
     async save() {
+      if (this.loading) return;
+
+      this.loading = true;
+      this.errors = {};
+
       this.log("save()", this.form);
 
-      /*try {
-        const saved = await disciplineService.saveDiscipline(this.form);
-
-        this.$notify.success("Discipline saved");
-
-        if (!this.isEdit) {
-          // Redirect only when we create new discipline.
-          const payload = { cm: this.cm, discipline: saved.id };
-          const route = cmDisciplineRoute(payload);
-
-          this.$router.push(route);
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
         }
-      } catch (errors) {
-        this.log("save(errors)", errors);
-      }*/
+
+        try {
+          const saved = await saveDiscipline({
+            ...this.form,
+            id: this.discipline,
+            competition_id: this.cm
+          });
+
+          this.$notify.success("Discipline saved");
+
+          // redirect only when we create new discipline.
+          if (!this.discipline) {
+            const payload = { cm: saved.competition_id, discipline: saved.id };
+            const route = cmDisciplineRoute(payload);
+
+            this.$router.push(route);
+          }
+
+          this.loading = false;
+        } catch (errors) {
+          this.loading = false;
+          this.errors = errors;
+        }
+      });
     }
   },
 
   mounted() {
     this.log = this.$logger.component(this);
+    this.fetchData();
   }
 });
 </script>
 
 <template>
-  <CFormCard :title="title"
-             id="manage-discipline"
-             @submit="save">
-    <span slot="actions">
-      <DisciplinesLink :cm="cm"
-                       btn="light"
-                       arrow="left"
-                       icon>
-        Disciplines
-      </DisciplinesLink>
+  <el-card>
+    <div slot="header"
+         class="clearfix">
+      <span>{{ title }}</span>
+      <CompetitionLink :cm="cm"
+                       icon="view"
+                       button
+                       mini>
+        Competition
+      </CompetitionLink>
 
-      <DisciplineLink v-if="isEdit"
+      <DisciplineLink v-if="discipline"
                       :cm="cm"
                       :discipline="discipline"
-                      icon="eye"
+                      icon="view"
                       button
                       mini>
         Preview
       </DisciplineLink>
-    </span>
 
-    <!-- #title -->
-    <CFormGroup for="title"
-                :form="form"
-                label="Title">
-      <input type="text"
-             id="title"
-             v-model="form.data.title"
-             name="title"
-             :class="[{'is-invalid': form.errors.title}, 'form-control']">
-    </CFormGroup>
+      <DisciplinesLink :cm="cm"
+                       icon="tickets"
+                       button
+                       mini>
+        Disciplines
+      </DisciplinesLink>
+    </div>
+    <el-form v-loading="loading"
+             :model="form"
+             :rules="rules"
+             ref="form"
+             :label-position="_config.label_position"
+             :label-width="_config.label_width"
+             @submit.native.prevent="save">
+      <el-form-item label="Title"
+                    :error="errors.title"
+                    prop="title">
+        <el-input v-model="form.title"
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  autofocus
+                  clearable />
+      </el-form-item>
 
-    <!-- #short -->
-    <CFormGroup for="short"
-                :form="form"
-                label="Short title">
-      <input type="text"
-             id="short"
-             v-model="form.data.short"
-             name="short"
-             :class="[{'is-invalid': form.errors.short}, 'form-control']">
-    </CFormGroup>
+      <el-form-item label="Short title"
+                    :error="errors.short"
+                    prop="short">
+        <el-input v-model="form.short"
+                  type="text"
+                  name="short"
+                  placeholder="Short title"
+                  clearable />
+      </el-form-item>
 
-    <!-- #type -->
-    <CFormGroup for="type"
-                :form="form"
-                label="Type">
+      <el-form-item label="Type"
+                    :error="errors.type"
+                    prop="type">
+        <el-select v-model="form.type"
+                   :disabled="!!discipline"
+                   placeholder="Select discipline type">
+          <el-option v-for="item in typeOptions"
+                     :key="item.key"
+                     :label="item.label"
+                     :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
 
-      <crip-select id="type"
-                   :settings="typeSelect"
-                   v-model="form.data.type"
-                   :class="{'is-invalid': form.errors.type}" />
-    </CFormGroup>
+      <el-form-item label="Group Type"
+                    :error="errors.category_group_type"
+                    prop="category_group_type">
+        <el-select v-model="form.category_group_type"
+                   :disabled="!!discipline"
+                   placeholder="Select discipline group type">
+          <el-option v-for="item in categoryTypeOptions"
+                     :key="item.key"
+                     :label="item.label"
+                     :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
 
-    <!-- #category_group_type -->
-    <CFormGroup for="category_group_type"
-                :form="form"
-                label="Group Type">
+      <el-form-item label="Category Type"
+                    :error="errors.category_type"
+                    prop="category_type">
+        <el-select v-model="form.category_type"
+                   :disabled="!!discipline"
+                   placeholder="Select discipline category type">
+          <el-option v-for="item in categoryTypeOptions"
+                     :key="item.key"
+                     :label="item.label"
+                     :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
 
-      <crip-select id="category_group_type"
-                   :settings="categoryTypeSelect"
-                   v-model="form.data.category_group_type"
-                   :disabled="isEdit"
-                   :class="{'is-invalid': form.errors.category_group_type}" />
-    </CFormGroup>
+      <el-form-item label="Game type"
+                    :error="errors.game_type"
+                    prop="game_type">
+        <el-input v-model="form.game_type"
+                  type="textarea"
+                  autosize
+                  name="game_type"
+                  placeholder="Game type">
+        </el-input>
+      </el-form-item>
 
-    <!-- #category_type -->
-    <CFormGroup for="category_type"
-                :form="form"
-                label="Category Type">
+      <el-form-item label="Description"
+                    :error="errors.description"
+                    prop="description">
+        <el-input v-model="form.description"
+                  type="textarea"
+                  autosize
+                  name="description"
+                  placeholder="Description">
+        </el-input>
+      </el-form-item>
 
-      <crip-select id="category_type"
-                   :settings="categoryTypeSelect"
-                   v-model="form.data.category_type"
-                   :disabled="isEdit"
-                   :class="{'is-invalid': form.errors.category_type}" />
-    </CFormGroup>
-
-    <!-- #game_type -->
-    <CFormGroup for="game_type"
-                :form="form"
-                label="Game type">
-
-      <textarea id="game_type"
-                v-model="form.data.game_type"
-                :class="[{'is-invalid': form.errors.game_type}, 'form-control']"
-                rows="8"></textarea>
-    </CFormGroup>
-
-    <!-- #description -->
-    <CFormGroup for="description"
-                :form="form"
-                label="Description">
-
-      <textarea id="description"
-                v-model="form.data.description"
-                :class="[{'is-invalid': form.errors.description}, 'form-control']"
-                rows="8"></textarea>
-    </CFormGroup>
-
-    <!-- #submit -->
-    <CFormGroup>
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
-        Save
-      </button>
-    </CFormGroup>
-  </CFormCard>
+      <el-form-item>
+        <el-button type="primary"
+                   native-type="submit">
+          Save
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
 </template>
