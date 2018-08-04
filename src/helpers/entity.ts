@@ -1,7 +1,7 @@
 import Vue from "vue";
 
 import { Id } from "@/typings";
-import { ICreatedAudit, IModifiedAudit, IEntity } from "./typings";
+import { ICreatedAudit, IModifiedAudit, IEntity } from "@/helpers/typings";
 
 const log = Vue.logger.group("entity", "debug");
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import FilesysIframe from "./FilesysIframe.vue";
+import FilesysIframe from "@/components/form/FilesysIframe.vue";
 
 export default Vue.extend({
   name: "FileInput",

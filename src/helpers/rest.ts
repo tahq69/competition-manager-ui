@@ -7,9 +7,9 @@ import { login } from "@/router/routes";
 import { config } from "@/config";
 import { t } from "@/lang";
 
-import { IUrlParams, ContextAction } from "./typings";
-import { emitEvent } from "./events";
-import { supplant, hasValue } from "./utils";
+import { IUrlParams, ContextAction } from "@/helpers/typings";
+import { emitEvent } from "@/helpers/events";
+import { supplant, hasValue } from "@/helpers/utils";
 
 export const http = axios;
 

@@ -1,5 +1,5 @@
 import { Id } from "@/typings";
-import { IState, IUser } from "./typings";
+import { IState, IUser } from "@/components/auth/store/typings";
 
 export default {
   user(state: IState): IUser {

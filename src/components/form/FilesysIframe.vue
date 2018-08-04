@@ -3,7 +3,7 @@ import Vue from "vue";
 
 import { LocalStorage, newGuid } from "@/helpers";
 
-import filesys from "./filesys";
+import filesys from "@/components/form/filesys";
 
 export default Vue.extend({
   name: "FilesysIframe",

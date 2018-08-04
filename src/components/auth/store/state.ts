@@ -1,4 +1,4 @@
-import { IState } from "./typings";
+import { IState } from "@/components/auth/store/typings";
 
 export default {
   user: {

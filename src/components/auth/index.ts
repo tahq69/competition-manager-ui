@@ -6,14 +6,14 @@ import { LocalStorage, onEvent } from "@/helpers";
 import { i18n } from "@/lang";
 import { store } from "@/store";
 
-import { Middleware } from "./middleware";
-import * as Roles from "./roles";
+import { ICredentials, IRegister } from "@/components/auth/typings";
+import { Middleware } from "@/components/auth/middleware";
+import * as Roles from "@/components/auth/roles";
 import {
   IFetchAuthUser,
   ILogoutPayload,
   ITokenResponse
-} from "./store/typings";
-import { ICredentials, IRegister } from "./typings";
+} from "@/components/auth/store/typings";
 
 export const middleware = Middleware;
 export const roles = Roles;

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { Events } from "./typings";
+import { Events } from "@/helpers/events/typings";
 
 export const EventBus = new Vue();
 

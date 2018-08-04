@@ -1,4 +1,4 @@
-import { hasValue } from "./utils";
+import { hasValue } from "@/helpers/utils";
 
 export class LocalStorage {
   public static remove(key: string): void {

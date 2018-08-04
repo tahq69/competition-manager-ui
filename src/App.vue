@@ -3,8 +3,8 @@ import Vue from "vue";
 
 import Auth from "@/components/auth";
 
-import TopNavigation from "./components/TopNavigation.vue";
-import AsideNavigation from "./components/AsideNavigation.vue";
+import TopNavigation from "@/components/TopNavigation.vue";
+import AsideNavigation from "@/components/AsideNavigation.vue";
 
 export default Vue.extend({
   name: "app",

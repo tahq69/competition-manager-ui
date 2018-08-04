@@ -1,6 +1,6 @@
 import { url as createUrl, httpContext } from "@/helpers/rest";
 
-import { IAuthUser, ILogin, IRegister } from "./typings";
+import { IAuthUser, ILogin, IRegister } from "@/components/auth/typings";
 
 class UserService {
   public async fetchAuthenticatedUser(): Promise<IAuthUser> {

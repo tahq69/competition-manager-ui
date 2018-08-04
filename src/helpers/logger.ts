@@ -2,7 +2,7 @@ import Vue from "vue";
 
 import { config, ILoggerOptions } from "@/config";
 
-import { isInArray } from "./utils";
+import { isInArray } from "@/helpers/utils";
 
 interface ILogWriterParams {
   type: LogType;

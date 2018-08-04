@@ -1,10 +1,10 @@
 import http from "axios";
-import { ActionContext, Store } from "vuex";
+import { ActionContext } from "vuex";
 
-import authService from "@/components/auth/service";
 import { url as createUrl } from "@/helpers/rest";
 import { IState as RootState } from "@/store/typings";
 
+import authService from "@/components/auth/service";
 import {
   IAddCompetitionPayload,
   ICompetition,
@@ -12,7 +12,7 @@ import {
   IFetchCompetition,
   IState,
   IUpdateUserDetailsPayload
-} from "./typings";
+} from "@/components/auth/store/typings";
 
 type Action = ActionContext<IState, RootState>;
 

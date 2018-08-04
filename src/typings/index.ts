@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { RawLocation } from "vue-router";
 
-export * from "./lib/element-ui";
+export * from "@/typings/lib/element-ui";
 export * from "@/helpers/typings";
 
 export type Id = number | string;

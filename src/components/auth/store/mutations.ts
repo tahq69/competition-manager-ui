@@ -3,7 +3,7 @@ import {
   ILogoutPayload,
   IState,
   IUpdateUserDetailsPayload
-} from "./typings";
+} from "@/components/auth/store/typings";
 
 export default {
   logout(state: IState, payload: ILogoutPayload) {
