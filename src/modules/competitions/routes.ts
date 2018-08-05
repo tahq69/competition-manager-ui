@@ -1,24 +1,28 @@
 import { RouteConfig } from "vue-router";
+import "@/modules/competitions/components/links";
 
 import { PagingParams } from "@/typings";
-import {
-  competitions,
-  convertParams,
-  manageCompetitions,
-  createRoute
-} from "@/router/routes";
+import { competitions, manageCompetitions, createRoute } from "@/router/routes";
 import * as roles from "@/components/auth/roles";
 
-import { areas } from "./areas/routes";
-import { details, root as detailsRoot } from "./details/routes";
-import { disciplines, root as disciplinesRoot } from "./disciplines/routes";
+import { areas } from "@/modules/competitions/areas/routes";
+
+import {
+  details,
+  root as detailsRoot
+} from "@/modules/competitions/details/routes";
+
+import {
+  disciplines,
+  root as disciplinesRoot
+} from "@/modules/competitions/disciplines/routes";
 
 /** Public routes */
-import competitionsView from "./views/Competitions.vue";
-import competition from "./views/Competition.vue";
+import competitionsView from "@/modules/competitions/views/Competitions.vue";
+import competition from "@/modules/competitions/views/Competition.vue";
 
 /** Management routes */
-import manageCms from "./views/ManageCompetitions.vue";
+import manageCms from "@/modules/competitions/views/ManageCompetitions.vue";
 
 export const root: RouteConfig[] = [
   {

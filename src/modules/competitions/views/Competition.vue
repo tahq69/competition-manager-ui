@@ -6,18 +6,8 @@ import { competitionDetails } from "@/router/routes";
 
 import { Competition } from "#/competitions/models/competition";
 
-import AreasLink from "#/competitions/components/links/AreasLink.vue";
-import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
-import DisciplinesLink from "#/competitions/components/links/DisciplinesLink.vue";
-
 export default Vue.extend({
   name: "Competition",
-
-  components: {
-    AreasLink,
-    CompetitionLink,
-    DisciplinesLink
-  },
 
   mixins: [createTabsMixin(competitionDetails.name)],
 

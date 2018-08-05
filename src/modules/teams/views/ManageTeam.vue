@@ -6,29 +6,16 @@ import { required } from "@/helpers/validators";
 import { manageTeam } from "@/router/routes";
 
 import FileInput from "@/components/form/FileInput.vue";
-import Submit from "@/components/form/Submit.vue";
 
 import { ManageTeam } from "#/teams/models";
 import { createTeamMemberRoute } from "#/teams/members/routes";
 import { fetchTeam, saveTeam } from "#/teams/service";
 import { manageTeamRoute } from "#/teams/routes";
 
-import CreateTeamMemberLink from "#/teams/components/links/CreateTeamMemberLink.vue";
-import ManageTeamMembersLink from "#/teams/components/links/ManageTeamMembersLink.vue";
-import ManageTeamsLink from "#/teams/components/links/ManageTeamsLink.vue";
-import TeamLink from "#/teams/components/links/TeamLink.vue";
-
 export default Vue.extend({
   name: "ManageTeam",
 
-  components: {
-    CreateTeamMemberLink,
-    FileInput,
-    ManageTeamMembersLink,
-    ManageTeamsLink,
-    Submit,
-    TeamLink
-  },
+  components: { FileInput },
 
   props: {
     team: { type: [String, Number], required: false }

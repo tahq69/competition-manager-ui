@@ -8,20 +8,8 @@ import { table } from "@/components/mixins";
 import { TeamMember } from "#/teams/models/team-member";
 import { fetchTeamMembers } from "#/teams/members/service";
 
-import CreateTeamMemberLink from "#/teams/components/links/CreateTeamMemberLink.vue";
-import ManageTeamLink from "#/teams/components/links/ManageTeamLink.vue";
-import ManageTeamMemberLink from "#/teams/components/links/ManageTeamMemberLink.vue";
-import TeamLink from "#/teams/components/links/TeamLink.vue";
-
 export default Vue.extend({
   name: "ManageMembers",
-
-  components: {
-    CreateTeamMemberLink,
-    ManageTeamLink,
-    ManageTeamMemberLink,
-    TeamLink
-  },
 
   mixins: [table],
 

@@ -1,4 +1,5 @@
 import { RouteConfig } from "vue-router";
+import "@/modules/user/components/links";
 
 import {
   authProfile,

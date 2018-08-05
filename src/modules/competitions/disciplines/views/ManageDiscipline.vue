@@ -11,14 +11,8 @@ import {
 } from "#/competitions/disciplines/service";
 import { cmDisciplineRoute } from "#/competitions/disciplines/routes";
 
-import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
-import DisciplineLink from "#/competitions/components/links/DisciplineLink.vue";
-import DisciplinesLink from "#/competitions/components/links/DisciplinesLink.vue";
-
 export default Vue.extend({
   name: "ManageDiscipline",
-
-  components: { CompetitionLink, DisciplineLink, DisciplinesLink },
 
   props: {
     cm: { type: [Number, String], required: true },

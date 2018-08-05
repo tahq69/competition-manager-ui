@@ -8,12 +8,10 @@ import userService from "#/user/service";
 import { Profile } from "#/user/models/profile";
 import { ProfileTeam } from "#/user/models/profile-team";
 
-import TeamLink from "#/teams/components/links/TeamLink.vue";
-
 export default Vue.extend({
   name: "Profile",
 
-  components: { ImageCard, TeamLink },
+  components: { ImageCard },
 
   props: {
     user: { type: String, required: false },

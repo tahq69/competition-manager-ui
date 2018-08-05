@@ -7,22 +7,8 @@ import { required, date, alphaDashSpace } from "@/helpers/validators";
 import { ManageCompetition } from "#/competitions/models";
 import { fetchCompetition, saveCompetition } from "#/competitions/service";
 
-import AreasLink from "#/competitions/components/links/AreasLink.vue";
-import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
-import CompetitionsLink from "#/competitions/components/links/CompetitionsLink.vue";
-import DisciplinesLink from "#/competitions/components/links/DisciplinesLink.vue";
-import ManageCompetitionsLink from "#/competitions/components/links/ManageCompetitionsLink.vue";
-
 export default Vue.extend({
   name: "ManageCompetitionDetails",
-
-  components: {
-    AreasLink,
-    CompetitionLink,
-    CompetitionsLink,
-    DisciplinesLink,
-    ManageCompetitionsLink
-  },
 
   props: {
     cm: { type: [Number, String], required: true }

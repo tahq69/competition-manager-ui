@@ -4,22 +4,10 @@ import Vue from "vue";
 import { createTabsMixin } from "@/components/mixins";
 import { competitionDiscipline } from "@/router/routes";
 
-import { Discipline } from "#/competitions/models/discipline";
-
-import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
-import DisciplineLink from "#/competitions/components/links/DisciplineLink.vue";
-import DisciplinesLink from "#/competitions/components/links/DisciplinesLink.vue";
-import GroupsLink from "#/competitions/components/links/GroupsLink.vue";
+import { Discipline } from "@/modules/competitions/models/discipline";
 
 export default Vue.extend({
   name: "Discipline",
-
-  components: {
-    CompetitionLink,
-    DisciplineLink,
-    DisciplinesLink,
-    GroupsLink
-  },
 
   mixins: [createTabsMixin(competitionDiscipline.name)],
 

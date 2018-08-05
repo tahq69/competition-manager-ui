@@ -18,20 +18,11 @@ import {
 import { TeamMemberAuth } from "#/teams/members/auth";
 import { manageTeamMemberRoute } from "#/teams/members/routes";
 
-import ManageTeamLink from "#/teams/components/links/ManageTeamLink.vue";
-import ManageTeamMembersLink from "#/teams/components/links/ManageTeamMembersLink.vue";
 import MemberRoleInput from "#/teams/components/MemberRoleInput.vue";
-import TeamLink from "#/teams/components/links/TeamLink.vue";
-
 export default Vue.extend({
   name: "ManageMember",
 
-  components: {
-    ManageTeamLink,
-    ManageTeamMembersLink,
-    MemberRoleInput,
-    TeamLink
-  },
+  components: { MemberRoleInput },
 
   props: {
     team: { type: [String, Number], required: true },
@@ -243,7 +234,7 @@ export default Vue.extend({
                       icon="edit"
                       button
                       mini>
-        Teams
+        Team
       </ManageTeamLink>
       <TeamLink :team="team"
                 title="Team details"

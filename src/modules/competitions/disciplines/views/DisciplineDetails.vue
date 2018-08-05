@@ -7,12 +7,8 @@ import { Discipline } from "#/competitions/models/discipline";
 import { DisciplineAuth } from "#/competitions/disciplines/auth";
 import { fetchDiscipline } from "#/competitions/disciplines/service";
 
-import ManageDisciplineLink from "#/competitions/components/links/ManageDisciplineLink.vue";
-
 export default Vue.extend({
   name: "DisciplineDetails",
-
-  components: { ManageDisciplineLink },
 
   mixins: [visibility],
 

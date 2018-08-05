@@ -6,12 +6,8 @@ import { Next } from "@/typings";
 import { fetchCompetition } from "#/competitions/service";
 import { Competition } from "#/competitions/models/competition";
 
-import ManageCompetitionLink from "#/competitions/components/links/ManageCompetitionLink.vue";
-
 export default Vue.extend({
   name: "CompetitionDetails",
-
-  components: { ManageCompetitionLink },
 
   props: {
     cm: { type: [Number, String], required: true }

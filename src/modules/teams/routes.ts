@@ -1,4 +1,5 @@
 import { RouteConfig } from "vue-router";
+import "@/modules/teams/components/links";
 
 import { Id, PagingParams } from "@/typings";
 import {

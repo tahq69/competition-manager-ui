@@ -9,12 +9,8 @@ import { fetchCompetitions } from "#/competitions/service";
 import { Competition } from "#/competitions/models/competition";
 import { cmDetailsRoute } from "#/competitions/details/routes";
 
-import ManageCompetitionLink from "#/competitions/components/links/ManageCompetitionLink.vue";
-
 export default Vue.extend({
   name: "TeamCompetitions",
-
-  components: { ManageCompetitionLink },
 
   mixins: [table],
 

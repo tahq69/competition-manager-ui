@@ -3,12 +3,8 @@ import Vue from "vue";
 
 import { DisciplineAuth } from "#/competitions/disciplines/auth";
 
-import CreateDisciplineLink from "#/competitions/components/links/CreateDisciplineLink.vue";
-
 export default Vue.extend({
   name: "CreateCompetitionDisciplineCard",
-
-  components: { CreateDisciplineLink },
 
   props: {
     cm: { type: [Number, String], required: true }

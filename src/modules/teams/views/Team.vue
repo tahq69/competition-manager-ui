@@ -7,19 +7,10 @@ import ImageCard from "@/components/cards/ImageCard.vue";
 import { Team } from "#/teams/models/team";
 import { fetchTeam } from "#/teams/service";
 
-import ManageTeamLink from "#/teams/components/links/ManageTeamLink.vue";
-import TeamCompetitionsLink from "#/teams/components/links/TeamCompetitionsLink.vue";
-import TeamLink from "#/teams/components/links/TeamLink.vue";
-
 export default Vue.extend({
   name: "Team",
 
-  components: {
-    ImageCard,
-    ManageTeamLink,
-    TeamCompetitionsLink,
-    TeamLink
-  },
+  components: { ImageCard },
 
   props: {
     team: { type: [Number, String], required: true }

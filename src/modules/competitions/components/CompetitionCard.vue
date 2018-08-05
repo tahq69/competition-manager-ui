@@ -3,13 +3,8 @@ import Vue from "vue";
 
 import { Competition } from "#/competitions/models/competition";
 
-import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
-import ManageCompetitionLink from "#/competitions/components/links/ManageCompetitionLink.vue";
-
 export default Vue.extend({
   name: "CompetitionCard",
-
-  components: { CompetitionLink, ManageCompetitionLink },
 
   props: {
     competition: { type: Competition, required: true }

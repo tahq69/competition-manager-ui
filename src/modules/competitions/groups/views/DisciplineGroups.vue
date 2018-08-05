@@ -5,12 +5,8 @@ import { Category } from "#/competitions/models/category";
 import { Group } from "#/competitions/models/group";
 import { fetchGroups, fetchCategories } from "#/competitions/groups/service";
 
-import ManageGroupsLink from "#/competitions/components/links/ManageGroupsLink.vue";
-
 export default Vue.extend({
   name: "DisciplineGroups",
-
-  components: { ManageGroupsLink },
 
   props: {
     cm: { type: [Number, String], required: true },

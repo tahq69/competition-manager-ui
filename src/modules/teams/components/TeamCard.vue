@@ -5,14 +5,10 @@ import ImageCard from "@/components/cards/ImageCard.vue";
 
 import { Team } from "#/teams/models/team";
 
-import TeamLink from "#/teams/components/links/TeamLink.vue";
-import ManageTeamLink from "#/teams/components/links/ManageTeamLink.vue";
-
 export default Vue.extend({
   name: "TeamCard",
 
-  components: { ImageCard, TeamLink, ManageTeamLink },
-
+  components: { ImageCard },
   props: {
     team: { type: Team, required: true }
   },

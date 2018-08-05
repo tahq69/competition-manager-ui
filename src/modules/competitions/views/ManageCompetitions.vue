@@ -9,13 +9,8 @@ import { table } from "@/components/mixins";
 import { Competition } from "#/competitions/models/competition";
 import { fetchCompetitions } from "#/competitions/service";
 
-import ManageCompetitionLink from "#/competitions/components/links/ManageCompetitionLink.vue";
-import CompetitionLink from "#/competitions/components/links/CompetitionLink.vue";
-
 export default Vue.extend({
   name: "ManageCompetitions",
-
-  components: { CompetitionLink, ManageCompetitionLink },
 
   mixins: [table],
 
