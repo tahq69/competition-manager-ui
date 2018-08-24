@@ -22,16 +22,14 @@ import {
 import groupsView from "@/modules/competitions/groups/views/DisciplineGroups.vue";
 
 /** Management routes */
-import manageGroups from "@/modules/competitions/groups/views/ManageGroups.vue";
 import manageGroup from "@/modules/competitions/groups/views/ManageGroupForm.vue";
 import manageCategory from "@/modules/competitions/groups/views/ManageCategoryForm.vue";
 
 export const groups: RouteConfig[] = [
   {
-    ...manageCompetitionDisciplineGroups,
-    meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-    component: manageGroups,
-    path: "groups/manage",
+    ...competitionDisciplineGroups,
+    component: groupsView,
+    path: "groups",
     props: true,
     children: [
       {
@@ -45,7 +43,7 @@ export const groups: RouteConfig[] = [
         ...createCompetitionDisciplineCategory,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
         component: manageCategory,
-        path: ":group(\\d+)/category/manage/new",
+        path: ":group(\\d+)/category/new",
         props: true
       },
       {
@@ -59,16 +57,10 @@ export const groups: RouteConfig[] = [
         ...manageCompetitionDisciplineGroup,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
         component: manageGroup,
-        path: ":group(\\d+)",
+        path: "manage/:group(\\d+)",
         props: true
       }
     ]
-  },
-  {
-    ...competitionDisciplineGroups,
-    component: groupsView,
-    path: "groups",
-    props: true
   }
 ];
 

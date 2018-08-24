@@ -57,14 +57,13 @@ export async function fetchGroups(payload: FetchGroupsPayload) {
 
 export async function fetchCategories(payload: FetchCategoriesPayload) {
   return await httpContext(async http => {
-    const urlTpl =
-      "competitions/{competition_id}/disciplines/{discipline_id}" +
-      "/groups/{category_group_id}/categories";
-    const url = createUrl(urlTpl, { urlReplace: payload });
+    const urlTemplate =
+      "competitions/{competition_id}/disciplines/{discipline_id}/categories";
+    const url = createUrl(urlTemplate, { urlReplace: payload });
 
     const { data }: { data: any[] } = await http.get(url);
 
-    return data.map(val => new Category(val));
+    return data.map(val => new Group(val));
   });
 }
 

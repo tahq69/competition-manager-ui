@@ -17,14 +17,14 @@ import { fetchCategories, fetchGroups } from "../service";
 export default Vue.extend({
   name: "ManageGroups",
 
-  beforeRouteEnter(to, from, next: Next<any>) {
+  /*beforeRouteEnter(to, from, next: Next<any>) {
     const payload = {
       competition_id: to.params.cm,
       discipline_id: to.params.discipline
     };
 
     fetchGroups(payload).then(groups => next(vm => vm.setGroups(groups)));
-  },
+  },*/
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -70,7 +70,7 @@ export default Vue.extend({
       });
     },
 
-    async setGroups(groups: Group[]): Promise<void> {
+    /*async setGroups(groups: Group[]): Promise<void> {
       this.groups = groups;
 
       const pool = groups.reduce<Array<Promise<void>>>((acc, group) => {
@@ -79,9 +79,9 @@ export default Vue.extend({
       }, []);
 
       await Promise.all(pool);
-    },
+    },*/
 
-    async fetchCategories(group: Group): Promise<void> {
+    /*async fetchCategories(group: Group): Promise<void> {
       const categories = await fetchCategories({
         competition_id: group.competition_id,
         discipline_id: group.discipline_id,
@@ -89,7 +89,7 @@ export default Vue.extend({
       });
 
       group.categories = categories;
-    },
+    },*/
 
     onGroupSaved(group: Group) {
       const existing = this.groups.filter(

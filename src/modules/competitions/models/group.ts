@@ -1,6 +1,6 @@
 import { Location } from "vue-router";
 
-import { Entity } from "@/helpers/entity";
+import { Entity } from "@/helpers";
 import { Id } from "@/typings";
 
 import { Category, DimensionType } from "./category";
@@ -68,9 +68,9 @@ export class Group extends Entity {
     this.time = data.time;
     this.title = data.title;
     this.type = data.type;
-  }
 
-  public setCategories(categories: Category[]) {
-    this.categories = categories;
+    if (data.categories && data.categories instanceof Array) {
+      this.categories = data.categories.map((cat: any[]) => new Category(cat));
+    }
   }
 }

@@ -4,22 +4,29 @@ import { Location } from "vue-router";
 
 import { link, visibility } from "@/components/mixins";
 
-import { manageCmGroupsRoute } from "#/competitions/groups/routes";
+import { manageCategoryRoute } from "#/competitions/groups/routes";
 import { DisciplineAuth } from "#/competitions/disciplines/auth";
 
 export default Vue.extend({
-  name: "ManageCompetitionDisciplineGroupsLink",
+  name: "ManageCategoryLink",
 
   mixins: [link, visibility],
 
   props: {
     cm: { type: [String, Number], required: true },
-    discipline: { type: [String, Number], required: true }
+    discipline: { type: [String, Number], required: true },
+    group: { type: [String, Number], required: true },
+    category: { type: [String, Number], required: true }
   },
 
   computed: {
     to(): Location {
-      return manageCmGroupsRoute({ cm: this.cm, discipline: this.discipline });
+      return manageCategoryRoute({
+        cm: this.cm,
+        discipline: this.discipline,
+        group: this.group,
+        category: this.category
+      });
     }
   },
 

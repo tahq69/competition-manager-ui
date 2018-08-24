@@ -18,6 +18,7 @@ export interface FetchGroupsPayload {
   discipline_id: Id;
 }
 
-export interface FetchCategoriesPayload extends FetchGroupsPayload {
-  category_group_id: Id;
+export interface FetchCategoriesPayload {
+  competition_id: Id;
+  discipline_id: Id;
 }

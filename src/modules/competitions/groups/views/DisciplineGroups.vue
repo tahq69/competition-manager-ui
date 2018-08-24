@@ -1,87 +1,132 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { Category } from "#/competitions/models/category";
-import { Group } from "#/competitions/models/group";
-import { fetchGroups, fetchCategories } from "#/competitions/groups/service";
+import { visibility } from "@/components/mixins";
+
+import { Category, Group } from "@/modules/competitions/models";
+import { fetchCategories } from "@/modules/competitions/groups/service";
+import { DisciplineAuth } from "@/modules/competitions/disciplines/auth";
+
+import GroupShortText from "@/modules/competitions/components/GroupShortText.vue";
+import CategoryShortText from "@/modules/competitions/components/CategoryShortText.vue";
 
 export default Vue.extend({
   name: "DisciplineGroups",
+
+  mixins: [visibility],
+
+  components: { GroupShortText, CategoryShortText },
 
   props: {
     cm: { type: [Number, String], required: true },
     discipline: { type: [Number, String], required: true }
   },
 
-  data() {
-    return {
-      canCreate: false,
-      groups: [] as Group[],
-      categories: [] as string[],
-      maxCategoryLength: 0
-    };
-  },
+  data: () => ({
+    loading: true,
+    groups: [] as Group[]
+  }),
 
   computed: {
     canEdit(): boolean {
       return true;
+    },
+
+    maxCategoryLength(): number {
+      const append = (this as any).isVisible ? 1 : 0;
+      if (this.groups.length == 0) return 0 + append;
+
+      return (
+        Math.max.apply(null, this.groups.map(g => g.categories.length)) + append
+      );
     }
   },
 
   methods: {
     async fetchGroups() {
-      const payload = {
+      this.loading = true;
+
+      this.groups = await fetchCategories({
         competition_id: this.cm,
         discipline_id: this.discipline
-      };
-
-      const groups = await fetchGroups(payload);
-      const pool = groups.map(group => this.fetchCategories(group));
-
-      this.groups = groups;
-      await Promise.all(pool);
-    },
-
-    async fetchCategories(group: Group): Promise<void> {
-      const categories = await fetchCategories({
-        competition_id: group.competition_id,
-        discipline_id: group.discipline_id,
-        category_group_id: group.id
       });
 
-      group.setCategories(categories);
+      this.loading = false;
+    },
 
-      if (categories.length > this.maxCategoryLength) {
-        this.maxCategoryLength = categories.length;
-        this.categories = categories.map(category => category.id.toString());
-      }
+    async checkVisibility() {
+      return await DisciplineAuth.canEdit(this.discipline, this.cm);
     }
+  },
+
+  created() {
+    this.log = this.$logger.component(this);
+    this.fetchGroups();
   }
 });
 </script>
 
 <template>
   <div id="discipline-groups">
-    <ManageGroupsLink :cm="cm"
-                      :discipline="discipline"
-                      style="float: right"
-                      type="primary"
-                      icon="edit"
-                      button
-                      circle
-                      mini />
+    <el-table v-loading="loading"
+              :data="groups"
+              :show-header="false"
+              border>
+      <el-table-column>
+        <template slot-scope="group">
+          <GroupShortText :group="group.row" />&nbsp;
+          <ManageGroupLink :cm="cm"
+                           :discipline="discipline"
+                           :group="group.row.id"
+                           title="Edit group"
+                           type="primary"
+                           icon="edit"
+                           button
+                           mini
+                           circle />
+        </template>
+      </el-table-column>
 
-    <table class="table">
-      <tr v-for="group in groups"
-          :key="group.id * 100">
-        <td v-html="group.shortText"></td>
-        <td v-for="(id, index) in categories"
-            :key="(group.id * 100) + 1 + index">
-          <div v-if="group.categories[index]">
-            {{ group.categories[index].shortText }}
+      <el-table-column v-for="i in maxCategoryLength"
+                       :key="i">
+        <template slot-scope="group">
+          <div v-if="group.row.categories[i - 1]">
+            <CategoryShortText :category="group.row.categories[i - 1]" />&nbsp;
+            <ManageCategoryLink :cm="cm"
+                                :discipline="discipline"
+                                :group="group.row.id"
+                                :category="group.row.categories[i - 1].id"
+                                title="Edit category"
+                                type="primary"
+                                icon="edit"
+                                button
+                                mini
+                                circle />
           </div>
-        </td>
-      </tr>
-    </table>
+          <div v-else>
+            <CreateCategoryLink :cm="cm"
+                                :discipline="discipline"
+                                :group="group.row.id"
+                                title="Create category"
+                                type="success"
+                                icon="plus"
+                                button
+                                mini
+                                circle />
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <CreateGroupLink :cm="cm"
+                     :discipline="discipline"
+                     title="Create group"
+                     type="success"
+                     icon="plus"
+                     button
+                     mini
+                     circle />
+
+    <router-view></router-view>
   </div>
 </template>
