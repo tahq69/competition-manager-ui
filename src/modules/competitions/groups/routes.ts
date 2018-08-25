@@ -1,6 +1,5 @@
 import { RouteConfig } from "vue-router";
 
-import { Id } from "@/typings";
 import {
   competitionDisciplineGroups,
   createCompetitionDisciplineCategory,

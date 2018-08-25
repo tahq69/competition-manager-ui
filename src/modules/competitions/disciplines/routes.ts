@@ -3,7 +3,6 @@ import { RouteConfig } from "vue-router";
 import * as roles from "@/components/auth/roles";
 import {
   competitionDiscipline,
-  competitionDisciplineGroups,
   competitionDisciplines,
   createCompetitionDiscipline,
   createRoute,

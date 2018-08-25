@@ -72,7 +72,8 @@ export default Vue.extend({
               :data="groups"
               :show-header="false"
               border>
-      <el-table-column>
+      <el-table-column fixed
+                       width="350">
         <template slot-scope="group">
           <GroupShortText :group="group.row" />&nbsp;
           <ManageGroupLink :cm="cm"

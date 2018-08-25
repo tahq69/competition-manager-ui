@@ -1,21 +1,17 @@
 <script lang="ts">
 import Vue from "vue";
-import { Route } from "vue-router";
 
 import { emitEvent } from "@/helpers";
-import { createCompetitionDisciplineGroup as createRoute } from "@/router/routes";
-import { Id, Next } from "@/typings";
+import { ElForm, Rules, Rule, Id } from "@/typings";
+import {
+  alphaDashSpace,
+  date,
+  positiveInt,
+  required
+} from "@/helpers/validators";
 
-import { Group } from "../../models/group";
-import groupService from "../service";
-
-function createPayload(route: Route) {
-  return {
-    competition_id: route.params.cm,
-    discipline_id: route.params.discipline,
-    id: route.params.group
-  };
-}
+import { Group, ManageGroup } from "@/modules/competitions/models";
+import groupService from "@/modules/competitions/groups/service";
 
 export default Vue.extend({
   name: "ManageGroupForm",
@@ -26,173 +22,228 @@ export default Vue.extend({
     group: { type: [String, Number], required: false }
   },
 
-  beforeRouteEnter(to, from, next: Next<any>) {
-    // If we open create route, we have no data to load from API.
-    if (to.name === createRoute.name) return next(vm => vm.reset());
-
-    // If we open edit route, we have to load data from API.
-    const payload = createPayload(to);
-
-    groupService
-      .fetchGroup(payload)
-      .then(group => next(vm => vm.update(group)));
-  },
-
-  beforeRouteUpdate(to, from, next: Next<any>) {
-    // User may have option to change route in runtime. In this case we should
-    // update form data.
-    if (to.name === createRoute.name) {
-      this.reset();
-      return next();
-    }
-
-    const payload = createPayload(to);
-    groupService.fetchGroup(payload).then(group => {
-      this.update(group);
-      next();
-    });
-  },
-
   data() {
     return {
-      form: new Group({
-        competition_id: this.cm,
-        discipline_id: this.discipline,
-        max: 0,
-        min: 0,
-        rounds: 0,
-        short: "",
-        time: 0,
-        title: ""
-      })
+      loading: true,
+      errors: {},
+      title: "",
+      form: new ManageGroup()
     };
   },
 
+  computed: {
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
+    },
+
+    rules(): Rules<ManageGroup> {
+      return {
+        max: [
+          required("Please enter maximum available value"),
+          positiveInt("Value must be positive number")
+        ],
+        min: [
+          required("Please enter minimum available value"),
+          positiveInt("Value must be positive number")
+        ],
+        rounds: [
+          required("Please enter rounds count"),
+          positiveInt("Value must be positive number")
+        ],
+        time: [required("Please enter one round duration")],
+        short: [
+          required("Please enter short name of the group"),
+          alphaDashSpace(
+            "Short name may contain only characters, numbers and spaces"
+          )
+        ],
+        title: [
+          required("Please enter title of the group"),
+          alphaDashSpace(
+            "Title may contain only characters, numbers and spaces"
+          )
+        ]
+      };
+    }
+  },
+
   methods: {
-    async submit() {
-      /*this.form.clearErrors();
-      try {
-        const group = await groupService.saveGroup(this.form.data);
-        emitEvent("cm:group:saved", group);
-      } catch (errors) {
-        this.form.addErrors(errors);
-      }*/
+    async fetchData() {
+      if (!this.group) {
+        // If properties does not contain group identifier, this means we now
+        // are in create mode and we have no need to fetch any data from api.
+        this.loading = false;
+        this.reset();
+
+        return;
+      }
+
+      this.loading = true;
+
+      const group = await groupService.fetchGroup({
+        id: this.group,
+        competition_id: this.cm,
+        discipline_id: this.discipline
+      });
+
+      this.update(group);
+
+      this.loading = false;
+    },
+
+    async save() {
+      if (this.loading) return;
+
+      this.loading = true;
+      this.errors = {};
+
+      this.log("save()", this.form);
+
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
+        }
+
+        try {
+          const group = await groupService.saveGroup({
+            id: this.group,
+            competition_id: this.cm,
+            discipline_id: this.discipline,
+            ...this.form
+          });
+
+          // Notify user that group now is saved sucessfilly.
+          this.$notify.success("Group sucessfully saved");
+
+          // emit event to be available update child views.
+          emitEvent("cm:group:saved", group);
+        } catch (errors) {
+          this.errors = errors;
+        } finally {
+          this.loading = false;
+        }
+      });
     },
 
     async destroy() {
-      await groupService.deleteGroup(this.form);
-      emitEvent("cm:group:deleted", this.form.id);
+      await groupService.deleteGroup({
+        id: this.group,
+        competition_id: this.cm,
+        discipline_id: this.discipline
+      });
+
+      // emit event to be available update child views.
+      emitEvent("cm:group:deleted", this.group);
     },
 
     reset() {
-      this.form.competition_id = this.cm;
-      this.form.discipline_id = this.discipline;
       this.form.max = 0;
       this.form.min = 0;
       this.form.rounds = 0;
       this.form.short = "";
       this.form.time = 0;
       this.form.title = "";
-      this.form.id = 0;
     },
 
     update(group: Group) {
-      this.form.competition_id = group.competition_id;
-      this.form.discipline_id = group.discipline_id;
       this.form.max = group.max;
       this.form.min = group.min;
       this.form.rounds = group.rounds;
       this.form.short = group.short;
       this.form.time = group.time;
       this.form.title = group.title;
-      this.form.id = group.id;
     }
+  },
+
+  created() {
+    this.log = this.$logger.component(this);
+    this.fetchData();
+  },
+
+  watch: {
+    cm: "fetchData",
+    discipline: "fetchData",
+    group: "fetchData"
   }
 });
 </script>
 
 <template>
-  <form submitprevent="submit">
-    <!-- #title -->
-    <CFormGroup for="title"
-                :form="form"
-                label="Full title">
-      <input type="text"
-             id="title"
-             name="title"
-             v-model="form.data.title"
-             :class="[{'is-invalid': form.errors.title}, 'form-control']">
-    </CFormGroup>
+  <el-form v-loading="loading"
+           :model="form"
+           :rules="rules"
+           ref="form"
+           :label-position="_config.label_position"
+           :label-width="_config.label_width"
+           @submit.native.prevent="save"
+           id="manage-group">
 
-    <!-- #short -->
-    <CFormGroup for="short"
-                :form="form"
-                label="Short title">
-      <input type="text"
-             id="short"
-             name="short"
-             v-model="form.data.short"
-             :class="[{'is-invalid': form.errors.short}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Title"
+                  :error="errors.title"
+                  prop="title">
+      <el-input v-model="form.title"
+                type="text"
+                name="title"
+                placeholder="Title"
+                autofocus
+                clearable />
+    </el-form-item>
 
-    <!-- #rounds -->
-    <CFormGroup for="rounds"
-                :form="form"
-                label="Rounds">
-      <input type="number"
-             id="rounds"
-             name="rounds"
-             v-model="form.data.rounds"
-             :class="[{'is-invalid': form.errors.rounds}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Short"
+                  :error="errors.short"
+                  prop="short">
+      <el-input v-model="form.short"
+                type="text"
+                name="short"
+                placeholder="Short"
+                clearable />
+    </el-form-item>
 
-    <!-- #time -->
-    <CFormGroup for="time"
-                :form="form"
-                label="Round time">
-      <input type="number"
-             id="time"
-             name="time"
-             v-model="form.data.time"
-             :class="[{'is-invalid': form.errors.time}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Rounds"
+                  :error="errors.rounds"
+                  prop="rounds">
+      <el-input-number v-model="form.rounds"
+                       controls-position="right"
+                       :min="1" />
+    </el-form-item>
 
-    <!-- #min -->
-    <CFormGroup for="min"
-                :form="form"
-                label="Minimum value">
-      <input type="number"
-             id="min"
-             name="min"
-             v-model="form.data.min"
-             :class="[{'is-invalid': form.errors.min}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Round time"
+                  :error="errors.time"
+                  prop="time">
+      <el-input-number v-model="form.time"
+                       controls-position="right"
+                       :min="1" />
+    </el-form-item>
 
-    <!-- #max -->
-    <CFormGroup for="max"
-                :form="form"
-                label="Maximum value">
-      <input type="number"
-             id="max"
-             name="max"
-             v-model="form.data.max"
-             :class="[{'is-invalid': form.errors.max}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Minimum value"
+                  :error="errors.min"
+                  prop="min">
+      <el-input-number v-model="form.min"
+                       controls-position="right"
+                       :min="1" />
+    </el-form-item>
 
-    <!-- #submit -->
-    <CFormGroup>
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
+    <el-form-item label="Maximum value"
+                  :error="errors.max"
+                  prop="max">
+      <el-input-number v-model="form.max"
+                       controls-position="right"
+                       :min="1" />
+    </el-form-item>
+
+    <el-form-item>
+      <el-button type="primary"
+                 native-type="submit">
         Save
-      </button>
+      </el-button>
 
-      <button v-if="form.data.id > 0"
-              type="button"
-              @click="destroy"
-              class="btn btn-danger">
+      <el-button v-if="group > 0"
+                 type="danger"
+                 @click="destroy">
         Delete
-      </button>
-    </CFormGroup>
-  </form>
+      </el-button>
+    </el-form-item>
+
+  </el-form>
 </template>
