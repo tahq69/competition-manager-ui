@@ -1,5 +1,3 @@
-import { Location } from "vue-router";
-
 import { Entity } from "@/helpers";
 import { Id } from "@/typings";
 
@@ -29,28 +27,6 @@ export class Group extends Entity {
   constructor(data: any) {
     super(data);
     this.updateProps(data);
-  }
-
-  public get typeText() {
-    if (this.type === DimensionType.Age) return "years";
-    return "Kg";
-  }
-
-  public get timeText() {
-    let s = this.time;
-    return (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
-  }
-
-  public get shortText() {
-    return `${this.short} ${this.min}-${this.max} ${this.typeText} ${
-      this.rounds
-    } x ${this.timeText} min`;
-  }
-
-  public get longText() {
-    return `${this.title} from ${this.min} to ${this.max} ${this.typeText} ${
-      this.rounds
-    } rounds by ${this.timeText} minutes`;
   }
 
   public updateProps(data: any) {

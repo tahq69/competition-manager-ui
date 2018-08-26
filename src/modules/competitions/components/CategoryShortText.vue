@@ -20,27 +20,42 @@ export default Vue.extend({
   computed: {
     typeText(): string {
       return this.category.type === DimensionType.Age ? "y" : "Kg";
-    }
-  },
+    },
 
-  created() {
-    this.log = this.$logger.component(this);
+    title(): string {
+      switch (this.category.display_type) {
+        case DisplayType.Min:
+          return `Starting from ${this.category.min} ${this.typeText}`;
+        case DisplayType.Max:
+          return `Until ${this.category.max} ${this.typeText}`;
+        default:
+          return `Starting from ${this.category.min} until ${
+            this.category.max
+          } ${this.typeText}`;
+      }
+    }
   }
 });
 </script>
 
 <template>
-  <span v-if="category">
+  <el-tooltip v-if="category"
+              effect="light"
+              :open-delay="500">
+    <div slot="content">
+      {{ category.title }}<br/>{{ title }}
+    </div>
+
     <span v-if="category.display_type == displayType.Min">
-      {{category.min}} {{typeText}}
+      {{category.min}}{{typeText}}
     </span>
-    
+
     <span v-else-if="category.display_type == displayType.Max">
-      -{{category.max}} {{typeText}}
+      -{{category.max}}{{typeText}}
     </span>
 
     <span v-else>
-      {{category.min}}-{{category.max}} {{typeText}}
+      {{category.min}}-{{category.max}}{{typeText}}
     </span>
-  </span>
+  </el-tooltip>
 </template>

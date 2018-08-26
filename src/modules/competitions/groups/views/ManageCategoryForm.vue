@@ -180,7 +180,8 @@ export default Vue.extend({
   watch: {
     cm: "fetchCategory",
     discipline: "fetchCategory",
-    group: "fetchCategory"
+    group: "fetchCategory",
+    category: "fetchCategory"
   }
 });
 </script>

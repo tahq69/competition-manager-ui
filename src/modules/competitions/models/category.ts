@@ -41,34 +41,6 @@ export class Category extends Entity {
     this.updateProps(data);
   }
 
-  public get shortText() {
-    const typeText = this.type === DimensionType.Age ? "y" : "Kg";
-    switch (this.display_type) {
-      case DisplayType.Min:
-        return `${this.min}+ ${typeText}`;
-
-      case DisplayType.Max:
-        return `-${this.max} ${typeText}`;
-
-      default:
-        return `${this.min}-${this.max} ${typeText}`;
-    }
-  }
-
-  public get longText() {
-    const typeText = this.type === DimensionType.Age ? "years" : "Kg";
-    switch (this.display_type) {
-      case DisplayType.Min:
-        return `${this.min} and more ${typeText}`;
-
-      case DisplayType.Max:
-        return `Till ${this.max} ${typeText}`;
-
-      default:
-        return `From ${this.min} to ${this.max} ${typeText}`;
-    }
-  }
-
   public updateProps(data: any) {
     this.area_id = data.area_id;
     this.category_group_id = data.category_group_id;
