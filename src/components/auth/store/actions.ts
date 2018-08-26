@@ -11,7 +11,8 @@ import {
   IFetchAuthUser,
   IFetchCompetition,
   IState,
-  IUpdateUserDetailsPayload
+  IUpdateUserDetailsPayload,
+  IUpdateAuthLoadingStatePayload
 } from "@/components/auth/store/typings";
 
 type Action = ActionContext<IState, RootState>;
@@ -19,6 +20,11 @@ type Action = ActionContext<IState, RootState>;
 export default {
   async fetchAuthUser({ commit, state }: Action, payload: IFetchAuthUser) {
     if (state.user.authenticated) return;
+
+    commit<IUpdateAuthLoadingStatePayload>({
+      type: "updateAuthLoadingState",
+      loading: true
+    });
 
     const user = await authService.fetchAuthenticatedUser();
     commit<IUpdateUserDetailsPayload>({

@@ -7,6 +7,7 @@ export default {
     name: "",
     email: ""
   },
+  loading: false,
   roles: [],
   team_roles: {},
   competitions: []

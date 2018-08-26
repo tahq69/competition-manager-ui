@@ -30,6 +30,10 @@ export default {
     return getters.teamRoles(teamId).indexOf(role) > -1;
   },
 
+  isUserLoading(state: IState): boolean {
+    return state.loading;
+  },
+
   getCmById: (state: IState) => (id: Id) => {
     return state.competitions.find(cm => cm.id.toString() === id.toString());
   }

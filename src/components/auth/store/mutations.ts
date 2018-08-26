@@ -2,6 +2,7 @@ import {
   IAddCompetitionPayload,
   ILogoutPayload,
   IState,
+  IUpdateAuthLoadingStatePayload,
   IUpdateUserDetailsPayload
 } from "@/components/auth/store/typings";
 
@@ -33,6 +34,14 @@ export default {
 
     // allow listeners to watch that user details has received
     state.user.authenticated = true;
+    state.loading = false;
+  },
+
+  updateAuthLoadingState(
+    state: IState,
+    payload: IUpdateAuthLoadingStatePayload
+  ) {
+    state.loading = payload.loading;
   },
 
   addCompetition(state: IState, payload: IAddCompetitionPayload) {

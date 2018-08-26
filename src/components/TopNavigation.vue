@@ -1,7 +1,9 @@
 <script lang="ts">
 import Vue from "vue";
-import Auth, { middleware as auth, roles } from "@/components/auth";
+
+import { getters } from "@/store";
 import { locales, LocaleType, ILocale, i18n, SetLocale } from "@/lang";
+import Auth, { middleware as auth, roles } from "@/components/auth";
 import * as routes from "@/router/routes";
 
 type Locale = { key: LocaleType; text: string };
@@ -17,13 +19,9 @@ export default Vue.extend({
   data: () => ({ routes }),
 
   computed: {
-    isAuthenticated(): boolean {
-      return auth.isAuthenticated();
-    },
-
-    userName(): string {
-      return this.$store.state.auth.user.name;
-    },
+    isAuthenticated: (): boolean => getters.isAuthenticated,
+    userName: (): string => getters.user.name,
+    isUserLoading: (): boolean => getters.isUserLoading,
 
     locales(): Locales {
       const result: Locales = [];
@@ -88,11 +86,10 @@ export default Vue.extend({
     </el-col>
 
     <el-col :span="12">
-
       <el-dropdown v-if="isAuthenticated"
                    trigger="click"
                    @command="userAction"
-                   class="top-navigation-dropdown">
+                   class="top-navigation-dropdown login-btn">
         <span class="el-dropdown-link">
           {{ userName }}
           <i class="el-icon-arrow-down el-icon--right"></i>
@@ -102,10 +99,13 @@ export default Vue.extend({
           <el-dropdown-item command="logout">{{ t("logout") }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+
       <template v-else>
         <el-button type="text"
+                   v-loading="isUserLoading"
+                   element-loading-background="transparent"
                    @click="goTo(routes.login)"
-                   class="top-navigation-btn">{{ t("login") }}</el-button>
+                   class="top-navigation-btn login-btn">{{ t("login") }}</el-button>
         <el-button type="text"
                    @click="goTo(routes.signUp)"
                    class="top-navigation-btn">{{ t("signup") }}</el-button>
@@ -186,5 +186,9 @@ button.top-navigation-btn {
   &:hover {
     color: $--color-white;
   }
+}
+
+.login-btn .el-loading-spinner .path {
+  stroke: white;
 }
 </style>

@@ -24,6 +24,7 @@ export interface ICompetition {
 }
 
 export interface IState {
+  loading: boolean;
   user: IUser;
   roles: string[];
   team_roles: { [key: string]: string[] };
@@ -34,6 +35,7 @@ export interface Getters {
   user: IUser;
   isAuthenticated: boolean;
   roles: string[];
+  isUserLoading: boolean;
   hasRole: (role: string) => boolean;
   teamRoles: (teamId: string) => string[];
   hasTeamRole: (teamId: string, role: string) => boolean;
@@ -53,6 +55,11 @@ export interface IUpdateUserDetailsPayload extends IPayload {
   id: number;
   roles: IRole[];
   team_roles: { [key: string]: IRole[] };
+}
+
+export interface IUpdateAuthLoadingStatePayload extends IPayload {
+  type: "updateAuthLoadingState";
+  loading: boolean;
 }
 
 export interface IAddCompetitionPayload extends IPayload, ICompetition {
