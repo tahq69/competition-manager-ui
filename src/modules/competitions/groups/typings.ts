@@ -54,6 +54,7 @@ export interface SaveCategoryPayload {
   competition_id: Id;
   discipline_id: Id;
   category_group_id: Id;
+  area_id: Id;
   id: Id;
 
   display_type: DisplayType;

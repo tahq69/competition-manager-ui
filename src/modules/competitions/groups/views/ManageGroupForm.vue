@@ -26,49 +26,42 @@ export default Vue.extend({
     group: { type: [String, Number], required: false }
   },
 
-  data() {
-    return {
-      loading: true,
-      errors: {},
-      title: "",
-      form: new ManageGroup()
-    };
-  },
+  data: () => ({
+    loading: true,
+    errors: {},
+    form: new ManageGroup()
+  }),
 
   computed: {
     formRef(): ElForm {
       return this.$refs["form"] as any;
     },
 
-    rules(): Rules<ManageGroup> {
-      return {
-        max: [
-          required("Please enter maximum available value"),
-          positiveInt("Value must be positive number")
-        ],
-        min: [
-          required("Please enter minimum available value"),
-          positiveInt("Value must be positive number")
-        ],
-        rounds: [
-          required("Please enter rounds count"),
-          positiveInt("Value must be positive number")
-        ],
-        time: [required("Please enter one round duration")],
-        short: [
-          required("Please enter short name of the group"),
-          alphaDashSpace(
-            "Short name may contain only characters, numbers and spaces"
-          )
-        ],
-        title: [
-          required("Please enter title of the group"),
-          alphaDashSpace(
-            "Title may contain only characters, numbers and spaces"
-          )
-        ]
-      };
-    }
+    rules: (): Rules<ManageGroup> => ({
+      max: [
+        required("Please enter maximum available value"),
+        positiveInt("Value must be positive number")
+      ],
+      min: [
+        required("Please enter minimum available value"),
+        positiveInt("Value must be positive number")
+      ],
+      rounds: [
+        required("Please enter rounds count"),
+        positiveInt("Value must be positive number")
+      ],
+      time: [required("Please enter one round duration")],
+      short: [
+        required("Please enter short name of the group"),
+        alphaDashSpace(
+          "Short name may contain only characters, numbers and spaces"
+        )
+      ],
+      title: [
+        required("Please enter title of the group"),
+        alphaDashSpace("Title may contain only characters, numbers and spaces")
+      ]
+    })
   },
 
   methods: {

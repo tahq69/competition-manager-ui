@@ -2,25 +2,25 @@
 import Vue from "vue";
 import { Route } from "vue-router";
 
+import { alphaDashSpace, positiveInt, required } from "@/helpers/validators";
 import { emitEvent } from "@/helpers";
+import { ElForm, Rules, Rule, Id } from "@/typings";
 import { createCompetitionDisciplineCategory as createRoute } from "@/router/routes";
-import { Id, Next } from "@/typings";
 
-import areaService from "../../areas/service";
-import { Area } from "../../models/area";
+import areaService from "@/modules/competitions/areas/service";
 
-import { Category, DisplayType } from "../../models/category";
-import { Group } from "../../models/group";
-import groupService from "../service";
-
-function createPayload(route: Route) {
-  return {
-    competition_id: route.params.cm,
-    discipline_id: route.params.discipline,
-    category_group_id: route.params.group,
-    id: route.params.category
-  };
-}
+import {
+  Area,
+  Category,
+  DisplayType,
+  Group,
+  ManageCategory
+} from "@/modules/competitions/models";
+import {
+  fetchCategory,
+  saveCategory,
+  deleteCategory
+} from "@/modules/competitions/groups/service";
 
 export default Vue.extend({
   name: "ManageCategoryForm",
@@ -32,204 +32,244 @@ export default Vue.extend({
     category: { type: [String, Number], required: false }
   },
 
-  async beforeRouteEnter(to, from, next: Next<any>) {
-    const areas = await areaService.fetchAreas({
-      competition_id: to.params.cm
-    });
-    const opt = areas.map(area => ({
-      key: area.id,
-      text: area.title,
-      value: area.id
-    }));
+  data: () => ({
+    loading: true,
+    errors: {},
+    form: new ManageCategory(),
+    areaOptions: [] as Area[],
+    displayTypeOptions: [
+      { key: "1", label: "Maximum", value: DisplayType.Max },
+      { key: "2", label: "Minimum", value: DisplayType.Min },
+      { key: "3", label: "Both", value: DisplayType.Both }
+    ]
+  }),
 
-    // If we open create route, we have no data to load from API.
-    if (to.name === createRoute.name)
-      return next(vm => {
-        vm.setAreas(opt);
-        vm.reset();
-      });
+  computed: {
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
+    },
 
-    // If we open edit route, we have to load data from API.
-    const payload = createPayload(to);
-    const category = await groupService.fetchCategory(payload);
-
-    next(vm => {
-      vm.setAreas(opt);
-      vm.setCategory(category);
-    });
-  },
-
-  async beforeRouteUpdate(to, from, next) {
-    // User may have option to change route in runtime. In this case we should
-    // update form data.
-    if (to.name === createRoute.name) {
-      this.reset();
-      return next();
-    }
-
-    const payload = createPayload(to);
-    const category = await groupService.fetchCategory(payload);
-    this.setCategory(category);
-    next();
-  },
-
-  data() {
-    return {
-      form: new Category({
-        area_id: 0,
-        category_group_id: this.group,
-        competition_id: this.cm,
-        discipline_id: this.discipline,
-        display_type: DisplayType.Max,
-        id: 0,
-        max: 0,
-        min: 0,
-        short: "",
-        title: ""
-      })
-
-      /*areaSelect: new CripSelect({}),
-
-      displayTypeSelect: new CripSelect([
-        { key: "1", text: "Maximum", value: DisplayType.Max },
-        { key: "2", text: "Minimum", value: DisplayType.Min },
-        { key: "3", text: "Both", value: DisplayType.Both }
-      ])*/
-    };
+    rules: (): Rules<ManageCategory> => ({
+      area_id: [required("Please select available value")],
+      display_type: [required("Please select available value")],
+      max: [
+        required("Please enter maximum available value"),
+        positiveInt("Value must be positive number")
+      ],
+      min: [
+        required("Please enter minimum available value"),
+        positiveInt("Value must be positive number")
+      ],
+      short: [
+        required("Please enter short name of the category"),
+        alphaDashSpace(
+          "Short name may contain only characters, numbers and spaces"
+        )
+      ],
+      title: [
+        required("Please enter title of the category"),
+        alphaDashSpace("Title may contain only characters, numbers and spaces")
+      ]
+    })
   },
 
   methods: {
-    async submit() {
-      /*this.form.clearErrors();
-      try {
-        const category = await groupService.saveCategory(this.form.data);
-        emitEvent("cm:category:saved", category);
-      } catch (errors) {
-        this.form.addErrors(errors);
-      }*/
+    async fetchData() {
+      this.loading = true;
+
+      const areas = await areaService.fetchAreas({ competition_id: this.cm });
+      areas.forEach(area => this.areaOptions.push(area));
+
+      this.fetchCategory();
+    },
+
+    async fetchCategory() {
+      if (!this.category) {
+        // If properties does not contain category identifier, this means we now
+        // are in create mode and we have no need to fetch data from api.
+        this.loading = false;
+        this.reset();
+
+        return;
+      }
+
+      this.loading = true;
+
+      const category = await fetchCategory({
+        competition_id: this.cm,
+        discipline_id: this.discipline,
+        category_group_id: this.group,
+        id: this.category
+      });
+
+      this.update(category);
+
+      this.loading = false;
+    },
+
+    async save() {
+      if (this.loading) return;
+
+      this.loading = true;
+      this.errors = {};
+
+      this.log("save()", this.form);
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
+        }
+
+        try {
+          const category = await saveCategory({
+            competition_id: this.cm,
+            discipline_id: this.discipline,
+            category_group_id: this.group,
+            id: this.category,
+            ...this.form
+          });
+
+          // Notify user that group now is saved sucessfilly.
+          this.$notify.success("Category sucessfully saved");
+
+          // emit event to be available update child views.
+          emitEvent("cm:category:saved", category);
+        } catch (errors) {
+          this.errors = errors;
+        } finally {
+          this.loading = false;
+        }
+      });
     },
 
     async destroy() {
-      await groupService.deleteCategory(this.form);
-      emitEvent("cm:category:deleted", this.form.id);
+      await deleteCategory({
+        competition_id: this.cm,
+        discipline_id: this.discipline,
+        category_group_id: this.group,
+        id: this.category
+      });
+
+      emitEvent("cm:category:deleted", this.category);
     },
 
     reset() {
       this.form.area_id = 0;
-      this.form.category_group_id = this.group;
-      this.form.competition_id = this.cm;
-      this.form.discipline_id = this.discipline;
       this.form.display_type = DisplayType.Max;
-      this.form.id = 0;
       this.form.max = 0;
       this.form.min = 0;
       this.form.short = "";
       this.form.title = "";
     },
 
-    setCategory(category: Category) {
+    update(category: Category) {
       this.form.area_id = category.area_id;
-      this.form.category_group_id = category.category_group_id;
-      this.form.competition_id = category.competition_id;
-      this.form.discipline_id = category.discipline_id;
       this.form.display_type = category.display_type;
-      this.form.id = category.id;
       this.form.max = category.max;
       this.form.min = category.min;
       this.form.short = category.short;
       this.form.title = category.title;
-    },
-
-    setAreas(options: any[]) {
-      /*this.areaSelect.addOption(options);*/
     }
   },
 
   created() {
     this.log = this.$logger.component(this);
+    this.fetchData();
+  },
+
+  watch: {
+    cm: "fetchCategory",
+    discipline: "fetchCategory",
+    group: "fetchCategory"
   }
 });
 </script>
 
 
 <template>
-  <form @submit.prevent="submit">
-    <!-- #title -->
-    <CFormGroup for="title"
-                :form="form"
-                label="Full title">
-      <input type="text"
-             id="title"
-             name="title"
-             v-model="form.data.title"
-             :class="[{'is-invalid': form.errors.title}, 'form-control']">
-    </CFormGroup>
+  <el-form v-loading="loading"
+           :model="form"
+           :rules="rules"
+           ref="form"
+           :label-position="_config.label_position"
+           :label-width="_config.label_width"
+           @submit.native.prevent="save"
+           id="manage-group">
 
-    <!-- #short -->
-    <CFormGroup for="short"
-                :form="form"
-                label="Short title">
-      <input type="text"
-             id="short"
-             name="short"
-             v-model="form.data.short"
-             :class="[{'is-invalid': form.errors.short}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Title"
+                  :error="errors.title"
+                  prop="title">
+      <el-input v-model="form.title"
+                type="text"
+                name="title"
+                placeholder="Title"
+                autofocus
+                clearable />
+    </el-form-item>
 
-    <CFormGroup for="area"
-                :form="form"
-                label="Area">
-      <crip-select id="area"
-                   :settings="areaSelect"
-                   v-model="form.data.area_id"
-                   :class="{'is-invalid': form.errors.area_id}" />
-    </CFormGroup>
+    <el-form-item label="Short"
+                  :error="errors.short"
+                  prop="short">
+      <el-input v-model="form.short"
+                type="text"
+                name="short"
+                placeholder="Short"
+                clearable />
+    </el-form-item>
 
-    <CFormGroup for="display-type"
-                :form="form"
-                label="Display type">
-      <crip-select id="display-type"
-                   :settings="displayTypeSelect"
-                   v-model="form.data.display_type"
-                   :class="{'is-invalid': form.errors.display_type}" />
-    </CFormGroup>
+    <el-form-item label="Area"
+                  :error="errors.area_id"
+                  prop="area_id">
+      <el-select v-model="form.area_id"
+                 placeholder="Select">
+        <el-option v-for="area in areaOptions"
+                   :key="area.id"
+                   :label="area.title"
+                   :value="area.id">
+        </el-option>
+      </el-select>
+    </el-form-item>
 
-    <!-- #min -->
-    <CFormGroup for="min"
-                :form="form"
-                label="Minimum value">
-      <input type="number"
-             id="min"
-             name="min"
-             v-model="form.data.min"
-             :class="[{'is-invalid': form.errors.min}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Display type"
+                  :error="errors.display_type"
+                  prop="display_type">
+      <el-select v-model="form.display_type"
+                 placeholder="Select">
+        <el-option v-for="displayType in displayTypeOptions"
+                   :key="displayType.key"
+                   :label="displayType.label"
+                   :value="displayType.value">
+        </el-option>
+      </el-select>
+    </el-form-item>
 
-    <!-- #max -->
-    <CFormGroup for="max"
-                :form="form"
-                label="Maximum value">
-      <input type="number"
-             id="max"
-             name="max"
-             v-model="form.data.max"
-             :class="[{'is-invalid': form.errors.max}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Minimum value"
+                  :error="errors.min"
+                  prop="min">
+      <el-input-number v-model="form.min"
+                       controls-position="right"
+                       :min="1" />
+    </el-form-item>
 
-    <!-- #submit -->
-    <CFormGroup>
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
+    <el-form-item label="Maximum value"
+                  :error="errors.max"
+                  prop="max">
+      <el-input-number v-model="form.max"
+                       controls-position="right"
+                       :min="1" />
+    </el-form-item>
+
+    <el-form-item>
+      <el-button type="primary"
+                 native-type="submit">
         Save
-      </button>
+      </el-button>
 
-      <button v-if="form.data.id > 0"
-              type="button"
-              @click="destroy"
-              class="btn btn-danger">
+      <el-button v-if="group > 0"
+                 type="danger"
+                 @click="destroy">
         Delete
-      </button>
-    </CFormGroup>
-  </form>
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>
