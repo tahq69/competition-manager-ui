@@ -4,7 +4,7 @@ import { Location } from "vue-router";
 
 import { link, visibility } from "@/components/mixins";
 
-import { manageCmDetailsRoute } from "#/competitions/details/routes";
+import { manageCmDetailsRoute } from "#/competitions/routes";
 import { canEditCompetition } from "#/competitions/auth";
 
 export default Vue.extend({

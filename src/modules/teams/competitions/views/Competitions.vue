@@ -6,8 +6,8 @@ import { Paging, SortDirection, PagingParams } from "@/helpers";
 import { table } from "@/components/mixins";
 
 import { fetchCompetitions } from "#/competitions/service";
+import { cmDetailsRoute } from "#/competitions/routes";
 import { Competition } from "#/competitions/models/competition";
-import { cmDetailsRoute } from "#/competitions/details/routes";
 
 export default Vue.extend({
   name: "TeamCompetitions",

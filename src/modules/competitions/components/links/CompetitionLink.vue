@@ -4,7 +4,7 @@ import { Location } from "vue-router";
 
 import { link } from "@/components/mixins";
 
-import { cmDetailsRoute } from "#/competitions/details/routes";
+import { cmDetailsRoute } from "#/competitions/routes";
 
 export default Vue.extend({
   name: "CompetitionLink",
