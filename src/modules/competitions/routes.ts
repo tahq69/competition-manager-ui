@@ -1,36 +1,35 @@
 import { RouteConfig } from "vue-router";
 import "@/modules/competitions/components/links";
 
-import { PagingParams, Id } from "@/typings";
 import {
-  competitions,
-  manageCompetitions,
-  createRoute,
   competitionDetails,
-  manageCompetitionDetails
+  competitions,
+  createRoute,
+  manageCompetitionDetails,
+  manageCompetitions
 } from "@/router/routes";
+import { PagingParams, Id } from "@/typings";
 import * as roles from "@/components/auth/roles";
-
-import { areas } from "@/modules/competitions/areas/routes";
 
 import {
   disciplines,
   root as disciplinesRoot
 } from "@/modules/competitions/disciplines/routes";
+import { areas } from "@/modules/competitions/areas/routes";
 
 /** Public routes */
 import competitionsView from "@/modules/competitions/views/Competitions.vue";
-import competition from "@/modules/competitions/views/Competition.vue";
-import detailsView from "./views/Details.vue";
+import competitionView from "@/modules/competitions/views/Competition.vue";
+import detailsView from "@/modules/competitions/views/Details.vue";
 
 /** Management routes */
-import manageCms from "@/modules/competitions/views/ManageCompetitions.vue";
-import manageDetailsView from "./views/ManageDetails.vue";
+import manageCompetitionsView from "@/modules/competitions/views/ManageCompetitions.vue";
+import manageCompetitionView from "@/modules/competitions/views/ManageDetails.vue";
 
 export const root: RouteConfig[] = [
   {
     ...manageCompetitions,
-    component: manageCms,
+    component: manageCompetitionsView,
     meta: { auth: true, roles: [roles.SUPER_ADMIN] },
     path: "/competitions/manage/:page(\\d+)/:sort/:direction/:pageSize(\\d+)",
     props: true
@@ -39,7 +38,7 @@ export const root: RouteConfig[] = [
     ...manageCompetitionDetails,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITIONS] },
     path: "/competition/manage/:cm(\\d+)",
-    component: manageDetailsView,
+    component: manageCompetitionView,
     props: true
   },
   {
@@ -49,7 +48,7 @@ export const root: RouteConfig[] = [
     props: true
   },
   {
-    component: competition,
+    component: competitionView,
     path: "/competition/:cm(\\d+)",
     props: true,
     children: [
