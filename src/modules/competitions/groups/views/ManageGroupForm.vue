@@ -1,17 +1,21 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { emitEvent } from "@/helpers";
-import { ElForm, Rules, Rule, Id } from "@/typings";
 import {
   alphaDashSpace,
   date,
   positiveInt,
   required
 } from "@/helpers/validators";
+import { emitEvent } from "@/helpers";
+import { ElForm, Rules, Rule, Id } from "@/typings";
 
+import {
+  fetchGroup,
+  saveGroup,
+  deleteGroup
+} from "@/modules/competitions/groups/service";
 import { Group, ManageGroup } from "@/modules/competitions/models";
-import groupService from "@/modules/competitions/groups/service";
 
 export default Vue.extend({
   name: "ManageGroupForm",
@@ -80,7 +84,7 @@ export default Vue.extend({
 
       this.loading = true;
 
-      const group = await groupService.fetchGroup({
+      const group = await fetchGroup({
         id: this.group,
         competition_id: this.cm,
         discipline_id: this.discipline
@@ -106,7 +110,7 @@ export default Vue.extend({
         }
 
         try {
-          const group = await groupService.saveGroup({
+          const group = await saveGroup({
             id: this.group,
             competition_id: this.cm,
             discipline_id: this.discipline,
@@ -127,7 +131,7 @@ export default Vue.extend({
     },
 
     async destroy() {
-      await groupService.deleteGroup({
+      await deleteGroup({
         id: this.group,
         competition_id: this.cm,
         discipline_id: this.discipline

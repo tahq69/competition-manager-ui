@@ -1,4 +1,5 @@
 import { Id } from "@/typings";
+import { DisplayType } from "@/modules/competitions/models";
 
 export interface DisciplineRouteParams {
   cm: Id;
@@ -21,4 +22,43 @@ export interface FetchGroupsPayload {
 export interface FetchCategoriesPayload {
   competition_id: Id;
   discipline_id: Id;
+}
+
+export interface FetchGroupPayload {
+  competition_id: Id;
+  discipline_id: Id;
+  id: Id;
+}
+
+export interface FetchCategoryPayload {
+  competition_id: Id;
+  discipline_id: Id;
+  category_group_id: Id;
+  id: Id;
+}
+
+export interface SaveGroupPayload {
+  competition_id: Id;
+  discipline_id: Id;
+  id: Id;
+
+  max: number;
+  min: number;
+  rounds: number;
+  short: string;
+  time: number;
+  title: string;
+}
+
+export interface SaveCategoryPayload {
+  competition_id: Id;
+  discipline_id: Id;
+  category_group_id: Id;
+  id: Id;
+
+  display_type: DisplayType;
+  max: number;
+  min: number;
+  short: string;
+  title: string;
 }
