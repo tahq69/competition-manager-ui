@@ -42,6 +42,7 @@ export default Vue.extend({
                 @sort-change="onSortChange">
         <el-table-column prop="id"
                          sortable="custom"
+                         width="80"
                          :label="$t('competitions.manage_competitions_grid_head_id')">
         </el-table-column>
 
@@ -62,21 +63,23 @@ export default Vue.extend({
             {{ competition.row.organization_date | formatDateTime }}
           </template>
         </el-table-column>
-        <el-table-column>
+        <el-table-column fixed="right"
+                         label="Operations"
+                         width="120">
           <template slot-scope="competition">
             <CompetitionLink :cm="competition.row.id"
                              mini
                              circle
                              button
                              icon="view"
-                             title="View competition details" />
+                             tooltip="View competition details" />
             <ManageCompetitionLink :cm="competition.row.id"
                                    mini
                                    circle
                                    button
                                    icon="edit"
                                    type="primary"
-                                   :title="$t('competitions.manage_competitions_grid_btn_edit_title')" />
+                                   :tooltip="$t('competitions.manage_competitions_grid_btn_edit_title')" />
           </template>
         </el-table-column>
       </el-table>

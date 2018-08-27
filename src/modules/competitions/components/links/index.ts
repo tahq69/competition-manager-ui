@@ -1,13 +1,13 @@
 import Vue from "vue";
 
-import AreasLink from "@/modules/competitions/components/links/AreasLink.vue";
-import CompetitionLink from "@/modules/competitions/components/links/CompetitionLink.vue";
+import AreasLink from "@/modules/competitions/components/links/AreasLink";
+import CompetitionLink from "@/modules/competitions/components/links/CompetitionLink";
 import CompetitionsLink from "@/modules/competitions/components/links/CompetitionsLink.vue";
 import CreateDisciplineLink from "@/modules/competitions/components/links/CreateDisciplineLink.vue";
 import DisciplineLink from "@/modules/competitions/components/links/DisciplineLink.vue";
 import DisciplinesLink from "@/modules/competitions/components/links/DisciplinesLink.vue";
 import GroupsLink from "@/modules/competitions/components/links/GroupsLink.vue";
-import ManageCompetitionLink from "@/modules/competitions/components/links/ManageCompetitionLink.vue";
+import ManageCompetitionLink from "@/modules/competitions/components/links/ManageCompetitionLink";
 import ManageCompetitionsLink from "@/modules/competitions/components/links/ManageCompetitionsLink.vue";
 import ManageDisciplineLink from "@/modules/competitions/components/links/ManageDisciplineLink.vue";
 import ManageGroupLink from "@/modules/competitions/components/links/ManageGroupLink.vue";

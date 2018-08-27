@@ -1,7 +1,16 @@
 import { isInArrayValidator as validator } from "@/helpers";
+import { CreateElement, VNode } from "vue";
 
 const sizes = ["", "medium", "small", "mini"];
-const types = ["default", "primary", "success", "info", "warning", "danger"];
+const types = [
+  "default",
+  "primary",
+  "success",
+  "info",
+  "warning",
+  "danger",
+  "text"
+];
 const icons = [
   "",
   "edit",
@@ -22,6 +31,7 @@ export default {
     type: { type: String, default: "default", validator: validator(types) },
     size: { type: String, default: "", validator: validator(sizes) },
     icon: { type: String, default: "", validator: validator(icons) },
+    tooltip: { type: String, default: "" },
     circle: { type: Boolean, default: false },
     plain: { type: Boolean, default: false },
     round: { type: Boolean, default: false },
@@ -43,5 +53,35 @@ export default {
     _icon(this: any) {
       return `el-icon-${this.icon}`;
     }
+  },
+
+  render(this: any, h: CreateElement): VNode {
+    const children = [];
+
+    if (this.icon) {
+      children.push(h("i", { attrs: { class: this._icon } }));
+    }
+
+    children.push(this.$slots.default);
+
+    const link = h(
+      "router-link",
+      {
+        props: {
+          to: this.to,
+          tag: this.tag,
+          exact: this.exact
+        },
+        class: this.elClass
+      },
+      children
+    );
+
+    if (!this.$slots.tooltip && !this.tooltip) return link;
+
+    return h("el-tooltip", [
+      h("div", { slot: "content" }, this.$slots.tooltip || this.tooltip),
+      link
+    ]);
   }
 };
