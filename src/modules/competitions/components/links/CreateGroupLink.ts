@@ -1,14 +1,13 @@
-<script lang="ts">
 import Vue from "vue";
 import { Location } from "vue-router";
 
 import { link, visibility } from "@/components/mixins";
 
-import { manageCmDisciplineRoute } from "#/competitions/disciplines/routes";
+import { createCmGroup } from "#/competitions/groups/routes";
 import { DisciplineAuth } from "#/competitions/disciplines/auth";
 
 export default Vue.extend({
-  name: "ManageCompetitionDisciplineLink",
+  name: "CreateGroupLink",
 
   mixins: [link, visibility],
 
@@ -19,7 +18,7 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return manageCmDisciplineRoute({
+      return createCmGroup({
         cm: this.cm,
         discipline: this.discipline
       });
@@ -32,17 +31,3 @@ export default Vue.extend({
     }
   }
 });
-</script>
-
-<template>
-  <router-link :to="to"
-               :tag="tag"
-               :exact="exact"
-               :class="elClass">
-    <i v-if="icon"
-       :class="_icon"></i>
-    <slot>
-      <!-- default slot -->
-    </slot>
-  </router-link>
-</template>

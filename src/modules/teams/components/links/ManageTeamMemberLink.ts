@@ -1,4 +1,3 @@
-<script lang="ts">
 import Vue from "vue";
 import { Location } from "vue-router";
 
@@ -29,18 +28,3 @@ export default Vue.extend({
     }
   }
 });
-</script>
-
-<template>
-  <router-link v-if="isVisible"
-               :to="to"
-               :tag="tag"
-               :exact="exact"
-               :class="elClass">
-    <i v-if="icon"
-       :class="_icon"></i>
-    <slot>
-      <!-- default slot -->
-    </slot>
-  </router-link>
-</template>
