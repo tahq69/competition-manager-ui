@@ -52,35 +52,19 @@ export const competitions = { name: "competitions" };
 export const competitionDetails = { name: "competitionDetails" };
 export const competitionDisciplines = { name: "competitionDisciplines" };
 export const competitionDiscipline = { name: "competitionDiscipline" };
-export const competitionDisciplineGroups = {
-  name: "competitionDisciplineGroups"
-};
-export const manageCompetitionDisciplineGroups = {
-  name: "manageCompetitionDisciplineGroups"
-};
-export const createCompetitionDisciplineGroup = {
-  name: "createCompetitionDisciplineGroup"
-};
-export const manageCompetitionDisciplineGroup = {
-  name: "manageCompetitionDisciplineGroup"
-};
-export const createCompetitionDisciplineCategory = {
-  name: "createCompetitionDisciplineCategory"
-};
-export const manageCompetitionDisciplineCategory = {
-  name: "manageCompetitionDisciplineCategory"
-};
+export const competitionGroups = { name: "competitionGroups" };
+export const manageGroups = { name: "manageGroups" };
+export const createGroup = { name: "createGroup" };
+export const manageGroup = { name: "manageGroup" };
+export const createCategory = { name: "createCategory" };
+export const manageCategory = { name: "manageCategory" };
 export const competitionAreas = { name: "competitionAreas" };
 export const competitionArea = { name: "competitionArea" };
 
 export const manageCompetitions = { name: "manageCompetitions" };
 export const createCompetition = { name: "createCompetition" };
 export const manageCompetitionDetails = { name: "manageCompetitionDetails" };
-export const createCompetitionDiscipline = {
-  name: "createCompetitionDiscipline"
-};
-export const manageCompetitionDiscipline = {
-  name: "manageCompetitionDiscipline"
-};
+export const createDiscipline = { name: "createDiscipline" };
+export const manageDiscipline = { name: "manageDiscipline" };
 export const createCompetitionArea = { name: "createCompetitionArea" };
 export const manageCompetitionArea = { name: "manageCompetitionArea" };

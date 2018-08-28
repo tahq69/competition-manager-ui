@@ -1,13 +1,13 @@
 import { RouteConfig } from "vue-router";
 
 import {
-  competitionDisciplineGroups,
-  createCompetitionDisciplineCategory,
-  createCompetitionDisciplineGroup,
+  competitionGroups,
+  createCategory,
+  createGroup,
   createRoute,
-  manageCompetitionDisciplineCategory,
-  manageCompetitionDisciplineGroup,
-  manageCompetitionDisciplineGroups
+  manageCategory,
+  manageGroup,
+  manageGroups
 } from "@/router/routes";
 import * as roles from "@/components/auth/roles";
 
@@ -21,41 +21,41 @@ import {
 import groupsView from "@/modules/competitions/groups/views/DisciplineGroups.vue";
 
 /** Management routes */
-import manageGroup from "@/modules/competitions/groups/views/ManageGroupForm.vue";
-import manageCategory from "@/modules/competitions/groups/views/ManageCategoryForm.vue";
+import manageGroupView from "@/modules/competitions/groups/views/ManageGroupForm.vue";
+import manageCategoryView from "@/modules/competitions/groups/views/ManageCategoryForm.vue";
 
 export const groups: RouteConfig[] = [
   {
-    ...competitionDisciplineGroups,
+    ...competitionGroups,
     component: groupsView,
     path: "groups",
     props: true,
     children: [
       {
-        ...createCompetitionDisciplineGroup,
+        ...createGroup,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-        component: manageGroup,
+        component: manageGroupView,
         path: "new",
         props: true
       },
       {
-        ...createCompetitionDisciplineCategory,
+        ...createCategory,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-        component: manageCategory,
+        component: manageCategoryView,
         path: ":group(\\d+)/category/new",
         props: true
       },
       {
-        ...manageCompetitionDisciplineCategory,
+        ...manageCategory,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-        component: manageCategory,
+        component: manageCategoryView,
         path: ":group(\\d+)/category/manage/:category(\\d+)",
         props: true
       },
       {
-        ...manageCompetitionDisciplineGroup,
+        ...manageGroup,
         meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
-        component: manageGroup,
+        component: manageGroupView,
         path: "manage/:group(\\d+)",
         props: true
       }
@@ -64,19 +64,19 @@ export const groups: RouteConfig[] = [
 ];
 
 export const cmGroups = (p: DisciplineRouteParams) =>
-  createRoute(competitionDisciplineGroups, p, {});
+  createRoute(competitionGroups, p, {});
 
 export const manageCmGroupsRoute = (p: DisciplineRouteParams) =>
-  createRoute(manageCompetitionDisciplineGroups, p, {});
+  createRoute(manageGroups, p, {});
 
 export const createCmGroup = (p: DisciplineRouteParams) =>
-  createRoute(createCompetitionDisciplineGroup, p, {});
+  createRoute(createGroup, p, {});
 
 export const manageCmGroupRoute = (p: GroupRouteParams) =>
-  createRoute(manageCompetitionDisciplineGroup, p, {});
+  createRoute(manageGroup, p, {});
 
 export const createCategoryRoute = (p: GroupRouteParams) =>
-  createRoute(createCompetitionDisciplineCategory, p, {});
+  createRoute(createCategory, p, {});
 
 export const manageCategoryRoute = (p: CategoryRouteParams) =>
-  createRoute(manageCompetitionDisciplineCategory, p, {});
+  createRoute(manageCategory, p, {});

@@ -5,7 +5,7 @@ import { Route } from "vue-router";
 import { alphaDashSpace, positiveInt, required } from "@/helpers/validators";
 import { emitEvent } from "@/helpers";
 import { ElForm, Rules, Rule, Id } from "@/typings";
-import { createCompetitionDisciplineCategory as createRoute } from "@/router/routes";
+import { createCategory as createRoute } from "@/router/routes";
 
 import areaService from "@/modules/competitions/areas/service";
 

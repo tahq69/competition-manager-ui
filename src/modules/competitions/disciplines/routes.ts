@@ -4,9 +4,9 @@ import * as roles from "@/components/auth/roles";
 import {
   competitionDiscipline,
   competitionDisciplines,
-  createCompetitionDiscipline,
+  createDiscipline,
   createRoute,
-  manageCompetitionDiscipline
+  manageDiscipline
 } from "@/router/routes";
 import { Id } from "@/typings";
 
@@ -18,7 +18,7 @@ import disciplineView from "./views/Discipline.vue";
 import disciplineDetails from "./views/DisciplineDetails.vue";
 
 /** Management routes */
-import manageDiscipline from "./views/ManageDiscipline.vue";
+import manageDisciplineView from "./views/ManageDiscipline.vue";
 
 export const disciplines = [
   {
@@ -31,15 +31,15 @@ export const disciplines = [
 
 export const root: RouteConfig[] = [
   {
-    ...createCompetitionDiscipline,
-    component: manageDiscipline,
+    ...createDiscipline,
+    component: manageDisciplineView,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
     path: "/competition/:cm(\\d+)/discipline/manage/new",
     props: true
   },
   {
-    ...manageCompetitionDiscipline,
-    component: manageDiscipline,
+    ...manageDiscipline,
+    component: manageDisciplineView,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_DISCIPLINES] },
     path: "/competition/:cm(\\d+)/discipline/manage/:discipline(\\d+)",
     props: true
@@ -67,7 +67,7 @@ export const cmDisciplineRoute = (p: { cm: Id; discipline: Id }) =>
   createRoute(competitionDiscipline, p, {});
 
 export const createCmDisciplineRoute = (p: { cm: Id }) =>
-  createRoute(createCompetitionDiscipline, p, {});
+  createRoute(createDiscipline, p, {});
 
 export const manageCmDisciplineRoute = (p: { cm: Id; discipline: Id }) =>
-  createRoute(manageCompetitionDiscipline, p, {});
+  createRoute(manageDiscipline, p, {});

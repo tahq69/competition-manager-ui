@@ -2,14 +2,14 @@
 import Vue from "vue";
 
 import { createTabsMixin } from "@/components/mixins";
-import { competitionDiscipline } from "@/router/routes";
+import * as routes from "@/router/routes";
 
 import { Discipline } from "@/modules/competitions/models/discipline";
 
 export default Vue.extend({
   name: "Discipline",
 
-  mixins: [createTabsMixin(competitionDiscipline.name)],
+  mixins: [createTabsMixin(routes.competitionDiscipline.name)],
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -24,6 +24,19 @@ export default Vue.extend({
     });
 
     return { details };
+  },
+
+  computed: {
+    isGroupsChildActive(): boolean {
+      const rn = this.$route.name;
+
+      return (
+        rn === routes.createGroup.name ||
+        rn === routes.manageGroup.name ||
+        rn === routes.createCategory.name ||
+        rn === routes.manageCategory.name
+      );
+    }
   }
 });
 </script>
@@ -48,9 +61,24 @@ export default Vue.extend({
           Discipline
         </el-breadcrumb-item>
 
-        <el-breadcrumb-item v-if="activeTab == routes.competitionDisciplineGroups.name">
+        <el-breadcrumb-item v-if="activeTab == routes.competitionGroups.name">
           Groups
         </el-breadcrumb-item>
+
+        <el-breadcrumb-item v-if="isGroupsChildActive">
+          <GroupsLink :cm="cm"
+                      :discipline="discipline">
+            Groups
+          </GroupsLink>
+        </el-breadcrumb-item>
+
+        <el-breadcrumb-item v-if="isGroupsChildActive">
+          <span v-if="activeTab == routes.createGroup.name">Create group</span>
+          <span v-if="activeTab == routes.manageGroup.name">Manage group</span>
+          <span v-if="activeTab == routes.createCategory.name">Create category</span>
+          <span v-if="activeTab == routes.manageCategory.name">Manage category</span>
+        </el-breadcrumb-item>
+
       </el-breadcrumb>
 
       <el-tabs v-model="activeTab">
@@ -63,7 +91,7 @@ export default Vue.extend({
           </DisciplineLink>
         </el-tab-pane>
 
-        <el-tab-pane :name="routes.competitionDisciplineGroups.name">
+        <el-tab-pane :name="routes.competitionGroups.name">
           <GroupsLink slot="label"
                       :cm="cm"
                       :discipline="discipline"
