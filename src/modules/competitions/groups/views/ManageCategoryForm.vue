@@ -5,8 +5,8 @@ import { Route } from "vue-router";
 import { alphaDashSpace, positiveInt, required } from "@/helpers/validators";
 import { emitEvent } from "@/helpers";
 import { ElForm, Rules, Rule, Id } from "@/typings";
-import { createCategory as createRoute } from "@/router/routes";
 
+import { cmGroups } from "@/modules/competitions/groups/routes";
 import areaService from "@/modules/competitions/areas/service";
 
 import {
@@ -33,6 +33,7 @@ export default Vue.extend({
   },
 
   data: () => ({
+    isVisible: true,
     loading: true,
     errors: {},
     form: new ManageCategory(),
@@ -134,6 +135,7 @@ export default Vue.extend({
 
           // emit event to be available update child views.
           emitEvent("cm:category:saved", category);
+          this.goToGroups();
         } catch (errors) {
           this.errors = errors;
         } finally {
@@ -154,6 +156,7 @@ export default Vue.extend({
     },
 
     reset() {
+      this.errors = {};
       this.form.area_id = 0;
       this.form.display_type = DisplayType.Max;
       this.form.max = 0;
@@ -163,12 +166,17 @@ export default Vue.extend({
     },
 
     update(category: Category) {
+      this.errors = {};
       this.form.area_id = category.area_id;
       this.form.display_type = category.display_type;
       this.form.max = category.max;
       this.form.min = category.min;
       this.form.short = category.short;
       this.form.title = category.title;
+    },
+
+    goToGroups() {
+      this.$router.push(cmGroups({ cm: this.cm, discipline: this.discipline }));
     }
   },
 
@@ -181,96 +189,103 @@ export default Vue.extend({
     cm: "fetchCategory",
     discipline: "fetchCategory",
     group: "fetchCategory",
-    category: "fetchCategory"
+    category: "fetchCategory",
+    isVisible(newValue) {
+      if (!newValue) {
+        // If user manually closes model, redirect user back to the groups view.
+        this.goToGroups();
+      }
+    }
   }
 });
 </script>
 
-
 <template>
-  <el-form v-loading="loading"
-           :model="form"
-           :rules="rules"
-           ref="form"
-           :label-position="_config.label_position"
-           :label-width="_config.label_width"
-           @submit.native.prevent="save"
-           id="manage-group">
+  <el-dialog :visible.sync="isVisible">
+    <el-form v-loading="loading"
+             :model="form"
+             :rules="rules"
+             ref="form"
+             :label-position="_config.label_position"
+             :label-width="_config.label_width"
+             @submit.native.prevent="save"
+             id="manage-group">
 
-    <el-form-item label="Title"
-                  :error="errors.title"
-                  prop="title">
-      <el-input v-model="form.title"
-                type="text"
-                name="title"
-                placeholder="Title"
-                autofocus
-                clearable />
-    </el-form-item>
+      <el-form-item label="Title"
+                    :error="errors.title"
+                    prop="title">
+        <el-input v-model="form.title"
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  autofocus
+                  clearable />
+      </el-form-item>
 
-    <el-form-item label="Short"
-                  :error="errors.short"
-                  prop="short">
-      <el-input v-model="form.short"
-                type="text"
-                name="short"
-                placeholder="Short"
-                clearable />
-    </el-form-item>
+      <el-form-item label="Short"
+                    :error="errors.short"
+                    prop="short">
+        <el-input v-model="form.short"
+                  type="text"
+                  name="short"
+                  placeholder="Short"
+                  clearable />
+      </el-form-item>
 
-    <el-form-item label="Area"
-                  :error="errors.area_id"
-                  prop="area_id">
-      <el-select v-model="form.area_id"
-                 placeholder="Select">
-        <el-option v-for="area in areaOptions"
-                   :key="area.id"
-                   :label="area.title"
-                   :value="area.id">
-        </el-option>
-      </el-select>
-    </el-form-item>
+      <el-form-item label="Area"
+                    :error="errors.area_id"
+                    prop="area_id">
+        <el-select v-model="form.area_id"
+                   placeholder="Select">
+          <el-option v-for="area in areaOptions"
+                     :key="area.id"
+                     :label="area.title"
+                     :value="area.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
 
-    <el-form-item label="Display type"
-                  :error="errors.display_type"
-                  prop="display_type">
-      <el-select v-model="form.display_type"
-                 placeholder="Select">
-        <el-option v-for="displayType in displayTypeOptions"
-                   :key="displayType.key"
-                   :label="displayType.label"
-                   :value="displayType.value">
-        </el-option>
-      </el-select>
-    </el-form-item>
+      <el-form-item label="Display type"
+                    :error="errors.display_type"
+                    prop="display_type">
+        <el-select v-model="form.display_type"
+                   placeholder="Select">
+          <el-option v-for="displayType in displayTypeOptions"
+                     :key="displayType.key"
+                     :label="displayType.label"
+                     :value="displayType.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
 
-    <el-form-item label="Minimum value"
-                  :error="errors.min"
-                  prop="min">
-      <el-input-number v-model="form.min"
-                       controls-position="right"
-                       :min="1" />
-    </el-form-item>
+      <el-form-item label="Minimum value"
+                    :error="errors.min"
+                    prop="min">
+        <el-input-number v-model="form.min"
+                         controls-position="right"
+                         :min="1" />
+      </el-form-item>
 
-    <el-form-item label="Maximum value"
-                  :error="errors.max"
-                  prop="max">
-      <el-input-number v-model="form.max"
-                       controls-position="right"
-                       :min="1" />
-    </el-form-item>
+      <el-form-item label="Maximum value"
+                    :error="errors.max"
+                    prop="max">
+        <el-input-number v-model="form.max"
+                         controls-position="right"
+                         :min="1" />
+      </el-form-item>
 
-    <el-form-item>
-      <el-button type="primary"
-                 native-type="submit">
-        Save
-      </el-button>
+      <el-form-item>
+        <el-button type="primary"
+                   native-type="submit">
+          Save
+        </el-button>
 
-      <el-button v-if="group > 0"
-                 type="danger"
-                 @click="destroy">
-        Delete
-      </el-button>
-    </el-form-item>
-  </el-form>
+        <el-button v-if="group > 0"
+                   type="danger"
+                   @click="destroy">
+          Delete
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 </template>
