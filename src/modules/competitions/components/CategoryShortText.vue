@@ -47,15 +47,15 @@ export default Vue.extend({
     </div>
 
     <span v-if="category.display_type == displayType.Min">
-      {{category.min}}{{typeText}}
+      {{category.min}}+ {{typeText}}
     </span>
 
     <span v-else-if="category.display_type == displayType.Max">
-      -{{category.max}}{{typeText}}
+      -{{category.max}} {{typeText}}
     </span>
 
     <span v-else>
-      {{category.min}}-{{category.max}}{{typeText}}
+      {{category.min}}-{{category.max}} {{typeText}}
     </span>
   </el-tooltip>
 </template>

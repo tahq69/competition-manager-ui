@@ -152,7 +152,9 @@ export default Vue.extend({
         id: this.category
       });
 
-      emitEvent("cm:category:deleted", this.category);
+      // Emit event to be available update child views.
+      emitEvent("cm:category:deleted", this.category, this.group);
+      this.goToGroups();
     },
 
     reset() {
@@ -280,7 +282,7 @@ export default Vue.extend({
           Save
         </el-button>
 
-        <el-button v-if="group > 0"
+        <el-button v-if="category > 0"
                    type="danger"
                    @click="destroy">
           Delete

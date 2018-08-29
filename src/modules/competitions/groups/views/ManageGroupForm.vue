@@ -133,8 +133,9 @@ export default Vue.extend({
         discipline_id: this.discipline
       });
 
-      // emit event to be available update child views.
+      // Emit event to be available update child views.
       emitEvent("cm:group:deleted", this.group);
+      this.goToGroups();
     },
 
     reset() {
