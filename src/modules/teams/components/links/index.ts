@@ -1,5 +1,6 @@
 import Vue from "vue";
 
+import CreateTeamCompetitionLink from "@/modules/teams/components/links/CreateTeamCompetitionLink";
 import CreateTeamLink from "@/modules/teams/components/links/CreateTeamLink";
 import CreateTeamMemberLink from "@/modules/teams/components/links/CreateTeamMemberLink";
 import ManageTeamLink from "@/modules/teams/components/links/ManageTeamLink";
@@ -9,6 +10,7 @@ import ManageTeamsLink from "@/modules/teams/components/links/ManageTeamsLink";
 import TeamCompetitionsLink from "@/modules/teams/components/links/TeamCompetitionsLink";
 import TeamLink from "@/modules/teams/components/links/TeamLink";
 
+Vue.component("CreateTeamCompetitionLink", CreateTeamCompetitionLink);
 Vue.component("CreateTeamLink", CreateTeamLink);
 Vue.component("CreateTeamMemberLink", CreateTeamMemberLink);
 Vue.component("ManageTeamLink", ManageTeamLink);

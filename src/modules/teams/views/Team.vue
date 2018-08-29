@@ -59,12 +59,20 @@ export default Vue.extend({
           <h5 class="card-subheader">{{ details.short }}</h5>
 
           <ManageTeamLink :team="details.id"
-                          title="Manage team details"
+                          tooltip="Manage team details"
                           type="primary"
                           icon="edit"
                           button
                           circle
                           mini />
+
+          <CreateTeamCompetitionLink :team="details.id"
+                                     tooltip="Create team competition"
+                                     type="success"
+                                     icon="plus"
+                                     button
+                                     circle
+                                     mini />
         </ImageCard>
       </div>
     </el-col>
