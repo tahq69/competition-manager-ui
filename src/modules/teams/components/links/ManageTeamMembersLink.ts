@@ -25,5 +25,9 @@ export default Vue.extend({
     async checkVisibility() {
       return await TeamMemberAuth.canEditMembers({ team: this.team });
     }
+  },
+
+  watch: {
+    team: "__checkVisibility"
   }
 });

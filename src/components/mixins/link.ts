@@ -56,6 +56,10 @@ export default {
   },
 
   render(this: any, h: CreateElement): VNode {
+    if (typeof this.isVisible === "boolean" && !this.isVisible) {
+      return h();
+    }
+
     const children = [];
 
     if (this.icon) {

@@ -25,5 +25,9 @@ export default Vue.extend({
     async checkVisibility() {
       return await canEditCompetition({ cm: this.cm });
     }
+  },
+
+  watch: {
+    cm: "__checkVisibility"
   }
 });

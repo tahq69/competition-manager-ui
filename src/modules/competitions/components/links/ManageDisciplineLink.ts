@@ -29,5 +29,10 @@ export default Vue.extend({
     async checkVisibility() {
       return await DisciplineAuth.canEdit(this.discipline, this.cm);
     }
+  },
+
+  watch: {
+    cm: "__checkVisibility",
+    discipline: "__checkVisibility"
   }
 });

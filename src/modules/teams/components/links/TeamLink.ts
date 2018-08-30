@@ -18,5 +18,9 @@ export default Vue.extend({
     to(): Location {
       return teamMembersRoute({ team: this.team });
     }
+  },
+
+  watch: {
+    team: "__checkVisibility"
   }
 });
