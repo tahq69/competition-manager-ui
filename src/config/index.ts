@@ -1,12 +1,10 @@
 import Vue from "vue";
-//import { DateTime } from "luxon";
 
 import { IConfig } from "@/config/typings";
 import settings from "@/config/settings.json";
 
-export const config = settings[settings["env"]] as IConfig;
-//config.dateFormat = DateTime.DATE_SHORT;
-//config.dateTimeFormat = DateTime.DATETIME_SHORT;
+var env = settings.env as "local" | "production";
+export const config = settings[env] as IConfig;
 
 export * from "@/config/typings";
 

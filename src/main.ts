@@ -4,8 +4,8 @@ import ElementUI from "element-ui";
 import "babel-polyfill";
 
 import "./helpers/logger";
-import "./helpers/filters";
 import "./config";
+import "./helpers/filters";
 
 import App from "./App.vue";
 import Lang, { i18n } from "./lang";

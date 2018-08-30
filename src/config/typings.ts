@@ -21,7 +21,8 @@ export interface IConfig {
   url: string;
   api_url: string;
   server_date_format: string;
-  default_locale: string;
+  date_format: string;
+  date_time_format: string;
   logs: ILoggerOptions;
 
   // Element UI

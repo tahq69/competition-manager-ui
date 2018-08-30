@@ -6,10 +6,9 @@
     "auth_id": 1,
     "url": "",
     "api_url": "/api",
-    "server_date_format": "YYYY-MM-DD HH:mm:ss",
+    "server_date_format": "yyyy-MM-dd HH:mm:ss",
     "label_position": "right",
     "label_width": "200px",
-    "default_locale": "lv",
     "logs": {
       "target": "console",
       "sections": [
@@ -29,8 +28,7 @@
     "auth_id": 1,
     "url": "http://cm.crip.lv",
     "api_url": "http://cm.crip.lv/api",
-    "server_date_format": "YYYY-MM-DD HH:mm:ss",
-    "default_locale": "lv",
+    "server_date_format": "yyyy-MM-dd HH:mm:ss",
     "logs": {
       "target": "db",
       "sections": ["error"]

@@ -1,16 +1,12 @@
 import Vue from "vue";
-// import { DateTime } from "luxon";
 
 import { config } from "@/config";
+import { formatDate } from "@/helpers/utils";
 
-Vue.filter("formatDate", (value: string) => {
-  if (value) {
-    return ""; // DateTime.fromISO(value).toLocaleString(config.dateFormat);
-  }
-});
+Vue.filter("formatDate", (value: string) =>
+  formatDate(value, config.date_format)
+);
 
-Vue.filter("formatDateTime", (value: string) => {
-  if (value) {
-    return ""; // DateTime.fromISO(value).toLocaleString(config.dateTimeFormat);
-  }
-});
+Vue.filter("formatDateTime", (value: string) =>
+  formatDate(value, config.date_time_format)
+);

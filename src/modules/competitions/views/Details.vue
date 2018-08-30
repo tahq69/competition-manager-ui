@@ -51,13 +51,13 @@ export default Vue.extend({
     <h4 class="text-muted">{{ competition.subtitle }}</h4>
 
     <el-row>
-      <el-col>Registration available until:</el-col>
-      <el-col>{{ competition.registration_till | formatDateTime }}</el-col>
+      <el-col :span="6">Registration available until:</el-col>
+      <el-col :span="18">{{ competition.registration_till | formatDateTime }}</el-col>
     </el-row>
 
     <el-row>
-      <el-col>Competition starts at:</el-col>
-      <el-col>{{ competition.organization_date | formatDateTime }}</el-col>
+      <el-col :span="6">Competition starts at:</el-col>
+      <el-col :span="18">{{ competition.organization_date | formatDateTime }}</el-col>
     </el-row>
 
     <div v-if="competition.cooperation">

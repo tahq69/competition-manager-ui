@@ -1,4 +1,3 @@
-import { config } from "@/config";
 import { LocalStorage } from "@/helpers";
 import { LocaleType } from "@/lang/typings";
 
@@ -10,7 +9,7 @@ export function loadLocale(): LocaleType {
     return locale as LocaleType;
   }
 
-  return config.default_locale as LocaleType;
+  return "lv";
 }
 
 export function saveLocale(locale: LocaleType): void {

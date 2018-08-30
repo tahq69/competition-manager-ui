@@ -1,5 +1,7 @@
 // tslint:disable:no-bitwise
 
+import dateUtil from "element-ui/src/utils/date";
+
 /**
  * Determines is the value undefined.
  *
@@ -148,4 +150,21 @@ export function debounce<T extends Function>(
   };
 
   return debounced;
+}
+
+export function toDate(date: any) {
+  return isDate(date) ? new Date(date) : null;
+}
+
+export function isDate(date: any) {
+  if (date === null || date === undefined) return false;
+  if (isNaN(new Date(date).getTime())) return false;
+  if (Array.isArray(date)) return false;
+  return true;
+}
+
+export function formatDate(date: any, format: string) {
+  date = toDate(date);
+  if (!date) return "";
+  return dateUtil.format(date, format);
 }

@@ -1,6 +1,8 @@
 {
   "locale": "LV",
   "title": "Sacensību Administrātors",
+  "date_format": "dd.MM.yyyy.",
+  "date_time_format": "dd.MM.yyyy. HH:mm:ss",
   "api_actionNotAllowed": "Darbība nav atļauta",
   "api_unknownHttpError": "Nezināma komunikācijas kļūda",
   "api_unexpectedError": "Nezināma iekšējā kļūda",

@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-// import { Settings, DateTime } from "luxon";
+import dateUtil from "element-ui/src/utils/date";
 
+import { config } from "@/config";
 import { loadLocale, saveLocale } from "@/config/locale";
 import { LocaleType } from "@/lang/typings";
 
@@ -30,6 +31,9 @@ export const i18n = new VueI18n({
   messages: translations
 });
 
+config.date_format = t("app.date_format");
+config.date_time_format = t("app.date_time_format");
+
 export function SetLocale(locale: LocaleType = "lv") {
   saveLocale(locale);
   i18n.locale = locale;
@@ -38,14 +42,17 @@ export function SetLocale(locale: LocaleType = "lv") {
 export default function() {
   const locale = loadLocale();
   SetLocale(locale);
-  // Settings.defaultLocale = locale;
 }
 
 export function t(key: string): string {
   return i18n.t(key).toString();
 }
 
-export function d(date: any): string {
-  /*const result = DateTime.fromSQL(date).toISO();*/
-  return /*result ? result :*/ date;
+export function d(date: string): string {
+  if (!date) return "";
+
+  const dateObj = dateUtil.parse(date, config.server_date_format) as Date;
+  const dateStr = dateUtil.format(dateObj, "yyyy-MM-ddTHH:mm:ss");
+
+  return dateStr;
 }
