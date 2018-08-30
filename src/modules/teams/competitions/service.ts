@@ -6,10 +6,10 @@ import {
   Paginated
 } from "@/helpers";
 
-import { SaveCompetitionPayload } from "#/teams/typings";
-import { CompetitionCreate } from "#/teams/models/competition-create";
-import { Competition } from "#/competitions/models/competition";
-import { FetchCompetitionsPayload } from "#/teams/competitions/typings";
+import { Competition } from "@/modules/competitions/models";
+
+import { SaveCompetitionPayload } from "@/modules/teams/typings";
+import { FetchCompetitionsPayload } from "@/modules/teams/competitions/typings";
 
 /**
  * Save team competition entity details.
@@ -17,8 +17,8 @@ import { FetchCompetitionsPayload } from "#/teams/competitions/typings";
  */
 export async function saveCompetition(payload: SaveCompetitionPayload) {
   return await httpContext(async () => {
-    const entity = new CompetitionCreate(payload);
-    return await saveEntity(entity, CompetitionCreate);
+    const entity = new Competition(payload);
+    return await saveEntity(entity, Competition);
   });
 }
 

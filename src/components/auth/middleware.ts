@@ -36,6 +36,8 @@ export class Middleware {
     log("hasTeamRole()", { opt: { cm, team }, role });
 
     if (!this.isAuthenticated()) return false;
+    if (!cm && (team === 0 || team === "0")) return false;
+
     if (!cm && !team)
       throw new Error("Team or competition should be provided.");
 

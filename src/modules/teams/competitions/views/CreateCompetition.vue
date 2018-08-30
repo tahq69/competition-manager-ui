@@ -1,107 +1,135 @@
 <script lang="ts">
 import Vue from "vue";
+import { ElForm, Rules, Rule } from "@/typings";
 
-import { CompetitionCreate } from "#/teams/models/competition-create";
-import { manageCmDetailsRoute } from "#/teams/competitions/routes";
+import { required } from "@/helpers/validators";
 
-import { saveCompetition } from "#/teams/service";
+import { cmDetailsRoute } from "@/modules/competitions/routes";
+
+import { CreateCompetition } from "@/modules/teams/models";
+import { saveCompetition } from "@/modules/teams/service";
 
 export default Vue.extend({
-  name: "CreateTeamCompetitionForm",
+  name: "CreateCompetition",
 
   props: {
     team: { type: [String, Number], required: true }
   },
 
-  data() {
-    return {
-      form: new CompetitionCreate({ team_id: this.team })
-    };
+  data: () => ({
+    loading: false,
+    form: new CreateCompetition(),
+    errors: {}
+  }),
+
+  computed: {
+    formRef(): ElForm {
+      return this.$refs["form"] as any;
+    },
+
+    rules: (): Rules<CreateCompetition> => ({
+      organization_date: [required("Please input the organization date")],
+      registration_till: [
+        required("Please input the date when registration become unavailable")
+      ],
+      subtitle: [required("Please input the subtitle")],
+      title: [required("Please input the title")]
+    })
   },
 
   methods: {
     async save() {
-      this.log("save()", this.form);
+      if (this.loading) return;
 
-      /*this.form.clearErrors();
-      try {
-        const cm = await saveCompetition(this.form.data);
-        this.$notify.success("Competition created");
-        this.$router.push(manageCmDetailsRoute({ cm: cm.id }));
-      } catch (errors) {
-        this.form.addErrors(errors);
-      }*/
+      this.loading = true;
+      this.errors = {};
+
+      this.formRef.validate(async valid => {
+        if (!valid) {
+          this.loading = false;
+          return false;
+        }
+
+        try {
+          const competition = await saveCompetition({
+            ...this.form,
+            team_id: this.team
+          });
+
+          this.$notify.success("Competition created");
+
+          const viewDetails = cmDetailsRoute({ cm: competition.id });
+          this.$router.push(viewDetails);
+        } catch (errors) {
+          this.loading = false;
+          this.errors = errors;
+        }
+      });
     }
   },
 
   created() {
     this.log = this.$logger.component(this);
-    this.log(this._config);
+    this.log(this._config /*.dateTimeFormat*/);
   }
 });
 </script>
 
 <template>
-  <CForm :form="form"
-         id="create-team-competition"
-         @submit="save"
-         class="card-body">
+  <el-form v-loading="loading"
+           :model="form"
+           :rules="rules"
+           ref="form"
+           :label-position="_config.label_position"
+           :label-width="_config.label_width"
+           @submit.native.prevent="save">
 
-    <!-- #title -->
-    <CFormGroup for="title"
-                :form="form"
-                label="Title">
-      <input type="text"
-             id="title"
-             v-model="form.data.title"
-             name="title"
-             :class="[{'is-invalid': form.errors.title}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Title"
+                  :error="errors.title"
+                  prop="title">
+      <el-input v-model="form.title"
+                type="text"
+                name="title"
+                placeholder="Title"
+                autofocus
+                clearable />
+    </el-form-item>
 
-    <!-- #subtitle -->
-    <CFormGroup for="subtitle"
-                :form="form"
-                label="Subtitle">
-      <input type="text"
-             id="subtitle"
-             v-model="form.data.subtitle"
-             name="subtitle"
-             :class="[{'is-invalid': form.errors.subtitle}, 'form-control']">
-    </CFormGroup>
+    <el-form-item label="Subtitle"
+                  :error="errors.subtitle"
+                  prop="subtitle">
+      <el-input v-model="form.subtitle"
+                type="text"
+                name="subtitle"
+                placeholder="Subtitle"
+                clearable />
+    </el-form-item>
 
-    <!-- #registration_till -->
-    <CFormGroup for="registration_till"
-                :form="form"
-                label="Registration till">
-      <datetime type="datetime"
-                name="registration_till"
-                id="registration_till"
-                v-model="form.data.registration_till"
-                :format="_config.dateTimeFormat"
-                :class="[{'is-invalid': form.errors.registration_till}, 'form-control']"
-                auto/>
-    </CFormGroup>
+    <el-form-item label="Registration till"
+                  :error="errors.registration_till"
+                  prop="registration_till">
+      <el-date-picker v-model="form.registration_till"
+                      id="registration_till"
+                      name="registration_till"
+                      type="datetime"
+                      placeholder="Select date and time" />
+    </el-form-item>
 
-    <!-- #organization_date -->
-    <CFormGroup for="organization_date"
-                :form="form"
-                label="Organization date">
-      <datetime type="datetime"
-                name="organization_date"
-                id="organization_date"
-                v-model="form.data.organization_date"
-                :format="_config.dateTimeFormat"
-                :class="[{'is-invalid': form.errors.organization_date}, 'form-control']"
-                auto/>
-    </CFormGroup>
+    <el-form-item label="Organization date"
+                  :error="errors.organization_date"
+                  prop="organization_date">
+      <el-date-picker v-model="form.organization_date"
+                      id="organization_date"
+                      name="organization_date"
+                      type="datetime"
+                      placeholder="Select date and time" />
+    </el-form-item>
 
-    <!-- #submit -->
-    <CFormGroup>
-      <button id="submit"
-              type="submit"
-              class="btn btn-primary">
+    <el-form-item>
+      <el-button type="primary"
+                 native-type="submit">
         Save
-      </button>
-    </CFormGroup>
-  </CForm>
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>

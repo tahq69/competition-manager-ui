@@ -3,8 +3,8 @@ import { Location } from "vue-router";
 
 import { link, visibility } from "@/components/mixins";
 
-import { createCmRoute } from "#/teams/competitions/routes";
-import { canCreateCompetition } from "#/teams/auth";
+import { createCmRoute } from "@/modules/teams/competitions/routes";
+import { canCreateCompetition } from "@/modules/teams/auth";
 
 export default Vue.extend({
   name: "CreateTeamCompetitionLink",

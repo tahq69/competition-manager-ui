@@ -7,10 +7,10 @@ import { manageTeam } from "@/router/routes";
 
 import FileInput from "@/components/form/FileInput.vue";
 
-import { ManageTeam } from "#/teams/models";
-import { createTeamMemberRoute } from "#/teams/members/routes";
-import { fetchTeam, saveTeam } from "#/teams/service";
-import { manageTeamRoute } from "#/teams/routes";
+import { ManageTeam } from "@/modules/teams/models";
+import { createTeamMemberRoute } from "@/modules/teams/members/routes";
+import { fetchTeam, saveTeam } from "@/modules/teams/service";
+import { manageTeamRoute } from "@/modules/teams/routes";
 
 export default Vue.extend({
   name: "ManageTeam",
