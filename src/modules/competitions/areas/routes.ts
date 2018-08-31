@@ -48,3 +48,6 @@ export const areas: RouteConfig[] = [
 
 export const competitionAreasRoute = (p: { cm: Id }) =>
   createRoute(competitionAreas, p, {});
+
+export const areaRoute = (p: { cm: Id; area: Id }) =>
+  createRoute(competitionArea, p, {});
