@@ -23,24 +23,27 @@ export const areas: RouteConfig[] = [
     path: "areas",
     component: areasView,
     props: true
-  },
+  }
+];
+
+export const root: RouteConfig[] = [
   {
     ...competitionArea,
-    path: "area/:area(\\d+)",
+    path: "/competition/:cm(\\d+)/area/:area(\\d+)",
     component: areaView,
     props: true
   },
   {
     ...createCompetitionArea,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_AREAS] },
-    path: "area/manage/new",
+    path: "/competition/:cm(\\d+)/area/manage/new",
     component: manageAreaView,
     props: true
   },
   {
     ...manageCompetitionArea,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_AREAS] },
-    path: "area/manage/:area(\\d+)",
+    path: "/competition/:cm(\\d+)/area/manage/:area(\\d+)",
     component: manageAreaView,
     props: true
   }

@@ -34,13 +34,13 @@ export default Vue.extend({
         </el-breadcrumb-item>
 
         <template v-if="activeTab != defaultRoute">
-          <el-breadcrumb-item v-if="activeTab == routes.competitionDisciplines.name">
+          <el-breadcrumb-item v-if="$route.name == routes.competitionDisciplines.name">
             <DisciplinesLink :cm="cm">
               {{ $t("competitions.competition_disciplines_tab") }}
             </DisciplinesLink>
           </el-breadcrumb-item>
 
-          <el-breadcrumb-item v-if="activeTab == routes.competitionAreas.name">
+          <el-breadcrumb-item v-if="$route.name == routes.competitionAreas.name">
             {{ $t("competitions.competition_areas_tab") }}
           </el-breadcrumb-item>
         </template>

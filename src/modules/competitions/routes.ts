@@ -15,7 +15,7 @@ import {
   disciplines,
   root as disciplinesRoot
 } from "@/modules/competitions/disciplines/routes";
-import { areas } from "@/modules/competitions/areas/routes";
+import { areas, root as areasRoot } from "@/modules/competitions/areas/routes";
 
 /** Public routes */
 import competitionsView from "@/modules/competitions/views/Competitions.vue";
@@ -62,7 +62,8 @@ export const root: RouteConfig[] = [
       ...areas
     ]
   },
-  ...disciplinesRoot
+  ...disciplinesRoot,
+  ...areasRoot
 ];
 
 export const competitionsRoute = (p?: { page: number | string }) =>
