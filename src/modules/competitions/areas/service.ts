@@ -1,39 +1,36 @@
 import { url as createUrl, httpContext } from "@/helpers/rest";
-import { Id } from "@/typings";
+import { saveEntity } from "@/helpers/service";
 
-import { Area } from "../models/area";
+import { Area } from "@/modules/competitions/models";
+import {
+  FetchAreaPayload,
+  FetchAreasPayload,
+  SaveAreaPayload
+} from "@/modules/competitions/areas/typings";
 
-interface IFetchAreas {
-  competition_id: Id;
+export async function fetchAreas(payload: FetchAreasPayload): Promise<Area[]> {
+  return await httpContext(async http => {
+    const urlTpl = "competitions/{competition_id}/areas";
+    const url = createUrl(urlTpl, { urlReplace: payload });
+
+    const { data }: { data: Array<any> } = await http.get(url);
+    return data.map((area: any) => new Area(area));
+  });
 }
 
-interface IFetchArea extends IFetchAreas {
-  id: Id;
+export async function fetchArea(payload: FetchAreaPayload): Promise<Area> {
+  return await httpContext(async http => {
+    const urlTpl = "competitions/{competition_id}/disciplines/{id}";
+    const url = createUrl(urlTpl, { urlReplace: payload });
+
+    const { data } = await http.get(url);
+    return new Area(data);
+  });
 }
 
-class AreaService {
-  public async fetchAreas(payload: IFetchAreas): Promise<Area[]> {
-    return await httpContext(async http => {
-      const urlTpl = "competitions/{competition_id}/areas";
-      const url = createUrl(urlTpl, { urlReplace: payload });
-
-      const { data } = await http.get(url);
-      return data.reduce((acc: Area[], val: any) => {
-        acc.push(new Area(val));
-        return acc;
-      }, []);
-    });
-  }
-
-  public async fetchArea(payload: IFetchArea): Promise<Area> {
-    return await httpContext(async http => {
-      const urlTpl = "competitions/{competition_id}/disciplines/{id}";
-      const url = createUrl(urlTpl, { urlReplace: payload });
-
-      const { data } = await http.get(url);
-      return new Area(data);
-    });
-  }
+export async function saveArea(payload: SaveAreaPayload) {
+  return await httpContext(async () => {
+    const area = new Area(payload);
+    return await saveEntity(area, Area);
+  });
 }
-
-export default new AreaService();

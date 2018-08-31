@@ -7,7 +7,7 @@ import { emitEvent } from "@/helpers";
 import { ElForm, Rules, Rule, Id } from "@/typings";
 
 import { cmGroups } from "@/modules/competitions/groups/routes";
-import areaService from "@/modules/competitions/areas/service";
+import { fetchAreas } from "@/modules/competitions/areas/service";
 
 import {
   Area,
@@ -78,7 +78,7 @@ export default Vue.extend({
     async fetchData() {
       this.loading = true;
 
-      const areas = await areaService.fetchAreas({ competition_id: this.cm });
+      const areas = await fetchAreas({ competition_id: this.cm });
       areas.forEach(area => this.areaOptions.push(area));
 
       this.fetchCategory();
