@@ -1,36 +1,46 @@
 <script lang="ts">
 import Vue from "vue";
 
+import visibility from "@/components/mixins/visibility";
+
 import { Area } from "@/modules/competitions/models";
+import { canCreateArea } from "@/modules/competitions/areas/auth";
 import { fetchAreas } from "@/modules/competitions/areas/service";
 import { areaRoute } from "@/modules/competitions/areas/routes";
+import { FetchAreasPayload } from "@/modules/competitions/areas/typings";
+
+import CreateAreaCard from "@/modules/competitions/components/CreateAreaCard.vue";
+import AreaCard from "@/modules/competitions/components/AreaCard.vue";
 
 export default Vue.extend({
   name: "Areas",
 
-  data: () => ({
-    loading: true,
-    areas: [] as Area[]
-  }),
+  components: { AreaCard, CreateAreaCard },
 
   props: {
     cm: { type: [Number, String], required: true }
   },
 
+  data: () => ({
+    loading: true,
+    areas: [] as Area[],
+    sizes: {
+      xl: 4,
+      lg: 6,
+      md: 8,
+      sm: 12,
+      xs: 24
+    }
+  }),
+
   methods: {
     async fetchData() {
       this.loading = true;
 
-      const areas = await fetchAreas({
-        competition_id: this.cm
-      });
+      const payload: FetchAreasPayload = { competition_id: this.cm };
+      this.areas = await fetchAreas(payload);
 
-      this.areas = areas;
       this.loading = false;
-    },
-
-    onCurrentChange(area: Area) {
-      this.$router.push(areaRoute({ cm: this.cm, area: area.id }));
     }
   },
 
@@ -42,47 +52,21 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div id="areas"
-       v-loading="loading">
-    <el-table :data="areas"
-              highlight-current-row
-              @current-change="onCurrentChange">
-      <el-table-column prop="nr"
-                       width="80"
-                       :label="$t('areas.areas_grid_head_nr')">
-      </el-table-column>
-
-      <el-table-column prop="title"
-                       :label="$t('areas.areas_grid_head_title')">
-      </el-table-column>
-
-      <el-table-column prop="type"
-                       :label="$t('areas.areas_grid_head_type')">
-        <template slot-scope="area">
-          {{ area.row.type }}
-        </template>
-      </el-table-column>
-
-      <!-- TODO: if can manage, show options
-          <el-table-column fixed="right"
-                         label="Operations"
-                         width="120">
-          <template slot-scope="competition">
-            <CompetitionLink :cm="competition.row.id"
-                             mini
-                             circle
-                             button
-                             icon="view"
-                             tooltip="View competition details" />
-            />
-          </template>
-        </el-table-column> -->
-    </el-table>
-  </div>
+  <el-row v-loading="loading"
+          :gutter="20"
+          type="flex"
+          class="area-row">
+    <el-col v-for="area in areas"
+            :key="area.id"
+            v-bind="sizes"
+            class="area-col">
+      <AreaCard :area="area"
+                tooltip="View area details" />
+    </el-col>
+    <el-col class="area-col"
+            v-bind="sizes">
+      <CreateAreaCard :cm="cm"
+                      tooltip="Create new area" />
+    </el-col>
+  </el-row>
 </template>
-
-<style lang="scss">
-.el-table--enable-row-hover .el-table__row {
-  cursor: pointer;
-}
-</style>

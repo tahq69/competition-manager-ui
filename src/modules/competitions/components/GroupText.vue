@@ -3,7 +3,7 @@ import Vue from "vue";
 import { Group, DimensionType } from "@/modules/competitions/models";
 
 export default Vue.extend({
-  name: "GroupShortText",
+  name: "GroupText",
 
   props: {
     group: { type: Group, required: false }

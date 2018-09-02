@@ -1,12 +1,12 @@
-import { Location, Route, RouteConfig } from "vue-router";
+import { RouteConfig } from "vue-router";
 
 import * as roles from "@/components/auth/roles";
 import {
   competitionArea,
   competitionAreas,
-  createCompetitionArea,
+  createArea,
   createRoute,
-  manageCompetitionArea
+  manageArea
 } from "@/router/routes";
 import { Id } from "@/typings";
 
@@ -34,14 +34,14 @@ export const root: RouteConfig[] = [
     props: true
   },
   {
-    ...createCompetitionArea,
+    ...createArea,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_AREAS] },
     path: "/competition/:cm(\\d+)/area/manage/new",
     component: manageAreaView,
     props: true
   },
   {
-    ...manageCompetitionArea,
+    ...manageArea,
     meta: { auth: true, teamRoles: [roles.MANAGE_COMPETITION_AREAS] },
     path: "/competition/:cm(\\d+)/area/manage/:area(\\d+)",
     component: manageAreaView,
@@ -49,8 +49,15 @@ export const root: RouteConfig[] = [
   }
 ];
 
+export function createAreaRoute(p: { cm: Id }) {
+  return createRoute(createArea, p, {});
+}
+
 export const competitionAreasRoute = (p: { cm: Id }) =>
   createRoute(competitionAreas, p, {});
 
 export const areaRoute = (p: { cm: Id; area: Id }) =>
   createRoute(competitionArea, p, {});
+
+export const manageAreaRoute = (p: { cm: Id; area: Id }) =>
+  createRoute(manageArea, p, {});

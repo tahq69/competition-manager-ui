@@ -3,15 +3,15 @@ import Vue from "vue";
 
 import visibility from "@/components/mixins/visibility";
 
-import { Discipline } from "#/competitions/models/discipline";
-import { DisciplineAuth } from "#/competitions/disciplines/auth";
-import { fetchDisciplines } from "#/competitions/disciplines/service";
+import { Discipline } from "@/modules/competitions/models/discipline";
+import { DisciplineAuth } from "@/modules/competitions/disciplines/auth";
+import { fetchDisciplines } from "@/modules/competitions/disciplines/service";
 
-import CreateDisciplineCard from "#/competitions/components/CreateDisciplineCard.vue";
-import DisciplineCard from "#/competitions/components/DisciplineCard.vue";
+import CreateDisciplineCard from "@/modules/competitions/components/CreateDisciplineCard.vue";
+import DisciplineCard from "@/modules/competitions/components/DisciplineCard.vue";
 
 export default Vue.extend({
-  name: "CompetitionDisciplines",
+  name: "Disciplines",
 
   components: { CreateDisciplineCard, DisciplineCard },
 
@@ -24,7 +24,14 @@ export default Vue.extend({
   data: () => ({
     loading: true,
     isCreateVisible: false,
-    disciplines: [] as Discipline[]
+    disciplines: [] as Discipline[],
+    sizes: {
+      xl: 4,
+      lg: 6,
+      md: 8,
+      sm: 12,
+      xs: 24
+    }
   }),
 
   methods: {
@@ -54,23 +61,15 @@ export default Vue.extend({
           class="disciplines-row">
     <el-col v-for="discipline in disciplines"
             :key="discipline.id"
-            class="discipline-col"
-            :xl="4"
-            :lg="6"
-            :md="8"
-            :sm="12"
-            :xs="24">
+            v-bind="sizes"
+            class="discipline-col">
       <DisciplineCard :cm="cm"
                       :discipline="discipline"
                       title="View discipline details" />
     </el-col>
     <el-col v-if="isCreateVisible"
-            class="discipline-col"
-            :xl="4"
-            :lg="6"
-            :md="8"
-            :sm="12"
-            :xs="24">
+            v-bind="sizes"
+            class="discipline-col">
       <CreateDisciplineCard :cm="cm"
                             title="Create new discipline" />
     </el-col>

@@ -66,5 +66,5 @@ export const createCompetition = { name: "createCompetition" };
 export const manageCompetitionDetails = { name: "manageCompetitionDetails" };
 export const createDiscipline = { name: "createDiscipline" };
 export const manageDiscipline = { name: "manageDiscipline" };
-export const createCompetitionArea = { name: "createCompetitionArea" };
-export const manageCompetitionArea = { name: "manageCompetitionArea" };
+export const createArea = { name: "createArea" };
+export const manageArea = { name: "manageArea" };

@@ -7,7 +7,7 @@ import {
 } from "@/modules/competitions/models";
 
 export default Vue.extend({
-  name: "CategoryShortText",
+  name: "CategoryText",
 
   props: {
     category: { type: Category }

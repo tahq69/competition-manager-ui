@@ -9,15 +9,15 @@ import { Category, Group } from "@/modules/competitions/models";
 import { fetchCategories } from "@/modules/competitions/groups/service";
 import { DisciplineAuth } from "@/modules/competitions/disciplines/auth";
 
-import GroupShortText from "@/modules/competitions/components/GroupShortText.vue";
-import CategoryShortText from "@/modules/competitions/components/CategoryShortText.vue";
+import GroupText from "@/modules/competitions/components/GroupText.vue";
+import CategoryText from "@/modules/competitions/components/CategoryText.vue";
 
 export default Vue.extend({
   name: "DisciplineGroups",
 
   mixins: [visibility],
 
-  components: { GroupShortText, CategoryShortText },
+  components: { GroupText, CategoryText },
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -135,7 +135,7 @@ export default Vue.extend({
       <el-table-column fixed
                        width="350">
         <template slot-scope="group">
-          <GroupShortText :group="group.row" />&nbsp;
+          <GroupText :group="group.row" />&nbsp;
           <ManageGroupLink :cm="cm"
                            :discipline="discipline"
                            :group="group.row.id"
@@ -152,7 +152,7 @@ export default Vue.extend({
                        :key="i">
         <template slot-scope="group">
           <div v-if="group.row.categories[i - 1]">
-            <CategoryShortText :category="group.row.categories[i - 1]" />&nbsp;
+            <CategoryText :category="group.row.categories[i - 1]" />&nbsp;
             <ManageCategoryLink :cm="cm"
                                 :discipline="discipline"
                                 :group="group.row.id"
