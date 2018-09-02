@@ -20,7 +20,7 @@ export async function fetchAreas(payload: FetchAreasPayload): Promise<Area[]> {
 
 export async function fetchArea(payload: FetchAreaPayload): Promise<Area> {
   return await httpContext(async http => {
-    const urlTpl = "competitions/{competition_id}/disciplines/{id}";
+    const urlTpl = "competitions/{competition_id}/areas/{id}";
     const url = createUrl(urlTpl, { urlReplace: payload });
 
     const { data } = await http.get(url);

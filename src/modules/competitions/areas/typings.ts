@@ -13,6 +13,7 @@ export interface FetchAreaPayload {
 export interface SaveAreaPayload {
   competition_id: Id;
   description: string;
+  id?: Id;
   nr: number;
   title: string;
   type: AreaType;

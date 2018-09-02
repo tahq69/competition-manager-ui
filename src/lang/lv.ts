@@ -7,9 +7,11 @@ import teams from "@/modules/teams/lang/lv.res.json";
 import user from "@/modules/user/lang/lv.res.json";
 
 import app from "./lv.res.json";
+import enums from "./en.enums.res.json";
 
 export default {
   app,
+  enums,
   competitions,
   areas,
   posts,

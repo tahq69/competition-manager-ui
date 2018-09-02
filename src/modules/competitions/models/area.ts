@@ -1,5 +1,5 @@
 import { Id } from "@/typings";
-import { Entity } from "@/helpers/entity";
+import { Entity, createEnumOptions } from "@/helpers";
 
 export enum AreaType {
   Arena = "ARENA",
@@ -8,12 +8,17 @@ export enum AreaType {
   Tatami = "TATAMI"
 }
 
+export const areaTypeOptions = createEnumOptions("AreaType", AreaType);
+
 export class Area extends Entity {
   public competition_id: Id = 0;
   public description: string = "";
   public nr: number = 0;
   public title: string = "";
   public type: AreaType = AreaType.Arena;
+
+  public createUrl: string = "competitions/{competition_id}/areas";
+  public updateUrl: string = "competitions/{competition_id}/areas/{id}";
 
   constructor(data: any) {
     super(data);

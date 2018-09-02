@@ -4,12 +4,12 @@ import Vue from "vue";
 import { ElForm, Rules, Rule, Id } from "@/typings";
 import { required, date, alphaDashSpace } from "@/helpers/validators";
 
-import { ManageDiscipline } from "#/competitions/models";
+import { ManageDiscipline } from "@/modules/competitions/models";
 import {
   fetchDiscipline,
   saveDiscipline
-} from "#/competitions/disciplines/service";
-import { cmDisciplineRoute } from "#/competitions/disciplines/routes";
+} from "@/modules/competitions/disciplines/service";
+import { cmDisciplineRoute } from "@/modules/competitions/disciplines/routes";
 
 export default Vue.extend({
   name: "ManageDiscipline",
