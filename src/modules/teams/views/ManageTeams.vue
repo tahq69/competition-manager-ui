@@ -5,8 +5,9 @@ import { Paging } from "@/helpers";
 import { manageTeams } from "@/router/routes";
 import { table } from "@/components/mixins";
 
-import { Team } from "#/teams/models/team";
-import { fetchTeams } from "#/teams/service";
+import { Team } from "@/modules/teams/models";
+import { fetchTeams } from "@/modules/teams/service";
+import { teamRoute } from "@/modules/teams/routes";
 
 export default Vue.extend({
   name: "ManageTeams",
@@ -22,7 +23,16 @@ export default Vue.extend({
       this.teams = paginated.items;
 
       return paginated.total;
+    },
+
+    onCellClick(row: Team, column: any) {
+      if (column.property !== "actions")
+        this.$router.push(teamRoute({ team: row.id }));
     }
+  },
+
+  created() {
+    this.log = this.$logger.component(this);
   }
 });
 </script>
@@ -39,9 +49,11 @@ export default Vue.extend({
       </CreateTeamLink>
     </div>
     <div v-loading="loading">
-      <el-table :data="teams"
+      <el-table class="row-as-link"
+                :data="teams"
                 :default-sort="defaultSort"
-                @sort-change="onSortChange">
+                @sort-change="onSortChange"
+                @cell-click="onCellClick">
         <el-table-column prop="id"
                          :label="$t('teams.manage_teams_grid_head_id')"
                          sortable="custom">
@@ -54,7 +66,7 @@ export default Vue.extend({
                          :label="$t('teams.manage_teams_grid_head_short')"
                          sortable="custom">
         </el-table-column>
-        <el-table-column>
+        <el-table-column prop="actions">
           <template slot-scope="team">
             <ManageTeamLink :team="team.row.id"
                             :title="$t('teams.manage_teams_grid_btn_edit_title')"

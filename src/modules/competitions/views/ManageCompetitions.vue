@@ -6,8 +6,9 @@ import { Paging } from "@/helpers";
 import { manageCompetitions } from "@/router/routes";
 import { table } from "@/components/mixins";
 
-import { Competition } from "#/competitions/models/competition";
-import { fetchCompetitions } from "#/competitions/service";
+import { Competition } from "@/modules/competitions/models";
+import { cmDetailsRoute } from "@/modules/competitions/routes";
+import { fetchCompetitions } from "@/modules/competitions/service";
 
 export default Vue.extend({
   name: "ManageCompetitions",
@@ -24,6 +25,11 @@ export default Vue.extend({
       this.competitions = paginated.items;
 
       return paginated.total;
+    },
+
+    onCellClick(row: Competition, column: any) {
+      if (column.property !== "actions")
+        this.$router.push(cmDetailsRoute({ cm: row.id }));
     }
   }
 });
@@ -37,9 +43,11 @@ export default Vue.extend({
     </div>
 
     <div v-loading="loading">
-      <el-table :data="competitions"
+      <el-table class="row-as-link"
+                :data="competitions"
                 :default-sort="defaultSort"
-                @sort-change="onSortChange">
+                @sort-change="onSortChange"
+                @cell-click="onCellClick">
         <el-table-column prop="id"
                          sortable="custom"
                          width="80"
@@ -63,23 +71,18 @@ export default Vue.extend({
             {{ competition.row.organization_date | formatDateTime }}
           </template>
         </el-table-column>
-        <el-table-column fixed="right"
-                         label="Operations"
-                         width="120">
+        <el-table-column prop="actions"
+                         fixed="right"
+                         width="80">
           <template slot-scope="competition">
-            <CompetitionLink :cm="competition.row.id"
-                             mini
-                             circle
-                             button
-                             icon="view"
-                             tooltip="View competition details" />
             <ManageCompetitionLink :cm="competition.row.id"
                                    mini
                                    circle
                                    button
                                    icon="edit"
                                    type="primary"
-                                   :tooltip="$t('competitions.manage_competitions_grid_btn_edit_title')" />
+                                   :tooltip="$t('competitions.manage_competitions_grid_btn_edit_title')"
+            />
           </template>
         </el-table-column>
       </el-table>

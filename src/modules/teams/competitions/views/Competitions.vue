@@ -5,9 +5,9 @@ import { teamCompetitions } from "@/router/routes";
 import { Paging, SortDirection, PagingParams } from "@/helpers";
 import { table } from "@/components/mixins";
 
-import { fetchCompetitions } from "#/competitions/service";
-import { cmDetailsRoute } from "#/competitions/routes";
-import { Competition } from "#/competitions/models/competition";
+import { Competition } from "@/modules/competitions/models";
+import { cmDetailsRoute } from "@/modules/competitions/routes";
+import { fetchCompetitions } from "@/modules/competitions/service";
 
 export default Vue.extend({
   name: "TeamCompetitions",
@@ -32,8 +32,9 @@ export default Vue.extend({
       return paginated.total;
     },
 
-    onCurrentChange(cm: Competition) {
-      this.$router.push(cmDetailsRoute({ cm: cm.id }));
+    onCellClick(row: Competition, column: any) {
+      if (column.property !== "actions")
+        this.$router.push(cmDetailsRoute({ cm: row.id }));
     }
   }
 });
@@ -42,10 +43,10 @@ export default Vue.extend({
 <template>
   <div id="team-competitions"
        v-loading="loading">
-    <el-table :data="competitions"
+    <el-table class="row-as-link"
+              :data="competitions"
               :default-sort="defaultSort"
-              highlight-current-row
-              @current-change="onCurrentChange"
+              @cell-click="onCellClick"
               @sort-change="onSortChange">
       <el-table-column prop="title"
                        label="Title"
@@ -71,10 +72,9 @@ export default Vue.extend({
         </template>
       </el-table-column>
 
-      <el-table-column>
+      <el-table-column prop="actions">
         <template slot-scope="cm">
           <ManageCompetitionLink :cm="cm.row.team_id"
-                                 @click.stop
                                  title="Edit competition details"
                                  icon="edit"
                                  type="primary"
