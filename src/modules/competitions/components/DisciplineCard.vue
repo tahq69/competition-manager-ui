@@ -22,6 +22,7 @@ export default Vue.extend({
   <DisciplineLink :cm="cm"
                   :discipline="discipline.id"
                   class="discipline-card"
+                  tooltip=""
                   tag="div">
     <el-card shadow="hover">
       <h4 slot="header"

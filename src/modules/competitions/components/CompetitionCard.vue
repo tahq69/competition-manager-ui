@@ -15,6 +15,7 @@ export default Vue.extend({
 <template>
   <CompetitionLink :cm="competition.id"
                    class="competition-card"
+                   tooltip=""
                    tag="div">
     <el-card shadow="hover">
       <h4 slot="header"

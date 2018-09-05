@@ -22,6 +22,7 @@ export default Vue.extend({
 <template>
   <TeamLink :team="team.id"
             class="team-card"
+            tooltip=""
             tag="div">
     <ImageCard>
       <img :src="team.logo"
