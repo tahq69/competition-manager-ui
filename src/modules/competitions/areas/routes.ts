@@ -11,8 +11,9 @@ import {
 import { Id } from "@/typings";
 
 /** Public routes */
-import areasView from "./views/Areas.vue";
+import areaDetailsView from "./views/AreaDetails.vue";
 import areaView from "./views/Area.vue";
+import areasView from "./views/Areas.vue";
 
 /** Management routes */
 import manageAreaView from "./views/ManageArea.vue";
@@ -28,10 +29,17 @@ export const areas: RouteConfig[] = [
 
 export const root: RouteConfig[] = [
   {
-    ...competitionArea,
     path: "/competition/:cm(\\d+)/area/:area(\\d+)",
     component: areaView,
-    props: true
+    props: true,
+    children: [
+      {
+        ...competitionArea,
+        path: "",
+        component: areaDetailsView,
+        props: true
+      }
+    ]
   },
   {
     ...createArea,

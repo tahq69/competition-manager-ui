@@ -1,16 +1,11 @@
 <script lang="ts">
 import Vue from "vue";
 
-import visibility from "@/components/mixins/visibility";
-
-import { Discipline } from "#/competitions/models/discipline";
-import { DisciplineAuth } from "#/competitions/disciplines/auth";
-import { fetchDiscipline } from "#/competitions/disciplines/service";
+import { Discipline } from "@/modules/competitions/models/discipline";
+import { fetchDiscipline } from "@/modules/competitions/disciplines/service";
 
 export default Vue.extend({
   name: "DisciplineDetails",
-
-  mixins: [visibility],
 
   props: {
     cm: { type: [Number, String], required: true },
@@ -31,10 +26,6 @@ export default Vue.extend({
         id: this.discipline
       });
       this.loading = false;
-    },
-
-    async checkVisibility() {
-      this.canEdit = await DisciplineAuth.canEdit(this.discipline, this.cm);
     }
   },
 
