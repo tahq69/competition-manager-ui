@@ -11,6 +11,10 @@ export default Vue.extend({
 
   mixins: [link, visibility],
 
+  props: {
+    tooltip: { type: String, default: "Manage competitions" }
+  },
+
   computed: {
     to(): Location {
       return manageCompetitionsRoute();

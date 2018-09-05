@@ -80,9 +80,7 @@ export default Vue.extend({
                                    circle
                                    button
                                    icon="edit"
-                                   type="primary"
-                                   :tooltip="$t('competitions.manage_competitions_grid_btn_edit_title')"
-            />
+                                   type="primary" />
           </template>
         </el-table-column>
       </el-table>

@@ -12,7 +12,8 @@ export default Vue.extend({
   mixins: [link, visibility],
 
   props: {
-    cm: { type: [String, Number], required: true }
+    cm: { type: [String, Number], required: true },
+    tooltip: { type: String, default: "Create new discipline" }
   },
 
   computed: {

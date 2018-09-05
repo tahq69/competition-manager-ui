@@ -15,7 +15,8 @@ export default Vue.extend({
     cm: { type: [String, Number], required: true },
     discipline: { type: [String, Number], required: true },
     group: { type: [String, Number], required: true },
-    category: { type: [String, Number], required: true }
+    category: { type: [String, Number], required: true },
+    tooltip: { type: String, default: "Edit category details" }
   },
 
   computed: {

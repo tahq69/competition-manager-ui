@@ -13,7 +13,8 @@ export default Vue.extend({
 
   props: {
     cm: { type: [String, Number], required: true },
-    area: { type: [String, Number], required: true }
+    area: { type: [String, Number], required: true },
+    tooltip: { type: String, default: "Edit competition area details" }
   },
 
   computed: {

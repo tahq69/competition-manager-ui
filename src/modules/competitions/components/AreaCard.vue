@@ -30,7 +30,6 @@ export default Vue.extend({
       <ManageAreaLink :cm="area.competition_id"
                       :area="area.id"
                       class="card-edit-link"
-                      tooltip="Edit competition area details"
                       type="primary"
                       icon="edit"
                       button

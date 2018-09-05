@@ -33,15 +33,13 @@ export default Vue.extend({
     <el-card class="tabs-card">
       <el-breadcrumb slot="header">
         <el-breadcrumb-item>
-          <CompetitionLink :cm="cm"
-                           tooltip="Competition details">
+          <CompetitionLink :cm="cm">
             Competition
           </CompetitionLink>
         </el-breadcrumb-item>
 
         <el-breadcrumb-item>
-          <AreasLink :cm="cm"
-                     tooltip="List of competition areas">
+          <AreasLink :cm="cm">
             Areas
           </AreasLink>
         </el-breadcrumb-item>

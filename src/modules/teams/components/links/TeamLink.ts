@@ -11,7 +11,8 @@ export default Vue.extend({
   mixins: [link],
 
   props: {
-    team: { type: [String, Number], required: true }
+    team: { type: [String, Number], required: true },
+    tooltip: { type: String, default: "View team details" }
   },
 
   computed: {

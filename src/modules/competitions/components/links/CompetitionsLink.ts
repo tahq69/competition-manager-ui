@@ -8,6 +8,10 @@ import { competitionsRoute } from "#/competitions/routes";
 export default Vue.extend({
   name: "CompetitionLink",
 
+  props: {
+    tooltip: { type: String, default: "View competitions list" }
+  },
+
   mixins: [link],
 
   computed: {

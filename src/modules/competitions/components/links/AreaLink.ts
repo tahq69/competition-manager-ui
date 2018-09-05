@@ -12,7 +12,8 @@ export default Vue.extend({
 
   props: {
     cm: { type: [String, Number], required: true },
-    area: { type: [String, Number], required: true }
+    area: { type: [String, Number], required: true },
+    tooltip: { type: String, default: "View area details" }
   },
 
   computed: {

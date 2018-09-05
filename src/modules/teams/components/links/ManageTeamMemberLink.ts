@@ -13,7 +13,8 @@ export default Vue.extend({
 
   props: {
     team: { type: [String, Number], required: true },
-    member: { type: [String, Number], required: true }
+    member: { type: [String, Number], required: true },
+    tooltip: { type: String, default: "Edit member details" }
   },
 
   computed: {

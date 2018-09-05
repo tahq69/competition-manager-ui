@@ -59,7 +59,6 @@ export default Vue.extend({
           <h5 class="card-subheader">{{ details.short }}</h5>
 
           <ManageTeamLink :team="details.id"
-                          tooltip="Manage team details"
                           type="primary"
                           icon="edit"
                           button
@@ -67,7 +66,6 @@ export default Vue.extend({
                           mini />
 
           <CreateTeamCompetitionLink :team="details.id"
-                                     tooltip="Create team competition"
                                      type="success"
                                      icon="plus"
                                      button

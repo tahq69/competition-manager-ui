@@ -13,7 +13,8 @@ export default Vue.extend({
 
   props: {
     cm: { type: [String, Number], required: true },
-    discipline: { type: [String, Number], required: true }
+    discipline: { type: [String, Number], required: true },
+    tooltip: { type: String, default: "Create new group" }
   },
 
   computed: {

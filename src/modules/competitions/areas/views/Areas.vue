@@ -60,13 +60,11 @@ export default Vue.extend({
             :key="area.id"
             v-bind="sizes"
             class="area-col">
-      <AreaCard :area="area"
-                tooltip="View area details" />
+      <AreaCard :area="area" />
     </el-col>
     <el-col class="area-col"
             v-bind="sizes">
-      <CreateAreaCard :cm="cm"
-                      tooltip="Create new area" />
+      <CreateAreaCard :cm="cm" />
     </el-col>
   </el-row>
 </template>

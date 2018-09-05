@@ -119,8 +119,7 @@ export default Vue.extend({
       <CompetitionLink :cm="cm"
                        icon="view"
                        button
-                       mini
-                       tooltip="View competition details">
+                       mini>
         Competition
       </CompetitionLink>
 
@@ -129,16 +128,14 @@ export default Vue.extend({
                 :area="area"
                 icon="view"
                 button
-                mini
-                tooltip="View area">
+                mini>
         Preview
       </AreaLink>
 
       <AreasLink :cm="cm"
                  icon="tickets"
                  button
-                 mini
-                 tooltip="View competition areas">
+                 mini>
         Areas
       </AreasLink>
     </div>

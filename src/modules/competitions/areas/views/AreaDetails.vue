@@ -43,7 +43,6 @@ export default Vue.extend({
        class="area-details">
     <ManageAreaLink :cm="cm"
                     :area="area"
-                    tooltip="Manage area detils"
                     style="float: right"
                     type="primary"
                     icon="edit"
