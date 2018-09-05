@@ -75,7 +75,6 @@ export default Vue.extend({
       <el-table-column prop="actions">
         <template slot-scope="cm">
           <ManageCompetitionLink :cm="cm.row.team_id"
-                                 title="Edit competition details"
                                  icon="edit"
                                  type="primary"
                                  button

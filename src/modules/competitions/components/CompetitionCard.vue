@@ -36,7 +36,6 @@ export default Vue.extend({
       </el-row>
       <ManageCompetitionLink :cm="competition.id"
                              class="card-edit-link"
-                             title="Edit competition details"
                              type="primary"
                              icon="edit"
                              button

@@ -37,8 +37,7 @@ export default Vue.extend({
       </h5>
 
       <ManageTeamLink :team="team.id"
-                      class="card-edit-link"
-                      title="Edit team details">
+                      class="card-edit-link">
         <el-button type="primary"
                    icon="el-icon-edit"
                    size="mini"

@@ -69,14 +69,12 @@ export default Vue.extend({
         <el-table-column prop="actions">
           <template slot-scope="team">
             <ManageTeamLink :team="team.row.id"
-                            :title="$t('teams.manage_teams_grid_btn_edit_title')"
                             type="primary"
                             icon="edit"
                             button
                             circle
                             mini/>
             <ManageTeamMembersLink :team="team.row.id"
-                                   :title="$t('teams.manage_teams_grid_btn_members_title')"
                                    button
                                    mini>
               {{ $t('teams.manage_teams_grid_btn_members_text') }}

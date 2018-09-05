@@ -37,7 +37,6 @@ export default Vue.extend({
       <ManageDisciplineLink :cm="cm"
                             :discipline="discipline.id"
                             class="card-edit-link"
-                            title="Edit competition discipline details"
                             type="primary"
                             icon="edit"
                             button

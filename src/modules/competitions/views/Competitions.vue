@@ -55,8 +55,7 @@ export default Vue.extend({
               :md="8"
               :sm="12"
               :xs="24">
-        <CompetitionCard :competition="competition"
-                         title="View competition details" />
+        <CompetitionCard :competition="competition" />
       </el-col>
     </el-row>
     <el-row class="pagination-row">

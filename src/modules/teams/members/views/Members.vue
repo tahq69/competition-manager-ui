@@ -70,7 +70,6 @@ export default Vue.extend({
         <template slot-scope="member">
           <ManageTeamMemberLink :team="member.row.team_id"
                                 :member="member.row.id"
-                                title="Edit team member details"
                                 icon="edit"
                                 type="primary"
                                 button
@@ -79,7 +78,6 @@ export default Vue.extend({
 
           <ProfileLink v-if="hasProfile(member.row)"
                        :user="member.row.user_id"
-                       title="Member user profile"
                        button
                        mini>
             Profile

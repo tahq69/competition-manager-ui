@@ -230,21 +230,18 @@ export default Vue.extend({
          class="clearfix">
       <span>{{ title }}</span>
       <ManageTeamLink :team="team"
-                      title="Edit team details"
                       icon="edit"
                       button
                       mini>
         Team
       </ManageTeamLink>
       <TeamLink :team="team"
-                title="Team details"
                 icon="view"
                 button
                 mini>
         Team
       </TeamLink>
       <ManageTeamMembersLink :team="team"
-                             title="Manage team members"
                              icon="tickets"
                              button
                              mini>

@@ -38,7 +38,6 @@ export default Vue.extend({
        v-loading="loading">
 
     <ManageCompetitionLink :cm="cm"
-                           title="Edit competition details"
                            type="primary"
                            icon="edit"
                            button

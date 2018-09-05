@@ -37,22 +37,19 @@ export default Vue.extend({
     <div slot="header"
          class="clearfix">
       <span>{{ $t('teams.manage_members_grid_title') }}</span>
-      <ManageTeamLink title="Edit team details"
-                      icon="edit"
+      <ManageTeamLink icon="edit"
                       :team="team"
                       button
                       mini>
         {{ $t('teams.manage_members_grid_head_manage_team') }}
       </ManageTeamLink>
-      <TeamLink title="View team public profile"
-                icon="view"
+      <TeamLink icon="view"
                 :team="team"
                 button
                 mini>
         Team
       </TeamLink>
-      <CreateTeamMemberLink title="Create new member in a team"
-                            icon="plus"
+      <CreateTeamMemberLink icon="plus"
                             :team="team"
                             button
                             mini>
@@ -79,7 +76,6 @@ export default Vue.extend({
           <template slot-scope="member">
             <ManageTeamMemberLink :team="member.row.team_id"
                                   :member="member.row.id"
-                                  :title="$t('teams.manage_members_grid_btn_edit_title')"
                                   type="primary"
                                   icon="edit"
                                   button

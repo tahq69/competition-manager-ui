@@ -75,7 +75,6 @@ export default Vue.extend({
               v-for="team in profile.teams"
               :key="team.id">
             <TeamLink :team="team.id"
-                      :title="team.name"
                       class="team-thumbnail">
               <img :src="team.logo || teamDefault"
                    class="team-img" />

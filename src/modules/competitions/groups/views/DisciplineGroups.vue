@@ -139,7 +139,6 @@ export default Vue.extend({
           <ManageGroupLink :cm="cm"
                            :discipline="discipline"
                            :group="group.row.id"
-                           title="Edit group"
                            type="primary"
                            icon="edit"
                            button
@@ -157,7 +156,6 @@ export default Vue.extend({
                                 :discipline="discipline"
                                 :group="group.row.id"
                                 :category="group.row.categories[i - 1].id"
-                                title="Edit category"
                                 type="primary"
                                 icon="edit"
                                 button
@@ -168,7 +166,6 @@ export default Vue.extend({
             <CreateCategoryLink :cm="cm"
                                 :discipline="discipline"
                                 :group="group.row.id"
-                                title="Create category"
                                 type="success"
                                 icon="plus"
                                 button
@@ -181,7 +178,6 @@ export default Vue.extend({
 
     <CreateGroupLink :cm="cm"
                      :discipline="discipline"
-                     title="Create group"
                      type="success"
                      icon="plus"
                      button

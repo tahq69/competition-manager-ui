@@ -64,14 +64,12 @@ export default Vue.extend({
             v-bind="sizes"
             class="discipline-col">
       <DisciplineCard :cm="cm"
-                      :discipline="discipline"
-                      title="View discipline details" />
+                      :discipline="discipline" />
     </el-col>
     <el-col v-if="isCreateVisible"
             v-bind="sizes"
             class="discipline-col">
-      <CreateDisciplineCard :cm="cm"
-                            title="Create new discipline" />
+      <CreateDisciplineCard :cm="cm" />
     </el-col>
   </el-row>
 </template>
