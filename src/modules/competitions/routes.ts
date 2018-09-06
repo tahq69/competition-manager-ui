@@ -15,6 +15,10 @@ import {
   disciplines,
   root as disciplinesRoot
 } from "@/modules/competitions/disciplines/routes";
+import {
+  members,
+  root as membersRoot
+} from "@/modules/competitions/members/routes";
 import { areas, root as areasRoot } from "@/modules/competitions/areas/routes";
 
 /** Public routes */
@@ -59,11 +63,13 @@ export const root: RouteConfig[] = [
         props: true
       },
       ...disciplines,
-      ...areas
+      ...areas,
+      ...members
     ]
   },
   ...disciplinesRoot,
-  ...areasRoot
+  ...areasRoot,
+  ...membersRoot
 ];
 
 export const competitionsRoute = (p?: { page: number | string }) =>

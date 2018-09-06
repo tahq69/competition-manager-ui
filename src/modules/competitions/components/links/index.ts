@@ -3,6 +3,7 @@ import Vue from "vue";
 import AreaLink from "@/modules/competitions/components/links/AreaLink";
 import AreasLink from "@/modules/competitions/components/links/AreasLink";
 import CompetitionLink from "@/modules/competitions/components/links/CompetitionLink";
+import CompetitionMembersLink from "@/modules/competitions/components/links/CompetitionMembersLink";
 import CompetitionsLink from "@/modules/competitions/components/links/CompetitionsLink";
 import CreateAreaLink from "@/modules/competitions/components/links/CreateAreaLink";
 import CreateCategoryLink from "@/modules/competitions/components/links/CreateCategoryLink";
@@ -21,6 +22,7 @@ import ManageGroupLink from "@/modules/competitions/components/links/ManageGroup
 Vue.component("AreaLink", AreaLink);
 Vue.component("AreasLink", AreasLink);
 Vue.component("CompetitionLink", CompetitionLink);
+Vue.component("CompetitionMembersLink", CompetitionMembersLink);
 Vue.component("CompetitionsLink", CompetitionsLink);
 Vue.component("CreateAreaLink", CreateAreaLink);
 Vue.component("CreateCategoryLink", CreateCategoryLink);

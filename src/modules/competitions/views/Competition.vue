@@ -28,20 +28,26 @@ export default Vue.extend({
     <el-card class="tabs-card">
       <el-breadcrumb slot="header">
         <el-breadcrumb-item>
-          <CompetitionLink :cm="cm">
+          <CompetitionLink v-if="activeTab !== defaultRoute"
+                           :cm="cm">
             Competition
           </CompetitionLink>
+          <span v-else>
+            Competition
+          </span>
         </el-breadcrumb-item>
 
         <template v-if="activeTab != defaultRoute">
           <el-breadcrumb-item v-if="$route.name == routes.competitionDisciplines.name">
-            <DisciplinesLink :cm="cm">
-              {{ $t("competitions.competition_disciplines_tab") }}
-            </DisciplinesLink>
+            {{ $t("competitions.competition_disciplines_tab") }}
           </el-breadcrumb-item>
 
           <el-breadcrumb-item v-if="$route.name == routes.competitionAreas.name">
             {{ $t("competitions.competition_areas_tab") }}
+          </el-breadcrumb-item>
+
+          <el-breadcrumb-item v-if="$route.name == routes.competitionMembers.name">
+            Members
           </el-breadcrumb-item>
         </template>
       </el-breadcrumb>
@@ -69,6 +75,14 @@ export default Vue.extend({
                      tag="div">
             {{ $t("competitions.competition_areas_tab") }}
           </AreasLink>
+        </el-tab-pane>
+
+        <el-tab-pane :name="routes.competitionMembers.name">
+          <CompetitionMembersLink slot="label"
+                                  :cm="cm"
+                                  tag="div">
+            Members
+          </CompetitionMembersLink>
         </el-tab-pane>
       </el-tabs>
 
