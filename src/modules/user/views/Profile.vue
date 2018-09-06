@@ -4,9 +4,9 @@ import Vue from "vue";
 import { Next } from "@/typings";
 import ImageCard from "@/components/cards/ImageCard.vue";
 
-import userService from "#/user/service";
-import { Profile } from "#/user/models/profile";
-import { ProfileTeam } from "#/user/models/profile-team";
+import { fetchUserProfile } from "@/modules/user/service";
+import { Profile } from "@/modules/user/models/profile";
+import { ProfileTeam } from "@/modules/user/models/profile-team";
 
 export default Vue.extend({
   name: "Profile",
@@ -44,8 +44,7 @@ export default Vue.extend({
     async fetchProfile() {
       this.loading = true;
 
-      var profile = await userService.fetchUserProfile({ id: this.user });
-      this.profile = profile;
+      this.profile = await fetchUserProfile({ id: this.user });
 
       this.loading = false;
     }
@@ -75,6 +74,7 @@ export default Vue.extend({
               v-for="team in profile.teams"
               :key="team.id">
             <TeamLink :team="team.id"
+                      :tooltip="team.name"
                       class="team-thumbnail">
               <img :src="team.logo || teamDefault"
                    class="team-img" />

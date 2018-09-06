@@ -6,8 +6,8 @@ import { ElForm, Rules, Rule } from "@/typings";
 import { login } from "@/router/routes";
 import { required, rule } from "@/helpers/validators";
 
-import userService from "#/user/service";
-import { ForgotPassword } from "#/user/models/forgot-password";
+import { emailPasswordReset } from "@/modules/user/service";
+import { ForgotPassword } from "@/modules/user/models";
 
 export default Vue.extend({
   name: "ForgotPassword",
@@ -51,7 +51,7 @@ export default Vue.extend({
         }
 
         try {
-          await userService.emailPasswordReset(this.form);
+          await emailPasswordReset(this.form);
 
           Notification.success({
             title: "Password reset request sent.",

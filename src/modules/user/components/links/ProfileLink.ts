@@ -10,7 +10,8 @@ export default Vue.extend({
   mixins: [link],
 
   props: {
-    user: { type: [String, Number], required: true }
+    user: { type: [String, Number], required: true },
+    tooltip: { type: String, default: "View user profile" }
   },
 
   computed: {

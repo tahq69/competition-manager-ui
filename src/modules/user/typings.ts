@@ -1,10 +1,10 @@
 import { Id } from "@/typings";
 
-export interface IFetchUserProfile {
+export interface FetchProfilePayload {
   id?: Id;
 }
 
-export interface IResetPassword {
+export interface ResetPasswordPayload {
   email: string;
   password: string;
   password_confirmation: string;

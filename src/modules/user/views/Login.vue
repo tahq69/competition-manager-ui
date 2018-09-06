@@ -7,7 +7,7 @@ import Auth, { middleware as auth } from "@/components/auth";
 import { required, rule } from "@/helpers/validators";
 import { forgotPassword, home } from "@/router/routes";
 
-import { Credentials } from "#/user/models/credentials";
+import { Credentials } from "@/modules/user/models/credentials";
 
 type ServerError = string | null;
 

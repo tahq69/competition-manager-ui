@@ -6,8 +6,8 @@ import { ElForm, Rules, Rule } from "@/typings";
 import { login } from "@/router/routes";
 import { required, rule, validate } from "@/helpers/validators";
 
-import userService from "#/user/service";
-import { ResetPassword } from "#/user/models/reset-password";
+import { resetPassword } from "@/modules/user/service";
+import { ResetPassword } from "@/modules/user/models";
 
 export default Vue.extend({
   name: "ResetPassword",
@@ -77,7 +77,7 @@ export default Vue.extend({
           this.loading = true;
 
           const details = Object.assign({}, this.form, { token: this.token });
-          const message = await userService.resetPassword(details);
+          const message = await resetPassword(details);
 
           Notification.info(message);
 
