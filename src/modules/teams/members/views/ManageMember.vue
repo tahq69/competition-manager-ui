@@ -2,27 +2,30 @@
 import Vue from "vue";
 
 import { ElForm, Rules, Rule } from "@/typings";
-import { manageTeamMember } from "@/router/routes";
-import { searchUser } from "@/helpers/service";
+import { searchUser } from "@/helpers";
 import { required } from "@/helpers/validators";
 import { UserBase } from "@/components/auth/models/user-base";
+import { visibility } from "@/components/mixins";
 
-import { ManageTeamMember, TeamMember, Team } from "#/teams/models";
-import { fetchTeam } from "#/teams/service";
+import { ManageTeamMember, TeamMember, Team } from "@/modules/teams/models";
+import { fetchTeam } from "@/modules/teams/service";
 
 import {
   fetchTeamMember,
   saveTeamMember,
   saveMemberRoles
-} from "#/teams/members/service";
-import { TeamMemberAuth } from "#/teams/members/auth";
-import { manageTeamMemberRoute } from "#/teams/members/routes";
+} from "@/modules/teams/members/service";
+import { manageTeamMemberRoute } from "@/modules/teams/members/routes";
+import { TeamMemberAuth } from "@/modules/teams/members/auth";
 
-import MemberRoleInput from "#/teams/components/MemberRoleInput.vue";
+import MemberRoleInput from "@/modules/teams/components/MemberRoleInput.vue";
+
 export default Vue.extend({
   name: "ManageMember",
 
   components: { MemberRoleInput },
+
+  mixins: [visibility],
 
   props: {
     team: { type: [String, Number], required: true },
@@ -109,7 +112,7 @@ export default Vue.extend({
 
       this.initialUserId = user_id || 0;
       this.selectedUser = { id: this.initialUserId, name };
-      this.searchedUsers.push(this.selectedUser);
+      this.searchedUsers = [this.selectedUser];
 
       // fill up form with member information from API.
       this.form.user_id = this.initialUserId;
@@ -156,10 +159,13 @@ export default Vue.extend({
 
           this.$notify.success(this.notificationDetails());
 
+          this.setMember(member);
+
           const route = manageTeamMemberRoute({
             team: this.team,
             member: member.id
           });
+
           this.$router.push(route);
         } catch (errors) {
           this.errors = this.concatErrors(errors);
@@ -203,7 +209,7 @@ export default Vue.extend({
       };
     },
 
-    async checkPermissions() {
+    async checkVisibility() {
       this.canEditRoles = await TeamMemberAuth.canEditRoles({
         team: this.team
       });
@@ -212,14 +218,14 @@ export default Vue.extend({
 
   watch: {
     selectedUser: "associateMember",
-    member: "checkPermissions"
+    member: "checkVisibility"
   },
 
   created() {
     this.log = this.$logger.component(this);
     this.fetchData();
 
-    this.checkPermissions();
+    this.checkVisibility();
   }
 });
 </script>
