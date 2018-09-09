@@ -116,10 +116,10 @@ export default Vue.extend({
                              sortable="custom"
                              label="From">
               <template slot-scope="msg">
-                {{ msg.row.from_name }}
-                <span v-if="msg.row.reply_count">
-                  &nbsp;( {{ msg.row.reply_count }} )
-                </span>
+                <div class="nowrap">
+                  {{ msg.row.from_name }}&nbsp;
+                  <span v-if="msg.row.reply_count">( {{ msg.row.reply_count }} )</span>
+                </div>
               </template>
             </el-table-column>
             <el-table-column v-if="type === 'outbox'"
@@ -127,19 +127,26 @@ export default Vue.extend({
                              sortable="custom"
                              label="To">
               <template slot-scope="msg">
-                {{ msg.row.to_name }}
-                <span v-if="msg.row.reply_count">
-                  &nbsp;( {{ msg.row.reply_count }} )
-                </span>
+                <div class="nowrap">
+                  {{ msg.row.to_name }}&nbsp;
+                  <span v-if="msg.row.reply_count">( {{ msg.row.reply_count }} )</span>
+                </div>
               </template>
             </el-table-column>
-            <el-table-column prop="subject"
-                             sortable="custom"
-                             label="Subject">
+            <el-table-column sortable="custom"
+                             label="Subject"
+                             style="white-space: nowrap">
+              <template slot-scope="msg">
+                <span class="nowrap">{{ msg.row.subject }}</span>
+              </template>
             </el-table-column>
-            <el-table-column prop="date_from_now"
-                             sortable="custom"
+            <el-table-column sortable="custom"
                              label="Date">
+              <template slot-scope="msg">
+                <el-tooltip :content="msg.row.audit.created.at">
+                  <span class="nowrap">{{ msg.row.date_from_now }}</span>
+                </el-tooltip>
+              </template>
             </el-table-column>
           </el-table>
 

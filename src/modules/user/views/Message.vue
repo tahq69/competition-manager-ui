@@ -69,16 +69,7 @@ export default Vue.extend({
     },
 
     flattenMessages(message: Message, isInitial = true) {
-      const msg = new Message(message);
-      const subjectMaxLength = 40;
-      const subjectLength = msg.subject.length;
-      const tLen = Math.min(subjectLength - 4, 40);
-      msg.audit = message.audit;
-      msg.subject =
-        subjectLength >= 40
-          ? msg.subject.substring(0, tLen) + "..."
-          : msg.subject;
-      this.messages.push(msg);
+      this.messages.push(message);
 
       if (message.reply_on) {
         this.flattenMessages(message.reply_on, false);
@@ -127,13 +118,16 @@ export default Vue.extend({
             <strong>{{ msg.row.from_name }}</strong>
           </template>
         </el-table-column>
-        <el-table-column prop="subject">
+        <el-table-column>
+          <template slot-scope="msg">
+            <div class="nowrap">{{ msg.row.subject }}</div>
+          </template>
         </el-table-column>
         <el-table-column>
           <template slot-scope="msg">
-            <span class="float-right">
-              {{ msg.row.date_from_now }} ({{ msg.row.audit.created.at }})
-            </span>
+            <el-tooltip :content="msg.row.audit.created.at">
+              <span class="nowrap">{{ msg.row.date_from_now }}</span>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>

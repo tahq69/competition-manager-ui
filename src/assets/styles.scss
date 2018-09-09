@@ -36,3 +36,9 @@ a.el-link-button {
 .float-left {
   float: left;
 }
+
+.nowrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
