@@ -24,6 +24,7 @@ import profileVue from "@/modules/user/views/Profile.vue";
 import messagesView from "@/modules/user/views/Messages.vue";
 import messageView from "@/modules/user/views/Message.vue";
 import createMessageView from "@/modules/user/views/CreateMessage.vue";
+import { MessagesType } from "@/modules/user/typings";
 
 export default [
   {
@@ -50,17 +51,17 @@ export default [
     props: true,
     children: [
       {
-        ...message,
-        component: messageView,
-        path: "/message/:message(\\d+)",
-        meta: { auth: true },
-        props: true
-      },
-      {
         ...createMessage,
         component: createMessageView,
-        path: "/message/new",
+        path: "new",
         meta: { auth: true }
+      },
+      {
+        ...message,
+        component: messageView,
+        path: "read/:message(\\d+)",
+        meta: { auth: true },
+        props: true
       }
     ]
   },
@@ -85,18 +86,16 @@ export default [
 export const userProfileRoute = (p: { user: Id }) =>
   createRoute(profile, p, {});
 
-export function messagesRoute(p: { type?: string } & PagingParams) {
-  const direction = "descending";
-  const pageSize = 20;
-  const params = { page: 1, pageSize, sort: "id", direction, type: "inbox" };
-
-  return createRoute(messages, p, params);
+export function messagesRoute(p?: { type?: MessagesType } & PagingParams) {
+  if (!p) p = {};
+  p.type = p.type === "outbox" ? "outbox" : "inbox";
+  return createRoute(messages, p);
 }
 
 export function messageRoute(p: { message: Id }) {
   return createRoute(message, p, {});
 }
 
-export function newMessageRoute() {
-  return createRoute(message, {}, {});
+export function createMessageRoute() {
+  return createRoute(createMessage, {}, {});
 }

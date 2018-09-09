@@ -1,6 +1,8 @@
 import { Id } from "@/typings";
 import { Paging } from "@/helpers";
 
+export type MessagesType = "inbox" | "outbox";
+
 export interface FetchProfilePayload {
   id?: Id;
 }

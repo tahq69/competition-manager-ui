@@ -4,16 +4,16 @@ import { Location } from "vue-router";
 import { getters } from "@/store";
 import { link, visibility } from "@/components/mixins";
 
-import { newMessageRoute } from "@/modules/user/routes";
+import { createMessageRoute } from "@/modules/user/routes";
 
 export default Vue.extend({
-  name: "NewMessageLink",
+  name: "CreateMessageLink",
 
   mixins: [link, visibility],
 
   computed: {
     to(): Location {
-      return newMessageRoute();
+      return createMessageRoute();
     }
   },
 

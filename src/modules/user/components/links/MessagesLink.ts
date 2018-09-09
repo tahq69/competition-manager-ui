@@ -5,6 +5,7 @@ import { getters } from "@/store";
 import { link, visibility } from "@/components/mixins";
 
 import { messagesRoute } from "@/modules/user/routes";
+import { MessagesType } from "@/modules/user/typings";
 
 export default Vue.extend({
   name: "MessagesLink",
@@ -12,7 +13,7 @@ export default Vue.extend({
   mixins: [link, visibility],
 
   props: {
-    type: {
+    msgType: {
       type: String,
       default: "inbox",
       validator: (val: string) => ["inbox", "outbox"].indexOf(val) > -1
@@ -21,7 +22,8 @@ export default Vue.extend({
 
   computed: {
     to(): Location {
-      return messagesRoute({ type: this.type });
+      const type = this.msgType as MessagesType;
+      return messagesRoute({ type });
     }
   },
 

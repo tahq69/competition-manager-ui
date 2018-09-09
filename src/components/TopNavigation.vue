@@ -5,6 +5,7 @@ import { getters } from "@/store";
 import { locales, LocaleType, ILocale, i18n, SetLocale } from "@/lang";
 import Auth, { middleware as auth, roles } from "@/components/auth";
 import * as routes from "@/router/routes";
+import { messagesRoute } from "@/modules/user/routes";
 
 type Locale = { key: LocaleType; text: string };
 type Locales = Locale[];
@@ -48,12 +49,14 @@ export default Vue.extend({
     },
 
     userAction(command: string) {
-      if (command === "logout") {
-        Auth.logout();
-        return;
+      switch (command) {
+        case "logout":
+          return Auth.logout();
+        case routes.messages.name:
+          return this.goTo(messagesRoute());
+        default:
+          return this.goTo({ name: command });
       }
-
-      this.goTo({ name: command });
     },
 
     goTo(route: any) {
@@ -96,6 +99,7 @@ export default Vue.extend({
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item :command="routes.authProfile.name">{{ t("profile") }}</el-dropdown-item>
+          <el-dropdown-item :command="routes.messages.name">{{ t("messages") }}</el-dropdown-item>
           <el-dropdown-item command="logout">{{ t("logout") }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
