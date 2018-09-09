@@ -2,6 +2,7 @@ import { url as createUrl, httpContext, Paginated } from "@/helpers";
 import { getters } from "@/store";
 
 import {
+  FetchMessagePayload,
   FetchMessagesPayload,
   FetchProfilePayload,
   ResetPasswordPayload
@@ -41,5 +42,15 @@ export async function fetchMessages(payload: FetchMessagesPayload) {
     const response = await http.get(url);
 
     return new Paginated(response, r => new Message(r));
+  });
+}
+
+export async function fetchMessage(payload: FetchMessagePayload) {
+  return await httpContext(async http => {
+    const props = { urlReplace: payload };
+    const url = createUrl("user/messages/read/{id}", props);
+    const response = await http.get(url);
+
+    return new Message(response.data);
   });
 }

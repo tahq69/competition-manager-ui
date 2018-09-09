@@ -106,6 +106,11 @@ export default Vue.extend({
                     :default-sort="defaultSort"
                     @sort-change="onSortChange"
                     @row-click="onRowClick">
+            <el-table-column prop="id"
+                             sortable="custom"
+                             width="80"
+                             label="#">
+            </el-table-column>
             <el-table-column v-if="type === 'inbox'"
                              prop="from_name"
                              sortable="custom"
@@ -134,7 +139,7 @@ export default Vue.extend({
             </el-table-column>
             <el-table-column prop="date_from_now"
                              sortable="custom"
-                             label="Subject">
+                             label="Date">
             </el-table-column>
           </el-table>
 

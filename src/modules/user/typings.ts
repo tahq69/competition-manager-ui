@@ -18,3 +18,7 @@ export interface FetchMessagesPayload {
   outbox?: boolean;
   paging: Paging;
 }
+
+export interface FetchMessagePayload {
+  id: Id;
+}
