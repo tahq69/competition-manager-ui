@@ -1,11 +1,12 @@
-import { url as createUrl, httpContext } from "@/helpers/rest";
+import { url as createUrl, httpContext, Paginated } from "@/helpers";
 import { getters } from "@/store";
 
-import { Profile } from "@/modules/user/models";
 import {
+  FetchMessagesPayload,
   FetchProfilePayload,
   ResetPasswordPayload
 } from "@/modules/user/typings";
+import { Profile, Message } from "@/modules/user/models";
 
 export async function fetchUserProfile(payload: FetchProfilePayload) {
   return await httpContext(async http => {
@@ -29,5 +30,16 @@ export async function resetPassword(payload: ResetPasswordPayload) {
     const url = createUrl("password/reset");
     const response = await http.post(url, payload);
     return response.data.status as string;
+  });
+}
+
+export async function fetchMessages(payload: FetchMessagesPayload) {
+  return await httpContext(async http => {
+    const type = payload.outbox ? "outbox" : "inbox";
+    const paging = payload.paging.urlParams;
+    const url = createUrl("user/messages", { params: { type, ...paging } });
+    const response = await http.get(url);
+
+    return new Paginated(response, r => new Message(r));
   });
 }
