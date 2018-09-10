@@ -2,17 +2,22 @@
 import Vue from "vue";
 
 import { SortDirection } from "@/typings";
+import { emitEvent } from "@/helpers";
 
 import { Message, MessageType } from "@/modules/user/models";
 import { MessagesType } from "@/modules/user/typings";
 import { fetchMessage } from "@/modules/user/service";
 import { messagesRoute } from "@/modules/user/routes";
 
+import ReplyMessage from "@/modules/user/components/ReplyMessage.vue";
+
 const validator = (page: string | number) => parseInt(page.toString()) > 0;
 const directions = ["ascending", "descending"];
 
 export default Vue.extend({
   name: "Message",
+
+  components: { ReplyMessage },
 
   props: {
     type: { type: String, required: true },
@@ -32,26 +37,38 @@ export default Vue.extend({
     loading: true,
     msg: {} as Message,
     messages: [] as Message[],
-    messageType: MessageType
+    messageType: MessageType,
+    isReplyVisible: false
   }),
 
   computed: {
     tableRef(): any {
       return this.$refs["table"];
+    },
+
+    replySubject(): string {
+      return this.msg.subject.indexOf("Re: ") === 0
+        ? this.msg.subject
+        : `Re: ${this.msg.subject}`;
+    },
+
+    canReply(): boolean {
+      // reply is available only if message is opened from inbox.
+      return this.type === "inbox";
     }
   },
 
   methods: {
     goToInbox() {
-      this.$router.push(
-        messagesRoute({
-          type: this.type as MessagesType,
-          direction: this.direction as SortDirection,
-          pageSize: this.pageSize,
-          page: this.page,
-          sort: this.sort
-        })
-      );
+      const direction = this.direction as SortDirection;
+      const page = this.page;
+      const pageSize = this.pageSize;
+      const sort = this.sort;
+      const type = this.type as MessagesType;
+
+      const route = messagesRoute({ direction, page, pageSize, sort, type });
+
+      this.$router.push(route);
     },
 
     async fetchData() {
@@ -61,19 +78,23 @@ export default Vue.extend({
       this.flattenMessages(this.msg);
 
       this.$nextTick(() => {
-        // open message body when messages in table is rendered.
+        // open lates message body when all messages in table are rendered.
         this.tableRef.toggleRowExpansion(this.messages[0], true);
       });
 
       this.loading = false;
     },
 
-    flattenMessages(message: Message, isInitial = true) {
+    flattenMessages(message: Message) {
       this.messages.push(message);
 
       if (message.reply_on) {
-        this.flattenMessages(message.reply_on, false);
+        this.flattenMessages(message.reply_on);
       }
+    },
+
+    reply() {
+      emitEvent("message:reply");
     }
   },
 
@@ -85,7 +106,7 @@ export default Vue.extend({
   watch: {
     isVisible(newValue) {
       if (!newValue) {
-        // If user manually closes model, redirect user back to the inbox.
+        // If user manually closes modal, redirect user back to the inbox.
         this.goToInbox();
       }
     }
@@ -95,16 +116,19 @@ export default Vue.extend({
 
 <template>
   <el-dialog :visible.sync="isVisible"
-             width="90%">
+             :close-on-click-modal="false"
+             title="Message"
+             width="90%"
+             custom-class="message-modal">
     <div v-loading="loading"
          id="message">
       <el-table ref="table"
                 :data="messages"
                 :show-header="false">
         <el-table-column type="expand">
-          <template slot-scope="props">
-            <div v-if="message.type == messageType.UserMessage"
-                 v-html="message.body"></div>
+          <template slot-scope="m">
+            <div v-if="m.row.type == messageType.UserMessage"
+                 v-html="m.row.body"></div>
             <div v-else>TODO</div>
             <!-- todo: implement invitation type component
             <team-member-invitation
@@ -132,5 +156,37 @@ export default Vue.extend({
         </el-table-column>
       </el-table>
     </div>
+
+    <ReplyMessage v-if="isReplyVisible"
+                  :subject="replySubject"
+                  :id="msg.id"
+                  @sent="goToInbox"
+                  class="reply-message" />
+
+    <span slot="footer"
+          class="dialog-footer">
+      <el-button v-if="!isReplyVisible && canReply"
+                 @click="isReplyVisible = true">
+        Reply
+      </el-button>
+
+      <el-button type="primary"
+                 v-if="isReplyVisible && canReply"
+                 @click="reply">
+        Send reply
+      </el-button>
+    </span>
   </el-dialog>
 </template>
+
+<style lang="scss">
+.message-modal {
+  .el-dialog__body {
+    padding: 15px 20px;
+  }
+
+  .reply-message {
+    padding-top: 20px;
+  }
+}
+</style>

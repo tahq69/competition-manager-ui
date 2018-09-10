@@ -5,6 +5,7 @@ import {
   FetchMessagePayload,
   FetchMessagesPayload,
   FetchProfilePayload,
+  ReplyOnMessagePayload,
   ResetPasswordPayload
 } from "@/modules/user/typings";
 import { Profile, Message } from "@/modules/user/models";
@@ -50,6 +51,15 @@ export async function fetchMessage(payload: FetchMessagePayload) {
     const props = { urlReplace: payload };
     const url = createUrl("user/messages/read/{id}", props);
     const response = await http.get(url);
+
+    return new Message(response.data);
+  });
+}
+
+export async function replyOnMessage(payload: ReplyOnMessagePayload) {
+  return await httpContext(async http => {
+    const url = createUrl("user/messages/{id}/reply", { urlReplace: payload });
+    const response = await http.post(url, payload);
 
     return new Message(response.data);
   });

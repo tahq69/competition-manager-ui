@@ -22,3 +22,10 @@ export interface FetchMessagesPayload {
 export interface FetchMessagePayload {
   id: Id;
 }
+
+export interface ReplyOnMessagePayload {
+  id: Id;
+  subject: string;
+  body: string;
+  importance_level?: number;
+}

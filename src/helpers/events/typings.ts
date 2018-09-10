@@ -4,4 +4,6 @@ export type Events =
   | "cm:category:saved"
   | "cm:category:deleted"
   | "cm:group:saved"
-  | "cm:group:deleted";
+  | "cm:group:deleted"
+  | "message:reply"
+  | "message:send";
