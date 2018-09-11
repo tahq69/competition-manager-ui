@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { ElForm, Rules, Rule } from "@/typings";
+import { ElForm, Rules } from "@/typings";
 import { searchUser } from "@/helpers";
 import { required } from "@/helpers/validators";
 import { UserBase } from "@/components/auth/models/user-base";

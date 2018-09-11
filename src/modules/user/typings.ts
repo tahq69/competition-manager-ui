@@ -29,3 +29,10 @@ export interface ReplyOnMessagePayload {
   body: string;
   importance_level?: number;
 }
+
+export interface SendMessagePayload {
+  to: Id;
+  subject: string;
+  body: string;
+  importance_level?: number;
+}

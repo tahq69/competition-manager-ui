@@ -3,7 +3,7 @@ import Vue from "vue";
 import { Notification } from "element-ui";
 
 import { ElForm, Rules } from "@/typings";
-import { onEvent, offEvent } from "@/helpers";
+import { onEvent, offEvent, emitEvent } from "@/helpers";
 import { required } from "@/helpers/validators";
 
 import { ReplyMessage } from "@/modules/user/models";
@@ -37,35 +37,28 @@ export default Vue.extend({
   },
 
   methods: {
-    async sendReply() {
-      this.log(this.form);
+    sendReply() {
       if (this.loading) return;
-
       this.loading = true;
+
       this.errors = {};
-
       this.formRef.validate(async valid => {
-        if (!valid) {
-          this.loading = false;
-          return false;
-        }
-
-        try {
-          const msg = await replyOnMessage({ ...this.form, id: this.id });
-
-          Notification.success({
-            title: "Reply message sent.",
-            message: `${msg.to_name} received your reply message`
-          });
-
-          this.loading = false;
-          this.$emit("sent");
-        } catch (errors) {
-          this.loading = false;
-          this.errors = errors;
-          this.$emit("error");
-        }
+        if (valid) await this.sendReplyMessage();
+        this.loading = false;
       });
+    },
+
+    async sendReplyMessage() {
+      try {
+        const msg = await replyOnMessage({ ...this.form, id: this.id });
+
+        Notification.success("Reply message sent.");
+
+        this.$emit("sent");
+        emitEvent("message:sent", msg);
+      } catch (errors) {
+        this.errors = errors;
+      }
     }
   },
 

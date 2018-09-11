@@ -54,7 +54,8 @@ export default [
         ...createMessage,
         component: createMessageView,
         path: "new",
-        meta: { auth: true }
+        meta: { auth: true },
+        props: true
       },
       {
         ...message,

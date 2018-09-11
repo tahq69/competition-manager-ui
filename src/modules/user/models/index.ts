@@ -1,3 +1,4 @@
+export * from "./create-message";
 export * from "./credentials";
 export * from "./forgot-password";
 export * from "./message";

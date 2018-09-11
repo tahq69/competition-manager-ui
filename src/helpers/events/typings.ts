@@ -6,4 +6,4 @@ export type Events =
   | "cm:group:saved"
   | "cm:group:deleted"
   | "message:reply"
-  | "message:send";
+  | "message:sent";

@@ -2,7 +2,7 @@
 import Vue from "vue";
 
 import * as routes from "@/router/routes";
-import { Paging } from "@/helpers";
+import { Paging, onEvent, offEvent } from "@/helpers";
 import { table } from "@/components/mixins";
 
 import { Message } from "@/modules/user/models";
@@ -69,11 +69,19 @@ export default Vue.extend({
       // opens message modal...
       const route = messageRoute({ message: row.id });
       this.$router.push(route);
+    },
+
+    addSentMessage(msg: Message) {
+      if (this.type !== "outbox") return;
+
+      // when message is sent, add it to the top of the list.
+      this.messages.splice(0, 0, msg);
     }
   },
 
   created() {
     this.log = this.$logger.component(this);
+    onEvent("message:sent", this.addSentMessage);
   },
 
   watch: {
@@ -81,6 +89,10 @@ export default Vue.extend({
       // If we move between inbox/outbox routes, fetch data from server.
       (this as any).fetchPageWrapper();
     }
+  },
+
+  beforeDestroy() {
+    offEvent("message:sent", this.addSentMessage);
   }
 });
 </script>
