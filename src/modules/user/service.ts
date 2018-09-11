@@ -74,3 +74,12 @@ export async function sendMessage(payload: SendMessagePayload) {
     return new Message(response.data);
   });
 }
+
+export async function fetchMessageCount() {
+  return await httpContext(async http => {
+    const url = createUrl("user/messages/count/unread");
+    const response = await http.get(url);
+
+    return response.data as number;
+  });
+}
