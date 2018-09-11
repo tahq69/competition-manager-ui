@@ -3,8 +3,10 @@ import Vue from "vue";
 
 import * as routes from "@/router/routes";
 import { Paging, onEvent, offEvent } from "@/helpers";
+import { store, getters } from "@/store";
 import { table } from "@/components/mixins";
 
+import { FetchUnreadMessageCount } from "@/modules/user/store/typings";
 import { Message } from "@/modules/user/models";
 import { fetchMessages } from "@/modules/user/service";
 import {
@@ -17,6 +19,24 @@ export default Vue.extend({
   name: "Messages",
 
   mixins: [table],
+
+  beforeRouteEnter(to, from, next) {
+    // force store to update unread message count when entering this view.
+    store.dispatch<FetchUnreadMessageCount>({
+      type: "fetchUnreadMessageCount"
+    });
+
+    next();
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    // force store to update unread message count when reentering this view.
+    store.dispatch<FetchUnreadMessageCount>({
+      type: "fetchUnreadMessageCount"
+    });
+
+    next();
+  },
 
   props: {
     type: { type: String, required: true }
@@ -34,6 +54,14 @@ export default Vue.extend({
       }
 
       return "3";
+    },
+
+    unreadMessageCount(): number {
+      return getters.getUnreadMessageCount;
+    },
+
+    isMessageCountVisible(): boolean {
+      return !getters.isMessageCountLoading && this.unreadMessageCount > 0;
     }
   },
 
@@ -76,6 +104,11 @@ export default Vue.extend({
 
       // when message is sent, add it to the top of the list.
       this.messages.splice(0, 0, msg);
+    },
+
+    getRowClassName({ row, rowIndex }: { row: Message; rowIndex: number }) {
+      if (!row.is_read) return "unread-message";
+      return "";
     }
   },
 
@@ -106,7 +139,8 @@ export default Vue.extend({
           <el-menu-item index="3">New message</el-menu-item>
           <el-menu-item index="1">
             Inbox
-            <el-badge :value="12"></el-badge>
+            <el-badge v-if="isMessageCountVisible"
+                      :value="unreadMessageCount" />
           </el-menu-item>
           <el-menu-item index="2">Outbox</el-menu-item>
         </el-menu>
@@ -116,6 +150,7 @@ export default Vue.extend({
           <el-table class="row-as-link"
                     :data="messages"
                     :default-sort="defaultSort"
+                    :row-class-name="getRowClassName"
                     @sort-change="onSortChange"
                     @row-click="onRowClick">
             <el-table-column prop="id"
@@ -179,3 +214,11 @@ export default Vue.extend({
     <router-view></router-view>
   </div>
 </template>
+
+<style lang="scss">
+#user-messages {
+  .unread-message {
+    background-color: #ebeef5;
+  }
+}
+</style>
