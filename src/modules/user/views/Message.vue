@@ -10,6 +10,7 @@ import { fetchMessage } from "@/modules/user/service";
 import { messagesRoute } from "@/modules/user/routes";
 
 import ReplyMessage from "@/modules/user/components/ReplyMessage.vue";
+import TeamMemberInvitation from "@/modules/user/components/message/TeamMemberInvitation.vue";
 
 const validator = (page: string | number) => parseInt(page.toString()) > 0;
 const directions = ["ascending", "descending"];
@@ -17,7 +18,7 @@ const directions = ["ascending", "descending"];
 export default Vue.extend({
   name: "Message",
 
-  components: { ReplyMessage },
+  components: { ReplyMessage, TeamMemberInvitation },
 
   props: {
     type: { type: String, required: true },
@@ -129,12 +130,10 @@ export default Vue.extend({
           <template slot-scope="m">
             <div v-if="m.row.type == messageType.UserMessage"
                  v-html="m.row.body"></div>
+            <TeamMemberInvitation v-else-if="m.row.type == messageType.TeamMemberInvitation"
+                                  @close="goToInbox"
+                                  :message="m.row" />
             <div v-else>TODO</div>
-            <!-- todo: implement invitation type component
-            <team-member-invitation
-                v-else-if="message.isTeamMemberInvitation"
-                :message="message" :on-close="close"></team-member-invitation
-            >-->
           </template>
         </el-table-column>
         <el-table-column>
@@ -163,8 +162,8 @@ export default Vue.extend({
                   @sent="goToInbox"
                   class="reply-message" />
 
-    <span slot="footer"
-          class="dialog-footer">
+    <div slot="footer"
+         class="dialog-footer">
       <el-button v-if="!isReplyVisible && canReply"
                  @click="isReplyVisible = true">
         Reply
@@ -175,7 +174,7 @@ export default Vue.extend({
                  @click="reply">
         Send reply
       </el-button>
-    </span>
+    </div>
   </el-dialog>
 </template>
 
