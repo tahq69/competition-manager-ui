@@ -4,6 +4,11 @@ import Vue from "vue";
 import { getters } from "@/store";
 
 import { Message } from "@/modules/user/models";
+import {
+  refuseTeamMemberInvitation,
+  confirmTeamMemberInvitation
+} from "@/modules/user/service";
+import { TeamMemberInvitationPayload } from "@/modules/user/typings";
 
 export default Vue.extend({
   name: "TeamMemberInvitation",
@@ -19,7 +24,8 @@ export default Vue.extend({
 
   data: () => ({
     error: "",
-    checkFailed: false
+    loading: false,
+    completed: false
   }),
 
   computed: {
@@ -27,20 +33,27 @@ export default Vue.extend({
       return this.message.payload.from_team_name;
     },
 
-    user(): string {
-      return this.message.payload.from_user_name;
-    },
-
-    id(): number {
-      return this.message.payload.member_id;
-    },
-
     isCurrentUserInvitation(): boolean {
       return this.message.to_id === getters.user.id;
     },
 
+    notCurrentUserMessage(): string {
+      return `This invitation is sent to ${this.message.to_name}`;
+    },
+
     disabled(): boolean {
-      return !this.isCurrentUserInvitation || this.checkFailed;
+      return (
+        !this.isCurrentUserInvitation ||
+        this.message.payload.completed ||
+        this.completed
+      );
+    },
+
+    invitationPayload(): TeamMemberInvitationPayload {
+      return {
+        message: this.message.id,
+        member: this.message.payload.member_id
+      };
     }
   },
 
@@ -49,29 +62,32 @@ export default Vue.extend({
       this.$emit("close");
     },
 
-    confirm() {
-      if (this.disabled) return;
-      // TODO
+    async confirm() {
+      await this.changeInvitation(confirmTeamMemberInvitation);
     },
 
-    decline() {
-      if (this.disabled) return;
-      // TODO
+    async decline() {
+      await this.changeInvitation(refuseTeamMemberInvitation);
     },
 
-    checkInvitationStatus() {
-      // TODO
+    async changeInvitation(
+      callback: (payload: TeamMemberInvitationPayload) => Promise<void>
+    ) {
+      if (this.disabled) return;
+      this.loading = true;
+
+      const payload = this.invitationPayload;
+      await callback(payload);
+
+      this.loading = false;
+      this.completed = true;
     }
-  },
-
-  created() {
-    this.checkInvitationStatus();
   }
 });
 </script>
 
 <template>
-  <div>
+  <div v-loading="loading">
     <h3>Hello.</h3>
     <p>
       <span>You have been invited in to </span>
@@ -106,8 +122,9 @@ export default Vue.extend({
       {{ error }}
     </el-alert>
     <el-alert v-if="!isCurrentUserInvitation"
-              type="warning">
-      This invitation is sent to {{ message.to_name }}
-    </el-alert>
+              :title="notCurrentUserMessage"
+              :closable="false"
+              type="warning"
+              show-icon />
   </div>
 </template>

@@ -36,3 +36,8 @@ export interface SendMessagePayload {
   body: string;
   importance_level?: number;
 }
+
+export interface TeamMemberInvitationPayload {
+  message: Id;
+  member: Id;
+}

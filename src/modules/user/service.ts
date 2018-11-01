@@ -7,7 +7,8 @@ import {
   FetchProfilePayload,
   ReplyOnMessagePayload,
   ResetPasswordPayload,
-  SendMessagePayload
+  SendMessagePayload,
+  TeamMemberInvitationPayload
 } from "@/modules/user/typings";
 import { Profile, Message } from "@/modules/user/models";
 
@@ -81,5 +82,29 @@ export async function fetchMessageCount() {
     const response = await http.get(url);
 
     return response.data as number;
+  });
+}
+
+export async function confirmTeamMemberInvitation(
+  payload: TeamMemberInvitationPayload
+) {
+  await teamMemberInvitation({ ...payload, type: "confirm" });
+}
+
+export async function refuseTeamMemberInvitation(
+  payload: TeamMemberInvitationPayload
+) {
+  await teamMemberInvitation({ ...payload, type: "refuse" });
+}
+
+async function teamMemberInvitation(
+  payload: TeamMemberInvitationPayload & { type: "confirm" | "refuse" }
+) {
+  await httpContext(async http => {
+    const url = createUrl("invitations/{message}/team-member/{member}/{type}", {
+      urlReplace: payload
+    });
+
+    await http.get(url);
   });
 }

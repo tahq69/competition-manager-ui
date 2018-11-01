@@ -50,7 +50,7 @@ export default Vue.extend({
   computed: {
     activeIndex(): string {
       if (this.$route.name == routes.messages.name) {
-        return this.type == "inbox" ? "1" : "2";
+        return this.isInbox ? "1" : "2";
       }
 
       return "3";
@@ -62,6 +62,10 @@ export default Vue.extend({
 
     isMessageCountVisible(): boolean {
       return !getters.isMessageCountLoading && this.unreadMessageCount > 0;
+    },
+
+    isInbox(): boolean {
+      return this.type == "inbox";
     }
   },
 
@@ -97,6 +101,12 @@ export default Vue.extend({
       // opens message modal...
       const route = messageRoute({ message: row.id });
       this.$router.push(route);
+
+      if (this.isInbox) {
+        // mark message read status on UI to avoid requests of full page to
+        // server side.
+        row.is_read = true;
+      }
     },
 
     addSentMessage(msg: Message) {
