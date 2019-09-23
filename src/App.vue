@@ -2,6 +2,7 @@
 import Vue from "vue";
 
 import Auth from "@/components/auth";
+import { LocalStorage } from "@/helpers/local-storage";
 
 import TopNavigation from "@/components/TopNavigation.vue";
 import AsideNavigation from "@/components/AsideNavigation.vue";
@@ -11,7 +12,13 @@ export default Vue.extend({
 
   components: { TopNavigation, AsideNavigation },
 
-  data: () => ({ isCollapse: true }),
+  data: () => {
+    let isCollapse = true;
+    if (LocalStorage.get("is_navigation_collapsed") === "false")
+      isCollapse = false;
+
+    return { isCollapse };
+  },
 
   computed: {
     mainStyles(): any {
@@ -22,6 +29,7 @@ export default Vue.extend({
   methods: {
     collapse() {
       this.isCollapse = !this.isCollapse;
+      LocalStorage.set("is_navigation_collapsed", this.isCollapse.toString());
     },
 
     redirectAuthenticated() {
@@ -53,13 +61,11 @@ export default Vue.extend({
 <template>
   <el-container>
     <el-header>
-      <TopNavigation :isCollapse="isCollapse"
-                     @collapse="collapse" />
+      <TopNavigation :isCollapse="isCollapse" @collapse="collapse" />
     </el-header>
     <el-container>
       <el-aside width="200px">
-        <AsideNavigation :isCollapse="isCollapse"
-                         class="el-menu-vertical" />
+        <AsideNavigation :isCollapse="isCollapse" class="el-menu-vertical" />
       </el-aside>
       <el-main :style="mainStyles">
         <router-view />

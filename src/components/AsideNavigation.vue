@@ -14,7 +14,7 @@ type Locale = { key: LocaleType; text: string };
 type Locales = Locale[];
 
 export default Vue.extend({
-  name: "AsideNavigtion",
+  name: "AsideNavigation",
 
   props: {
     isCollapse: { type: Boolean, required: true }
@@ -90,30 +90,21 @@ export default Vue.extend({
 </script>
 
 <template>
-  <el-menu :default-active="activeIndex"
-           :collapse="isCollapse"
-           @select="handleSelect">
-    <el-submenu v-if="isAuthenticated && canManage"
-                index="management">
+  <el-menu :default-active="activeIndex" :collapse="isCollapse" @select="handleSelect">
+    <el-submenu v-if="isAuthenticated && canManage" index="management">
       <template slot="title">
         <i class="el-icon-setting"></i>
         <span>{{ t("manage") }}</span>
       </template>
 
-      <el-menu-item v-if="canManagePosts"
-                    :index="routes.managePosts.name">
-        {{ t("manage_posts") }}
-      </el-menu-item>
+      <el-menu-item v-if="canManagePosts" :index="routes.managePosts.name">{{ t("manage_posts") }}</el-menu-item>
 
-      <el-menu-item v-if="canManageCompetitions"
-                    :index="routes.manageCompetitions.name">
-        {{ t("manage_competitions") }}
-      </el-menu-item>
+      <el-menu-item
+        v-if="canManageCompetitions"
+        :index="routes.manageCompetitions.name"
+      >{{ t("manage_competitions") }}</el-menu-item>
 
-      <el-menu-item v-if="canManageTeams"
-                    :index="routes.manageTeams.name">
-        {{ t("manage_teams") }}
-      </el-menu-item>
+      <el-menu-item v-if="canManageTeams" :index="routes.manageTeams.name">{{ t("manage_teams") }}</el-menu-item>
     </el-submenu>
 
     <el-menu-item :index="routes.competitions.name">
