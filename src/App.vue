@@ -36,13 +36,18 @@ export default Vue.extend({
       // If user has redirected here by guard, redirect him back
       // to guarded route instead of home page.
       if (this.$route.query && this.$route.query["redirect"]) {
-        this.$router.push(this.$route.query["redirect"]);
+        const path = this.$route.query["redirect"] as string;
+        this.$router.push(path);
       }
     }
   },
 
   mounted() {
     Auth.check();
+  },
+
+  created() {
+    this.log = this.$logger.component(this);
   },
 
   watch: {

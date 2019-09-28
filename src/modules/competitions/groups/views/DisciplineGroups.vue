@@ -128,61 +128,64 @@ export default Vue.extend({
 
 <template>
   <div id="discipline-groups">
-    <el-table v-loading="loading"
-              :data="groups"
-              :show-header="false"
-              border>
-      <el-table-column fixed
-                       width="350">
+    <el-table v-loading="loading" :data="groups" :show-header="false" border>
+      <el-table-column fixed width="350">
         <template slot-scope="group">
           <GroupText :group="group.row" />&nbsp;
-          <ManageGroupLink :cm="cm"
-                           :discipline="discipline"
-                           :group="group.row.id"
-                           type="primary"
-                           icon="edit"
-                           button
-                           mini
-                           circle />
+          <ManageGroupLink
+            :cm="cm"
+            :discipline="discipline"
+            :group="group.row.id"
+            type="primary"
+            icon="edit"
+            button
+            mini
+            circle
+          />
         </template>
       </el-table-column>
 
-      <el-table-column v-for="i in maxCategoryLength"
-                       :key="i">
+      <el-table-column v-for="i in maxCategoryLength" :key="i">
         <template slot-scope="group">
           <div v-if="group.row.categories[i - 1]">
             <CategoryText :category="group.row.categories[i - 1]" />&nbsp;
-            <ManageCategoryLink :cm="cm"
-                                :discipline="discipline"
-                                :group="group.row.id"
-                                :category="group.row.categories[i - 1].id"
-                                type="primary"
-                                icon="edit"
-                                button
-                                mini
-                                circle />
+            <ManageCategoryLink
+              :cm="cm"
+              :discipline="discipline"
+              :group="group.row.id"
+              :category="group.row.categories[i - 1].id"
+              type="primary"
+              icon="edit"
+              button
+              mini
+              circle
+            />
           </div>
           <div v-else>
-            <CreateCategoryLink :cm="cm"
-                                :discipline="discipline"
-                                :group="group.row.id"
-                                type="success"
-                                icon="plus"
-                                button
-                                mini
-                                circle />
+            <CreateCategoryLink
+              :cm="cm"
+              :discipline="discipline"
+              :group="group.row.id"
+              type="success"
+              icon="plus"
+              button
+              mini
+              circle
+            />
           </div>
         </template>
       </el-table-column>
     </el-table>
 
-    <CreateGroupLink :cm="cm"
-                     :discipline="discipline"
-                     type="success"
-                     icon="plus"
-                     button
-                     mini
-                     circle />
+    <CreateGroupLink
+      :cm="cm"
+      :discipline="discipline"
+      type="success"
+      icon="plus"
+      button
+      mini
+      circle
+    />
 
     <router-view></router-view>
   </div>
